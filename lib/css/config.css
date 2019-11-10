@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+/* // カラー設定
+---------------------------------------------------------------------------------------------------- */
+/* ボックス */
+.box {
+  background-color: rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+.box h3 {
+}
+.float-box {
+  background: rgba(10,10,30,0.8);
+  border: 1px solid #777;
+  box-shadow: 0 0 .5em .1em #000;
+  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+/* トピック */
+#topic-value {
+  color: #afa;
+}
+/* ラウンド */
+#round-value {
+}
+/* シート */
+.sheet .close-area {
+  background: rgba(0,0,0,0.8);
+}
+/* チャット */
+.chat h2 {
+  background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
+}
+.chat .logs dl {
+  border-width: 1px 0 0;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+}
+.chat .logs dl dd {
+  text-shadow: 
+    #333  1px 1px, #333 -1px -1px,
+    #333 -1px 1px, #333  1px -1px,
+    #333  0px 1px, #333  0px -1px,
+    #333 -1px 0px, #333  1px  0px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+}
+/* チャット：ダイス */
+.chat .logs dl dd.dice::before {
+  color: #f33;
+}
+.chat .logs dl dd.dice {
+  background: rgba(0,0,0,0.2);
+  color: #e55;
+  text-shadow: 
+    #300  1px 1px, #300 -1px -1px,
+    #300 -1px 1px, #300  1px -1px,
+    #300  0px 1px, #300  0px -1px,
+    #300 -1px 0px, #300  1px  0px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+  letter-spacing: 0.1rem;
+}
+.chat .logs dl dd.dice i {
+  opacity: 0.85;
+}
+.chat .logs dl dd.dice s {
+  color: #888;
+  text-decoration: none;
+}
+.chat .logs dl dd.dice b,
+.chat .logs dl dd.dice strong {
+  color: #f33;
+}
+.chat .logs dl dd.dice .division {
+  filter: grayscale(50%);
+}
+/* チャット：威力表 */
+.chat .logs dl dd.dice[data-game="sw"] { color: #ea6; }
+.chat .logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
+.chat .logs dl dd.dice[data-game="sw"] em em { color: #ee875c; }
+.chat .logs dl dd.dice[data-game="sw"] em em em { color: #ee7d57; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em { color: #ee7452; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em { color: #ee6a4d; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em em { color: #ee6047; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em em em { color: #ee5542; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em { color: #ee4a3d; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
+.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
+.chat .logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
+/* チャット：システムメッセージ */
+.chat .logs dl.system {
+  color: #ccc;
+}
+.chat .logs dl.system dd.comm {
+}
+.chat .logs dl dd.info {
+  text-shadow: 
+    #222  1px 1px, #222 -1px -1px,
+    #222 -1px 1px, #222  1px -1px,
+    #222  0px 1px, #222  0px -1px,
+    #222 -1px 0px, #222  1px  0px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+}
+.chat .logs dl dd.topic {
+  color: #afa;
+}
+.chat .logs dl dd.topic::before {
+  color: #0c2;
+}
+.chat .logs dl dd.unit {
+  color: #acf;
+}
+.chat .logs dl dd.unit i {
+  opacity: 0.70;
+}
+.chat .logs dl dd.unit::before {
+  color: #07d;
+}
+/* チャット：タイムスタンプ */
+.chat .logs dl dd:after {
+  color: #5af;
+  letter-spacing: 0rem;
+  text-shadow: none;
+}
+
+
+/* // デフォルト設定
+---------------------------------------------------------------------------------------------------- */
+/* ログ */
+.chat .logs:empty::before {
+  content: 'ログがありません';
+}
+#topic-value:empty::before {
+  content: 'トピック';
+  opacity: 0.3;
+}
+/* ステータス */
+#status-body:empty::before {
+  content: 'ステータス';
+  opacity: 0.3;
+}
+/* 共有メモ */
+#memo-body:empty::before {
+  content: '共有メモ';
+  opacity: 0.3;
+}

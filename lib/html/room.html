@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title><TMPL_VAR title> - ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css">
+  <link rel="stylesheet" media="all" href="lib/css/layout.css">
+  <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="lib/js/lib/autosize.min.js" defer></script>
+  <script src="lib/js/lib/jquery.selection.js" defer></script>
+  <script src="lib/js/config.js" defer></script>
+  <script src="lib/js/ui.js" defer></script>
+  <script src="lib/js/chat.js" defer></script>
+  <script>
+    const roomId = '<TMPL_VAR roomId>';
+    const setStatus = ['<TMPL_VAR SttNameList>'];
+    const gameSystem = '<TMPL_VAR gameSystem>';
+  </script>
+</head>
+<body>
+  <div id="base">
+    <div class="box" id="menubar">
+    <ul>
+      <li><a style="cursor:not-allowed;">過去ログ</a></li>
+      <li onclick="sheetSelect('default');"><a>ユニット</a></li>
+      <li><a style="cursor:not-allowed;">背景</a></li>
+      <li><a style="cursor:not-allowed;">サウンド</a></li>
+      <li><a style="cursor:not-allowed;">その他設定</a></li>
+      <li><a onclick="boxOpen('exit-form');">退室</a></li>
+    </ul>
+    <ul>
+      <li>ウィンドウ透過度<input id="option-box-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.8"></li>
+    </ul>
+    </div>
+    
+    <!-- TOPIC -->
+    <div class="box" id="topic">
+      <div id="topic-value"></div>
+      <span class="edit button" onclick="topicOpen()">🖋</span>
+    </div>
+    <!-- / TOPIC -->
+    
+    <!-- CHAT-AREA -->
+    <div id="chat-closes-area"></div>
+    <div id="chat-area">
+<!--
+    <div class="box chat main" id="chat-tab1" data-tab="1">
+      <h2><label><input type="radio" id="check-maintab-tab1" name="check-maintab" value="1" checked><span>タブ1</span></label></h2>
+      <div class="logs" id="chat-logs-tab1"></div>
+      <div class="input-form">
+        <div class="comm-area">
+        <textarea type="text" class="form-comm autosize" id="form-comm-tab1" rows="1" placeholder="Shift+Enterで改行"></textarea>
+        <button onclick="formSubmit('form-comm-tab1');">送信</button>
+        </div>
+      </div>
+      <div class="option">
+        <input class="option-fontsize-tab" type="range" min="80" max="120" step="1" value="100">
+      </div>
+      <span class="close button">×</span>
+    </div>
+-->
+    </div>
+    <!-- / CHAT-AREA -->
+    
+    <!-- FORM-AREA -->
+    <div class="box" id="main-form">
+      <div class="input-form">
+        <select class="form-name bold" id="form-name" size="4">
+          <option value="0" selected></option>
+        </select>
+        <div>
+          <input type="color" id="form-color" list="color-list" value="#FFFFFF">
+          <input type="text" id="form-color-text" list="color-list" value="#FFFFFF">
+          <button onclick="npcOpen()">追加／編集</button>
+          <div class="comm-area">
+          <textarea class="form-comm autosize" id="form-comm-main" rows="1" placeholder="Shift+Enterで改行"></textarea>
+          <button onclick="formSubmit('form-comm-main');">送信</button>
+          </div>
+          <div class="decoration-buttons">
+            <span class="button insert-ruby">ルビ</span>
+            <span class="button insert-em">傍点</span>
+            <span class="button insert-bold" style="font-weight:bold;">太字</span>
+            <span class="button insert-oblique" style="font-family:inherit;font-style:oblique">斜体</span>
+            <span class="button insert-strike" style="text-decoration:line-through;">打消</span>
+            <span class="button insert-color"><span style="color:#f90;">色</span>字</span>
+            <span class="button insert-big"><span style="font-size:120%;">大</span>字</span>
+            <span class="button insert-small"><span style="font-size: 80%;">小</span>字</span>
+          </div>
+        </div>
+        <div class="form-dice">
+          <div class="dice-button"><button onclick="formSubmit('dice-button-1');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-1" data-lock="on"></div>
+          <div class="dice-button"><button onclick="formSubmit('dice-button-2');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-2" data-lock="on"></div>
+          <div class="dice-button"><button onclick="formSubmit('dice-button-3');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-3" data-lock="on"></div>
+          <span class="edit button" onclick="">＋</span>
+        </div>
+      </div>
+    </div>
+    <!-- / FORM-AREA -->
+    
+    <div id="sidebar">
+      <div class="box" id="round">
+        <div class="bold" id="round-value">ラウンド: 0</div>
+        <div style="margin: .5rem 0-.3rem;">
+          <span class="button" style="width:auto;font-size:88%;cursor:not-allowed;">戻る</span>
+          <span class="button" style="width:auto;font-size:88%;cursor:not-allowed;">次へ</span>
+        </div>
+      </div>
+      <div class="box" id="status">
+        <div id="status-body"></div>
+        <span class="add button" onclick="sheetSelect('default')">+</span>
+      </div>
+      <div class="box memo">
+        <div id="memo-body"></div>
+        <span class="edit button" style="cursor:not-allowed;">🖋</span>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class="box" id="footer">
+      <dl>
+        <dt>入室</dt><dd>－</dd>
+        <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystem></dd>
+      </dl>
+      <dl>
+        <dt>背景</dt><dd>－</dd>
+        <dt>BGM</dt><dd>－</dd>
+      </dl>
+    </div>
+    <!-- / FOOTER -->
+  
+    <!-- SHEET-->
+<!--
+    <div class="box sheet" id="sheet-unit1">
+      <h2 style="color:#FFFFFF">PC1</h2>
+      <div class="sheet-body">
+        <p class="right">
+          <input type="url" placeholder="キャラクターシートURL">
+          <button>データ読込</button>
+        </p>
+        <div class="status-remocon-area">
+          <h3>ステータスリモコン</h3>
+          <ul>
+            <li class="dice-button"><button>HP</button><input type="text"></li>
+            <li class="dice-button"><button>maxHP</button><input type="text"></li>
+            <li class="dice-button"><button>MP</button><input type="text"></li>
+            <li class="dice-button"><button>maxMP</button><input type="text"></li>
+            <li class="dice-button"><button>防</button><input type="text"></li>
+            <li class="dice-button"><button>行動完了</button></li>
+          </ul>
+        </div>
+        <div class="chat-palette-area">
+          <h3>チャットパレット</h3>
+          <div class="chat-palette-palette-area">
+            <select id="chat-palette-unit1" class="chat-palette" data-id="unit1" size="2">
+              <option value="チャットパレット入力例：">チャットパレット入力例：</option>
+              <option value="2d6+{冒険者}+{知力}">2d6+{冒険者}+{知力}</option>
+              <option value="r18+{追加D} ダメージ！">r18+{追加D} ダメージ！</option>
+              <option value="//冒険者=3">//冒険者=3</option>
+              <option value="//ファイター=3">//ファイター=3</option>
+              <option value="//知力=2">//知力=2</option>
+              <option value="//筋力=3">//筋力=3</option>
+              <option value="//追加D={ファイター}+{筋力}">//追加D={ファイター}+{筋力}</option>
+              <option value="クリックで↓の入力欄にコピー">クリックで↓の入力欄にコピー</option>
+              <option value="ダブルクリックで即送信">ダブルクリックで即送信</option>
+            </select>
+            <textarea id="chat-palette-edit-unit1" class="chat-palette" style="display:none"></textarea>
+            <span class="edit button" id="chat-palette-button-open-unit1" onclick="paletteEditOpen('unit1')">🖋編集</span>
+            <span class="edit button" id="chat-palette-button-save-unit1" onclick="paletteEditSave('unit1')" style="display:none">✔確定</span>
+          </div>
+          <div class="comm-area">
+            <textarea id="chat-palette-comm-unit1" class="form-comm autosize" rows="1" data-palette-target="unit1"></textarea>
+            <button onclick="formSubmit('chat-palette-comm-unit1');">送信</button>
+          </div>
+        </div>
+      </div>
+      <div class="sheet-footer">
+        <textarea id="" class="autosize" placeholder="メモ" rows="2"></textarea>
+      </div>
+      <span class="close button" onclick="sheetClose();">×</span>
+      <div class="close-area" onclick="sheetOpen();"></div>
+    </div>
+-->
+    <div id="sheet-unit-default" class="box sheet">
+      <h2>ユニット追加</h2>
+      <div class="sheet-body-default">
+        <dl>
+          <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
+          <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="autocolor" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="autocolor" list="color-list" value="#ffffff"></dd>
+          <dt>ステータス</dt><dd><input id="new-unit-stt-value"   type="text" value="<TMPL_VAR newUnitSttDefault>"></dd>
+        </dl>
+        <button onclick="newUnitSubmit();">作成</button>
+      </div>
+      <div class="close-area" onclick="sheetOpen();"></div>
+      <span class="close button" onclick="sheetClose();">×</span>
+    </div>
+    
+  </div><!-- / BASE -->
+  
+  <!-- FLOAT-BOXES -->
+  <div class="float-box" id="edit-topic">
+    <h2>トピック編集</h2>
+    <div class="comm-area">
+    <textarea class="bold autosize" id="edit-topic-value" data-comm-pre="/topic "></textarea>
+    <button onclick="formSubmit('edit-topic-value');boxClose('edit-topic');">送信</button>
+    </div>
+    <span class="close button" onclick="boxClose('edit-topic');">×</span>
+  </div>
+  <div class="float-box" id="config-dice">
+    <h2>ダイス編集</h2>
+    <textarea id=""></textarea>
+    <span class="close button" onclick="boxClose('config-dice');">×</span>
+  </div>
+  <div class="float-box" id="edit-npc">
+    <h2>名前欄編集</h2>
+    <div class="comm-area">
+    <textarea class="autosize" id="edit-npc-value"></textarea>
+    <button onclick="npcSave('edit-npc-value');boxClose('edit-npc');">決定</button>
+    </div>
+    ※「名前&lt;&gt;名前色」の書式。<br>
+    　改行で区切ります。<br>
+    ※名前色を省略すると、<br>
+    　自動的に白（#FFFFFF）を割り当て
+    <span class="close button" onclick="boxClose('edit-npc');">×</span>
+  </div>
+  <div id="dark-back">
+  <div class="float-box" id="enter-form" style="transform:scale(1,1);opacity: 1;">
+    <h2>ルーム：<TMPL_VAR title></h2>
+    <p>
+      <input id="in-name" placeholder="名前">
+      <button onclick="enterRoom();">入室</button>
+    </p>
+  </div>
+  </div>
+  <div class="float-box" id="exit-form">
+    このルームから退室しますか？<br>
+    退室すると、名前欄がリセットされます。<br><br>
+    <button onclick="exitRoom();boxClose('exit-form');">退室</button>
+    <span class="close button" onclick="boxClose('exit-form');">×</span>
+  </div>
+  <!-- / FLOAT-BOXES -->
+  <!-- FLOAT-BOXES -->
+  
+  <datalist id="color-list">
+    <option value="#FFFFFF" style="color:#FFFFFF;">white</option>
+    <option value="#EEEEEE">mercury</option>
+    <option value="#CCCCCC">silver</option>
+    <option value="#AAAAAA">moon stone</option>
+    <option value="#888888">gray</option>
+    <option value="#666666">gargoyle</option>
+    <option value="#444444">hurricane</option>
+    <option value="#222222">graphite</option>
+    <option value="#000000">black</option>
+    <option value="#56002B">chianti</option>
+    <option value="#812B56">claret</option>
+    <option value="#81002B">burgundy</option>
+    <option value="#AB002B">fez</option>
+    <option value="#AB0056">fuchsia</option>
+    <option value="#AB2B56">crimson</option>
+    <option value="#AB5681">aristoteles</option>
+    <option value="#D581AB">cosmos</option>
+    <option value="#D55681">azalee</option>
+    <option value="#D52B56">carmine</option>
+    <option value="#D52B81">rosario</option>
+    <option value="#D5002B">dress to empress</option>
+    <option value="#D50056">velvet</option>
+    <option value="#FF002B">sevillan rot</option>
+    <option value="#FF0056">christ rose</option>
+    <option value="#FF0081">peonia</option>
+    <option value="#FF2B56">cosmos pink</option>
+    <option value="#FF2B81">bougainvillaea</option>
+    <option value="#FF5681">rose</option>
+    <option value="#FF56AB">hot pink</option>
+    <option value="#FF81AB">happy bithday</option>
+    <option value="#FFABD5">baby pink</option>
+    <option value="#FFD5D5">powder pink</option>
+    <option value="#FFABAB">sardonyx</option>
+    <option value="#FF8181">light coral</option>
+    <option value="#FFAB81">salmon pink</option>
+    <option value="#FF5656">vermilion</option>
+    <option value="#FF8156">sunset sky</option>
+    <option value="#FF2B2B">scarlet</option>
+    <option value="#FF562B">marigold</option>
+    <option value="#FF812B">soleil</option>
+    <option value="#FF0000">red</option>
+    <option value="#FF2B00">ecarlate</option>
+    <option value="#FF5600">valencia</option>
+    <option value="#D50000">phoenix red</option>
+    <option value="#D52B00">grenadier</option>
+    <option value="#D55600">island sun</option>
+    <option value="#D52B2B">coup de foudre</option>
+    <option value="#D5562B">carrot</option>
+    <option value="#D55656">royal rose</option>
+    <option value="#D58156">raw sienna</option>
+    <option value="#D58181">burnt sugar</option>
+    <option value="#D5ABAB">mist mauve</option>
+    <option value="#AB8181">rose gray</option>
+    <option value="#AB5656">russet</option>
+    <option value="#AB2B2B">fire brick</option>
+    <option value="#AB562B">burnt sienna</option>
+    <option value="#AB0000">volkan</option>
+    <option value="#AB2B00">ox blood</option>
+    <option value="#810000">garnet</option>
+    <option value="#812B00">terra rosa</option>
+    <option value="#812B2B">cardinal</option>
+    <option value="#815656">heather</option>
+    <option value="#562B2B">burnt umber</option>
+    <option value="#560000">maroon</option>
+    <option value="#2B0000">ivory black</option>
+    <option value="#562B00">coffee</option>
+    <option value="#81562B">raw umber</option>
+    <option value="#815600">golden ochre</option>
+    <option value="#AB8100">natural ochre</option>
+    <option value="#AB5600">stil de grain yellow</option>
+    <option value="#AB812B">hot toddy</option>
+    <option value="#AB8156">cafe au lait</option>
+    <option value="#D5AB81">honey sweet</option>
+    <option value="#D5AB56">khaki</option>
+    <option value="#D5AB2B">golden rod</option>
+    <option value="#D5812B">calcutta curry</option>
+    <option value="#D5AB00">ancient gold</option>
+    <option value="#D58100">brown gold</option>
+    <option value="#FFD500">gold</option>
+    <option value="#FFAB00">orange</option>
+    <option value="#FF8100">flush orange</option>
+    <option value="#FFD52B">auripigment</option>
+    <option value="#FFAB2B">sunlight yellow</option>
+    <option value="#FFD556">mimosa</option>
+    <option value="#FFAB56">crescent gold</option>
+    <option value="#FFD581">yellow buff</option>
+    <option value="#FFD5AB">flesh</option>
+    <option value="#FFFFD5">edelweiss</option>
+    <option value="#FFFFAB">light yellow</option>
+    <option value="#FFFF81">canary yellow</option>
+    <option value="#D5FF81">honeysuckle</option>
+    <option value="#FFFF56">lemon yellow</option>
+    <option value="#D5FF56">light citron</option>
+    <option value="#FFFF2B">sulphar yellow</option>
+    <option value="#D5FF2B">lemon</option>
+    <option value="#ABFF2B">green yellow</option>
+    <option value="#FFFF00">yellow</option>
+    <option value="#D5FF00">flesh green</option>
+    <option value="#ABFF00">campus green</option>
+    <option value="#D5D500">renoncule</option>
+    <option value="#ABD500">chartreuse</option>
+    <option value="#81D500">rainette</option>
+    <option value="#D5D52B">dormant gold</option>
+    <option value="#ABD52B">acid green</option>
+    <option value="#D5D556">sparkle green</option>
+    <option value="#ABD556">spring green</option>
+    <option value="#D5D581">citrus yellow</option>
+    <option value="#D5D5AB">mellow yellow</option>
+    <option value="#ABAB81">citron gray</option>
+    <option value="#ABAB56">dark khaki</option>
+    <option value="#ABAB2B">olivine green</option>
+    <option value="#81AB2B">pickles green</option>
+    <option value="#ABAB00">jena</option>
+    <option value="#81AB00">willow green</option>
+    <option value="#818100">olive</option>
+    <option value="#568100">mugwort</option>
+    <option value="#81812B">terra</option>
+    <option value="#818156">clay creek</option>
+    <option value="#56562B">dark olive green</option>
+    <option value="#565600">cranach</option>
+    <option value="#2B2B00">taupe</option>
+    <option value="#2B5600">avenue green</option>
+    <option value="#56812B">leaf green</option>
+    <option value="#2B8100">windsor green</option>
+    <option value="#2BAB00">apple green</option>
+    <option value="#56AB00">vert libellule</option>
+    <option value="#56AB2B">meadow green</option>
+    <option value="#81AB56">grass green</option>
+    <option value="#ABD581">sprout</option>
+    <option value="#81D556">vivid lime green</option>
+    <option value="#56D52B">muscat green</option>
+    <option value="#81D52B">linden green</option>
+    <option value="#2BD500">lucky green</option>
+    <option value="#56D500">rayon vert</option>
+    <option value="#2BFF00">green flash</option>
+    <option value="#56FF00">lovebird</option>
+    <option value="#81FF00">lawn green</option>
+    <option value="#56FF2B">bright green</option>
+    <option value="#81FF2B">gremlin green</option>
+    <option value="#81FF56">isle of wight</option>
+    <option value="#ABFF56">light lawn green</option>
+    <option value="#ABFF81">lime light</option>
+    <option value="#D5FFAB">reef</option>
+    <option value="#D5FFD5">ice green</option>
+    <option value="#ABFFAB">pale green</option>
+    <option value="#81FF81">light paris green</option>
+    <option value="#81FFAB">aphrodite</option>
+    <option value="#56FF56">peterpan</option>
+    <option value="#56FF81">puritan green</option>
+    <option value="#2BFF2B">harlequin</option>
+    <option value="#2BFF56">azurite green</option>
+    <option value="#2BFF81">beryl green</option>
+    <option value="#00FF00">lime</option>
+    <option value="#00FF2B">signal green</option>
+    <option value="#00FF56">canton green</option>
+    <option value="#00D500">middle green</option>
+    <option value="#00D52B">peridot</option>
+    <option value="#00D556">vigorous green</option>
+    <option value="#2BD52B">lime green</option>
+    <option value="#2BD556">surf green</option>
+    <option value="#56D556">beaumarchais</option>
+    <option value="#56D581">descartes</option>
+    <option value="#ABD5AB">lush green</option>
+    <option value="#81AB81">herbe</option>
+    <option value="#56AB56">greenwich</option>
+    <option value="#56AB81">celadon</option>
+    <option value="#2BAB2B">veronese green</option>
+    <option value="#2BAB56">spring note</option>
+    <option value="#00AB00">medium green</option>
+    <option value="#00AB2B">sunshine green</option>
+    <option value="#008100">green</option>
+    <option value="#00812B">chrome green</option>
+    <option value="#2B812B">chive</option>
+    <option value="#568156">foliage</option>
+    <option value="#2B562B">terre verte</option>
+    <option value="#005600">ever green</option>
+    <option value="#002B00">dark green</option>
+    <option value="#00562B">dragon</option>
+    <option value="#2B8156">malachite green</option>
+    <option value="#008156">viridian</option>
+    <option value="#00AB81">oriental green</option>
+    <option value="#00AB56">emerald green</option>
+    <option value="#2BAB81">beans green</option>
+    <option value="#81D5AB">winter green</option>
+    <option value="#81D581">primavera</option>
+    <option value="#56D5AB">coral green</option>
+    <option value="#2BD5AB">blue zircon</option>
+    <option value="#2BD581">aqua green</option>
+    <option value="#00D5AB">opal green</option>
+    <option value="#00D581">talisman green</option>
+    <option value="#00FFD5">aqua</option>
+    <option value="#00FFAB">cleopatra</option>
+    <option value="#00FF81">light turquoise</option>
+    <option value="#2BFFD5">mint blue</option>
+    <option value="#2BFFAB">medici blue</option>
+    <option value="#56FFD5">aquamarine</option>
+    <option value="#56FFAB">light spring green</option>
+    <option value="#81FFD5">wateau</option>
+    <option value="#ABFFD5">spring stream</option>
+    <option value="#D5FFFF">powder aqua</option>
+    <option value="#ABFFFF">horizon blue</option>
+    <option value="#81FFFF">light cyan</option>
+    <option value="#81D5FF">sky blue</option>
+    <option value="#56FFFF">west country</option>
+    <option value="#56D5FF">myosotis</option>
+    <option value="#2BFFFF">italian blue</option>
+    <option value="#2BD5FF">cornwall</option>
+    <option value="#2BABFF">trade wind</option>
+    <option value="#00FFFF">cyan</option>
+    <option value="#00D5FF">deep sky blue</option>
+    <option value="#00ABFF">process cyan</option>
+    <option value="#00D5D5">aqua mint</option>
+    <option value="#00ABD5">atlantic blue</option>
+    <option value="#0081D5">cerulean blue</option>
+    <option value="#2BD5D5">flesh blue</option>
+    <option value="#2BABD5">clear sky</option>
+    <option value="#56D5D5">viking</option>
+    <option value="#56ABD5">comet blue</option>
+    <option value="#81D5D5">arcardia</option>
+    <option value="#ABD5D5">fairy land</option>
+    <option value="#81ABAB">venezia</option>
+    <option value="#56ABAB">verona</option>
+    <option value="#2BABAB">rouen</option>
+    <option value="#2B81AB">delphia blue</option>
+    <option value="#00ABAB">turquoise green</option>
+    <option value="#0081AB">arabesque tag</option>
+    <option value="#008181">dark cyan</option>
+    <option value="#005681">triton</option>
+    <option value="#2B8181">venit</option>
+    <option value="#568181">vert de gris</option>
+    <option value="#2B5656">dark slate gray</option>
+    <option value="#005656">hyuaran</option>
+    <option value="#002B2B">bottle green</option>
+    <option value="#002B56">prussian blue</option>
+    <option value="#2B5681">dark ocean</option>
+    <option value="#002B81">luxor</option>
+    <option value="#002BAB">strato blue</option>
+    <option value="#0056AB">cote d’azur</option>
+    <option value="#2B56AB">cadiz blue</option>
+    <option value="#5681AB">cadet blue</option>
+    <option value="#81ABD5">southern cross</option>
+    <option value="#5681D5">academy blue</option>
+    <option value="#2B56D5">azurite</option>
+    <option value="#2B81D5">zenith blue</option>
+    <option value="#002BD5">iliad blue</option>
+    <option value="#0056D5">bleu acide</option>
+    <option value="#002BFF">goethe</option>
+    <option value="#0056FF">regatta blue</option>
+    <option value="#0081FF">symphony blue</option>
+    <option value="#2B56FF">vermeer</option>
+    <option value="#2B81FF">morning glory</option>
+    <option value="#5681FF">cornflower blue</option>
+    <option value="#56ABFF">forget me not</option>
+    <option value="#81ABFF">lavender blue</option>
+    <option value="#ABD5FF">light blue</option>
+    <option value="#D5D5FF">alice blue</option>
+    <option value="#ABABFF">hermes blue</option>
+    <option value="#8181FF">menuetto</option>
+    <option value="#AB81FF">tanzanite</option>
+    <option value="#5656FF">hyacinth blue</option>
+    <option value="#8156FF">hyacinth purple</option>
+    <option value="#2B2BFF">sapphire</option>
+    <option value="#562BFF">bermude</option>
+    <option value="#812BFF">bishop’s violet</option>
+    <option value="#0000FF">blue</option>
+    <option value="#2B00FF">madinne blau</option>
+    <option value="#5600FF">blue magenta</option>
+    <option value="#0000D5">medium blue</option>
+    <option value="#2B00D5">gentiane</option>
+    <option value="#5600D5">electric violet</option>
+    <option value="#2B2BD5">autumn azure</option>
+    <option value="#562BD5">purple heart</option>
+    <option value="#5656D5">smalt</option>
+    <option value="#8156D5">blue violet</option>
+    <option value="#8181D5">wistaria</option>
+    <option value="#ABABD5">day dream</option>
+    <option value="#8181AB">echo blue</option>
+    <option value="#5656AB">slate blue</option>
+    <option value="#2B2BAB">ultramarine</option>
+    <option value="#562BAB">daisy bush</option>
+    <option value="#0000AB">lapis lazuli</option>
+    <option value="#2B00AB">dark slate blue</option>
+    <option value="#000081">dark blue</option>
+    <option value="#2B0081">helio blue redish</option>
+    <option value="#2B2B81">midnight blue</option>
+    <option value="#565681">blue gray</option>
+    <option value="#2B2B56">marine d’hiver</option>
+    <option value="#000056">stratos</option>
+    <option value="#00002B">sorcerer</option>
+    <option value="#2B0056">purple navy</option>
+    <option value="#562B81">violet</option>
+    <option value="#560081">neptune</option>
+    <option value="#5600AB">romanesque</option>
+    <option value="#8100AB">iris purple</option>
+    <option value="#812BAB">amethyst</option>
+    <option value="#8156AB">deluge</option>
+    <option value="#AB81D5">lilac</option>
+    <option value="#AB56D5">midium orchid</option>
+    <option value="#812BD5">dark violet</option>
+    <option value="#AB2BD5">erica</option>
+    <option value="#8100D5">deep purple</option>
+    <option value="#AB00D5">deep violet</option>
+    <option value="#8100FF">vivid purple</option>
+    <option value="#AB00FF">sindbad purple</option>
+    <option value="#D500FF">vivid fuchsia</option>
+    <option value="#AB2BFF">purple magenta</option>
+    <option value="#D52BFF">spanish rose</option>
+    <option value="#AB56FF">heliotrope</option>
+    <option value="#D556FF">lampone</option>
+    <option value="#D581FF">pastel cosmos</option>
+    <option value="#D5ABFF">soft lavender</option>
+    <option value="#FFD5FF">powder purple</option>
+    <option value="#FFABFF">light magenta</option>
+    <option value="#FF81FF">mallow</option>
+    <option value="#FF81D5">pastel pink</option>
+    <option value="#FF56FF">pink flamingo</option>
+    <option value="#FF56D5">radiant pink</option>
+    <option value="#FF2BFF">fiesta rose</option>
+    <option value="#FF2BD5">razzle dazzle rose</option>
+    <option value="#FF2BAB">persian rose</option>
+    <option value="#FF00FF">magenta</option>
+    <option value="#FF00D5">carmen coral</option>
+    <option value="#FF00AB">process magenta</option>
+    <option value="#D500D5">renaissance</option>
+    <option value="#D500AB">cherry pop</option>
+    <option value="#D50081">ruby</option>
+    <option value="#D52BD5">deep magenta</option>
+    <option value="#D52BAB">azalea pink</option>
+    <option value="#D556D5">peony purple</option>
+    <option value="#D556AB">chelsea rose</option>
+    <option value="#D581D5">fairy pink</option>
+    <option value="#D5ABD5">old orchid</option>
+    <option value="#AB81AB">aster hou</option>
+    <option value="#AB56AB">orchid</option>
+    <option value="#AB2BAB">tyrian purple</option>
+    <option value="#AB2B81">daphne</option>
+    <option value="#AB00AB">dark magenta</option>
+    <option value="#AB0081">dahlia purple</option>
+    <option value="#810081">purple</option>
+    <option value="#810056">mayfair rose</option>
+    <option value="#812B81">royal purple</option>
+    <option value="#815681">slate purple</option>
+    <option value="#562B56">heath</option>
+    <option value="#560056">charles de jem</option>
+    <option value="#2B002B">misty purple</option>
+  </datalist>
+</body>
+</html>

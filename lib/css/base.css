@@ -1,0 +1,250 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,900,900i&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž');
+/* // 基本設定
+---------------------------------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+body {
+  word-wrap : break-word;
+  font-size  : 1.4rem;
+  line-height: 1;
+  color: #fff;
+  background-image: linear-gradient(160deg, #808899, #202233);
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+input,textarea,select, button, .button {
+  padding: .0rem .5rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: .8rem;
+  background: rgba(30,30,30,0.8);
+  color: #fff;
+}
+button, .button {
+  display: inline-block;
+  padding: .3rem .5rem;
+  border: 1px solid rgba(200,220,240,0.3);
+  color: #dde;
+  text-shadow: 0 0 1px #000, 0 0 1px #000, 0 0 1px #000;
+  font-size: 1.1rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+}
+button {
+  background: linear-gradient(145deg, rgba(50,60,80,0.8), rgba(30,40,60,0.8));
+}
+input:hover, textarea:hover, select:hover, button:hover, .button:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+  color: #fff;
+}
+input:focus,textarea:focus,select:focus,button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 .1rem #09f, 0 0 .5rem .0rem #09f;
+}
+[readonly]{
+  cursor: default;
+}
+textarea {
+  resize: none;
+}
+ul {
+  list-style-type: none;
+}
+input[type="color"] {
+}
+
+/* スライダー */
+input[type="range"],
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+input[type="range"] {
+  height: .6em;
+  padding: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  background: #aaa;
+  height: .6em;
+  width: .6em;
+  border-radius: 20%;
+}
+input[type=range]::-moz-range-thumb {
+  background: #aaa;
+  height: .6em;
+  width: .6em;
+  border-radius: 20%;
+}
+input[type=range]::-moz-range-track {
+  height:0;
+}
+
+/* スクロールバー */
+::-webkit-scrollbar {
+  width: .8rem;
+}
+::-webkit-scrollbar-track {
+  border-radius: .8rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, .5);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(150, 150, 150, .5);
+  border-radius: 10px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, .5) rgba(150, 150, 150, .5);
+}
+
+/* フォント */
+html,
+body,
+input,select,button {
+  font-family: 'Lato',"UD Digi Kyokasho NP-R","Meiryo","YuKyokasho Yoko";
+}
+h1,h2,h3,h4,h5,h6,dt,b,strong,label,
+#menubar, #topic,
+.bold {
+  font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
+  font-weight: bold;
+}
+textarea,
+#status dd,
+.sheet dd,
+.sheet input,
+.sheet select {
+  font-family: "UD Digi Kyokasho N-R","Meiryo","Tsukushi A Round Gothic";
+}
+button, .button {
+  font-family: "Hiragino Kaku Gothic ProN","Meiryo";
+  font-weight: bold;
+}
+em {
+  -webkit-text-emphasis: dot filled;
+          text-emphasis: dot filled;
+  font-style: normal; 
+}
+.oblique { font-style: oblique; }
+.strike  { text-decoration: line-through; }
+.large { font-size: 150%; }
+.small { font-size:  80%; }
+.left  { text-align: left; }
+.center{ text-align: center; }
+.right { text-align: right; }
+
+/* ボックス */
+.box {
+  border-radius: 1rem;
+  padding: .5rem;
+  overflow: auto;
+}
+.box h2 {
+  font-size: 1.5em;
+}
+.box h3 {
+  margin: .5em 0 0;
+  font-size: 1.15em;
+}
+.box h4 {
+  margin: .5em 0 0;
+  font-size: 1.075em;
+}
+
+#sidebar .box + .box {
+  margin-top: 1rem;
+}
+
+/* フロートボックス */
+.float-box {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 2rem;
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  padding: .5rem;
+  border-radius: 1rem;
+  
+  transition-property: transform, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  transform: scaleY(0);
+  opacity: 0;
+}
+.float-box h2 {
+  font-size: 1.5em;
+}
+.float-box textarea {
+  line-height: 1.5;
+}
+.float-box .close.button {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+}
+#dark-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+/* 編集・追加ボタン */
+.add.button,
+.edit.button,
+.close.button {
+  width: calc(1.3em + 2px);
+  height: calc(1.3em + 2px);
+  padding: .15em;
+  font-size: 1.6rem;
+}
+
+/* ダイスボタン */
+.dice-button {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  margin: 0 1rem .3rem 0;
+}
+.dice-button > * {
+  vertical-align: bottom;
+  font-size: 1.1rem;
+  color: #fff;
+}
+.dice-button button {
+  padding: 0 .5em;
+  border-radius: .5em 0 0 .5em;
+  cursor: pointer;
+}
+.dice-button button::before {
+  content: '🎲';
+  font-size: 1.4rem;
+}
+.dice-button input,
+.dice-button textarea {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  padding: .3rem .3rem;
+  border-radius: 0 .5em .5em 0;
+  border-width: 1px 1px 1px 0;
+  text-shadow: none;
+  font-size: 1.4rem;
+}
+.dice-button button:only-child {
+  grid-column: span 2;
+  border-radius: .5em;
+}

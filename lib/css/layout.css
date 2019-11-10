@@ -1,0 +1,731 @@
+@charset "utf-8";
+/* // 基本レイアウト
+---------------------------------------------------------------------------------------------------- */
+#base {
+  padding: 0 2rem;
+  height: 100vh;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: 2em max-content max-content 1fr max-content max-content;
+  grid-template-columns: 1fr 12em max-content;
+}
+#menubar {
+  grid-row: 1;
+  grid-column: 1 / span 2;
+}
+#topic {
+  grid-row: 2;
+  grid-column: 1;
+}
+#chat-closes-area {
+  grid-row: 3;
+  grid-column: 1;
+}
+#chat-area {
+  grid-row: 4;
+  grid-column: 1;
+}
+.chat.main {
+}
+.chat.sub {
+}
+#sidebar {
+  grid-row: 2 / span 3;
+  grid-column: 2;
+}
+#main-form {
+  grid-row: 5;
+  grid-column: 1 / span 3;
+}
+#footer {
+  grid-row: 6;
+  grid-column: 1 / span 3;
+}
+.sheet {
+  grid-row: 1 / span 4;
+  grid-column: 3;
+  margin-right: -2rem;
+}
+/* チャットエリア */
+#chat-area {
+  display: flex;
+  overflow: hidden;
+  margin: -1.5rem -1rem 0 0;
+}
+#chat-closes-area:empty + #chat-area {
+  margin-top: -2rem;
+}
+#chat-area .chat {
+  margin: 1rem 1rem 0 0;
+  flex: 1 10 100%;
+}
+#chat-area .chat.main {
+  flex: 1 5 100%;
+}
+#chat-closes-area {
+  display: flex;
+  justify-content: flex-end;
+}
+#chat-closes-area .chat {
+}
+#chat-closes-area .chat + .chat {
+  margin-left: 1rem;
+}
+
+/* サイドバー */
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+#round {
+  flex-shrink: 0;
+}
+
+/* // メニュー
+---------------------------------------------------------------------------------------------------- */
+#menubar {
+  display: grid;
+  padding: 0 1em;
+  grid-template-columns: auto auto;
+}
+#menubar ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#menubar ul li {
+  flex-basis: 10rem;
+  text-align: center;
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+}
+#menubar ul li + li {
+  border-left: 0;
+}
+#menubar ul li a {
+  display: block;
+  padding: .5em;
+  cursor: pointer;
+}
+#menubar ul li a:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+}
+#menubar ul + ul {
+  justify-content: flex-end;
+  font-size: 80%;
+}
+#menubar ul + ul input {
+  width: 100%;
+}
+
+/* // トピック
+---------------------------------------------------------------------------------------------------- */
+#topic {
+  position: relative;
+  overflow: hidden;
+}
+#topic-value {
+  padding: 0 1em 0 .5em;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+#topic .edit.button {
+  position: absolute;
+  top: .2rem;
+  right: .2rem;
+}
+
+/* // ラウンド
+---------------------------------------------------------------------------------------------------- */
+#round {
+  text-align: center;
+}
+#round-value {
+  text-align: center;
+}
+
+/* // チャットログ
+---------------------------------------------------------------------------------------------------- */
+.chat {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-gap: .2rem;
+  overflow: hidden;
+  position: relative;
+}
+.chat h2 {
+  border-radius: .5rem;
+  font-size: 1.3rem;
+  cursor: move;
+}
+.chat h2 label {
+  display: inline-block;
+  padding: .4rem;
+  cursor: pointer;
+}
+.chat h2 label input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.chat h2 label input:focus+span::before {
+  box-shadow: 0 0 0 .1rem #09f, 0 0 .5rem .0rem #09f;
+}
+.chat h2 label input+span::before {
+  display: inline-block;
+  content: "　";
+  width: 1em;
+  margin-right: 0.1em;
+  border-radius: .2em;
+  background-color: #000;
+  color: transparent;
+  transform: scale(1);
+}
+.chat h2 label:hover input+span::before {
+  box-shadow: inset 0 0 .5rem #9df;
+}
+.chat h2 label input:checked+span::before {
+  content: "✔";
+  color: #f77;
+  text-shadow: 
+    #711  1px 1px, #711 -1px -1px,
+    #711 -1px 1px, #711  1px -1px,
+    #711  0px 1px, #711  0px -1px,
+    #711 -1px 0px, #711  1px  0px;
+}
+.chat .logs {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: .5em;
+  word-wrap : break-word;
+}
+.chat .logs:empty {
+  text-align: center;
+}
+.chat .logs dl {
+  position: relative;
+  padding-right: .5rem;
+}
+.chat .logs dl dd {
+  min-width: 50%;
+  position: relative;
+  border-radius: .5rem;
+}
+.chat .logs dl dd:hover {
+  background-color:rgba(100,200,255,0.1) !important;
+}
+/* 投稿ユーザー表示 */
+.chat .logs dl::before {
+  content: attr(data-user);
+  position: absolute;
+  font-size: 1rem;
+  top: -1rem;
+  left: 0;
+  opacity: 0;
+}
+.chat .logs dl:hover::before,
+.chat .logs dl:hover::after {
+  opacity: 0.5;
+}
+/* タイムスタンプ表示 */
+.chat .logs dl dd::after {
+  content: attr(data-date);
+  position: absolute;
+  font-size: 1rem;
+  top: -1rem;
+  right: 0;
+  opacity: 0;
+  font-family: 'Arial';
+}
+.chat .logs dl dd:hover::after {
+  opacity: 0.7;
+}
+/* システムメッセージ */
+.chat .logs dl.system {
+  font-size: 90%;
+}
+/* ダイス・システムメッセージ補足表示部 */
+.chat .logs dl dd.info {
+  margin-left: 1em;
+  font-size: 85%;
+}
+.chat .logs dl dd.info::before {
+  content: '▶';
+  position: absolute;
+  left: -.5em;
+  text-shadow: none;
+  opacity: 0.6;
+  transform: scale(0.7);
+}
+.chat .logs dl dd.info i {
+  font-size: 90%;
+  font-style: normal;
+  margin-left: .2rem;
+}
+.chat .logs dl dd.info em {
+  -webkit-text-emphasis: none;
+          text-emphasis: none;
+}
+.chat .logs dl dd.info b {
+  display: inline-block;
+}
+.chat .logs dl dd.info strong {
+  display: inline-block;
+  transform: scale(1.17);
+}
+/* フォントサイズ調整バー */
+.chat .option {
+  position: absolute;
+  top: 0;
+  right: 2em;
+}
+.chat .option input[type="range"] {
+  width: 10rem;
+}
+/* 閉じるボタン */
+.chat .close.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* メイン */
+.chat.main {
+  font-size: 1.6rem;
+}
+.chat.main .logs {
+  line-height: 1.8;
+}
+.chat.main .logs dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+}
+.chat.main .logs dl dt {
+  grid-column: 1;
+}
+.chat.main .logs dl dd {
+  grid-column: 2;
+  min-height: calc((1em * 1.8) - .1rem);
+}
+.chat.main .logs dl dt {
+  font-size: 90%;
+  line-height: 2;
+}
+.chat.main .logs dl dt::after {
+  content: ":";
+  display: inline-block;
+  width: .6em;
+  color: #fff;
+  font-weight: 100;
+  text-align: center;
+  opacity: 0.5;
+}
+.chat.main .logs dl.system dt::after {
+  content: ">";
+  width: 1em;
+}
+.chat.main .logs dl dd.info {
+  grid-column: 1 / span 2;
+  padding: 0 .5em;
+}
+.chat.main .input-form {
+  display: none;
+}
+/* サブ */
+.chat.sub {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  font-size: 1.4rem;
+}
+.chat.sub .logs {
+  line-height: 1.6;
+}
+.chat.sub dl dd {
+  padding-left: .5em;
+  min-height: calc((1em * 1.6) - .1rem);
+}
+.chat.sub .logs dl:after {
+  top: 0;
+}
+/* クローズ */
+.chat.close {
+}
+.chat.close > * {
+  display: none;
+}
+.chat.close > h2 {
+  display: block;
+}
+
+/* // フォーム
+---------------------------------------------------------------------------------------------------- */
+.input-form input,
+.input-form select {
+  font-size: 1.4rem;
+  vertical-align: bottom;
+}
+.input-form .comm-area textarea {
+  width: 100%;
+  padding: .5rem;
+  font-size: 1.4rem;
+}
+.comm-area {
+  display: grid;
+  grid-template-columns: auto max-content;
+  margin: .5rem 0;
+}
+.comm-area textarea {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.comm-area button {
+  border-left-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* メイン */
+#main-form {
+}
+#main-form .input-form {
+  display: grid;
+  grid-gap: .5rem;
+  grid-template-columns: auto 1fr 1.2fr;
+}
+#main-form .input-form + .input-form {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255,255,255,0.2);
+}
+#main-form select.form-name {
+  min-width: 8em;
+  max-width: 13em;
+  height: auto;
+  padding: 0;
+  font-size: 0.9em;
+}
+#main-form select.form-name option {
+  font-weight: bold;
+  padding: 0 .5rem;
+}
+#main-form input#form-color-text {
+  width: 7em;
+}
+.decoration-buttons {
+  padding-right: 3em;
+  text-align: right;
+}
+.decoration-buttons .button {
+  width: auto;
+  background: transparent;
+  font-size: 1.1rem;
+  font-weight: normal;
+  overflow: hidden;
+}
+.decoration-buttons .button span {
+  display: inline-block;
+  width: 1.1rem;
+  line-height: .6;
+}
+.input-form .add-button {
+  vertical-align: super;
+}
+.input-form #sub-comm {
+  margin-top: .5rem;
+}
+/* ダイス */
+.form-dice {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+  grid-auto-rows: max-content;
+}
+.form-dice .edit.button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* // ステータス
+---------------------------------------------------------------------------------------------------- */
+#status {
+  position: relative;
+  padding-bottom: 1em;
+}
+#status dl {
+  position: relative;
+  padding: .3rem 0;
+  border-width: 0 0 .1rem;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+}
+#status dl dt {
+  padding: 0 0 .1em;
+}
+#status dl dt[onclick]:hover {
+  cursor: pointer;
+  background: rgba(255,150,0,0.3);
+}
+#status dl dt b {
+  display: inline-block;
+  width: 1em;
+  margin-left: -.2em;
+  color: #f20;
+  text-align: center;
+}
+#status dl dd {
+  padding: 0 0 .1em 1em;
+}
+#status .add.button {
+  position: absolute;
+  bottom: .2em;
+  right: .2em;
+}
+
+/* // 共有メモ
+---------------------------------------------------------------------------------------------------- */
+.memo {
+  position: relative;
+  padding-bottom: 1em;
+}
+.memo .edit.button {
+  position: absolute;
+  top: .2em;
+  right: .2em;
+}
+
+/* // 詳細シート
+---------------------------------------------------------------------------------------------------- */
+.sheet {
+  width: 18.5em;
+  display: grid;
+  position: relative;
+  grid-template-rows: auto 1fr auto;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  overflow: hidden;
+  transition-property: margin, right, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in;
+}
+.sheet-body {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  overflow-y: auto;
+}
+.sheet-body h3 {
+  margin-bottom: .1rem;
+}
+
+/* リモコン */
+.sheet-body .status-remocon-area select {
+  font-size: 0.9em;
+}
+.sheet-body .status-remocon-area ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.sheet-body .status-remocon-area ul li.dice-button {
+  grid-column: span 2;
+}
+.sheet-body .status-remocon-area ul li.dice-button.half {
+  grid-column: span 1;
+}
+/* パレット */
+.sheet-body .chat-palette-area {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+.sheet-body .chat-palette-palette-area {
+  position: relative;
+  display: grid;
+}
+.sheet-body .chat-palette-palette-area select,
+.sheet-body .chat-palette-palette-area textarea {
+  font-size: 1.2rem;
+  border-top-right-radius: 0;
+  z-index: 2;
+}
+.sheet-body .chat-palette-palette-area select{
+  padding: 0;
+}
+.sheet-body select.chat-palette option {
+  padding: .4rem .5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.sheet-body .chat-palette-palette-area textarea {
+  line-height: calc(1em + .9rem);
+  padding: 0 .5rem;
+}
+.sheet-body .chat-palette-palette-area .edit.button {
+  position: absolute;
+  width: 4.5em;
+  height: 2rem;
+  top: -2rem;
+  right: 0;
+  padding: .25rem 0;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  font-family: inherit;
+  font-size: 1.4rem;
+  z-index: 1;
+}
+/* デフォルトシート */
+.sheet-body-default {
+  padding: .5em;
+}
+.sheet-body-default dl {
+  display: grid;
+}
+.sheet-body-default dt {
+  padding: .2em 0;
+}
+.sheet-body-default dd {
+  display: flex;
+  padding: .2em .5em .5em;
+}
+.sheet-body-default dd input {
+  width: 100%;
+  flex-grow: 1;
+}
+.sheet-body-default dd input[list] {
+  flex-shrink: 1;
+}
+.sheet-body-default button {
+  display: block;
+  margin: 1em auto;
+  padding: .3em 1em;
+  font-size: 1em;
+}
+
+/* フッタ */
+.sheet-footer {
+  padding-top: .5em;
+}
+.sheet input[type="url"] {
+  width: 100%;
+}
+.sheet select {
+  font-size: 1.1em;
+}
+.sheet .dice-button button:before {
+  content:"";
+}
+
+/* 他 */
+.sheet textarea {
+  width: 100%;
+  height: auto;
+  font-size: 1.4rem;
+  padding: .5rem;
+}
+/* 閉じた状態 */
+.sheet.closed {
+  margin-left: -17em;
+  right: -17em;
+  opacity: 0.5;
+}
+.sheet.closed .close-area {
+  display: block;
+}
+.sheet .close-area {
+  content: '';
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+.sheet .close-area:hover {
+  background: none;
+}
+.sheet .close.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* // フッタ
+---------------------------------------------------------------------------------------------------- */
+#footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  overflow: hidden;
+}
+#footer dl {
+  display: flex;
+  margin: .5rem;
+  line-height: 1.2rem;
+}
+#footer dl dt {
+  white-space: nowrap;
+}
+#footer dl dt::after {
+  content: ":";
+  margin-right: .3em;
+}
+#footer dl dd {
+  margin-right: 2.5em;
+  font-size: 0.8em;
+}
+#footer dl + dl {
+  margin-left: 2.5em;
+}
+#footer dl dd:last-child {
+  margin-right: 0;
+}
+
+/* // 各フロートボックス
+---------------------------------------------------------------------------------------------------- */
+#edit-topic {
+  top: 5em;
+  left: 1.5em;
+  right: auto;
+  bottom: auto;
+}
+#edit-topic textarea {
+  width: 60vw;
+  max-width: 100vw;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#edit-npc {
+  top: auto;
+  left: 10em;
+  right: auto;
+  bottom: 10em;
+}
+#edit-npc textarea {
+  width: 20em;
+  max-width: 65vw;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#config-dice textarea {
+  width: 40em;
+  max-width: 65vw;
+  height: 50em;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#enter-form {
+  max-height: 12em;
+}
+#enter-form p {
+  padding: 4em 5em 5em;
+  text-align: center;
+}
+#exit-form {
+  max-height: 12em;
+  padding: 4em;
+  text-align: center;
+}
+
