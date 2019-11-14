@@ -1,8 +1,25 @@
 @charset "utf-8";
 
-/* // カラー設定
+/* // カラー設定：チャット
 ---------------------------------------------------------------------------------------------------- */
-/* ボックス */
+a { text-decoration: none; }
+a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,180,255,0.5) 0%, rgba(50,180,255,0.5) 20%, transparent 20%); }
+a[href]:visited { color: #77ccff; }
+a[href]:hover   { color: #ffffff; }
+.logs a[href]::before {
+  content: "↗";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .2rem;
+  border-width: .1rem;
+  border-style: solid;
+  border-radius: .3rem;
+  font-size: .80em;
+  line-height: 1;
+  color: #fff;
+}
+/* ベース */
 .box {
   background-color: rgba(0,0,0,0.8);
   box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
@@ -11,7 +28,7 @@
 .box h3 {
 }
 .float-box {
-  background: rgba(10,10,30,0.8);
+  background: rgba(10,10,30,0.9);
   border: 1px solid #777;
   box-shadow: 0 0 .5em .1em #000;
   text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
@@ -31,12 +48,12 @@
 .chat h2 {
   background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
 }
-.chat .logs dl {
+.logs dl {
   border-width: 1px 0 0;
   border-style: solid;
   border-color: rgba(255,255,255,0.1);
 }
-.chat .logs dl dd {
+.logs dl dd {
   text-shadow: 
     #333  1px 1px, #333 -1px -1px,
     #333 -1px 1px, #333  1px -1px,
@@ -45,11 +62,51 @@
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
 }
+/* チャット：システムメッセージ */
+.logs dl.system {
+  color: #ccc;
+  font-size: 90%;
+}
+.logs dl.system dd.comm {
+}
+.logs dl dd.info {
+  font-size: 85%;
+  text-shadow: 
+    #222  1px 1px, #222 -1px -1px,
+    #222 -1px 1px, #222  1px -1px,
+    #222  0px 1px, #222  0px -1px,
+    #222 -1px 0px, #222  1px  0px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+}
+.logs dl dd.info i {
+  font-size: 90%;
+  font-style: normal;
+}
+.logs dl dd.info em {
+  -webkit-text-emphasis: none;
+          text-emphasis: none;
+}
+.logs dl dd.topic {
+  color: #afa;
+}
+.logs dl dd.topic::before {
+  color: #0c2;
+}
+.logs dl dd.unit {
+  color: #acf;
+}
+.logs dl dd.unit i {
+  opacity: 0.70;
+}
+.logs dl dd.unit::before {
+  color: #07d;
+}
 /* チャット：ダイス */
-.chat .logs dl dd.dice::before {
+.logs dl dd.dice::before {
   color: #f33;
 }
-.chat .logs dl dd.dice {
+.logs dl dd.dice {
   background: rgba(0,0,0,0.2);
   color: #e55;
   text-shadow: 
@@ -61,75 +118,45 @@
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
   letter-spacing: 0.1rem;
 }
-.chat .logs dl dd.dice i {
+.logs dl dd.dice i {
   opacity: 0.85;
 }
-.chat .logs dl dd.dice s {
+.logs dl dd.dice s {
   color: #888;
   text-decoration: none;
 }
-.chat .logs dl dd.dice b,
-.chat .logs dl dd.dice strong {
+.logs dl dd.dice b,
+.logs dl dd.dice strong {
   color: #f33;
 }
-.chat .logs dl dd.dice .division {
+.logs dl dd.dice .division {
   filter: grayscale(50%);
 }
 /* チャット：威力表 */
-.chat .logs dl dd.dice[data-game="sw"] { color: #ea6; }
-.chat .logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
-.chat .logs dl dd.dice[data-game="sw"] em em { color: #ee875c; }
-.chat .logs dl dd.dice[data-game="sw"] em em em { color: #ee7d57; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em { color: #ee7452; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em { color: #ee6a4d; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em em { color: #ee6047; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em em em { color: #ee5542; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em { color: #ee4a3d; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
-.chat .logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
-.chat .logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
-/* チャット：システムメッセージ */
-.chat .logs dl.system {
-  color: #ccc;
-}
-.chat .logs dl.system dd.comm {
-}
-.chat .logs dl dd.info {
-  text-shadow: 
-    #222  1px 1px, #222 -1px -1px,
-    #222 -1px 1px, #222  1px -1px,
-    #222  0px 1px, #222  0px -1px,
-    #222 -1px 0px, #222  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
-}
-.chat .logs dl dd.topic {
-  color: #afa;
-}
-.chat .logs dl dd.topic::before {
-  color: #0c2;
-}
-.chat .logs dl dd.unit {
-  color: #acf;
-}
-.chat .logs dl dd.unit i {
-  opacity: 0.70;
-}
-.chat .logs dl dd.unit::before {
-  color: #07d;
-}
+.logs dl dd.dice[data-game="sw"] { color: #ea6; }
+.logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
+.logs dl dd.dice[data-game="sw"] em em { color: #ee875c; }
+.logs dl dd.dice[data-game="sw"] em em em { color: #ee7d57; }
+.logs dl dd.dice[data-game="sw"] em em em em { color: #ee7452; }
+.logs dl dd.dice[data-game="sw"] em em em em em { color: #ee6a4d; }
+.logs dl dd.dice[data-game="sw"] em em em em em em { color: #ee6047; }
+.logs dl dd.dice[data-game="sw"] em em em em em em em { color: #ee5542; }
+.logs dl dd.dice[data-game="sw"] em em em em em em em em { color: #ee4a3d; }
+.logs dl dd.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
+.logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
+.logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
+
 /* チャット：タイムスタンプ */
-.chat .logs dl dd:after {
+.logs dl dd:after {
   color: #5af;
   letter-spacing: 0rem;
   text-shadow: none;
 }
 
-
-/* // デフォルト設定
+/* // デフォルト設定：ログ
 ---------------------------------------------------------------------------------------------------- */
 /* ログ */
-.chat .logs:empty::before {
+.logs:empty::before {
   content: 'ログがありません';
 }
 #topic-value:empty::before {
@@ -146,3 +173,33 @@
   content: '共有メモ';
   opacity: 0.3;
 }
+
+/* // スクロールバー
+---------------------------------------------------------------------------------------------------- */
+.box::-webkit-scrollbar,
+.box ::-webkit-scrollbar,
+.float-box::-webkit-scrollbar,
+.float-box ::-webkit-scrollbar {
+  width: .8rem;
+}
+.box::-webkit-scrollbar-track,
+.box ::-webkit-scrollbar-track,
+.float-box::-webkit-scrollbar,
+.float-box ::-webkit-scrollbar {
+  border-radius: .8rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, .5);
+}
+.box::-webkit-scrollbar-thumb,
+.box ::-webkit-scrollbar-thumb,
+.float-box::-webkit-scrollbar,
+.float-box ::-webkit-scrollbar {
+  background-color: rgba(150, 150, 150, .5);
+  border-radius: 10px;
+}
+.box,
+.float-box {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, .5) rgba(150, 150, 150, .5);
+}
+
+

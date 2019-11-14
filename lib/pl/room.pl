@@ -16,12 +16,12 @@ my %games = %set::games;
 error('ルームがありません') if !exists($rooms{$id});
 
 ###################
-### ディレクトリが無い場合
+### ディレクトリ・ファイルが無い場合
+my $key = random_key(4);
 if (!-d "./room/${id}"){
   mkdir "./room/${id}";
-  sysopen (my $FH, "./room/${id}/log-num.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    print $FH '0';
-  close($FH);
+}
+if (!-f "./room/${id}/room.dat"){
   sysopen (my $FH, "./room/${id}/room.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
     print $FH '{"tab":{';
     my $i = 0;
@@ -31,6 +31,21 @@ if (!-d "./room/${id}"){
       print $FH '"'.$i.'":"'.$tab.'"';
     }
     print $FH '}}';
+  close($FH);
+  
+  sysopen (my $FH, "./room/${id}/log-num-${key}.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+    print $FH '0';
+  close($FH);
+  sysopen (my $FH, "./room/${id}/log-key.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+    print $FH $key;
+  close($FH);
+}
+if (!-f "./room/${id}/log-all.dat"){
+  sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+  close($FH);
+}
+if (!-f "./room/${id}/log-pre.dat"){
+  sysopen (my $FH, "./room/${id}/log-pre.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
   close($FH);
 }
 
@@ -68,5 +83,12 @@ print "Content-Type: text/html\n\n";
 print $ROOM->output;
 
 exit;
+
+sub random_key {
+  my @char = (0..9,'a'..'z','A'..'Z');
+  my $s;
+  1 while (length($s .= $char[rand(@char)]) < $_[0]);
+  return $s;
+}
 
 1;

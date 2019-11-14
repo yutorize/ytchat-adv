@@ -8,7 +8,7 @@ use Fcntl;
 ###################
 ### 読み込み処理
 
-my $dir = "room/$::in{'room'}/";
+my $dir = "./room/$::in{'room'}/";
 
 my $logfile = 'log-pre.dat';
 open(my $FH, '<', $dir.$logfile) or error "${logfile}が開けません";
@@ -20,7 +20,7 @@ foreach(<$FH>) {
   last if $::in{'num'} > $num - 1;
   my (undef, $time) = split(/ /, $date);
   my ($username, $userid) = $user =~ /^(.*)<([0-9a-zA-Z]+?)>$/;
-  my $game; my $data;
+  my $game;
   if($info){
     if($info =~ /^威力/){ $game = 'sw'; }
     $info =~ s|(\[.*?\])|<i>$1</i>|g;

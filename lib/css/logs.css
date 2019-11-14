@@ -1,0 +1,91 @@
+@charset "utf-8";
+/* // 基本レイアウト
+---------------------------------------------------------------------------------------------------- */
+body {
+  background-attachment: fixed;
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 80rem) 1fr;
+  min-height: 100vh;
+  height 100%;
+}
+#base {
+  grid-column: 2 / 3;
+  margin: auto;
+  width: 100%;
+  min-height: 100vh;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  border-radius: 0;
+}
+article#contents {
+}
+.logs {
+  margin: 1rem;
+}
+.logs dl {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+}
+.logs dl[data-tab]::before {
+  content: "["attr(data-tab-name)"]";
+  margin-right: .3em;
+  padding-top: .15em;
+  font-size: .8em;
+  opacity: 0.7;
+}
+.logs dl.main[data-tab]::before {
+  content: "";
+}
+.logs dt {
+  position: relative;
+}
+.logs dd {
+  position: relative;
+  margin-left: 1rem;
+  grid-column: span 2;
+}
+.logs dl dd.info::before {
+  content: '▶';
+  position: absolute;
+  left: -1em;
+  text-shadow: none;
+  opacity: 0.6;
+  transform: scale(0.7);
+}
+.logs dl dd.info strong {
+    display: inline-block;
+    transform: scale(1.17);
+}
+/* リスト */
+#left {
+  position: relative;
+  padding-right: .2rem;
+}
+#loglist {
+  position: sticky;
+  top: 0;
+  width: max-content;
+  max-height: 100vh;
+  margin-left: auto;
+  padding: .8em;
+}
+#loglist h2 {
+  font-size: 100%;
+  margin-bottom : .5em;
+  padding-bottom: .5em;
+  border-bottom : 1px solid rgba(127,127,127,0.5);
+}
+#loglist ul li a {
+  display: block;
+  padding: .3rem;
+  background: none;
+}
+
+/* フッタ */
+footer {
+  border-top: 1px solid rgba(127,127,127,0.5);
+  padding: .5rem;
+  text-align: center;
+  font-size: 1.4rem;
+}

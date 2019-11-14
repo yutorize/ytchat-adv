@@ -15,10 +15,12 @@ our %in = getParam();
 
 my $mode = $in{'mode'};
 
-if    ($mode eq 'write') { require './lib/pl/write.pl'; }   #書込
+if    ($mode eq 'write') { require './lib/pl/write.pl'; }  #書込
 elsif ($mode eq 'read')  { require './lib/pl/read.pl'; }   #読込
 elsif ($mode eq 'room')  { require './lib/pl/room.pl'; }   #ルーム
 elsif ($mode eq 'load')  { require './lib/pl/load.pl'; }   #ルームロード
+elsif ($mode eq 'logs')  { require './lib/pl/logs.pl'; }   #過去ログ
+elsif ($mode eq 'reset') { require './lib/pl/reset.pl'; }  #ルームリセット
 
 print "Content-type:text/plain; charset=UTF-8\n\n";
 print "入力がありません";
@@ -57,7 +59,7 @@ sub calc {
 
 ## エラー
 sub error {
-  if($in{'mode'} =~ /write|read/){
+  if($in{'mode'} =~ /write|read|reset/){
     print "Content-type:application/json; charset=UTF-8\n\n";
     print '{"status":"error","text":"'.$_[0].'"}';
   }

@@ -1,6 +1,9 @@
 @charset "utf-8";
 /* // 基本レイアウト
 ---------------------------------------------------------------------------------------------------- */
+body {
+  overflow: hidden;
+}
 #base {
   padding: 0 2rem;
   height: 100vh;
@@ -107,7 +110,10 @@
 #menubar ul li a {
   display: block;
   padding: .5em;
+  color: inherit;
   cursor: pointer;
+  background: none;
+  white-space: nowrap;
 }
 #menubar ul li a:hover {
   box-shadow: inset 0 0 .5rem #7af;
@@ -127,7 +133,7 @@
   overflow: hidden;
 }
 #topic-value {
-  padding: 0 1em 0 .5em;
+  padding: 0 1.5em 0 .5em;
   font-size: 1.2rem;
   line-height: 1.6rem;
 }
@@ -244,12 +250,10 @@
 }
 /* システムメッセージ */
 .chat .logs dl.system {
-  font-size: 90%;
 }
 /* ダイス・システムメッセージ補足表示部 */
 .chat .logs dl dd.info {
   margin-left: 1em;
-  font-size: 85%;
 }
 .chat .logs dl dd.info::before {
   content: '▶';
@@ -260,13 +264,7 @@
   transform: scale(0.7);
 }
 .chat .logs dl dd.info i {
-  font-size: 90%;
-  font-style: normal;
   margin-left: .2rem;
-}
-.chat .logs dl dd.info em {
-  -webkit-text-emphasis: none;
-          text-emphasis: none;
 }
 .chat .logs dl dd.info b {
   display: inline-block;
@@ -407,8 +405,24 @@
   font-weight: bold;
   padding: 0 .5rem;
 }
+#main-form .main-name,
+#main-form input[id*="form-color"] {
+  height: 2.2rem;
+  vertical-align: bottom;
+}
+#main-form .main-name {
+  display: inline-block;
+  min-width: 8em;
+  padding: .3rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: .5rem;
+  text-align: center;
+}
+#main-form input[type="color"] {
+  width: 5em;
+}
 #main-form input#form-color-text {
-  width: 7em;
+  width: 8em;
 }
 .decoration-buttons {
   padding-right: 3em;
@@ -438,11 +452,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
   grid-auto-rows: max-content;
+  padding-right: 2rem;
 }
 .form-dice .edit.button {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.form-dice .edit.button + .edit.button {
+  bottom: 2.4rem;
 }
 
 /* // ステータス
@@ -716,16 +734,77 @@
   max-height: 80vh;
   margin-top: .1rem;
 }
+#other-form {
+  z-index: 1000;
+}
+#other-form p {
+  padding: .6em;
+  line-height: 1.6;
+}
 #enter-form {
-  max-height: 12em;
+  height: max-content;
+  max-height: 100vh;
 }
 #enter-form p {
-  padding: 4em 5em 5em;
+  padding: 4em 5em;
   text-align: center;
 }
 #exit-form {
-  max-height: 12em;
+  max-height: 16em;
   padding: 4em;
   text-align: center;
+}
+#help-window {
+  height: auto;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+}
+#help-window .box-body {
+  overflow: auto;
+  max-width: 50em;
+  padding-bottom: 2em;
+}
+#help-window p {
+  margin: .5em;
+}
+#help-window table {
+  margin: .5em;
+  border-width: .1rem;
+  border-style: solid;
+  border-collapse: collapse;
+}
+#help-window table tr {
+  border-width: 0 0 .1rem;
+  border-style: solid;
+}
+#help-window table th,
+#help-window table td {
+  padding: .5rem 1rem;
+}
+#help-window table th,
+#help-window table td {
+  border-right-width: .1rem;
+  border-right-style: dotted;
+  border-color: inherit;
+}
+#help-window code {
+  display: inline-block;
+  padding: .2rem .5rem;
+  background: rgba(0,255,100,0.4);
+  border-radius: 1rem;
+}
+#help-window h3:nth-child(n+2) {
+  margin-top: 5em;
+}
+#help-window h4 {
+  margin-top: 1em;
+}
+#help-window table th b {
+  color: #eeaa00;
+}
+#help-window table i {
+  margin: 0 .1em;
+  color: #99aacc;
+  font-weight: normal;
 }
 

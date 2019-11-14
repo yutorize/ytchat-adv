@@ -11,10 +11,11 @@ use JSON::PP;
 ### 書き込み処理
 
 my $log_pre_max = 50;
-my $dir = "room/$::in{'room'}/";
+my $dir = "./room/$::in{'room'}/";
 my $stt_commands = join('|', @{$set::games{'sw2'}{'status'}});
 
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
+if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
 if(!-d "room/".$::in{'room'}){ error "ルームがありません"; }
 if(!$::in{'system'}){
   if($::in{'name'} eq ''){ error "名前がありません"; }
@@ -40,12 +41,19 @@ foreach (%::in) {
   if($_ eq 'comm'){
     $::in{$_} =~ s/[|｜](.+?)《(.*?)》/<ruby>$1<rp>(<\/rp><rt>$2<\/rt><rp>)<\/rp><\/ruby>/gi;
     $::in{$_} =~ s/《《(.+?)》》/<em>$1<\/em>/gi;
+    $::in{$_} =~ s/\{\{(.+?)\}\}/<span class="hide">$1<\/span>/gi;
+    
     1 while $::in{$_} =~ s/&lt;b&gt;(.*?)&lt;\/b&gt;/<b>$1<\/b>/gi;
     1 while $::in{$_} =~ s/&lt;i&gt;(.*?)&lt;\/i&gt;/<i>$1<\/i>/gi;
     1 while $::in{$_} =~ s/&lt;s&gt;(.*?)&lt;\/s&gt;/<s>$1<\/s>/gi;
     1 while $::in{$_} =~ s/&lt;c:([0-9a-zA-Z#]*?)&gt;(.*?)&lt;\/c&gt;/<span style="color:$1">$2<\/span>/gi;
     1 while $::in{$_} =~ s/&lt;big&gt;(.*?)&lt;\/big&gt;/<span class="large">$1<\/span>/gi;
     1 while $::in{$_} =~ s/&lt;small&gt;(.*?)&lt;\/small&gt;/<span class="small">$1<\/span>/gi;
+    
+    1 while $::in{$_} =~ s/&lt;left&gt;(.*?)&lt;\/left&gt;(?:<br>)?/<div class="left">$1<\/div>/gi;
+    1 while $::in{$_} =~ s/&lt;center&gt;(.*?)&lt;\/center&gt;(?:<br>)?/<div class="center">$1<\/div>/gi;
+    1 while $::in{$_} =~ s/&lt;right&gt;(.*?)&lt;\/right&gt;(?:<br>)?/<div class="right">$1<\/div>/gi;
+    $::in{$_} =~ s|(https?://[^\s\<]+)|<a href="$1" target="_blank">$1</a>|gi; # 自動リンク
   }
 }
 $::in{'comm-raw'} = $::in{'comm'};
@@ -54,11 +62,14 @@ $::in{'comm-raw'} = $::in{'comm'};
 if($::in{'system'} eq 'enter'){
   $::in{'name'} = "SYSTEM";
   $::in{'comm'} = "$::in{'player'}が入室しました。";
+  delete $::in{'color'};
   unitEdit($::in{'player'});
 }
 elsif($::in{'system'} eq 'exit'){
   $::in{'name'} = "SYSTEM";
   $::in{'comm'} = "$::in{'player'}が退室しました。";
+  delete $::in{'color'};
+  unitDelete($::in{'player'});
 }
 # ダイス処理
 if($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
@@ -66,9 +77,17 @@ if($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()�
   $::in{'dice'} = diceCheck($::in{'comm'});
   if($::in{'dice'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
 }
+# ラウンド処理
+if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?: |　|$)//i){
+  my $num = roundChange($1);
+  $::in{'name'} = "SYSTEM by $::in{'player'}";
+  $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
+  $::in{'dice'} = "ラウンド: ${num}";
+  $::in{'system'} = "round:".$num;
+}
 # ユニット処理
 #チェック
-if($::in{'comm'} =~ s/^[@＠](check|cancel)(?: |　|$)//i){
+elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?: |　|$)//i){
   my %data;
   $data{'check'} = $1 eq 'check' ? 1 : 0;
   $::in{'dice'} = 'チェック：'.($data{'check'} ? '✔' : '×');
@@ -80,6 +99,7 @@ elsif($::in{'comm'} =~ s/^\/ready(?: |　|$)//i){
   $::in{'name'} = "SYSTEM by $::in{'player'}";
   $::in{'comm'} = "レディチェックを開始しました。";
   $::in{'system'} = "ready";
+  delete $::in{'color'};
   checkReset();
 }
 #削除
@@ -131,7 +151,7 @@ my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$ti
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'dice'} eq '');
 
 # カウンター
-sysopen(my $NUM, $dir.'log-num.dat', O_RDWR | O_CREAT, 0666) or error "log-num.datが開けません";
+sysopen(my $NUM, $dir."log-num-$::in{'logKey'}.dat", O_RDWR | O_CREAT, 0666) or error "log-num-$::in{'logKey'}.datが開けません";
 flock($NUM, 2);
 my $counter = <$NUM>;
 seek($NUM, 0, 0);
@@ -216,11 +236,27 @@ sub checkReset {
   truncate($FH, tell($FH));
   close($FH);
 }
+sub roundChange {
+  my $num = shift;
+  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  $data{'round'} += $num;
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+  
+  checkReset;
+  return $data{'round'};
+}
 sub unitEdit {
   my $set_name = shift;
   my $set_data = shift;
   
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);

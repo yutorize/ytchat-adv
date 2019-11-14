@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>過去ログ:<TMPL_VAR title> - ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css">
+  <link rel="stylesheet" media="all" href="lib/css/logs.css">
+  <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <script>
+let mainTab = 1;
+window.onload = function(){
+  let lines = document.querySelectorAll('[data-tab="1"]');
+  for(let i=0; i<lines.length; i++){
+    lines[i].classList.add('main');
+  };
+}
+  </script>
+</head>
+<body>
+<div id="left">
+  <aside id="loglist" class="box">
+    <h2>過去ログ</h2>
+    <ul><TMPL_LOOP LogList>
+      <li><a href="./?mode=logs&date=<TMPL_VAR NAME>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
+    </ul>
+  </aside>
+</div>
+<div id="base" class="box">
+  <header>
+    <h1><TMPL_VAR title></h1>
+    <nav>
+      <ul>
+        <li>
+          
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <article id="contents">
+  <div class="logs">
+    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR TYPE>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
+      <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
+      <TMPL_LOOP LogsDD><TMPL_IF COMM><dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd></TMPL_IF>
+      <TMPL_IF INFO><dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>
+    </dl></TMPL_LOOP>
+  </div>
+  </article>
+  <footer>
+    ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
+  </footer>
+</div>
+</body>
+</html>

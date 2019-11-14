@@ -2,33 +2,36 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css">
-  <link rel="stylesheet" media="all" href="lib/css/layout.css">
-  <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.00.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.00.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.00.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="lib/js/lib/autosize.min.js" defer></script>
   <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/config.js" defer></script>
-  <script src="lib/js/ui.js" defer></script>
-  <script src="lib/js/chat.js" defer></script>
+  <script src="lib/js/ui.js?0.00.0" defer></script>
+  <script src="lib/js/chat.js?0.00.0" defer></script>
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
     const gameSystem = '<TMPL_VAR gameSystem>';
+    const checkTimeMem = 2000; // 更新チェック周期（1000=1秒）
+    const maxLinage = 300; // 現行ログ表示行数（保存行数とは別）
   </script>
 </head>
 <body>
   <div id="base">
     <div class="box" id="menubar">
     <ul>
-      <li><a style="cursor:not-allowed;">過去ログ</a></li>
+      <li><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
       <li onclick="sheetSelect('default');"><a>ユニット</a></li>
       <li><a style="cursor:not-allowed;">背景</a></li>
       <li><a style="cursor:not-allowed;">サウンド</a></li>
-      <li><a style="cursor:not-allowed;">その他設定</a></li>
+      <li><a onclick="boxOpen('other-form');">その他設定</a></li>
+      <li><a onclick="boxOpen('help-window');">ヘルプ</a></li>
       <li><a onclick="boxOpen('exit-form');">退室</a></li>
     </ul>
     <ul>
@@ -72,6 +75,7 @@
           <option value="0" selected></option>
         </select>
         <div>
+          <span id="main-name1" class="main-name bold"></span>
           <input type="color" id="form-color" list="color-list" value="#FFFFFF">
           <input type="text" id="form-color-text" list="color-list" value="#FFFFFF">
           <button onclick="npcOpen()">追加／編集</button>
@@ -88,13 +92,19 @@
             <span class="button insert-color"><span style="color:#f90;">色</span>字</span>
             <span class="button insert-big"><span style="font-size:120%;">大</span>字</span>
             <span class="button insert-small"><span style="font-size: 80%;">小</span>字</span>
+            <span class="button insert-hide">透明</span>
+            <br>
+            <span class="button insert-left">左寄せ←</span>
+            <span class="button insert-center">→中央←</span>
+            <span class="button insert-right">→右寄せ</span>
           </div>
         </div>
         <div class="form-dice">
+          <span class="edit button" onclick="diceDel();">－</span>
+          <span class="edit button" onclick="diceAdd();">＋</span>
           <div class="dice-button"><button onclick="formSubmit('dice-button-1');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-1" data-lock="on"></div>
           <div class="dice-button"><button onclick="formSubmit('dice-button-2');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-2" data-lock="on"></div>
           <div class="dice-button"><button onclick="formSubmit('dice-button-3');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-3" data-lock="on"></div>
-          <span class="edit button" onclick="">＋</span>
         </div>
       </div>
     </div>
@@ -104,8 +114,8 @@
       <div class="box" id="round">
         <div class="bold" id="round-value">ラウンド: 0</div>
         <div style="margin: .5rem 0-.3rem;">
-          <span class="button" style="width:auto;font-size:88%;cursor:not-allowed;">戻る</span>
-          <span class="button" style="width:auto;font-size:88%;cursor:not-allowed;">次へ</span>
+          <span class="button" onclick="roundSubmit('-1');" style="width:auto;font-size:88%;">戻る</span>
+          <span class="button" onclick="roundSubmit('+1');" style="width:auto;font-size:88%;">次へ</span>
         </div>
       </div>
       <div class="box" id="status">
@@ -224,23 +234,165 @@
     　自動的に白（#FFFFFF）を割り当て
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
   </div>
-  <div id="dark-back">
-  <div class="float-box" id="enter-form" style="transform:scale(1,1);opacity: 1;">
+  <div class="float-box" id="other-form">
+    <h2>その他設定</h2>
+    <h3>ログ初期化</h3>
+    <p>
+      ログを過去ログに格納し、初期化します。<br>
+      <br>
+      <input type="checkbox" id="room-reset-all">現行ログ・トピック・ユニットも初期化する<br>
+      （全員が強制退室になります）<br>
+      <br>
+      パスワード:<input type="password" id="room-reset-password"><br>
+    </p>
+    <p class="right"><button onclick="resetRoom();">確定</button></p>
+    <span class="close button" onclick="boxClose('other-form');">×</span>
+  </div>
+  <div class="float-box" id="enter-form">
     <h2>ルーム：<TMPL_VAR title></h2>
     <p>
       <input id="in-name" placeholder="名前">
       <button onclick="enterRoom();">入室</button>
     </p>
-  </div>
+    <div class="right">
+      <a onclick="boxOpen('other-form');" href="#">その他設定</a> ／ <a href="?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
+    </div>
   </div>
   <div class="float-box" id="exit-form">
     このルームから退室しますか？<br>
-    退室すると、名前欄がリセットされます。<br><br>
+    退室すると、以下のものが削除されます。<br>
+    ［名前欄］<br>
+    ［入室名と同名のユニット］<br>
+    <br>
     <button onclick="exitRoom();boxClose('exit-form');">退室</button>
     <span class="close button" onclick="boxClose('exit-form');">×</span>
   </div>
+  <div class="float-box" id="help-window">
+    <h2>ヘルプ</h2>
+    <div class="box-body">
+    <h3>テキストコマンド</h3>
+    <p>テキストコマンドは、原則として発言の行頭に記述する必要があります。</p>
+    <table>
+      <tr><th>コマンド</th><th>説明</th></tr>
+      <tr><th>@ステータス名:文字列 </th><td>「ステータス」を「文字列」で更新する。<br>例: <code>@HP:25/25</code>、<code>@MP:なし</code></td></tr>
+      <tr><th>@ステータス名=数値   </th><td>「ステータス」の現在値を「数値」にする。<br>例: <code>@HP=-5</code></td></tr>
+      <tr><th>@ステータス名+数値   </th><td>「ステータス」の現在値に「数値」を加算する。<br>例: <code>@HP+8 リカバリィで回復。</code></td></tr>
+      <tr><th>@ステータス名-数値   </th><td>「ステータス」の現在値から「数値」を減算する。<br>例: <code>@MP-3 キュア・ウーンズを使います。</code></td></tr>
+      <tr><th>@ステータス名/数値   </th><td>「ステータス」の最大値を「数値」にする。<br>例: <code>@HP/30</code></td></tr>
+      <tr><th>@ステータス名/+数値  </th><td>「ステータス」の最大値に「数値」を加算する。<br>例: <code>@HP/+15 バーチャルタフネス貰いました。</code></td></tr>
+      <tr><th>@ステータス名/-数値  </th><td>「ステータス」の最大値から「数値」を減算する。<br>例: <code>@HP/-10</code></td></tr>
+      <tr><td colspan="2">
+        　ステータスリモコンの各項目は「@ステータス名」が省略された状態になっています。<br>
+        　+や-を入力しなかった場合は自動的に「=」として処理します。<br>
+        「入力内容そのままで～」の設定の場合は常に「@ステータス名:」として処理します。<br>
+      </td></tr>
+      <tr><td colspan="2">
+        　ステータスは一括で変更することができます。<br>
+        　このさい、２つ目以降のステータス名の前に@は不要です。<br>
+        例: <code>@HP:25/25 MP:10/10 防護:4</code>、<code>@HP-12 MP-12</code>
+      </td></tr>
+      <tr><th>名前@delete     </th><td>「名前」のユニットを削除する。<br>名前を省略した場合、発言者と同名のユニットを削除する。</td></tr>
+      <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
+      <tr><th>@cancel         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@cancel まだやることあった</code></td></tr>
+      <tr><th>/ready       </th><td>「レディチェックを開始しました」の文言とともに、ユニットの✔を全て外す。</td></tr>
+      <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
+      <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
+      <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
+    </table>
+    
+    <h3>ダイスコード</h3>
+    <p>
+      ダイスコードは、原則として発言の行頭に記述する必要があります。<br>
+      半角・全角は問わず反映されます。<br>
+    </p>
+    
+    <h4>通常ダイス</h4>
+    <p><span style="color:#ee7777;">ダイスの数</span><b>D</b><span style="color:#eebb77;">面の数</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span></p>
+    <p>
+      <span style="color:#77ee77;">+修正値</span>、<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+      修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
+      半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
+      また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
+    </p>
+    <p>
+      例1：「6面ダイスを1つ振る」<br>
+      　<span style="color:#ee7777;">1</span><b>D</b><span style="color:#eebb77;">6</span>
+    </p>
+    <p>
+      例2：「命中力が12、魔法でさらに+1されつつ、命中力判定」<br>
+      　<span style="color:#ee7777;">2</span><b>D</b><span style="color:#eebb77;">6</span><span style="color:#77ee77;">+12+1</span>
+    </p>
+    <p>
+      例3：「ワイバーンのブレスによる攻撃。2d+10だが抵抗されたので半減」<br>
+      　<span style="color:#ee7777;">2</span><b>D</b><span style="color:#eebb77;">6</span><span style="color:#77ee77;">+10//</span>
+    </p>
+    <p>
+      例4：「すべての［部位：腕］が健在なヘカトンケイレスの《武器乱舞》のダメージ」<br>
+      　<span style="color:#ee7777;">2</span><b>D</b><span style="color:#eebb77;">6</span><span style="color:#77ee77;">**6+5</span><br>
+    </p>
+    <p>
+      例5：「超越判定」<br>
+      　<span style="color:#ee7777;">2</span><b>D</b><span style="color:#eebb77;">6</span><span style="color:#77ee77;">+22</span><span style="color:#eebb77;">@10</span><br>
+    </p>
+    
+    <h4>任意項目ランダム選択</h4>
+    <p><span style="color:#ee7777;">選ぶ数</span><b>$</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <h4>任意項目ランダム選択（非重複）</h4>
+    <p><span style="color:#ee7777;">選ぶ数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    
+    <h4>威力表（ソード・ワールド）</h4>
+    <p>
+      <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#ee77bb;">&gt;必殺</span><span style="color:#bb77ee;">$Cレイ</span><span style="color:#77aaee;">k首切り</span><br>
+      <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#eebb77;">[C値]</span><span style="color:#77ee77;">+修正値</span><span style="color:#ee77bb;">&gt;必殺</span><span style="color:#bb77ee;">$Cレイ</span><span style="color:#77aaee;">k首切り</span>
+    </p>
+    <p>
+      <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">&gt;必殺</span>・<span style="color:#bb77ee;">$Cレイ</span>・<span style="color:#77aaee;">k首切り</span>は省略できます。<br>
+      修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
+      必殺、Cレイ（クリティカルレイ）、首切りは、効果による出目ないし威力の上昇値を記入します。<br>
+    </p>
+    <p>
+      威力表のダイスコードの記述に用いる記号等は、以下のものも使えるようになっています。
+    </p>
+    <table>
+      <tr>
+        <th>種類</th>
+        <th>記述</th>
+        <th>解説</th>
+      </tr>
+      <tr>
+        <th>威力</th>
+        <th> <b>r</b><i>Num</i> <br> <b>k</b><i>Num</i> </th>
+        <td>Num=威力。<br>必ず先頭に記述。<br>また、Numを()で囲うことで、()内での加減算が可。</td>
+      </tr>
+      <tr>
+        <th>C値</th>
+        <th> <b>@</b><i>Num</i> <br> <b>[</b><i>Num</i><b>]</b> </th>
+        <td>Num=C値。<br>[]で囲う形式の場合、必ず威力の直後に記述。<br>また、[]内での加減算が可。</td>
+      </tr>
+      <tr>
+        <th>必殺効果</th>
+        <th> <b>></b><i>Num</i> <br> <b>#</b><i>Num</i> <br> <b>b</b><i>Num</i> </th>
+        <td>Num=出目上昇量。<br>特に理由がない限りNumは1。</td>
+      </tr>
+      <tr>
+        <th>Cレイ</th>
+        <th> <b>$</b><i>Num</i></th>
+        <td>Num=出目上昇量。<br>Bなら1、Aなら2など。クリティカル後は増えない。</td>
+      </tr>
+      <tr>
+        <th>首切効果</th>
+        <th> <b>r</b><i>Num</i> <br> <b>c</b><i>Num</i> <br> <b>k</b><i>Num</i> </th>
+        <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。</td>
+      </tr>
+    </table>
+    
+    <span class="close button" onclick="boxClose('help-window');">×</span>
+    </div>
+  </div>
+  
+  <div id="dark-back"></div>
   <!-- / FLOAT-BOXES -->
-  <!-- FLOAT-BOXES -->
+  <!-- LIST -->
   
   <datalist id="color-list">
     <option value="#FFFFFF" style="color:#FFFFFF;">white</option>
