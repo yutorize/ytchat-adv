@@ -12,7 +12,8 @@ use JSON::PP;
 
 my $log_pre_max = 50;
 my $dir = "./room/$::in{'room'}/";
-my $stt_commands = join('|', @{$set::games{'sw2'}{'status'}});
+my $stt_commands;
+   $stt_commands = join('|', @{$set::games{$::in{'game'}}{'status'}}) if $::in{'game'};
 
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
@@ -74,11 +75,11 @@ elsif($::in{'system'} eq 'exit'){
 # ダイス処理
 if($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
   require 'lib/pl/dice.pl';
-  $::in{'dice'} = diceCheck($::in{'comm'});
+  ($::in{'dice'}, $::in{'system'}) = diceCheck($::in{'comm'});
   if($::in{'dice'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
 }
 # ラウンド処理
-if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?: |　|$)//i){
+if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?:\s|$)//i){
   my $num = roundChange($1);
   $::in{'name'} = "SYSTEM by $::in{'player'}";
   $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
@@ -87,7 +88,7 @@ if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?: |　|$)//i){
 }
 # ユニット処理
 #チェック
-elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?: |　|$)//i){
+elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?:\s|$)//i){
   my %data;
   $data{'check'} = $1 eq 'check' ? 1 : 0;
   $::in{'dice'} = 'チェック：'.($data{'check'} ? '✔' : '×');
@@ -95,7 +96,7 @@ elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?: |　|$)//i){
   unitEdit($::in{'name'}, \%data);
 }
 #レディチェック
-elsif($::in{'comm'} =~ s/^\/ready(?: |　|$)//i){
+elsif($::in{'comm'} =~ s/^\/ready(?:\s|$)//i){
   $::in{'name'} = "SYSTEM by $::in{'player'}";
   $::in{'comm'} = "レディチェックを開始しました。";
   $::in{'system'} = "ready";
@@ -112,7 +113,7 @@ elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
   unitDelete($name);
 }
 #変更
-elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?: |　|$))+)//){
+elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
   my %stts;
   foreach (split(' ', $1)){
     $_ =~ tr/０-９＋－／＊＝：/0-9\+\-\/\*=:/;

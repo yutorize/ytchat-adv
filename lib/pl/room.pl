@@ -69,7 +69,8 @@ $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
 
 my $game = $rooms{$id}{'game'};
-$ROOM->param(gameSystem => $games{$game}{'name'});
+$ROOM->param(gameSystem => $game);
+$ROOM->param(gameSystemName => $games{$game}{'name'});
 
 my @status = @{ $games{$game}{'status'} };
 $ROOM->param(SttNameList => join("','", @status));

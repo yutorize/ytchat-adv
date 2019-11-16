@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>過去ログ:<TMPL_VAR title> - ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css">
+  <link rel="stylesheet" media="all" href="lib/css/list.css">
+  <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <script>
+  </script>
+</head>
+<body>
+<div id="base" class="box">
+  <header>
+    <h1>ゆとチャadv.</h1>
+  </header>
+  <article id="contents">
+    <h2>ゲームルーム一覧</h2>
+    <table class="list">
+      <thead><tr><th>ゲームルーム名</th><th>ゲームシステム</th></tr></thead>
+      <TMPL_LOOP List><tr><th><a href="./?mode=room&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></th><td><TMPL_VAR GAME></td></tr></TMPL_LOOP>
+    </table>
+  </article>
+  <footer>
+    ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
+  </footer>
+</div>
+</body>
+</html>

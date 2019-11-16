@@ -18,7 +18,9 @@
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
     const gameSystem = '<TMPL_VAR gameSystem>';
-    const checkTimeMem = 2000; // 更新チェック周期（1000=1秒）
+    const gameSystemName = '<TMPL_VAR gameSystemName>';
+    const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
+    const checkTimeRom = 10000; // 更新チェック周期・見学者
     const maxLinage = 300; // 現行ログ表示行数（保存行数とは別）
   </script>
 </head>
@@ -131,7 +133,7 @@
     <div class="box" id="footer">
       <dl>
         <dt>入室</dt><dd>－</dd>
-        <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystem></dd>
+        <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystemName></dd>
       </dl>
       <dl>
         <dt>背景</dt><dd>－</dd>
@@ -253,6 +255,9 @@
     <p>
       <input id="in-name" placeholder="名前">
       <button onclick="enterRoom();">入室</button>
+    </p>
+    <p>
+      <button onclick="enterRomRoom();">見学入室</button>
     </p>
     <div class="right">
       <a onclick="boxOpen('other-form');" href="#">その他設定</a> ／ <a href="?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
@@ -385,6 +390,17 @@
         <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。</td>
       </tr>
     </table>
+    
+    <h4>ダブルクロス行為判定</h4>
+    <p>
+      <span style="color:#ee7777;">判定値</span><b>R</b><span style="color:#eebb77;">C値</span><span style="color:#77ee77;">+修正値</span><br>
+      <span style="color:#ee7777;">判定値</span><b>R</b><span style="color:#77ee77;">修正値</span><span style="color:#eebb77;">@C値</span><br>
+      <span style="color:#ee7777;">判定値</span><b>DX</b><span style="color:#eebb77;">C値</span><span style="color:#77ee77;">+修正値</span><br>
+      <span style="color:#ee7777;">判定値</span><b>DX</b><span style="color:#77ee77;">修正値</span><span style="color:#eebb77;">@C値</span><br>
+    </p>
+    <p>
+      <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+    </p>
     
     <span class="close button" onclick="boxClose('help-window');">×</span>
     </div>

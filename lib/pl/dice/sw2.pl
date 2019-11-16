@@ -3,7 +3,6 @@ use strict;
 use utf8;
 use open ":utf8";
 use open ":std";
-use List::Util qw/shuffle/;
 use POSIX qw/ceil/;
 
 ###################

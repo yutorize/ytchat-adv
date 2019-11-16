@@ -1,4 +1,10 @@
 #!/usr/local/bin/perl
+####################################
+##               ゆとチャadv.     ##
+##                version0.01     ##
+##          by ゆとらいず工房     ##
+##    https://yutorize.2-d.jp     ##
+####################################
 use strict;
 use warnings;
 use utf8;
@@ -6,8 +12,11 @@ use open ":utf8";
 use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
+### バージョン #######################################################################################
+our $ver = "0.01";
+
 ### 設定読込 #########################################################################################
-require './lib/config-default.pl';
+require './config.cgi';
 
 
 ### 各処理へ移動 #####################################################################################
@@ -21,6 +30,7 @@ elsif ($mode eq 'room')  { require './lib/pl/room.pl'; }   #ルーム
 elsif ($mode eq 'load')  { require './lib/pl/load.pl'; }   #ルームロード
 elsif ($mode eq 'logs')  { require './lib/pl/logs.pl'; }   #過去ログ
 elsif ($mode eq 'reset') { require './lib/pl/reset.pl'; }  #ルームリセット
+else { require './lib/pl/list.pl'; } #部屋一覧
 
 print "Content-type:text/plain; charset=UTF-8\n\n";
 print "入力がありません";

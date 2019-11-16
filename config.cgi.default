@@ -1,0 +1,33 @@
+################# 設定 #################
+use strict;
+use utf8;
+
+package set;
+
+require './lib/pl/config-default.pl';
+
+## ログ削除パスワード （空欄のままだと「誰でも」可能です。注意してください）
+our $password = '';
+
+## 過去ログ保存ディレクトリ
+our $logs_dir = './logs/';
+
+## 部屋設定
+our %rooms = (
+  'A' => { 'name' => 'ゲームルームA',  'game' => 'sw2',  'tab' => 'メイン,サブ',  'secret' => 0 },
+  'B' => { 'name' => 'ゲームルームB',  'game' => 'dx3',  'tab' => 'メイン,サブ',  'secret' => 0 },
+  
+  #'部屋ID' => { 'name' => '部屋の名前',  'game' => 'ゲームID',  'tab' => 'タブの名前（,区切り）',  'secret' => 0 },
+);
+
+## 部屋ID
+# URL（id=xxの部分）に使用（半角英数字、-、_などURLに使用できる文字推奨）
+
+## ゲームID：
+# ソードワールド2.x: sw2
+# ダブルクロス3rd  : dx3
+
+## secret
+# 0で一覧に表示、1で隠す（URLアクセスのみ可）
+
+1;

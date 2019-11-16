@@ -62,6 +62,9 @@ a[href]:hover   { color: #ffffff; }
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
 }
+.logs dl dd:hover {
+  background-color:rgba(100,200,255,0.1) !important;
+}
 /* チャット：システムメッセージ */
 .logs dl.system {
   color: #ccc;
@@ -76,8 +79,8 @@ a[href]:hover   { color: #ffffff; }
     #222 -1px 1px, #222  1px -1px,
     #222  0px 1px, #222  0px -1px,
     #222 -1px 0px, #222  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
 }
 .logs dl dd.info i {
   font-size: 90%;
@@ -114,8 +117,8 @@ a[href]:hover   { color: #ffffff; }
     #300 -1px 1px, #300  1px -1px,
     #300  0px 1px, #300  0px -1px,
     #300 -1px 0px, #300  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+    #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px;
   letter-spacing: 0.1rem;
 }
 .logs dl dd.dice i {
@@ -145,6 +148,20 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
 .logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
 .logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
+
+/* チャット：ダブルクロス */
+.logs dl dd.dice[data-game="dx"] { color: #9999ff; }
+.logs dl dd.dice[data-game="dx"] em { color: #a18feb; }
+.logs dl dd.dice[data-game="dx"] em em { color: #aa85d7; }
+.logs dl dd.dice[data-game="dx"] em em em { color: #b27bc2; }
+.logs dl dd.dice[data-game="dx"] em em em em { color: #bb71ae; }
+.logs dl dd.dice[data-game="dx"] em em em em em { color: #c36699; }
+.logs dl dd.dice[data-game="dx"] em em em em em em { color: #cc5c85; }
+.logs dl dd.dice[data-game="dx"] em em em em em em em { color: #d45271; }
+.logs dl dd.dice[data-game="dx"] em em em em em em em em { color: #dd485c; }
+.logs dl dd.dice[data-game="dx"] em em em em em em em em em { color: #e53e48; }
+.logs dl dd.dice[data-game="dx"] em em em em em em em em em em { color: #ee3333; }
+.logs dl dd.dice[data-game="dx"] em.fail { color: #888; }
 
 /* チャット：タイムスタンプ */
 .logs dl dd:after {

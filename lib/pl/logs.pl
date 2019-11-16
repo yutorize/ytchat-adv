@@ -67,6 +67,7 @@ my $before_user;
 foreach (<$FH>){
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
   
+     $user =~ s/<.+?>$//;
   my $type = ($system =~ /^check|round/) ? 'dice' : ($system) ? $system : 'dice';
      $type =~ s/:.*?$//;
   my $game;
@@ -92,6 +93,7 @@ foreach (<$FH>){
       "DATE"   => $date,
       "TAB"    => $tab,
       "TABNAME"=> $tabs[$tab-1],
+      "USER"   => $user,
       "NAME"   => $name,
       "COLOR"  => $color,
       "LogsDD" => [],
