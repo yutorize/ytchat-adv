@@ -17,6 +17,7 @@ $year += 1900; $mon++;
 
 ## ファイル名
 my $filename = "${year}${mon}${day}";
+   $filename .= $::in{'room'} if $set::logname_id_add;
 my $num = 0;
 while (-f $set::logs_dir.$filename.'_'.$num.'.dat'){
   $num++;

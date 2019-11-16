@@ -25,6 +25,7 @@ sub dxRoll {
   $quant = calc($quant);
   $crit  = calc($crit);
   
+  $quant = $quant > 200 ? 200 : $quant;
   $crit = $crit ? $crit : 10;
   
   my $code = "判定値${quant} C値${crit}";
