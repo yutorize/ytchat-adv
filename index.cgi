@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 ####################################
 ##               ゆとチャadv.     ##
 ##                version0.01     ##

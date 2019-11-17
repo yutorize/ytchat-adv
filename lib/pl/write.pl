@@ -74,7 +74,7 @@ elsif($::in{'system'} eq 'exit'){
 }
 # ダイス処理
 if($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
-  require 'lib/pl/dice.pl';
+  require './lib/pl/dice.pl';
   ($::in{'dice'}, $::in{'system'}) = diceCheck($::in{'comm'});
   if($::in{'dice'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
 }
