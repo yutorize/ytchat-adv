@@ -30,7 +30,7 @@ $ROOM = HTML::Template->new(
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
 my @list;
-foreach my $id (keys %rooms){
+foreach my $id (sort keys %rooms){
   next if !$id;
   next if $rooms{$id}{'secret'};
   push(@list, {

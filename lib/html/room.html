@@ -78,8 +78,8 @@
         </select>
         <div>
           <span id="main-name1" class="main-name bold"></span>
-          <input type="color" id="form-color" list="color-list" value="#FFFFFF">
-          <input type="text" id="form-color-text" list="color-list" value="#FFFFFF">
+          <input type="color" id="form-color" class="selectcolor-main" list="color-list" value="#FFFFFF">
+          <input type="text" id="form-color-text" class="selectcolor-main" list="color-list" value="#FFFFFF">
           <button onclick="npcOpen()">追加／編集</button>
           <div class="comm-area">
           <textarea class="form-comm autosize" id="form-comm-main" rows="1" placeholder="Shift+Enterで改行"></textarea>
@@ -199,9 +199,10 @@
       <div class="sheet-body-default">
         <dl>
           <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
-          <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="autocolor" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="autocolor" list="color-list" value="#ffffff"></dd>
+          <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="selectcolor-unit" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
           <dt>ステータス</dt><dd><input id="new-unit-stt-value"   type="text" value="<TMPL_VAR newUnitSttDefault>"></dd>
         </dl>
+          <dt><input type="checkbox" id="new-unit-addname">名前欄にも追加する</dt>
         <button onclick="newUnitSubmit();">作成</button>
       </div>
       <div class="close-area" onclick="sheetOpen();"></div>
@@ -253,7 +254,12 @@
   <div class="float-box" id="enter-form">
     <h2>ルーム：<TMPL_VAR title></h2>
     <p>
-      <input id="in-name" placeholder="名前">
+      名前<br>
+      <input type="text" id="in-name"><br>
+      <br>
+      名前色<br>
+      <input type="color" id="in-color" class="selectcolor-in" list="color-list"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list"><br>
+      <br>
       <button onclick="enterRoom();">入室</button>
     </p>
     <p>
@@ -266,7 +272,6 @@
   <div class="float-box" id="exit-form">
     このルームから退室しますか？<br>
     退室すると、以下のものが削除されます。<br>
-    ［名前欄］<br>
     ［入室名と同名のユニット］<br>
     <br>
     <button onclick="exitRoom();boxClose('exit-form');">退室</button>

@@ -72,14 +72,21 @@ foreach (<$FH>){
      $type =~ s/:.*?$//;
   my $game;
   if($info){
-    if($info =~ /^威力/){ $game = 'sw'; }
-    $info =~ s|(\[.*?\])|<i>$1</i>|g;
-    $info =~ s| = ([0-9a-z.]+)$| = <strong>$1</strong>|gi;
-    $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
-    my $crit = () = $info =~ m/クリティカル!/g;
-    foreach(1 .. $crit){ $info = "<em>$info</em>"; }
-    if($info =~ /1ゾロ/){ $info = "<em class='fail'>$info</em>"; }
-    $info =~ s/\{(.*?)\}/{<span class='division'>$1<\/span>}/;
+    if($system =~ /^dice/){
+      $info =~ s|(\[.*?\])|<i>$1</i>|g;
+      $info =~ s| = ([0-9a-z.∞]+)$| = <strong>$1</strong>|gi;
+      $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
+      #クリティカルをグラデにする
+      my $crit = () = $info =~ s/(クリティカル!\])/$1<em>/g;
+      while($crit > 0){ $info .= "</em>"; $crit--; }
+      #ファンブル用の色適用
+      if($info =~ /1ゾロ|ファンブル/){ $info = "<em class='fail'>$info</em>"; }
+      #
+      $info =~ s/\{(.*?)\}/{<span class='division'>$1<\/span>}/;
+    }
+    if($system =~ /^unit/){
+      $info =~ s| (\[.*?\])| <i>$1</i>|g;
+    }
   }
   
   
