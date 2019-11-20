@@ -63,16 +63,16 @@ $::in{'comm-raw'} = $::in{'comm'};
 if($::in{'system'} eq 'enter'){
   $::in{'name'} = "SYSTEM";
   $::in{'comm'} = "$::in{'player'}が入室しました。";
+  if($::in{'unitAdd'}){ $::in{'system'} .= ' unit'; unitEdit($::in{'player'}); }
   delete $::in{'color'};
-  unitEdit($::in{'player'});
 }
 elsif($::in{'system'} eq 'exit'){
   $::in{'name'} = "SYSTEM";
   $::in{'comm'} = "$::in{'player'}が退室しました。";
   delete $::in{'color'};
-  unitDelete($::in{'player'});
+  #unitDelete($::in{'player'});
 }
-
+else {
 # ラウンド処理
 if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
   my $num = roundChange($1);
@@ -83,12 +83,12 @@ if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
 }
 # ユニット処理
 #チェック
-elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?:\s|$)//i){
-  my %data;
-  $data{'check'} = $1 eq 'check' ? 1 : 0;
-  $::in{'info'} = 'チェック：'.($data{'check'} ? '✔' : '×');
-  $::in{'system'} = "check:".$data{'check'};
-  unitEdit($::in{'name'}, \%data);
+elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
+  my %stts;
+  $stts{'check'} = $1 eq 'check' ? 1 : 0;
+  $::in{'info'} = 'チェック：'.($stts{'check'} ? '✔' : '×');
+  $::in{'system'} = "check:".$stts{'check'};
+  unitEdit($::in{'name'}, \%stts);
 }
 #レディチェック
 elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
@@ -155,6 +155,7 @@ elsif($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃
   require './lib/pl/dice.pl';
   ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
   if($::in{'info'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
+}
 }
 
 my @time = localtime(time);
@@ -262,7 +263,7 @@ sub checkReset {
   seek($FH, 0, 0);
   
   foreach my $name (keys %{$data{'unit'}}) {
-    $data{'unit'}{$name}{'check'} = '';
+    delete $data{'unit'}{$name}{'status'}{'check'};
   }
   
   print $FH decode('utf8', encode_json \%data);

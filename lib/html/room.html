@@ -204,6 +204,8 @@
       名前色<br>
       <input type="color" id="in-color" class="selectcolor-in" list="color-list" value="#FFFFFF"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list" value="#FFFFFF"><br>
       <br>
+      <input type="checkbox" id="in-unitadd">入室時にユニットを作成<br>
+      <br>
       <button onclick="enterRoom();">入室</button>
     </p>
     <p>
@@ -215,8 +217,9 @@
   </div>
   <div class="float-box" id="exit-form">
     このルームから退室しますか？<br>
-    退室すると、以下のものが削除されます。<br>
-    ［入室名と同名のユニット］<br>
+    退室すると、以下の情報がリセットされます。<br>
+    ［入力したチャットパレット］<br>
+    ［個人メモ］<br>
     <br>
     <button onclick="exitRoom();boxClose('exit-form');">退室</button>
     <span class="close button" onclick="boxClose('exit-form');">×</span>
@@ -247,11 +250,12 @@
       </td></tr>
       <tr><th>名前@delete     </th><td>「名前」のユニットを削除する。<br>名前を省略した場合、発言者と同名のユニットを削除する。</td></tr>
       <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
-      <tr><th>@cancel         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@cancel まだやることあった</code></td></tr>
+      <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
       <tr><th>/ready       </th><td>「レディチェックを開始しました」の文言とともに、ユニットの✔を全て外す。</td></tr>
       <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
       <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
       <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
+      <tr><th>/memo 文字列 </th><td>「文字列」の内容のメモを追加する。</td></tr>
     </table>
     
     <h3>ダイスコード</h3>
