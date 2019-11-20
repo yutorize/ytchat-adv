@@ -42,6 +42,7 @@ if (!-f "./room/${id}/room.dat"){
 }
 if (!-f "./room/${id}/log-all.dat"){
   sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+    print $FH ">$rooms{$id}{'name'}<>$rooms{$id}{'tab'}\n";
   close($FH);
 }
 if (!-f "./room/${id}/log-pre.dat"){

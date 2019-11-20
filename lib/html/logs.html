@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>過去ログ:<TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css">
-  <link rel="stylesheet" media="all" href="lib/css/logs.css">
-  <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <title>過去ログ: <TMPL_VAR title> - ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.04.0">
   <script>
 let mainTab = 1;
 window.onload = function(){
@@ -15,27 +15,38 @@ window.onload = function(){
     lines[i].classList.add('main');
   };
 }
+function tabSelect(num){
+  let lines = document.querySelectorAll('[data-tab="'+num+'"]');
+  const on = document.getElementById('tab-on-'+num).checked;
+  for(let i=0; i<lines.length; i++){
+    lines[i].style.display = on ? 'block' : 'none';
+  };
+}
   </script>
 </head>
 <body>
 <div id="left">
-  <aside id="loglist" class="box">
-    <h2>過去ログ</h2>
-    <ul><TMPL_LOOP LogList>
+  <input type="checkbox" id="menu-toggle">
+  <aside id="menu" class="box">
+    <h2>メニュー<label for="menu-toggle"></label></h2>
+    <ul id="tablist"><TMPL_LOOP TabList>
+      <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
+    </ul>
+    <div id="loglist-area">
+    <h3>現行ログ</h3>
+    <ul id="roomlist"><TMPL_LOOP RoomList>
+      <li><a href="./?mode=logs&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
+    </ul>
+    <h3>過去ログ</h3>
+    <ul id="loglist"><TMPL_LOOP LogList>
       <li><a href="./?mode=logs&date=<TMPL_VAR NAME>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
     </ul>
+    </div>
   </aside>
 </div>
 <div id="base" class="box">
   <header>
-    <h1><TMPL_VAR title></h1>
-    <nav>
-      <ul>
-        <li>
-          
-        </li>
-      </ul>
-    </nav>
+    <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
   </header>
   <article id="contents">
   <div class="logs">

@@ -10,12 +10,29 @@ body {
 }
 #base {
   grid-column: 2 / 3;
+  position: relative;
   margin: auto;
   width: 100%;
   min-height: 100vh;
   font-size: 1.4rem;
   line-height: 1.8;
   border-radius: 0;
+  overflow: visible;
+}
+header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.8), transparent);
+  z-index: 98;
+}
+header h1 {
+  display: inline-block;
+  margin-right: .5em;
+  font-size: 1.5em !important;
+}
+header h2 {
+  display: inline-block;
+  font-size: 1em !important;
 }
 article#contents {
 }
@@ -83,29 +100,117 @@ article#contents {
 .logs dl dd:hover::after {
   opacity: 0.7;
 }
-/* リスト */
+/* メニュー */
 #left {
   position: relative;
   padding-right: .2rem;
 }
-#loglist {
+#menu {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto max-content 1fr;
+  overflow: hidden;
   position: sticky;
   top: 0;
   width: max-content;
   max-height: 100vh;
   margin-left: auto;
-  padding: .8em;
+  padding: 0 .8rem;
+  z-index: 999;
 }
-#loglist h2 {
+#menu h2 {
   font-size: 100%;
-  margin-bottom : .5em;
-  padding-bottom: .5em;
-  border-bottom : 1px solid rgba(127,127,127,0.5);
+  margin: 1rem .8rem;
 }
-#loglist ul li a {
+#menu h3 {
+  font-size: 100%;
+  margin: 0;
+}
+#menu ul {
+  padding-bottom: 1em;
+  border-top : 1px solid rgba(127,127,127,0.5);
+}
+#menu ul#tablist li label {
+  display: block;
+  padding: .3rem;
+  background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
+  cursor: pointer;
+}
+#menu ul#tablist li label:hover {
+  color: #eeaa00;
+}
+#menu ul#tablist li label input {
+  display: none;
+}
+#menu ul#tablist li label input + b::before {
+  display: inline-block;
+  content: "✔";
+  width: 1em;
+  margin-right: 0.1em;
+  border-radius: .2em;
+  background-color: #000;
+  color: transparent;
+  transform: scale(1);
+}
+#menu ul#tablist li label input:checked + b::before {
+  color: #f77;
+  text-shadow: 
+    #711  1px 1px, #711 -1px -1px,
+    #711 -1px 1px, #711  1px -1px,
+    #711  0px 1px, #711  0px -1px,
+    #711 -1px 0px, #711  1px  0px;
+}
+#menu #loglist-area {
+  overflow: auto;
+}
+#menu ul li a {
   display: block;
   padding: .3rem;
   background: none;
+}
+#menu-toggle {
+  display: none;
+}
+#menu-toggle + label {
+  display: none;
+}
+@media (max-width: 600px) {
+  header {
+    line-height: 1.2;
+  }
+  header h2 {
+    display: block;
+  }
+  #menu {
+    position: fixed;
+    right: 0;
+    border: .1rem solid rgba(127,127,127,0.5);
+  }
+  #menu h2 {
+    position: relative;
+    text-align: right;
+  }
+  #menu #tablist,
+  #menu #loglist-area {
+    display: none;
+  }
+  #menu-toggle:checked + #menu #tablist,
+  #menu-toggle:checked + #menu #loglist-area {
+    display: block;
+  }
+  label[for="menu-toggle"] {
+    display: block;
+    position: absolute;
+    top: -1rem;
+    left: -1.8rem;
+    right: -1.8rem;
+    bottom: -1rem;
+    cursor: pointer;
+    text-align: center;
+  }
+  label[for="menu-toggle"]:hover {
+    background-color: rgba(255,150,0,0.5);
+  }
 }
 
 /* フッタ */

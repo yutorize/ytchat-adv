@@ -27,7 +27,7 @@ foreach(<$FH>) {
       $info =~ s| = ([0-9a-z.∞]+)$| = <strong>$1</strong>|gi;
       $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
       #クリティカルをグラデにする
-      my $crit = () = $info =~ s/(クリティカル!\])/$1<em>/g;
+      my $crit = $info =~ s/(クリティカル!\])/$1<em>/g;
       while($crit > 0){ $info .= "</em>"; $crit--; }
       #ファンブル用の色適用
       if($info =~ /1ゾロ|ファンブル/){ $info = "<em class='fail'>$info</em>"; }

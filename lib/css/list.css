@@ -42,10 +42,15 @@ table.list tbody th a {
   min-width: 10em;
   padding: .5em 1em;
 }
-table.list tbody th a:link {
+table.list tbody td a {
+  display: block;
+  margin: -.5em -1em;
+  padding: .5em 1em;
+}
+table.list tbody a:link {
   background: none;
 }
-table.list tbody th a:hover {
+table.list tbody a:hover {
   background: rgba(100,127,150, 0.2);
 }
 table.list tbody td {

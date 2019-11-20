@@ -73,89 +73,89 @@ elsif($::in{'system'} eq 'exit'){
   #unitDelete($::in{'player'});
 }
 else {
-# ラウンド処理
-if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
-  my $num = roundChange($1);
-  $::in{'name'} = "SYSTEM by $::in{'player'}";
-  $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
-  $::in{'info'} = "ラウンド: ${num}";
-  $::in{'system'} = "round:".$num;
-}
-# ユニット処理
-#チェック
-elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
-  my %stts;
-  $stts{'check'} = $1 eq 'check' ? 1 : 0;
-  $::in{'info'} = 'チェック：'.($stts{'check'} ? '✔' : '×');
-  $::in{'system'} = "check:".$stts{'check'};
-  unitEdit($::in{'name'}, \%stts);
-}
-#レディチェック
-elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
-  $::in{'name'} = "SYSTEM by $::in{'player'}";
-  $::in{'comm'} = "レディチェックを開始しました。";
-  $::in{'system'} = "ready";
-  delete $::in{'color'};
-  checkReset();
-}
-#削除
-elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
-  my $name = $1 ? $1 : $::in{'name'};
-  $::in{'name'} = "SYSTEM by $::in{'player'}";
-  $::in{'comm'} = "ユニット「${name}」を削除しました。";
-  $::in{'system'} = "unit-delete:${name}";
-  delete $::in{'color'};
-  unitDelete($name);
-}
-#変更
-elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
-  my %stts;
-  foreach (split(' ', $1)){
-    $_ =~ tr/０-９＋－／＊＝：/0-9\+\-\/\*=:/;
-    if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*]*)$/){
-      my ($type, $op, $num) = ($1,$2,$3);
-      my ($result, $diff) = sttCalc($type,$num,$op);
-      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-      $::in{'info'} .= " [$diff]" if ($diff ne '');
-      $::in{'system'} = "unit";
-      $stts{$type} = $result;
-    }
-    elsif($_ =~ /^($stt_commands)[=:](.*)$/){
-      my ($type, $result) = ($1,$2);
-      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-      $::in{'system'} = "unit";
-      $stts{$type} = $result;
-    }
+  # ラウンド処理
+  if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
+    my $num = roundChange($1);
+    $::in{'name'} = "SYSTEM by $::in{'player'}";
+    $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
+    $::in{'info'} = "ラウンド: ${num}";
+    $::in{'system'} = "round:".$num;
   }
-  unitEdit($::in{'name'}, \%stts);
-}
-# トピック処理
-elsif($::in{'comm'} =~ s</topic(\s|$)><>i){
-  topicEdit($::in{'comm'});
-  $::in{'tab'} = '1';
-  $::in{'system'} = 'topic';
-  $::in{'name'} = "TOPIC by $::in{'player'}";
-  $::in{'info'} = "$::in{'comm'}";
-  $::in{'comm'} = $::in{'comm'} ? "" : "削除しました" ;
-  delete $::in{'color'};
-}
-# メモ処理
-elsif($::in{'comm'} =~ s</memo([0-9]*)(\s|$)><>i){
-  my $new = $1 eq '' ? 1 : 0;
-  error('メモの内容がありません。') if ($new && !$::in{'comm'});
-  my $num = memoEdit($1, $::in{'comm'});
-  $::in{'tab'} = '1';
-  $::in{'system'} = 'memo:'.$num;
-  $::in{'name'} = "SYSTEM by $::in{'player'}";
-  $::in{'info'} = "$::in{'comm'}";
-  $::in{'comm'} = "共有メモ(".($num+1).")を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
-}
-# ダイス処理
-elsif($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
-  require './lib/pl/dice.pl';
-  ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
-  if($::in{'info'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
-}
+  # ユニット処理
+  #チェック
+  elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
+    my %stts;
+    $stts{'check'} = $1 eq 'check' ? 1 : 0;
+    $::in{'info'} = 'チェック：'.($stts{'check'} ? '✔' : '×');
+    $::in{'system'} = "check:".$stts{'check'};
+    unitEdit($::in{'name'}, \%stts);
+  }
+  #レディチェック
+  elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
+    $::in{'name'} = "SYSTEM by $::in{'player'}";
+    $::in{'comm'} = "レディチェックを開始しました。";
+    $::in{'system'} = "ready";
+    delete $::in{'color'};
+    checkReset();
+  }
+  #削除
+  elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
+    my $name = $1 ? $1 : $::in{'name'};
+    $::in{'name'} = "SYSTEM by $::in{'player'}";
+    $::in{'comm'} = "ユニット「${name}」を削除しました。";
+    $::in{'system'} = "unit-delete:${name}";
+    delete $::in{'color'};
+    unitDelete($name);
+  }
+  #変更
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
+    my %stts;
+    foreach (split(' ', $1)){
+      $_ =~ tr/０-９＋－／＊＝：/0-9\+\-\/\*=:/;
+      if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*]*)$/){
+        my ($type, $op, $num) = ($1,$2,$3);
+        my ($result, $diff) = sttCalc($type,$num,$op);
+        $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
+        $::in{'info'} .= " [$diff]" if ($diff ne '');
+        $::in{'system'} = "unit";
+        $stts{$type} = $result;
+      }
+      elsif($_ =~ /^($stt_commands)[=:](.*)$/){
+        my ($type, $result) = ($1,$2);
+        $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
+        $::in{'system'} = "unit";
+        $stts{$type} = $result;
+      }
+    }
+    unitEdit($::in{'name'}, \%stts);
+  }
+  # トピック処理
+  elsif($::in{'comm'} =~ s</topic(\s|$)><>i){
+    topicEdit($::in{'comm'});
+    $::in{'tab'} = '1';
+    $::in{'system'} = 'topic';
+    $::in{'name'} = "TOPIC by $::in{'player'}";
+    $::in{'info'} = "$::in{'comm'}";
+    $::in{'comm'} = $::in{'comm'} ? "" : "削除しました" ;
+    delete $::in{'color'};
+  }
+  # メモ処理
+  elsif($::in{'comm'} =~ s</memo([0-9]*)(\s|$)><>i){
+    my $new = $1 eq '' ? 1 : 0;
+    error('メモの内容がありません。') if ($new && !$::in{'comm'});
+    my $num = memoEdit($1, $::in{'comm'});
+    $::in{'tab'} = '1';
+    $::in{'system'} = 'memo:'.$num;
+    $::in{'name'} = "SYSTEM by $::in{'player'}";
+    $::in{'info'} = "$::in{'comm'}";
+    $::in{'comm'} = "共有メモ(".($num+1).")を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
+  }
+  # ダイス処理
+  elsif($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
+    require './lib/pl/dice.pl';
+    ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
+    if($::in{'info'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
+  }
 }
 
 my @time = localtime(time);

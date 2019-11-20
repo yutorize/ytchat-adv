@@ -18,8 +18,8 @@
   <article id="contents">
     <h2>ゲームルーム一覧</h2>
     <table class="list">
-      <thead><tr><th>ゲームルーム名</th><th>ゲームシステム</th></tr></thead>
-      <TMPL_LOOP List><tr><th><a href="./?mode=room&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></th><td><TMPL_VAR GAME></td></tr></TMPL_LOOP>
+      <thead><tr><th>ゲームルーム名</th><th>ゲームシステム</th><th>ログ</th></tr></thead>
+      <TMPL_LOOP List><tr><th><a href="./?mode=room&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></th><td><TMPL_VAR GAME></td><td><a href="./?mode=logs&id=<TMPL_VAR ID>">▶</a></td></tr></TMPL_LOOP>
     </table>
   </article>
   <footer>

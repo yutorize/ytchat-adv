@@ -11,17 +11,11 @@ my $id = $::in{'id'}; #部屋ID
 my %rooms = %set::rooms;
 my %games = %set::games;
 
-my @tabs = split(',', $rooms{$id}{'tab'});
-
 ###################
 ### 部屋の有無をチェック
-error('ルームがありません') if !exists($rooms{$id});
+error('データがありません') if !exists($rooms{$id}) && !$::in{'date'};
 
-###################
-### ディレクトリが無い場合
-if (!-d "./room/${id}"){
-  error('ログデータがありません');
-}
+my @tabs = split(',', $rooms{$id}{'tab'});
 
 ###################
 ### テンプレート読み込み
@@ -36,26 +30,12 @@ $ROOM = HTML::Template->new(
   global_vars => 1
 );
 
-
-
-###################
-### 過去ログ一覧
-opendir(my $DIR,"./logs/");
-my @loglist;
-foreach my $name (readdir($DIR)){
-  next if ($name eq '.');
-  $name =~ s/\..+?$//;
-  push(@loglist, {'NAME' => $name});
-}
-closedir($DIR);
-$ROOM->param(LogList => \@loglist);
-
-
 ###################
 ### ログ本体
 
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
+$ROOM->param(subtitle => $::in{'date'});
 
 my $logfile = $::in{"date"} ? "./logs/".$::in{"date"}.".dat" : "./room/${id}/log-all.dat";
 sysopen (my $FH, $logfile, O_RDONLY);
@@ -65,19 +45,26 @@ my $before_name;
 my $before_color;
 my $before_user;
 foreach (<$FH>){
+  if($_ =~ s/^>//) {
+    my ($name, $tab) = split(/<>/, $_);
+    $ROOM->param(title => $name);
+    @tabs = split(',', $tab);
+    next;
+  }
+  
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
   
      $user =~ s/<.+?>$//;
-  my $type = ($system =~ /^check|round/) ? 'dice' : ($system) ? $system : 'dice';
+  my $type = ($system =~ /^(check|round|dice)/) ? 'dice' : $system;
      $type =~ s/:.*?$//;
-  my $game;
+  my $game = ($system =~ /^dice:(.*)$/) ? $1 : '';
   if($info){
     if($system =~ /^dice/){
       $info =~ s|(\[.*?\])|<i>$1</i>|g;
       $info =~ s| = ([0-9a-z.∞]+)$| = <strong>$1</strong>|gi;
       $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
       #クリティカルをグラデにする
-      my $crit = () = $info =~ s/(クリティカル!\])/$1<em>/g;
+      my $crit = $info =~ s/(クリティカル!\])/$1<em>/g;
       while($crit > 0){ $info .= "</em>"; $crit--; }
       #ファンブル用の色適用
       if($info =~ /1ゾロ|ファンブル/){ $info = "<em class='fail'>$info</em>"; }
@@ -88,7 +75,7 @@ foreach (<$FH>){
       $info =~ s| (\[.*?\])| <i>$1</i>|g;
     }
   }
-  
+  if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   
   if ( $before_tab   ne $tab
     || $before_name  ne $name
@@ -121,6 +108,35 @@ foreach (<$FH>){
 }
 close($FH);
 $ROOM->param(Logs => \@logs);
+
+###################
+### タブ一覧
+my @tablist;
+foreach my $num (0 .. $#tabs){
+  push(@tablist, {'NUM' => $num+1, 'NAME' => $tabs[$num]});
+}
+$ROOM->param(TabList => \@tablist);
+
+###################
+### 部屋一覧
+my @roomlist;
+foreach my $id (sort keys %rooms){
+  next if ($rooms{$id}{'secret'});
+  push(@roomlist, {'ID' => $id, 'NAME' => $rooms{$id}{'name'}});
+}
+$ROOM->param(RoomList => \@roomlist);
+
+###################
+### 過去ログ一覧
+opendir(my $DIR,"./logs/");
+my @loglist;
+foreach my $name (readdir($DIR)){
+  next if ($name eq '.');
+  $name =~ s/\..+?$//;
+  push(@loglist, {'NAME' => $name});
+}
+closedir($DIR);
+$ROOM->param(LogList => \@loglist);
 
 ###################
 ### 出力
