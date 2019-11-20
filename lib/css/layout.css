@@ -80,6 +80,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 #round {
   flex-shrink: 0;
@@ -497,13 +498,18 @@ body.rom .input-form { display: none !important; }
 #status {
   position: relative;
   padding-bottom: 1em;
+  display: grid;
+  overflow: hidden;
+}
+#status #status-body {
+  overflow: auto;
 }
 #status dl {
   position: relative;
   padding: .3rem 0;
   border-width: 0 0 .1rem;
   border-style: solid;
-  border-color: rgba(255,255,255,0.1);
+  border-color: rgba(127,127,127,0.4);
 }
 #status dl dt {
   padding: 0 0 .1em;
@@ -524,8 +530,8 @@ body.rom .input-form { display: none !important; }
 }
 #status .add.button {
   position: absolute;
-  bottom: .2em;
-  right: .2em;
+  bottom: .1em;
+  right: .1em;
 }
 
 /* // 共有メモ
@@ -533,11 +539,57 @@ body.rom .input-form { display: none !important; }
 .memo {
   position: relative;
   padding-bottom: 1em;
+  overflow: auto;
+  flex-shrink: 0;
 }
-.memo .edit.button {
+.memo #memo-list {
+}
+.memo ul#memo-list {
+}
+.memo ul#memo-list li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: .3em 0;
+  border-bottom: .1rem solid rgba(127,127,127,0.4);
+}
+.memo ul#memo-list li:empty {
+  display: none;
+}
+.memo ul#memo-list li[onclick]:hover {
+  cursor: pointer;
+  background: rgba(255,150,0,0.3);
+}
+.memo .add.button {
   position: absolute;
-  top: .2em;
-  right: .2em;
+  bottom: .1em;
+  right: .1em;
+}
+
+
+.sheet .sheet-memo-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto max-content 1fr;
+  grid-gap: 1rem;
+  text-align: right;
+  overflow-y: hidden;
+}
+.sheet .sheet-memo-body .sheet-memo-outline {
+  grid-row: 2;
+  margin-top: 1em;
+  padding: 0;
+  border: .1rem solid rgba(127,127,127,0.8);
+  border-radius: .5rem;
+  overflow-y: auto;
+}
+.sheet #sheet-memo-value {
+  border: 0;
+  line-height: 1.4;
+}
+.sheet .sheet-memo-body > button {
+  margin: 0 calc(50% - 5em);
+  grid-row: 3;
 }
 
 /* // ユニットシート
@@ -584,7 +636,7 @@ body.rom .sheet { display: none !important; }
   display: grid;
   grid-template-rows: auto 1fr auto;
   margin-top: 0.5rem;
-  border-top: 1px solid rgba(255,255,255,0.2);
+  border-top: .1rem solid rgba(127,127,127,0.5);
 }
 .sheet-body .chat-palette-palette-area {
   position: relative;
@@ -601,7 +653,7 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body select.chat-palette option {
   padding: .4rem .5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: .1rem solid rgba(127,127,127,0.5);
 }
 .sheet-body .chat-palette-palette-area textarea {
   line-height: calc(1em + .9rem);
@@ -778,7 +830,7 @@ body.rom .sheet { display: none !important; }
 #enter-form p {
   padding: 3em 5em;
   text-align: center;
-  border-bottom: 1px solid rgba(127,127,127,0.5);
+  border-bottom: .1rem solid rgba(127,127,127,0.5);
 }
 #exit-form {
   max-height: 16em;

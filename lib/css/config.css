@@ -44,7 +44,7 @@ a[href]:hover   { color: #ffffff; }
 .sheet .close-area {
   background: rgba(0,0,0,0.8);
 }
-/* チャット */
+/* チャットログ */
 .chat h2 {
   background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
 }
@@ -65,7 +65,7 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd:hover {
   background-color:rgba(100,200,255,0.1) !important;
 }
-/* チャット：システムメッセージ */
+/* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #ccc;
   font-size: 90%;
@@ -90,12 +90,22 @@ a[href]:hover   { color: #ffffff; }
   -webkit-text-emphasis: none;
           text-emphasis: none;
 }
+/* チャットログ：トピック操作 */
 .logs dl dd.topic {
   color: #afa;
 }
 .logs dl dd.topic::before {
   color: #0c2;
 }
+/* チャットログ：メモ操作 */
+.logs dl dd.memo {
+  color: #afa;
+}
+.logs dl dd.memo::before {
+  color: #0c2;
+}
+
+/* チャットログ：ユニット操作 */
 .logs dl dd.unit {
   color: #acf;
 }
@@ -105,7 +115,7 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.unit::before {
   color: #07d;
 }
-/* チャット：ダイス */
+/* チャットログ：ダイス */
 .logs dl dd.dice::before {
   color: #f33;
 }
@@ -135,7 +145,7 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.dice .division {
   filter: grayscale(50%);
 }
-/* チャット：威力表 */
+/* チャットログ：威力表 */
 .logs dl dd.dice[data-game="sw"] { color: #ea6; }
 .logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
 .logs dl dd.dice[data-game="sw"] em em { color: #ee875c; }
@@ -149,7 +159,7 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
 .logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
 
-/* チャット：ダブルクロス */
+/* チャットログ：ダブルクロス */
 .logs dl dd.dice[data-game="dx"] { color: #9999ff; }
 .logs dl dd.dice[data-game="dx"] em { color: #a18feb; }
 .logs dl dd.dice[data-game="dx"] em em { color: #aa85d7; }
@@ -163,11 +173,15 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.dice[data-game="dx"] em em em em em em em em em em { color: #ee3333; }
 .logs dl dd.dice[data-game="dx"] em.fail { color: #888; }
 
-/* チャット：タイムスタンプ */
+/* チャットログ：タイムスタンプ */
 .logs dl dd:after {
   color: #5af;
   letter-spacing: 0rem;
   text-shadow: none;
+}
+/* チャットログ：ボタン */
+.logs dl dd button {
+  vertical-align: text-bottom;
 }
 
 /* // デフォルト設定：ログ
@@ -186,7 +200,7 @@ a[href]:hover   { color: #ffffff; }
   opacity: 0.3;
 }
 /* 共有メモ */
-#memo-body:empty::before {
+#memo-list:empty::before {
   content: '共有メモ';
   opacity: 0.3;
 }

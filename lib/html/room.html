@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.00.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.00.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.00.0">
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.03.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.03.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.03.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="lib/js/lib/autosize.min.js" defer></script>
   <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/ui.js?0.00.0" defer></script>
-  <script src="lib/js/chat.js?0.00.0" defer></script>
+  <script src="lib/js/ui.js?0.03.0" defer></script>
+  <script src="lib/js/chat.js?0.03.0" defer></script>
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -50,24 +50,7 @@
     
     <!-- CHAT-AREA -->
     <div id="chat-closes-area"></div>
-    <div id="chat-area">
-<!--
-    <div class="box chat main" id="chat-tab1" data-tab="1">
-      <h2><label><input type="radio" id="check-maintab-tab1" name="check-maintab" value="1" checked><span>タブ1</span></label></h2>
-      <div class="logs" id="chat-logs-tab1"></div>
-      <div class="input-form">
-        <div class="comm-area">
-        <textarea type="text" class="form-comm autosize" id="form-comm-tab1" rows="1" placeholder="Shift+Enterで改行"></textarea>
-        <button onclick="formSubmit('form-comm-tab1');">送信</button>
-        </div>
-      </div>
-      <div class="option">
-        <input class="option-fontsize-tab" type="range" min="80" max="120" step="1" value="100">
-      </div>
-      <span class="close button">×</span>
-    </div>
--->
-    </div>
+    <div id="chat-area"></div>
     <!-- / CHAT-AREA -->
     
     <!-- FORM-AREA -->
@@ -112,6 +95,7 @@
     </div>
     <!-- / FORM-AREA -->
     
+    <!-- SIDE-AREA -->
     <div id="sidebar">
       <div class="box" id="round">
         <div class="bold" id="round-value">ラウンド: 0</div>
@@ -125,10 +109,11 @@
         <span class="add button" onclick="sheetSelect('default')">+</span>
       </div>
       <div class="box memo">
-        <div id="memo-body"></div>
-        <span class="edit button" style="cursor:not-allowed;">🖋</span>
+        <ul id="memo-list" class="bold"></ul>
+        <span class="add button" onclick="memoSelect('')">+</span>
       </div>
     </div>
+    <!-- / SIDE-AREA -->
     <!-- FOOTER -->
     <div class="box" id="footer">
       <dl>
@@ -143,57 +128,6 @@
     <!-- / FOOTER -->
   
     <!-- SHEET-->
-<!--
-    <div class="box sheet" id="sheet-unit1">
-      <h2 style="color:#FFFFFF">PC1</h2>
-      <div class="sheet-body">
-        <p class="right">
-          <input type="url" placeholder="キャラクターシートURL">
-          <button>データ読込</button>
-        </p>
-        <div class="status-remocon-area">
-          <h3>ステータスリモコン</h3>
-          <ul>
-            <li class="dice-button"><button>HP</button><input type="text"></li>
-            <li class="dice-button"><button>maxHP</button><input type="text"></li>
-            <li class="dice-button"><button>MP</button><input type="text"></li>
-            <li class="dice-button"><button>maxMP</button><input type="text"></li>
-            <li class="dice-button"><button>防</button><input type="text"></li>
-            <li class="dice-button"><button>行動完了</button></li>
-          </ul>
-        </div>
-        <div class="chat-palette-area">
-          <h3>チャットパレット</h3>
-          <div class="chat-palette-palette-area">
-            <select id="chat-palette-unit1" class="chat-palette" data-id="unit1" size="2">
-              <option value="チャットパレット入力例：">チャットパレット入力例：</option>
-              <option value="2d6+{冒険者}+{知力}">2d6+{冒険者}+{知力}</option>
-              <option value="r18+{追加D} ダメージ！">r18+{追加D} ダメージ！</option>
-              <option value="//冒険者=3">//冒険者=3</option>
-              <option value="//ファイター=3">//ファイター=3</option>
-              <option value="//知力=2">//知力=2</option>
-              <option value="//筋力=3">//筋力=3</option>
-              <option value="//追加D={ファイター}+{筋力}">//追加D={ファイター}+{筋力}</option>
-              <option value="クリックで↓の入力欄にコピー">クリックで↓の入力欄にコピー</option>
-              <option value="ダブルクリックで即送信">ダブルクリックで即送信</option>
-            </select>
-            <textarea id="chat-palette-edit-unit1" class="chat-palette" style="display:none"></textarea>
-            <span class="edit button" id="chat-palette-button-open-unit1" onclick="paletteEditOpen('unit1')">🖋編集</span>
-            <span class="edit button" id="chat-palette-button-save-unit1" onclick="paletteEditSave('unit1')" style="display:none">✔確定</span>
-          </div>
-          <div class="comm-area">
-            <textarea id="chat-palette-comm-unit1" class="form-comm autosize" rows="1" data-palette-target="unit1"></textarea>
-            <button onclick="formSubmit('chat-palette-comm-unit1');">送信</button>
-          </div>
-        </div>
-      </div>
-      <div class="sheet-footer">
-        <textarea id="" class="autosize" placeholder="メモ" rows="2"></textarea>
-      </div>
-      <span class="close button" onclick="sheetClose();">×</span>
-      <div class="close-area" onclick="sheetOpen();"></div>
-    </div>
--->
     <div id="sheet-unit-default" class="box sheet">
       <h2>ユニット追加</h2>
       <div class="sheet-body-default">
@@ -208,6 +142,16 @@
       <div class="close-area" onclick="sheetOpen();"></div>
       <span class="close button" onclick="sheetClose();">×</span>
     </div>
+    <div id="sheet-unit-memo" class="box sheet">
+      <h2>共有メモ</h2>
+      <div class="sheet-memo-body">
+        <div class="sheet-memo-outline"><textarea id="sheet-memo-value" class="autosize"></textarea></div>
+        <button onclick="memoSubmit();">追加／更新</button>
+      </div>
+      <div class="close-area" onclick="sheetOpen();"></div>
+      <span class="close button" onclick="sheetClose();">×</span>
+    </div>
+    <!-- / SHEET-->
     
   </div><!-- / BASE -->
   
@@ -258,7 +202,7 @@
       <input type="text" id="in-name"><br>
       <br>
       名前色<br>
-      <input type="color" id="in-color" class="selectcolor-in" list="color-list"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list"><br>
+      <input type="color" id="in-color" class="selectcolor-in" list="color-list" value="#FFFFFF"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list" value="#FFFFFF"><br>
       <br>
       <button onclick="enterRoom();">入室</button>
     </p>

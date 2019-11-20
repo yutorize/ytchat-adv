@@ -72,18 +72,13 @@ elsif($::in{'system'} eq 'exit'){
   delete $::in{'color'};
   unitDelete($::in{'player'});
 }
-# ダイス処理
-if($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
-  require './lib/pl/dice.pl';
-  ($::in{'dice'}, $::in{'system'}) = diceCheck($::in{'comm'});
-  if($::in{'dice'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
-}
+
 # ラウンド処理
-if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?:\s|$)//i){
+if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
   my $num = roundChange($1);
   $::in{'name'} = "SYSTEM by $::in{'player'}";
   $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
-  $::in{'dice'} = "ラウンド: ${num}";
+  $::in{'info'} = "ラウンド: ${num}";
   $::in{'system'} = "round:".$num;
 }
 # ユニット処理
@@ -91,12 +86,12 @@ if($::in{'comm'} =~ s/^\/round([+\-][0-9])(?:\s|$)//i){
 elsif($::in{'comm'} =~ s/^[@＠](check|cancel)(?:\s|$)//i){
   my %data;
   $data{'check'} = $1 eq 'check' ? 1 : 0;
-  $::in{'dice'} = 'チェック：'.($data{'check'} ? '✔' : '×');
+  $::in{'info'} = 'チェック：'.($data{'check'} ? '✔' : '×');
   $::in{'system'} = "check:".$data{'check'};
   unitEdit($::in{'name'}, \%data);
 }
 #レディチェック
-elsif($::in{'comm'} =~ s/^\/ready(?:\s|$)//i){
+elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
   $::in{'name'} = "SYSTEM by $::in{'player'}";
   $::in{'comm'} = "レディチェックを開始しました。";
   $::in{'system'} = "ready";
@@ -120,14 +115,14 @@ elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.
     if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*]*)$/){
       my ($type, $op, $num) = ($1,$2,$3);
       my ($result, $diff) = sttCalc($type,$num,$op);
-      $::in{'dice'} .= ($::in{'dice'} ? ' ' : '') . "$type:$result";
-      $::in{'dice'} .= " [$diff]" if ($diff ne '');
+      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
+      $::in{'info'} .= " [$diff]" if ($diff ne '');
       $::in{'system'} = "unit";
       $stts{$type} = $result;
     }
     elsif($_ =~ /^($stt_commands)[=:](.*)$/){
       my ($type, $result) = ($1,$2);
-      $::in{'dice'} .= ($::in{'dice'} ? ' ' : '') . "$type:$result";
+      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
       $::in{'system'} = "unit";
       $stts{$type} = $result;
     }
@@ -135,21 +130,38 @@ elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.
   unitEdit($::in{'name'}, \%stts);
 }
 # トピック処理
-if($::in{'comm'} =~ s%/topic(\s|$)%%i){
+elsif($::in{'comm'} =~ s</topic(\s|$)><>i){
   topicEdit($::in{'comm'});
   $::in{'tab'} = '1';
   $::in{'system'} = 'topic';
   $::in{'name'} = "TOPIC by $::in{'player'}";
-  $::in{'dice'} = "$::in{'comm'}";
+  $::in{'info'} = "$::in{'comm'}";
   $::in{'comm'} = $::in{'comm'} ? "" : "削除しました" ;
   delete $::in{'color'};
+}
+# メモ処理
+elsif($::in{'comm'} =~ s</memo([0-9]*)(\s|$)><>i){
+  my $new = $1 eq '' ? 1 : 0;
+  error('メモの内容がありません。') if ($new && !$::in{'comm'});
+  my $num = memoEdit($1, $::in{'comm'});
+  $::in{'tab'} = '1';
+  $::in{'system'} = 'memo:'.$num;
+  $::in{'name'} = "SYSTEM by $::in{'player'}";
+  $::in{'info'} = "$::in{'comm'}";
+  $::in{'comm'} = "共有メモ(".($num+1).")を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
+}
+# ダイス処理
+elsif($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
+  require './lib/pl/dice.pl';
+  ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
+  if($::in{'info'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
 }
 
 my @time = localtime(time);
 my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$time[3],$time[2],$time[1],$time[0]);
 
 # 最終チェック
-error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'dice'} eq '');
+error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
 
 # カウンター
 sysopen(my $NUM, $dir."log-num-$::in{'logKey'}.dat", O_RDWR | O_CREAT, 0666) or error "log-num-$::in{'logKey'}.datが開けません";
@@ -160,7 +172,7 @@ seek($NUM, 0, 0);
 $counter++;
 
 ## 新規データ
-my $line = "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'dice'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>\n";
+my $line = "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'info'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>\n";
 
 # 過去ログに追加
 sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND | O_CREAT, 0666) or error "log-all.datが開けません";
@@ -202,6 +214,26 @@ sub topicEdit {
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
+}
+sub memoEdit {
+  my $num  = shift;
+  my $memo = shift;
+  $memo =~ s/<br>/\n/g;
+  
+  my %data;
+  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  if($num eq ''){ push(@{$data{'memo'}}, $memo); $num = $#{$data{'memo'}}; }
+  else{ $data{'memo'}[$num] = $memo; }
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+  
+  return $num;
 }
 
 sub tabEdit {
