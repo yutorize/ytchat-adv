@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.03.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.03.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.03.0">
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.04.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="lib/js/lib/autosize.min.js" defer></script>
   <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/ui.js?0.03.0" defer></script>
-  <script src="lib/js/chat.js?0.03.0" defer></script>
+  <script src="lib/js/ui.js?0.04.0" defer></script>
+  <script src="lib/js/chat.js?0.04.0" defer></script>
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -175,10 +175,9 @@
     <textarea class="autosize" id="edit-npc-value"></textarea>
     <button onclick="npcSave('edit-npc-value');boxClose('edit-npc');">決定</button>
     </div>
-    ※「名前&lt;&gt;名前色」の書式。<br>
-    　改行で区切ります。<br>
-    ※名前色を省略すると、<br>
-    　自動的に白（#FFFFFF）を割り当て
+    ※改行で区切ります。<br>
+    ※色は名前末尾に6桁のカラーコードで指定。<br>
+    　省略すると、ランダムな色を割り当て。
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
   </div>
   <div class="float-box" id="other-form">
