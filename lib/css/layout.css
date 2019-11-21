@@ -9,44 +9,44 @@ body {
   height: 100vh;
   display: grid;
   grid-gap: 1rem;
-  grid-template-rows: 2em max-content max-content 1fr max-content max-content;
   grid-template-columns: 1fr 12em max-content;
+  grid-template-rows: 2em max-content max-content 1fr max-content max-content;
 }
 #menubar {
-  grid-row: 1;
   grid-column: 1 / span 2;
+  grid-row: 1;
 }
 #topic {
-  grid-row: 2;
   grid-column: 1;
+  grid-row: 2;
 }
 #chat-closes-area {
-  grid-row: 3;
   grid-column: 1;
+  grid-row: 3;
 }
 #chat-area {
-  grid-row: 4;
   grid-column: 1;
+  grid-row: 4;
 }
 .chat.main {
 }
 .chat.sub {
 }
 #sidebar {
-  grid-row: 2 / span 3;
   grid-column: 2;
+  grid-row: 2 / span 3;
 }
 #main-form {
-  grid-row: 5;
   grid-column: 1 / span 3;
+  grid-row: 5;
 }
 #footer {
-  grid-row: 6;
   grid-column: 1 / span 3;
+  grid-row: 6;
 }
 .sheet {
-  grid-row: 1 / span 4;
   grid-column: 3;
+  grid-row: 1 / span 4;
   margin-right: -2rem;
 }
 /* チャットエリア */
@@ -222,7 +222,6 @@ body {
   content: "(" attr(data-unread) ")";
 }
 .chat.close .tab-name {
-  content: "(" attr(data-unread) ")";
   color: #ffcc00;
 }
 .chat.close .tab-name::after {

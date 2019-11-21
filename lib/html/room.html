@@ -6,14 +6,15 @@
   <title><TMPL_VAR title> - ゆとチャadv.</title>
   <link rel="stylesheet" media="all" href="lib/css/base.css?0.04.0">
   <link rel="stylesheet" media="all" href="lib/css/layout.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout-sp.css?0.04.0">
   <link rel="stylesheet" media="all" href="lib/css/config.css?0.04.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="lib/js/lib/autosize.min.js" defer></script>
   <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/ui.js?0.04.0" defer></script>
-  <script src="lib/js/chat.js?0.04.0" defer></script>
+  <script src="lib/js/ui.js?0.04.1" defer></script>
+  <script src="lib/js/chat.js?0.04.1" defer></script>
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -29,7 +30,7 @@
     <div class="box" id="menubar">
     <ul>
       <li><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
-      <li onclick="sheetSelect('default');"><a>ユニット</a></li>
+      <li onclick="sheetSelect('default');sheetOpen();"><a>ユニット</a></li>
       <li><a style="cursor:not-allowed;">背景</a></li>
       <li><a style="cursor:not-allowed;">サウンド</a></li>
       <li><a onclick="boxOpen('other-form');">その他設定</a></li>
@@ -106,7 +107,7 @@
       </div>
       <div class="box" id="status">
         <div id="status-body"></div>
-        <span class="add button" onclick="sheetSelect('default')">+</span>
+        <span class="add button" onclick="sheetSelect('default');sheetOpen();">+</span>
       </div>
       <div class="box memo">
         <ul id="memo-list" class="bold"></ul>
