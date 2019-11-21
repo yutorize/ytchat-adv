@@ -227,11 +227,20 @@
   </div>
   <div class="float-box" id="help-window">
     <h2>ヘルプ</h2>
+    
     <div class="box-body">
+    <h3>キーボードショートカット</h3>
+    <table>
+      <tr><th>キー</th><th>説明</th></tr>
+      <tr><th>Ctrl+↑<br>Ctrl+↓</th><td>名前の選択を変更する。</td></tr>
+      <tr><th>Ctrl+←<br>Ctrl+→</th><td>メインのタブを変更する。</td></tr>
+    </table>
+    
     <h3>テキストコマンド</h3>
     <p>テキストコマンドは、原則として発言の行頭に記述する必要があります。</p>
     <table>
       <tr><th>コマンド</th><th>説明</th></tr>
+      <tr><th>名前@発言</th><td>「名前」で「発言」内容を送信する。<br>名前欄・ユニット欄にある名前のみ有効。<br>また、他のコマンドと併用可。</td></tr>
       <tr><th>@ステータス名:文字列 </th><td>「ステータス」を「文字列」で更新する。<br>例: <code>@HP:25/25</code>、<code>@MP:なし</code></td></tr>
       <tr><th>@ステータス名=数値   </th><td>「ステータス」の現在値を「数値」にする。<br>例: <code>@HP=-5</code></td></tr>
       <tr><th>@ステータス名+数値   </th><td>「ステータス」の現在値に「数値」を加算する。<br>例: <code>@HP+8 リカバリィで回復。</code></td></tr>
@@ -249,7 +258,7 @@
         　このさい、２つ目以降のステータス名の前に@は不要です。<br>
         例: <code>@HP:25/25 MP:10/10 防護:4</code>、<code>@HP-12 MP-12</code>
       </td></tr>
-      <tr><th>名前@delete     </th><td>「名前」のユニットを削除する。<br>名前を省略した場合、発言者と同名のユニットを削除する。</td></tr>
+      <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
       <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
       <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
       <tr><th>/ready       </th><td>「レディチェックを開始しました」の文言とともに、ユニットの✔を全て外す。</td></tr>
