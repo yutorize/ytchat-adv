@@ -303,8 +303,16 @@ body {
 /* フォントサイズ調整バー */
 .chat .option {
   position: absolute;
-  top: 0;
-  right: 2em;
+  top: .3rem;
+  right: 3rem;
+  font-size: 1rem;
+}
+.chat .option::before {
+  content: "フォントサイズ";
+  display: block;
+  text-align: center;
+  text-shadow: none;
+  opacity: 0.8;
 }
 .chat .option input[type="range"] {
   width: 10rem;
@@ -479,7 +487,8 @@ body.rom .input-form { display: none !important; }
 .form-dice {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+  grid-gap: .3rem 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: max-content;
   padding-right: 2rem;
 }
@@ -491,6 +500,54 @@ body.rom .input-form { display: none !important; }
 .form-dice .edit.button + .edit.button {
   bottom: 2.4rem;
 }
+.form-dice .edit.button + .edit.button + .edit.button {
+  bottom: 4.8rem;
+}
+.form-dice .dice-button {
+  grid-template-columns: auto 1fr auto;
+  width: 100%;
+  margin: 0;
+  overflow: visible;
+}
+.form-dice .dice-button button   { grid-column: 3; grid-row: 1; }
+.form-dice .dice-button textarea { grid-column: 2; grid-row: 1; }
+.form-dice .dice-button i        { grid-column: 1; grid-row: 1; }
+.form-dice .dice-button button   {
+  border-width: 0 0 0 .1rem;
+  border-radius: 0 .5em .5em 0;
+}
+.form-dice .dice-button button::before {
+  content: "⏎";
+}
+.form-dice .dice-button i {
+  position: relative;
+  display: block;
+  width: 2.4em;
+  cursor: pointer;
+  border-width: 0 .1rem 0 0;
+  border-radius: .5em 0 0 .5em;
+}
+.form-dice .dice-button i::before {
+  position: absolute;
+  top: .2rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+  font-size: 1.6rem;
+  line-height: 1;
+  font-style: normal;
+  text-shadow: none
+}
+.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); }
+.form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); }
+.form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); }
+.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); }
+.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "🎲"; }
+.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "📛"; }
+.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "🗨"; }
+.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "📝"; }
 
 /* // ステータス
 ---------------------------------------------------------------------------------------------------- */

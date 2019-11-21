@@ -21,7 +21,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
 }
-input,textarea,select, button, .button {
+input,textarea,select, button, .button, .dice-button {
   padding: .0rem .5rem;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: .8rem;
@@ -217,16 +217,23 @@ em {
   display: inline-grid;
   grid-template-columns: auto 1fr;
   margin: 0 1rem .3rem 0;
+  padding: 0;
+  border-radius: .5em ;
+  border-width: 1px;
+  overflow: hidden;
+  background: transparent;
 }
 .dice-button > * {
   vertical-align: bottom;
   font-size: 1.1rem;
   color: #fff;
+  border-width: 0;
+  border-radius: 0;
 }
 .dice-button button {
   padding: 0 .5em;
-  border-radius: .5em 0 0 .5em;
   cursor: pointer;
+  border-right-width: .1rem;
 }
 .dice-button button::before {
   content: '🎲';
@@ -238,8 +245,6 @@ em {
   width: 100%;
   height: auto;
   padding: .3rem .3rem;
-  border-radius: 0 .5em .5em 0;
-  border-width: 1px 1px 1px 0;
   text-shadow: none;
   font-size: 1.4rem;
 }

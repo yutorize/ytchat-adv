@@ -88,9 +88,10 @@
         <div class="form-dice">
           <span class="edit button" onclick="diceDel();">－</span>
           <span class="edit button" onclick="diceAdd();">＋</span>
-          <div class="dice-button"><button onclick="formSubmit('dice-button-1');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-1" data-lock="on"></div>
-          <div class="dice-button"><button onclick="formSubmit('dice-button-2');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-2" data-lock="on"></div>
-          <div class="dice-button"><button onclick="formSubmit('dice-button-3');"></button><input type="text" value="2d6" class="form-comm" id="dice-button-3" data-lock="on"></div>
+          <span class="edit button" onclick="diceScale();">⇔</span>
+          <div><div class="dice-button"><button onclick="formSubmit('dice-button-1');"></button><textarea class="form-comm autosize" id="dice-button-1" data-lock="full" rows="1">2d6</textarea><i onclick="lockTypeChange(1);"></i></div></div>
+          <div><div class="dice-button"><button onclick="formSubmit('dice-button-2');"></button><textarea class="form-comm autosize" id="dice-button-2" data-lock="full" rows="1">2d6</textarea><i onclick="lockTypeChange(2);"></i></div></div>
+          <div><div class="dice-button"><button onclick="formSubmit('dice-button-3');"></button><textarea class="form-comm autosize" id="dice-button-3" data-lock="full" rows="1">2d6</textarea><i onclick="lockTypeChange(3);"></i></div></div>
         </div>
       </div>
     </div>
