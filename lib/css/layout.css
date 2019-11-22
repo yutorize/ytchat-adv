@@ -546,7 +546,7 @@ body.rom .input-form { display: none !important; }
 .form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); }
 .form-dice .dice-button textarea[data-lock="full"] + i::before { content: "🎲"; }
 .form-dice .dice-button textarea[data-lock="name"] + i::before { content: "📛"; }
-.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "🗨"; }
+.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "💬"; }
 .form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "📝"; }
 
 /* // ステータス
@@ -841,6 +841,29 @@ body.rom .sheet { display: none !important; }
 
 /* // 各フロートボックス
 ---------------------------------------------------------------------------------------------------- */
+.float-box p {
+  margin: .5em;
+}
+.float-box table {
+  margin: .5em;
+  border-width: .1rem;
+  border-style: solid;
+  border-collapse: collapse;
+}
+.float-box table tr {
+  border-width: 0 0 .1rem;
+  border-style: solid;
+}
+.float-box table th,
+.float-box table td {
+  padding: .5rem 1rem;
+}
+.float-box table th,
+.float-box table td {
+  border-right-width: .1rem;
+  border-right-style: dotted;
+  border-color: inherit;
+}
 #edit-topic {
   top: 5em;
   left: 1.5em;
@@ -872,11 +895,15 @@ body.rom .sheet { display: none !important; }
   max-height: 80vh;
   margin-top: .1rem;
 }
-#other-form {
+#config-sound table tr td:last-child {
+  width: 4.5em;
+  text-align: right;
+}
+#config-other {
   z-index: 1000;
 }
-#other-form p {
-  padding: .6em;
+#config-other p {
+  padding: .5em;
   line-height: 1.6;
 }
 #enter-form {
@@ -902,29 +929,6 @@ body.rom .sheet { display: none !important; }
   overflow: auto;
   max-width: 50em;
   padding-bottom: 2em;
-}
-#help-window p {
-  margin: .5em;
-}
-#help-window table {
-  margin: .5em;
-  border-width: .1rem;
-  border-style: solid;
-  border-collapse: collapse;
-}
-#help-window table tr {
-  border-width: 0 0 .1rem;
-  border-style: solid;
-}
-#help-window table th,
-#help-window table td {
-  padding: .5rem 1rem;
-}
-#help-window table th,
-#help-window table td {
-  border-right-width: .1rem;
-  border-right-style: dotted;
-  border-color: inherit;
 }
 #help-window code {
   display: inline-block;
