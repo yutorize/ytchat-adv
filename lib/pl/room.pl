@@ -15,6 +15,8 @@ my %games = %set::games;
 ### 部屋の有無をチェック
 error('ルームがありません') if !exists($rooms{$id});
 
+my @tabs = $rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サブ'); 
+
 ###################
 ### ディレクトリ・ファイルが無い場合
 my $key = random_key(4);
@@ -25,7 +27,7 @@ if (!-f "./room/${id}/room.dat"){
   sysopen (my $FH, "./room/${id}/room.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
     print $FH '{"tab":{';
     my $i = 0;
-    foreach my $tab (@{$rooms{$id}{'tab'}}){
+    foreach my $tab (@tabs){
       print $FH ',' if $i;
       $i++;
       print $FH '"'.$i.'":"'.$tab.'"';
@@ -42,7 +44,7 @@ if (!-f "./room/${id}/room.dat"){
 }
 if (!-f "./room/${id}/log-all.dat"){
   sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    print $FH ">$rooms{$id}{'name'}<>".join(',',@{$rooms{$id}{'tab'}})."\n";
+    print $FH ">$rooms{$id}{'name'}<>".join(',',@tabs)."\n";
   close($FH);
 }
 if (!-f "./room/${id}/log-pre.dat"){
@@ -71,15 +73,21 @@ $ROOM->param(title => $rooms{$id}{'name'});
 
 my $game = $rooms{$id}{'game'};
 $ROOM->param(gameSystem => $game);
-$ROOM->param(gameSystemName => $games{$game}{'name'});
+$ROOM->param(gameSystemName => $games{$game}{'name'} ? $games{$game}{'name'} : $game ? $game : '－');
 
 $ROOM->param(bcdiceAPI => $rooms{$id}{'bcdice'} ? $set::bcdice_api : '');
-$ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game);
+$ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game ? $game : 'DiceBot');
 
-my @status = @{ $games{$game}{'status'} };
+my @status = $rooms{$id}{'status'} ? @{$rooms{$id}{'status'}}
+           : $games{$game}{'status'} ? @{$games{$game}{'status'}}
+           : ('HP','MP','他');
 $ROOM->param(SttNameList => join("','", @status));
 
 $ROOM->param(newUnitSttDefault => join(': ',@status).':');
+
+if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
+elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }
+if($rooms{$id}{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
 
 
 ###################

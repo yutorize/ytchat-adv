@@ -93,13 +93,14 @@
     <p><span style="color:#ee7777;">選ぶ人数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
     <p>　BCDiceにおける choice[] に相当しますが、一度に複数人、重複せず選ぶことができます。</p>
     
+    <TMPL_IF helpOnSW2>
     <h4>威力表（ソード・ワールド）</h4>
     <p>
       <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#ee77bb;">&gt;必殺</span><span style="color:#bb77ee;">$Cレイ</span><span style="color:#77aaee;">k首切り</span><br>
-      <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#eebb77;">[C値]</span><span style="color:#77ee77;">+修正値</span><span style="color:#ee77bb;">&gt;必殺</span><span style="color:#bb77ee;">$Cレイ</span><span style="color:#77aaee;">k首切り</span>
+      <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#eebb77;">[C値]</span><span style="color:#77ee77;">+修正値</span><span style="color:#ee77bb;">&gt;必殺</span><span style="color:#bb77ee;">$出目修正</span><span style="color:#77aaee;">k首切り</span>
     </p>
     <p>
-      <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">&gt;必殺</span>・<span style="color:#bb77ee;">$Cレイ</span>・<span style="color:#77aaee;">k首切り</span>は省略できます。<br>
+      <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">&gt;必殺</span>・<span style="color:#bb77ee;">$出目修正</span>・<span style="color:#77aaee;">k首切り</span>は省略できます。<br>
       　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
       　必殺、Cレイ（クリティカルレイ）、首切りは、効果による出目ないし威力の上昇値を記入します。<br>
     </p>
@@ -124,8 +125,8 @@
       </tr>
       <tr>
         <th>必殺効果</th>
-        <th> <b>></b><i>Num</i> <br> <b>#</b><i>Num</i> <br> <b>b</b><i>Num</i> </th>
-        <td>Num=出目上昇量。<br>特に理由がない限りNumは1。</td>
+        <th> <b>></b><i>Num</i> <br> <b>#</b><i>Num</i> <br> <b>b</b><i>Num</i> <br> <b>!</b><i>Num</i> </th>
+        <td>Num=出目上昇量。<br>Numを省略すると1として扱う。</td>
       </tr>
       <tr>
         <th>Cレイ</th>
@@ -135,13 +136,20 @@
       <tr>
         <th>首切効果</th>
         <th> <b>r</b><i>Num</i> <br> <b>c</b><i>Num</i> <br> <b>k</b><i>Num</i> </th>
-        <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。</td>
+        <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。<br>Numを省略すると5として扱う</td>
+      </tr>
+      <tr>
+        <th>アビスカース「難しい」</th>
+        <th> <b>&lt;</b><i>Num</i></th>
+        <td>Num=出目。<br>指定出目以下の威力算出結果を0にする。</td>
       </tr>
     </table>
     <h4>成長（ソード・ワールド）</h4>
     <p><span style="color:#ee7777;">GR</span></p>
     <p>　器用度,敏捷度,筋力,生命力,知力,精神力の中からランダムに2つ表示する。</p>
+    </TMPL_IF>
     
+    <TMPL_IF helpOnDX3>
     <h4>ダブルクロス行為判定</h4>
     <p>
       <span style="color:#ee7777;">判定値</span><b>R</b><span style="color:#eebb77;">C値</span><span style="color:#77ee77;">+修正値</span><br>
@@ -152,3 +160,9 @@
     <p>
       　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
     </p>
+    </TMPL_IF>
+    
+    <TMPL_IF helpOnBCDice>
+    <h4>BCDice</h4>
+    <p id="help-bcdice-info"></p>
+    </TMPL_IF>

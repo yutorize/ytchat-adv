@@ -301,7 +301,7 @@ body {
   transform: scale(1.17);
 }
 .chat .logs dl dd.info[data-code]::after {
-  content: "" attr(data-code) " // " attr(data-date);
+  content: "" attr(data-code) " --- " attr(data-date);
 }
 /* フォントサイズ調整バー */
 .chat .option {

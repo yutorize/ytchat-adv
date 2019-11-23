@@ -12,8 +12,11 @@ use JSON::PP;
 
 my $log_pre_max = 50;
 my $dir = "./room/$::in{'room'}/";
-my $stt_commands;
-   $stt_commands = join('|', @{$set::games{$::in{'game'}}{'status'}}) if $::in{'game'};
+
+my @status = $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
+           : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
+           : ('HP','MP','他');
+my $stt_commands = join('|', @status);
 
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
@@ -174,7 +177,7 @@ my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$ti
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
 
 # カウンター
-sysopen(my $NUM, $dir."log-num-$::in{'logKey'}.dat", O_RDWR | O_CREAT, 0666) or error "log-num-$::in{'logKey'}.datが開けません";
+sysopen(my $NUM, $dir."log-num-$::in{'logKey'}.dat", O_RDWR) or error "log-num-$::in{'logKey'}.datが開けません";
 flock($NUM, 2);
 my $counter = <$NUM>;
 seek($NUM, 0, 0);
@@ -185,12 +188,12 @@ $counter++;
 my $line = "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'info'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>\n";
 
 # 過去ログに追加
-sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND | O_CREAT, 0666) or error "log-all.datが開けません";
+sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND) or error "log-all.datが開けません";
 print $LOG $line;
 close($LOG);
 
 # 現在ログに追加
-sysopen(my $FH, $dir.'log-pre.dat', O_RDWR | O_CREAT, 0666) or error "log-pre.datが開けません";
+sysopen(my $FH, $dir.'log-pre.dat', O_RDWR) or error "log-pre.datが開けません";
 flock($FH, 2);
 my @lines = <$FH>;
 seek($FH, 0, 0);
@@ -214,7 +217,7 @@ sub topicEdit {
   my $topic = shift;
   
   my %data;
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
@@ -231,7 +234,7 @@ sub memoEdit {
   $memo =~ s/<br>/\n/g;
   
   my %data;
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
@@ -251,7 +254,7 @@ sub tabEdit {
   my $name = shift;
   
   my %data;
-  sysopen(my $FH, $dir.'tab.dat', O_RDWR | O_CREAT) or error "tab.datが開けません";
+  sysopen(my $FH, $dir.'tab.dat', O_RDWR) or error "tab.datが開けません";
   flock($FH, 2);
   s/(.*?)<>(.*)/$data{$1} = $2;''/eg while <$FH>;
   seek($FH, 0, 0);
@@ -266,7 +269,7 @@ sub tabEdit {
 }
 
 sub checkReset {
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
@@ -281,7 +284,7 @@ sub checkReset {
 }
 sub roundChange {
   my $num = shift;
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
@@ -316,7 +319,7 @@ sub unitEdit {
 sub unitDelete {
   my $set_name = shift;
   
-  sysopen(my $FH, $dir.'room.dat', O_RDWR | O_CREAT) or error "room.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);

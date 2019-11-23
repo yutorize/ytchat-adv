@@ -24,7 +24,7 @@ foreach(<$FH>) {
   my $code;
   my @infos = split(/<br>/,$info);
   foreach (@infos){
-    { $_ =~ s/\<\<(.*)$//; $code = $1; }
+    { $_ =~ s/\<\<(.*)$/$code = $1; ''/e; }
     if($system =~ /^dice/){
       $_ =~ s#(\[.*?\#])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;

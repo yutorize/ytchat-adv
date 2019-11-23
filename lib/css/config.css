@@ -65,6 +65,11 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd:hover {
   background-color:rgba(100,200,255,0.1) !important;
 }
+.logs dl dd.comm mark {
+  color: #ff9900;
+  font-weight: bold;
+  background: transparent;
+}
 /* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #ccc;

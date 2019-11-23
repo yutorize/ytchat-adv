@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.04.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.04.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout-sp.css?0.04.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.04.0">
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.05.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.05.0">
+  <link rel="stylesheet" media="all" href="lib/css/layout-sp.css?0.05.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.05.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="lib/js/lib/autosize.min.js" defer></script>
   <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/ui.js?0.04.1" defer></script>
-  <script src="lib/js/chat.js?0.04.1" defer></script>
+  <script src="lib/js/ui.js?0.05.0" defer></script>
+  <script src="lib/js/chat.js?0.05.0" defer></script>
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -23,7 +23,9 @@
     const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
     const checkTimeRom = 10000; // 更新チェック周期・見学者
     const maxLinage = 300; // 現行ログ表示行数（保存行数とは別）
-    const chatSE = './lib/sound/cursor1.mp3';
+    const chatSE  = new Audio('./lib/sound/cursor1.mp3');
+    const markSE  = new Audio('./lib/sound/warning1.mp3');
+    const readySE = new Audio('./lib/sound/flash-of-light-1.mp3');
     const bcdiceAPI = '<TMPL_VAR bcdiceAPI>';
     let bcdiceSystem = '<TMPL_VAR bcdiceSystem>';
   </script>
@@ -184,13 +186,28 @@
   </div>
   <div class="float-box" id="config-sound">
     <h2>サウンド設定</h2>
+    <h3>音量</h3>
     <table>
-      <tr><th>チャット着信音量</th><td><input type="range" id="volume-chat" min="0" max="100" step="1" value="80"></td><td id="volume-chat-view">80%</td></tr>
+      <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
+      <tr><th>チャット着信</th><td><input type="range" id="volume-chat" min="0" max="100" step="1" value="80"></td><td id="volume-chat-view">80%</td></tr>
+      <tr><th>強調ワード着信</th><td><input type="range" id="volume-mark" min="0" max="100" step="1" value="80"></td><td id="volume-mark-view">80%</td></tr>
+      <tr><th>レディチェック開始</th><td><input type="range" id="volume-ready" min="0" max="100" step="1" value="80"></td><td id="volume-ready-view">80%</td></tr>
     </table>
+    <p>
+      強調ワード音量・レディチェック音量は0にするとチャット着信音に統一されます。<br>
+    </p>
     <span class="close button" onclick="boxClose('config-sound');">×</span>
   </div>
   <div class="float-box" id="config-other">
     <h2>その他設定</h2>
+    <h3>通知設定</h3>
+    <p>
+      強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
+      　指定したワードが発言された際、強調表示します。<br>
+      　改行で区切って複数設定することができます。<br>
+      　自身の入室名はデフォルトで強調されます。<br>
+    </p>
+    
     <h3>ログ初期化</h3>
     <p>
       ログを過去ログに格納し、初期化します。<br>
@@ -200,7 +217,7 @@
       <br>
       パスワード:<input type="password" id="room-reset-password"><br>
     </p>
-    <p class="right"><button onclick="resetRoom();">確定</button></p>
+    <p class="right"><button onclick="resetRoom();">ログ初期化</button></p>
     <span class="close button" onclick="boxClose('config-other');">×</span>
   </div>
   <div class="float-box" id="enter-form">
@@ -231,6 +248,9 @@
     ［個人メモ］<br>
     <br>
     <button onclick="exitRoom();boxClose('exit-form');">退室</button>
+    <div class="right" style="position:absolute;right:.5em;bottom:.5em;">
+      <a href="./">退室せず部屋一覧へ移動</a>
+    </div>
     <span class="close button" onclick="boxClose('exit-form');">×</span>
   </div>
   <div class="float-box" id="help-window">
