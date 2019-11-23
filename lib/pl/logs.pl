@@ -15,7 +15,7 @@ my %games = %set::games;
 ### 部屋の有無をチェック
 error('データがありません') if !exists($rooms{$id}) && !$::in{'date'};
 
-my @tabs = $id ? @{$rooms{$id}{'tab'}} : ();
+my @tabs = $id ? ($rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サブ')) : ();
 
 ###################
 ### テンプレート読み込み
