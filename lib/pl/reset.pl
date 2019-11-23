@@ -35,7 +35,7 @@ error('既にファイルが存在します') if (-f $filename); #上書きは�
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
 #sysopen (my $WR, $filename, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 #
-#my @tabs = split(',', ' ,'.$set::rooms{$::in{'room'}}{'tab'});
+#my @tabs = @{$set::rooms{$::in{'room'}}{'tab'}};
 #my $before_tab;
 #my $before_name;
 #my $before_color;

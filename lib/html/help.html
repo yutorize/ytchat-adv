@@ -59,10 +59,10 @@
     <h4>通常ダイス</h4>
     <p><span style="color:#ee7777;">ダイスの数</span><b>D</b><span style="color:#eebb77;">面の数</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span></p>
     <p>
-      <span style="color:#77ee77;">+修正値</span>、<span style="color:#eebb77;">@C値</span>は省略できます。<br>
-      修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
-      半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
-      また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
+      　<span style="color:#77ee77;">+修正値</span>、<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+      　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
+      　半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
+      　また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
     </p>
     <p>
       例1：「6面ダイスを1つ振る」<br>
@@ -86,9 +86,12 @@
     </p>
     
     <h4>任意項目ランダム選択</h4>
-    <p><span style="color:#ee7777;">選ぶ数</span><b>$</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <p><span style="color:#ee7777;">選ぶ回数</span><b>$</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <p>　BCDiceにおける choice[] に相当しますが、一度に複数回選ぶことが出来ます。</p>
+    
     <h4>任意項目ランダム選択（非重複）</h4>
-    <p><span style="color:#ee7777;">選ぶ数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <p><span style="color:#ee7777;">選ぶ人数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <p>　BCDiceにおける choice[] に相当しますが、一度に複数人、重複せず選ぶことができます。</p>
     
     <h4>威力表（ソード・ワールド）</h4>
     <p>
@@ -97,8 +100,8 @@
     </p>
     <p>
       <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">&gt;必殺</span>・<span style="color:#bb77ee;">$Cレイ</span>・<span style="color:#77aaee;">k首切り</span>は省略できます。<br>
-      修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
-      必殺、Cレイ（クリティカルレイ）、首切りは、効果による出目ないし威力の上昇値を記入します。<br>
+      　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
+      　必殺、Cレイ（クリティカルレイ）、首切りは、効果による出目ないし威力の上昇値を記入します。<br>
     </p>
     <p>
       威力表のダイスコードの記述に用いる記号等は、以下のものも使えるようになっています。
@@ -135,6 +138,9 @@
         <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。</td>
       </tr>
     </table>
+    <h4>成長（ソード・ワールド）</h4>
+    <p><span style="color:#ee7777;">GR</span></p>
+    <p>　器用度,敏捷度,筋力,生命力,知力,精神力の中からランダムに2つ表示する。</p>
     
     <h4>ダブルクロス行為判定</h4>
     <p>
@@ -144,5 +150,5 @@
       <span style="color:#ee7777;">判定値</span><b>DX</b><span style="color:#77ee77;">修正値</span><span style="color:#eebb77;">@C値</span><br>
     </p>
     <p>
-      <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+      　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
     </p>

@@ -33,10 +33,13 @@ my @list;
 foreach my $id (sort keys %rooms){
   next if !$id;
   next if $rooms{$id}{'secret'};
+  my $game = $games{$rooms{$id}{'game'}} ? $games{$rooms{$id}{'game'}}{'name'}
+           : $rooms{$id}{'game'} ? $rooms{$id}{'game'}
+           : 'その他';
   push(@list, {
     "ID"     => $id,
     "NAME"   => $rooms{$id}{'name'},
-    "GAME"   => $games{$rooms{$id}{'game'}}{'name'},
+    "GAME"   => $game,
   })
 }
 

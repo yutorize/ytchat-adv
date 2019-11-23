@@ -150,11 +150,20 @@ else {
     $::in{'info'} = "$::in{'comm'}";
     $::in{'comm'} = "共有メモ(".($num+1).")を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
   }
+  # BCDice処理
+  elsif($::in{'bcdice'}){
+    $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
+    $::in{'info'} = $::in{'bcdice'}.'<<'.$1;
+    $::in{'system'} = 'dice';
+  }
   # ダイス処理
   elsif($::in{'comm'} =~ /^[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,}/i){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
-    if($::in{'info'}){ $::in{'comm'} =~ s/^.*?(?:\s|$)//; }
+    if($::in{'info'}){
+      $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
+      $::in{'info'} .= '<<'.$1;
+    }
   }
 }
 

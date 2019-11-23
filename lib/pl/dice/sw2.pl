@@ -13,47 +13,103 @@ my @rating = (['3','4','5','c','15','18','24','28','37','3c',],['4','5','6','e',
 sub rateRoll {
   my $comm = shift;
   if($comm !~ s/^
-    (?: ([kr]) ( [0-9]+ | \([0-9\+\-]+\) ) )
+    (?: [kr] ( [0-9]+ | \([0-9\+\-]+\) ) )
     (?:\[([0-9\+\-]+)\])?
-    ([0-9a-z\+\-\*\/\@\$>#]*)
+    ([0-9a-z\+\-\*\/\@\$><#!]*)
+    (?:\:([0-9]+))?
     (?:\s|$)
   //ix){
     return;
   }
-  my $type = $1; #r式かk式か
-  my $rate = $2;
-  my $crit = $3;
-  my $form = $4;
+  my $rate = $1;
+  my $crit = $2;
+  my $form = $3;
+  my $repeat = $4;
   my $rate_up;
   my $crit_atk;
   my $crit_ray;
+  my $fixed;
+  my $curse;
   my $gf;
-  while($form =~ s/gf//gi)  { $gf = ' GF'; }
-  while($form =~ s/\@([0-9]+)//gi)    { $crit     = $1 if !$crit; }
-  while($form =~ s/[rck]([0-9]+)?//gi){ $rate_up  = $1?$1:5 if !$rate_up; }
-  while($form =~ s/[>#b]([0-9]+)//gi) { $crit_atk = $1 if !$crit_atk; }
-  while($form =~ s/[\$]([0-9]+)//gi)  { $crit_ray = $1 if !$crit_ray; }
+  while($form =~ s/gf//gi)             { $gf = ' GF'; }                      #Gフォーチュン
+  while($form =~ s/\@([0-9]+)//gi)     { $crit     = $1 if !$crit; }         #C値
+  while($form =~ s/[rck]([0-9]*)//gi)  { $rate_up  = $1?$1:5 if !$rate_up; } #首切効果
+  while($form =~ s/[>#b!]([0-9]*)//gi) { $crit_atk = $1?$1:1 if !$crit_atk; }#必殺効果
+  while($form =~ s/[\$]([0-9]+)//gi)   { $fixed    = $1 if !$fixed; }        #出目固定
+  while($form =~ s/[\$](\+[0-9]+)//gi) { $crit_ray = $1 if !$crit_ray; }     #出目修正
+  while($form =~ s/[<]([0-9]+)//gi)    { $curse    = $1 if !$curse; }        #Aカース「難しい」
   
   $rate = calc($rate);
   $crit = calc($crit);
   if($rate > 100){ $rate = 100; } elsif($rate < 0){ $rate = 0; }
   if($crit <= 0){ $crit = 0; } elsif($crit < 3){ $crit = 3; }
   
+  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  my @result;
+  foreach my $i (1 .. $repeat){
+    push(@result,
+      rateCalc(
+        $rate    ,
+        $crit    ,
+        $form    ,
+        $rate_up ,
+        $crit_atk,
+        $crit_ray,
+        $fixed   ,
+        $curse   ,
+        $gf      ,
+        $i
+      )
+    );
+  }
+  return join('<br>',@result);
+}
+
+sub rateCalc {
+  my $rate     = shift;
+  my $crit     = shift; 
+  my $form     = shift;
+  my $rate_up  = shift;
+  my $crit_atk = shift;
+  my $crit_ray = shift;
+  my $fixed    = shift;
+  my $curse    = shift;
+  my $gf       = shift;
+  my $repeat   = shift;
+  
   my $total = 0;
   my $code = "威力${rate}";
   my @results;
   foreach my $crits (0 .. 100) {
-    my $dice1 = int(rand(6)) + 1;
-    my $dice2 = int(rand(6)) + 1;
-    if($gf){ $dice2 = $dice1; }
-    my $number = $dice1 + $dice2;
+    my $number;
+    my $inside_code;
+    # 出目固定
+    if($fixed){
+      $number = $fixed;
+      $number = 12 if $number > 12;
+      $fixed = 0; # 1回処理したらなくなる
+    }
+    else {
+      if($gf){ #GF
+        my $dice = int(rand(6)) + 1;
+        $number = $dice * 2;
+        $inside_code = "${dice}*2";
+      }
+      else { #通常
+        my $dice1 = int(rand(6)) + 1;
+        my $dice2 = int(rand(6)) + 1;
+        $number = $dice1 + $dice2;
+        $inside_code = "${dice1}+${dice2}";
+      }
+    }
     my $number_result = $number;
     
     # 1ゾロ
     if(!$crits && $number == 2){
-      return $code."${gf} → \[$dice1+$dice2:1ゾロ..\] = 0";
+      return $code." → \[${inside_code}:1ゾロ..\] = 0";
       last;
     }
+    $inside_code .= $inside_code ? '=' : '';
     
     # 必殺
     if($crit_atk){
@@ -62,22 +118,27 @@ sub rateRoll {
       $number_result .=">$number";
     }
     # クリティカルレイ
-    if($crit_ray){
+    if($crit_ray && $repeat == 1){
       $number += $crit_ray;
       $number = 12 if $number > 12;
       $number_result .=">$number";
       $crit_ray = 0; # 1回処理したらなくなる
     }
+    # アビスカース「難しい」
+    if($curse && $number <= $curse){
+      $number = 2;
+      $number_result .=">×";
+    }
     
     # 威力結果算出
     my $power;
-    if($number < 3) { $power = 0; }
-    else { $power = ((hex($rating[$rate][$number-3]) - $number - $rate) / ($number + $rate)); }
+    if   ($number < 3) { $power = 0; } #1ゾロ
+    else { $power = ((hex($rating[$rate][$number-3]) - $number - $rate) / ($number + $rate)); } #それ以外
     $total += $power;
     
     # クリティカル
     if($crit && $number >= $crit){
-      push(@results, " $power\[$dice1+$dice2=$number_result:クリティカル!\] ");
+      push(@results, " $power\[${inside_code}${number_result}:クリティカル!\] ");
       if($rate_up){
         $rate += $rate_up;
         $code .= ">$rate";
@@ -85,12 +146,13 @@ sub rateRoll {
       next;
     }
     
-    # 〆
-    push(@results, " $power\[$dice1+$dice2=$number_result\] ");
+    # クリティカルしなかったので〆
+    push(@results, " $power\[${inside_code}${number_result}\] ");
     last;
   }
   my $result = join('+', @results);
   
+  ## 修正値処理
   $form =~ s/(\/\/|\*\*)([0-9]*)/<\/\/>/;
   my $half_type = $1;
   my $half_num = $2;
@@ -109,6 +171,11 @@ sub rateRoll {
   $result .= ' = ';
   $code .= " C値${crit}" if $crit;
   return $code . $gf. ' → '. $result . $total;
+}
+
+sub growRoll {
+  my @grow = ('器用度','敏捷度','筋力','生命力','知力','精神力');
+  return $grow[int(rand(6))].' or '.$grow[int(rand(6))];
 }
 
 

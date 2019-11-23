@@ -14,10 +14,12 @@ our %games = (
   'sw2' => {
     'name' => 'ソードワールド2.x',
     'status' => ['HP','MP','防護'],
+    'bcdice' => 'SwordWorld2.5',
   },
   'dx3' => {
     'name' => 'ダブルクロス3rd',
     'status' => ['HP','侵蝕','行動'],
+    'bcdice' => 'DoubleCross',
   },
 );
 

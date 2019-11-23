@@ -21,23 +21,27 @@ foreach(<$FH>) {
   my (undef, $time) = split(/ /, $date);
   my ($username, $userid) = $user =~ /^(.*)<([0-9a-zA-Z]+?)>$/;
   my $game;
-  if($info){
+  my $code;
+  my @infos = split(/<br>/,$info);
+  foreach (@infos){
+    { $_ =~ s/\<\<(.*)$//; $code = $1; }
     if($system =~ /^dice/){
-      $info =~ s|(\[.*?\])|<i>$1</i>|g;
-      $info =~ s| = ([0-9a-z.∞]+)$| = <strong>$1</strong>|gi;
-      $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
+      $_ =~ s#(\[.*?\#])#<i>$1</i>#g;
+      $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
+      $_ =~ s# = ([0-9a-z.]+)# = <b>$1</b>#gi;
       #クリティカルをグラデにする
-      my $crit = $info =~ s/(クリティカル!\])/$1<em>/g;
-      while($crit > 0){ $info .= "</em>"; $crit--; }
+      my $crit = $_ =~ s/(クリティカル!\])/$1<em>/g;
+      while($crit > 0){ $_ .= "</em>"; $crit--; }
       #ファンブル用の色適用
-      if($info =~ /1ゾロ|ファンブル/){ $info = "<em class='fail'>$info</em>"; }
+      if($_ =~ /1ゾロ|ファンブル/){ $_ = "<em class='fail'>$_</em>"; }
       #
-      $info =~ s/\{(.*?)\}/{<span class='division'>$1<\/span>}/;
+      $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
     if($system =~ /^unit/){
-      $info =~ s| (\[.*?\])| <i>$1</i>|g;
+      $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
   }
+  $info = join('<br>', @infos);
   
   my $line  = '{'
     . '"num":'       .$num
@@ -49,6 +53,7 @@ foreach(<$FH>) {
     . ',"color":"'   .$color.'"'
     . ',"comm":"'    .$comm.'"'
     . ($info   ? ',"info":"'  .$info.  '"' : '')
+    . ($code   ? ',"code":"'  .$code.  '"' : '')
     . ($system ? ',"system":"'.$system.'"' : '')
     . '}';
   unshift(@lines, $line);

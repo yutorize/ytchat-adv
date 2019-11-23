@@ -15,7 +15,7 @@ my %games = %set::games;
 ### 部屋の有無をチェック
 error('データがありません') if !exists($rooms{$id}) && !$::in{'date'};
 
-my @tabs = split(',', $rooms{$id}{'tab'});
+my @tabs = @{$rooms{$id}{'tab'}};
 
 ###################
 ### テンプレート読み込み
@@ -53,28 +53,32 @@ foreach (<$FH>){
   }
   
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
+  $user =~ s/<.+?>$//;
   
-     $user =~ s/<.+?>$//;
   my $type = ($system =~ /^(check|round|dice)/) ? 'dice' : $system;
      $type =~ s/:.*?$//;
   my $game = ($system =~ /^dice:(.*)$/) ? $1 : '';
-  if($info){
+  my $code;
+  my @infos = split(/<br>/,$info);
+  foreach (@infos){
+    { $_ =~ s/\<\<(.*)$//; $code = $1; }
     if($system =~ /^dice/){
-      $info =~ s|(\[.*?\])|<i>$1</i>|g;
-      $info =~ s| = ([0-9a-z.∞]+)$| = <strong>$1</strong>|gi;
-      $info =~ s| = ([0-9a-z.]+)| = <b>$1</b>|gi;
+      $_ =~ s#(\[.*?\#])#<i>$1</i>#g;
+      $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
+      $_ =~ s# = ([0-9a-z.]+)# = <b>$1</b>#gi;
       #クリティカルをグラデにする
-      my $crit = $info =~ s/(クリティカル!\])/$1<em>/g;
-      while($crit > 0){ $info .= "</em>"; $crit--; }
+      my $crit = $_ =~ s/(クリティカル!\])/$1<em>/g;
+      while($crit > 0){ $_ .= "</em>"; $crit--; }
       #ファンブル用の色適用
-      if($info =~ /1ゾロ|ファンブル/){ $info = "<em class='fail'>$info</em>"; }
+      if($_ =~ /1ゾロ|ファンブル/){ $_ = "<em class='fail'>$_</em>"; }
       #
-      $info =~ s/\{(.*?)\}/{<span class='division'>$1<\/span>}/;
+      $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
     if($system =~ /^unit/){
-      $info =~ s| (\[.*?\])| <i>$1</i>|g;
+      $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
   }
+  $info = join('<br>', @infos);
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   
   if ( $before_tab   ne $tab

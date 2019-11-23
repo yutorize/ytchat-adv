@@ -25,7 +25,7 @@ if (!-f "./room/${id}/room.dat"){
   sysopen (my $FH, "./room/${id}/room.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
     print $FH '{"tab":{';
     my $i = 0;
-    foreach my $tab (split(',', $rooms{$id}{'tab'})){
+    foreach my $tab (@{$rooms{$id}{'tab'}}){
       print $FH ',' if $i;
       $i++;
       print $FH '"'.$i.'":"'.$tab.'"';
@@ -42,7 +42,7 @@ if (!-f "./room/${id}/room.dat"){
 }
 if (!-f "./room/${id}/log-all.dat"){
   sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    print $FH ">$rooms{$id}{'name'}<>$rooms{$id}{'tab'}\n";
+    print $FH ">$rooms{$id}{'name'}<>".join(',',@{$rooms{$id}{'tab'}})."\n";
   close($FH);
 }
 if (!-f "./room/${id}/log-pre.dat"){
@@ -72,6 +72,9 @@ $ROOM->param(title => $rooms{$id}{'name'});
 my $game = $rooms{$id}{'game'};
 $ROOM->param(gameSystem => $game);
 $ROOM->param(gameSystemName => $games{$game}{'name'});
+
+$ROOM->param(bcdiceAPI => $rooms{$id}{'bcdice'} ? $set::bcdice_api : '');
+$ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game);
 
 my @status = @{ $games{$game}{'status'} };
 $ROOM->param(SttNameList => join("','", @status));
