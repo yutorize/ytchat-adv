@@ -28,6 +28,7 @@ sub diceRoll {
   if($comm !~ s/^
     ( [0-9\+\-\*]*[0-9]+ D [0-9]*[0-9\+\-\*D@]*?)
     (?:(\/\/|\*\*)([0-9]*)([+-][0-9][0-9\+\-\*]*)?)?
+    (?:\:([0-9]+))?
     (?:\s|$)
   //ix){
     return;
@@ -36,8 +37,29 @@ sub diceRoll {
   my $half_type = $2;
   my $half_num  = $3;
   my $add  = $4;
+  my $repeat = $5;
+  
+  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  my @result;
+  foreach my $i (1 .. $repeat){
+    push(@result,
+      diceCalc(
+        $base      ,
+        $half_type ,
+        $half_num  ,
+        $add       ,
+      )
+    );
+  }
+  return join('<br>',@result);
+}
+sub diceCalc {
+  my $base      = shift;
+  my $half_type = shift;
+  my $half_num  = shift;
+  my $add       = shift;
+  
   my $total = 0;
-  my @results;
   my @code;
   # xDyを処理
   while ($base =~ s/([0-9]+)D([0-9]*)(@[0-9]+)?/<dice>/i){

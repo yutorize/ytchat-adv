@@ -666,9 +666,13 @@ body.rom .sheet { display: none !important; }
   transition-duration: 0.15s;
   transition-timing-function: ease-in;
 }
+.sheet h2 {
+  padding-bottom: .1em;
+  border-bottom: .1rem solid rgba(127,127,127,0.8);
+}
 .sheet-body {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
   overflow-y: auto;
 }
 .sheet-body h3 {
