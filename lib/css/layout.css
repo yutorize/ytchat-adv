@@ -942,6 +942,7 @@ body.rom .sheet { display: none !important; }
 }
 #footer dl {
   display: flex;
+  position: relative;
   margin: .5rem;
   line-height: 1.2rem;
 }
@@ -961,6 +962,9 @@ body.rom .sheet { display: none !important; }
 }
 #footer dl dd:last-child {
   margin-right: 0;
+}
+#footer [onclick] {
+  cursor: pointer;
 }
 
 /* // 各フロートボックス
@@ -1025,6 +1029,17 @@ body.rom .sheet { display: none !important; }
 }
 #config-other {
   z-index: 1000;
+}
+#config-other p {
+  padding: .5em;
+  line-height: 1.6;
+}
+#member-list {
+  top: auto;
+  left: 2em;
+  right: auto;
+  bottom: 2em;
+  min-width: 14em;
 }
 #config-other p {
   padding: .5em;

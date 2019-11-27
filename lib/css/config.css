@@ -3,8 +3,10 @@
 /* // カラー設定：チャット
 ---------------------------------------------------------------------------------------------------- */
 a { text-decoration: none; }
+.link,
 a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,180,255,0.5) 0%, rgba(50,180,255,0.5) 20%, transparent 20%); }
 a[href]:visited { color: #77ccff; }
+.link:hover,
 a[href]:hover   { color: #ffffff; }
 .logs a[href]::before {
   content: "\f35d";

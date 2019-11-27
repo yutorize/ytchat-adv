@@ -134,7 +134,7 @@
     <!-- FOOTER -->
     <div class="box" id="footer">
       <dl>
-        <dt>入室</dt><dd>－</dd>
+        <dt>入室</dt><dd id="member-num" class="link" onclick="boxOpen('member-list')">－</dd>
         <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystemName></dd>
       </dl>
       <dl>
@@ -181,11 +181,13 @@
     </div>
     <span class="close button" onclick="boxClose('edit-topic');">×</span>
   </div>
+  
   <div class="float-box" id="config-dice">
     <h2>ダイス編集</h2>
     <textarea id=""></textarea>
     <span class="close button" onclick="boxClose('config-dice');">×</span>
   </div>
+  
   <div class="float-box" id="edit-npc">
     <h2>名前欄編集</h2>
     <div class="comm-area">
@@ -197,6 +199,7 @@
     　省略すると、ランダムな色を割り当て。
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
   </div>
+  
   <div class="float-box" id="config-sound">
     <h2>サウンド設定</h2>
     <h3>音量</h3>
@@ -211,6 +214,7 @@
     </p>
     <span class="close button" onclick="boxClose('config-sound');">×</span>
   </div>
+  
   <div class="float-box" id="config-other">
     <h2>その他設定</h2>
     <h3>通知設定</h3>
@@ -220,7 +224,6 @@
       　改行で区切って複数設定することができます。<br>
       　自身の入室名はデフォルトで強調されます。<br>
     </p>
-    
     <h3>ログ初期化</h3>
     <p>
       ログを過去ログに格納し、初期化します。<br>
@@ -234,6 +237,13 @@
     <p class="right"><button onclick="resetRoom();">ログ初期化</button></p>
     <span class="close button" onclick="boxClose('config-other');">×</span>
   </div>
+  
+  <div class="float-box" id="member-list">
+    <h2>入室メンバー</h2>
+    <p id="member-list-view"></p>
+    <span class="close button" onclick="boxClose('member-list');">×</span>
+  </div>
+  
   <div class="float-box" id="enter-form">
     <h2>ルーム：<TMPL_VAR title></h2>
     <p>
@@ -254,6 +264,7 @@
       <a onclick="boxOpen('config-other');" href="#">その他設定</a> ／ <a href="?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
     </div>
   </div>
+  
   <div class="float-box" id="exit-form">
     このルームから退室しますか？<br>
     退室すると、以下の情報がリセットされます。<br>
