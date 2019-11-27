@@ -117,12 +117,15 @@ em {
 }
 .oblique { font-style: oblique; }
 .strike  { text-decoration: line-through; }
+.under  { text-decoration: underline; }
 .large { font-size: 150%; }
 .small { font-size:  80%; }
 .hide  { color:transparent; text-shadow: none; }
 .left  { text-align: left; }
 .center{ text-align: center; }
 .right { text-align: right; }
+
+img.icon { width: 1em; height: 1em; }
 
 /* ボックス */
 .box {

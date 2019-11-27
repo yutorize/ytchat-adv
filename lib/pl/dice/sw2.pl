@@ -12,14 +12,14 @@ my @rating = (['3','4','5','c','15','18','24','28','37','3c',],['4','5','6','e',
 
 sub rateRoll {
   my $comm = shift;
-  if($comm !~ s/^
+  if($comm !~ /^
     (?: [kr] ( [0-9]+ | \([0-9\+\-]+\) ) )
     (?:\[([0-9\+\-]+)\])?
     ([0-9a-z\+\-\*\/\@\$><#!]*)
     (?:\:([0-9]+))?
     (?:\s|$)
-  //ix){
-    return;
+  /ix){
+    return "";
   }
   my $rate = $1;
   my $crit = $2;
@@ -80,7 +80,8 @@ sub rateCalc {
   my $total = 0;
   my $code = "威力${rate}";
   my @results;
-  foreach my $crits (0 .. 100) {
+  my $crits_max = 20;
+  foreach my $crits (0 .. $crits_max) {
     my $number;
     my $inside_code;
     # 出目固定
@@ -105,7 +106,7 @@ sub rateCalc {
     my $number_result = $number;
     
     # 1ゾロ
-    if(!$crits && $number == 2){
+    if(!$crits && $number <= 2){
       return $code." → \[${inside_code}:1ゾロ..\] = 0";
       last;
     }
@@ -143,6 +144,7 @@ sub rateCalc {
         $rate += $rate_up;
         $code .= ">$rate";
       }
+      push(@results, "[クリティカル限界設定オーバーです。振り足してください]") if ($crits >= $crits_max);
       next;
     }
     

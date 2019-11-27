@@ -5,6 +5,9 @@ use open ":utf8";
 use open ":std";
 use Fcntl;
 use HTML::Template;
+use CGI::Cookie;
+my %cookies = fetch CGI::Cookie;
+my $cookie_id = $cookies{'ytchat-userid'}->value if(exists $cookies{'ytchat-userid'});
 
 my $id = $::in{'id'}; #部屋ID
 
@@ -35,7 +38,7 @@ $ROOM = HTML::Template->new(
 
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
-$ROOM->param(subtitle => $::in{'date'});
+$ROOM->param(subtitle => $::in{'date'}?$::in{'date'}:'現行ログ');
 
 my $logfile = $::in{"date"} ? "./logs/".$::in{"date"}.".dat" : "./room/${id}/log-all.dat";
 sysopen (my $FH, $logfile, O_RDONLY);
@@ -45,6 +48,7 @@ my $before_name;
 my $before_color;
 my $before_user;
 foreach (<$FH>){
+  chomp;
   if($_ =~ s/^>//) {
     my ($name, $tab) = split(/<>/, $_);
     $ROOM->param(title => $name);
@@ -52,8 +56,16 @@ foreach (<$FH>){
     next;
   }
   
-  my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
-  $user =~ s/<.+?>$//;
+  my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
+  my $userid;
+  $user =~ s/<(.+?)>$/$userid = $1; '';/e;
+  
+  my $openlater;
+  if($address =~ s/\#$//){ $openlater = 1; }
+  if($address){
+    if   ($::in{"date"} && !$openlater){ next; }
+    elsif($cookie_id ne $userid && $cookie_id ne $address){ next; }
+  }
   
   my $type = ($system =~ /^(check|round|dice)/) ? 'dice' : $system;
      $type =~ s/:.*?$//;
@@ -81,6 +93,8 @@ foreach (<$FH>){
   $info = join('<br>', @infos);
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   
+  
+  
   if ( $before_tab   ne $tab
     || $before_name  ne $name
     || $before_color ne $color
@@ -94,6 +108,8 @@ foreach (<$FH>){
       "USER"   => $user,
       "NAME"   => $name,
       "COLOR"  => $color,
+      "SECRET" => $address ? 'secret' : '',
+      "OPENlATER" => $openlater ? 'openlater' : '',
       "LogsDD" => [],
     });
   }

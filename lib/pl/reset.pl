@@ -12,17 +12,30 @@ my $dir = "./room/$::in{'room'}/";
 
 error('パスワードが一致しません') if ($set::password ne $::in{'password'});
 
-my ($day, $mon, $year) = (localtime)[3..5];
-$year += 1900; $mon++;
-
 ## ファイル名
-my $filename = "${year}${mon}${day}";
-   $filename .= $::in{'room'} if $set::logname_id_add;
-my $num = 0;
-while (-f $set::logs_dir.$filename.'_'.$num.'.dat'){
-  $num++;
+my $filename;
+if($::in{'filename'}){
+  $filename = $::in{'filename'}.'.dat' if $::in{'filename'};
 }
-$filename = $set::logs_dir.$filename.'_'.$num.'.dat'; #ファイル名の最終決定
+else {
+  sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
+  my $date;
+  while(<$RD>){
+    next if($_ =~ /^>/);
+    $date = (split(/<>/, $_))[1];
+    last if $date;
+  }
+  close($RD);
+  $date =~ s<^([0-9]{4})/([0-9]{2})/([0-9]{2}) .+$><$1$2$3>;
+  error('ログから日付が取得できませんでした') if !$date;
+  $filename = $date;
+  $filename .= $::in{'room'} if $set::logname_id_add;
+  my $num = 0;
+  while (-f $set::logs_dir.$filename.'_'.$num.'.dat'){
+    $num++;
+  }
+  $filename = $set::logs_dir.$filename.'_'.$num.'.dat';
+}
 
 ## ディレクトリチェック
 if(!-d $set::logs_dir){

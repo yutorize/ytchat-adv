@@ -14,9 +14,10 @@ my $logfile = 'log-pre.dat';
 open(my $FH, '<', $dir.$logfile) or error "${logfile}が開けません";
 my @lines;
 foreach(<$FH>) {
+  chomp;
   $_ =~ s/\\/\\\\/g;
   $_ =~ s/"/\\"/g;
-  my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
+  my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
   last if $::in{'num'} > $num - 1;
   my (undef, $time) = split(/ /, $date);
   my ($username, $userid) = $user =~ /^(.*)<([0-9a-zA-Z]+?)>$/;
@@ -25,8 +26,11 @@ foreach(<$FH>) {
   my @infos = split(/<br>/,$info);
   foreach (@infos){
     { $_ =~ s/\<\<(.*)$/$code = $1; ''/e; }
-    if($system =~ /^dice/){
-      $_ =~ s#(\[.*?\#])#<i>$1</i>#g;
+    if($system =~ /^choice/){
+      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
+    }
+    elsif($system =~ /^dice/){
+      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
       $_ =~ s# = ([0-9a-z.]+)# = <b>$1</b>#gi;
       #クリティカルをグラデにする
@@ -43,6 +47,9 @@ foreach(<$FH>) {
   }
   $info = join('<br>', @infos);
   
+  my $openlater;
+  if($address =~ s/\#$//){ $openlater = 1; }
+  
   my $line  = '{'
     . '"num":'       .$num
     . ',"date":"'    .$time.'"'
@@ -52,9 +59,11 @@ foreach(<$FH>) {
     . ',"name":"'    .$name.'"'
     . ',"color":"'   .$color.'"'
     . ',"comm":"'    .$comm.'"'
-    . ($info   ? ',"info":"'  .$info.  '"' : '')
-    . ($code   ? ',"code":"'  .$code.  '"' : '')
-    . ($system ? ',"system":"'.$system.'"' : '')
+    . ($info   ? ',"info":"'   .$info.   '"' : '')
+    . ($code   ? ',"code":"'   .$code.   '"' : '')
+    . ($system ? ',"system":"' .$system. '"' : '')
+    . ($address  ? ',"address":"'  .$address.  '"' : '')
+    . ($openlater? ',"openlater":"'.$openlater.'"' : '')
     . '}';
   unshift(@lines, $line);
 }

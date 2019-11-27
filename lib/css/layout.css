@@ -9,7 +9,7 @@ body {
   height: 100vh;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 12em max-content;
+  grid-template-columns: 1fr 11em max-content;
   grid-template-rows: 2em max-content max-content 1fr max-content max-content;
 }
 #menubar {
@@ -63,7 +63,7 @@ body {
   flex: 1 10 100%;
 }
 #chat-area .chat.main {
-  flex: 1 4.5 100%;
+  flex: 1 4 100%;
 }
 #chat-closes-area {
   display: flex;
@@ -125,6 +125,19 @@ body {
 }
 #menubar ul + ul input {
   width: 100%;
+}
+#menubar li#mute-button {
+  flex-basis: 5rem;
+}
+#menubar li#mute-button a::before {
+  content: "\f028";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  color: #0f7;
+}
+#menubar li#mute-button.mute-on a::before {
+  content: "\f6a9";
+  color: #f00;
 }
 
 /* // トピック
@@ -434,6 +447,12 @@ body.rom .input-form { display: none !important; }
   padding-left: 1rem;
   border-left: 1px solid rgba(255,255,255,0.2);
 }
+#main-form .input-form > div:first-child {
+  display: grid;
+  margin-bottom: -.2rem;
+  grid-gap: .3rem;
+  grid-template-rows: auto max-content;
+}
 #main-form select.form-name {
   min-width: 8em;
   max-width: 13em;
@@ -444,6 +463,9 @@ body.rom .input-form { display: none !important; }
 #main-form select.form-name option {
   font-weight: bold;
   padding: 0 .5rem;
+}
+#main-form select.form-name + button {
+  margin-right: 3em;
 }
 #main-form .main-name,
 #main-form input[id*="form-color"] {
@@ -462,7 +484,64 @@ body.rom .input-form { display: none !important; }
   width: 5em;
 }
 #main-form input#form-color-text {
-  width: 8em;
+  width: 7em;
+}
+#main-form .comm-config-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#main-form .color-area {
+  display: grid;
+  grid-gap: .2rem;
+  grid-template-columns: auto auto auto;
+  margin-right: .8em;
+}
+#main-form .address-area {
+  display: inline-flex;
+  position: relative;
+  margin-left: auto;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: .8rem;
+}
+#main-form .address-area::before {
+  position: absolute;
+  content: "⇒";
+  left: -1.1em;
+  bottom: 0;
+}
+#main-form .address-area select {
+  max-width: 10em;
+  border: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#main-form .address-area label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: 4em;
+  padding: 0 .3rem;
+  border-top-right-radius: .8rem;
+  border-bottom-right-radius: .8rem;
+  font-size: 80%;
+  opacity: 0.5;
+}
+#main-form .secret .address-area label {
+  opacity: 1;
+}
+#main-form .address-area label:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+}
+#main-form .address-area label input {
+  vertical-align: text-bottom;
+}
+#main-form .address-area label input+span::after {
+  content: "後で公開";
+}
+#main-form .address-area label input:checked+span {
+  color: #ffaa00;
 }
 .decoration-buttons {
   padding-right: 3em;
@@ -526,66 +605,101 @@ body.rom .input-form { display: none !important; }
   position: relative;
   display: block;
   width: 2.4em;
-  cursor: pointer;
   border-width: 0 .1rem 0 0;
   border-radius: .5em 0 0 .5em;
 }
 .form-dice .dice-button i::before {
   position: absolute;
-  top: .2rem;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: .4rem;
   margin: auto;
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   line-height: 1;
+  font-family: "Font Awesome 5 Free";
   font-style: normal;
+  font-weight: bold;
   text-shadow: none
 }
-.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); }
-.form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); }
-.form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); }
-.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); }
-.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "🎲"; }
-.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "📛"; }
-.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "💬"; }
-.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "📝"; }
+.form-dice .dice-button i:hover::before {
+  color: #fff;
+}
+.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); color: #fcc; }
+.form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); color: #fcf; }
+.form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); color: #cff; }
+.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); color: #fda; }
+.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\f6d1"; }
+.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\f007"; }
+.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
+.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
 
 /* // ステータス
 ---------------------------------------------------------------------------------------------------- */
 #status {
   position: relative;
-  padding-bottom: 1em;
+  padding-left: 0;
+  padding-bottom: 1.2em;
   display: grid;
   overflow: hidden;
 }
 #status #status-body {
   overflow: auto;
+  padding-left: .5em;
 }
-#status dl {
+#status #status-body > dl {
   position: relative;
   padding: .3rem 0;
   border-width: 0 0 .1rem;
   border-style: solid;
   border-color: rgba(127,127,127,0.4);
 }
-#status dl dt {
-  padding: 0 0 .1em;
+#status #status-body > dl.check::before {
+  content: "\f00c";
+  display: inline-block;
+  position: absolute;
+  top: .3rem;
+  left: -.45em;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1em;
+  font-weight: bold;
+  color: #f20;
+  transform: scaleY(1.2);
 }
-#status dl dt[onclick]:hover {
+#status #status-body > dl > dt {
+  padding: 0 0 .1em .5em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#status #status-body > dl > dt[onclick]:hover {
   cursor: pointer;
   background: rgba(255,150,0,0.3);
+  white-space: normal;
 }
-#status dl dt b {
+#status #status-body > dl > dd {
+  padding: 0 0 .1em .6em;
+}
+#status #status-body > dl > dd > dl {
+  display: grid;
+  grid-template-columns: minmax(2em,auto) 1fr;
+} 
+#status #status-body > dl > dd > dl dt {
+  position: relative;
+  font-size: 85%;
+  padding-right: .1em;
+}
+#status #status-body > dl > dd > dl dt::after {
+  content: ":";
+  position: absolute;
+  right: -.15em;
+  opacity: 0.5;
+}
+#status #status-body > dl > dd > dl dd {
+  padding-left: .2em;
+}
+#status #status-body > dl > dd > dl dd span {
   display: inline-block;
-  width: 1em;
-  margin-left: -.2em;
-  color: #f20;
-  text-align: center;
-}
-#status dl dd {
-  padding: 0 0 .1em 1em;
 }
 #status .add.button {
   position: absolute;
@@ -597,7 +711,7 @@ body.rom .input-form { display: none !important; }
 ---------------------------------------------------------------------------------------------------- */
 .memo {
   position: relative;
-  padding-bottom: 1em;
+  padding-bottom: 1.2em;
   overflow: auto;
   flex-shrink: 0;
 }
@@ -650,6 +764,9 @@ body.rom .input-form { display: none !important; }
   margin: 0 calc(50% - 5em);
   grid-row: 3;
 }
+body.rom .sheet#sheet-unit-memo { display: grid !important; }
+body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }
+body.rom .sheet#sheet-unit-memo button { display: none; }
 
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
@@ -937,6 +1054,27 @@ body.rom .sheet { display: none !important; }
   max-width: 50em;
   padding-bottom: 2em;
 }
+#help-window h3::before,
+#help-window h4::before {
+  content: "◆";
+  color: #ea0;
+}
+#help-window h4::before {
+  content: "▼";
+}
+#help-window h3:hover,
+#help-window h4:hover {
+  background: rgba(255,200,100,0.4);
+  cursor: pointer;
+}
+#help-window .help-detail-area {
+  height: 0px;
+  overflow: hidden;
+}
+#help-window .help-detail-area.open {
+  height: auto;
+  overflow: auto;
+}
 #help-window code {
   display: inline-block;
   padding: .2rem .5rem;
@@ -944,10 +1082,10 @@ body.rom .sheet { display: none !important; }
   border-radius: 1rem;
 }
 #help-window h3:nth-child(n+2) {
-  margin-top: 5em;
+  margin-top: 1em;
 }
 #help-window h4 {
-  margin-top: 1em;
+  margin-top: .5em;
 }
 #help-window table th b {
   color: #eeaa00;

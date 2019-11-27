@@ -52,6 +52,12 @@
   .sheet.closed {
     display: none;
   }
+  body.rom .sheet.closed#sheet-unit-memo {
+    display: none !important;
+  }
+  .sheet .close-area {
+    display: none !important;
+  }
   /* チャットエリア */
   #chat-area {
     flex-direction: column-reverse;

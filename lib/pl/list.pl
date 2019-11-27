@@ -46,6 +46,8 @@ foreach my $id (sort keys %rooms){
 $ROOM->param(List => \@list);
 
 
+$ROOM->param(ver => $::ver);
+
 ###################
 ### 出力
 print "Content-Type: text/html\n\n";

@@ -7,17 +7,23 @@ a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,18
 a[href]:visited { color: #77ccff; }
 a[href]:hover   { color: #ffffff; }
 .logs a[href]::before {
-  content: "↗";
+  content: "\f35d";
   display: inline-block;
   width: 1em;
   height: 1em;
   margin-right: .2rem;
-  border-width: .1rem;
-  border-style: solid;
-  border-radius: .3rem;
-  font-size: .80em;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  font-size: .8em;
   line-height: 1;
   color: #fff;
+}
+/* 秘話 */
+.secret {
+  background-color: rgba(255,0,50,0.1);
+}
+.secret.openlater {
+  background-color: rgba(0,170,190,0.1);
 }
 /* ベース */
 .box {
@@ -96,29 +102,45 @@ a[href]:hover   { color: #ffffff; }
           text-emphasis: none;
 }
 /* チャットログ：トピック操作 */
-.logs dl dd.topic {
-  color: #afa;
-}
 .logs dl dd.topic::before {
   color: #0c2;
 }
-/* チャットログ：メモ操作 */
-.logs dl dd.memo {
+.logs dl dd.topic {
   color: #afa;
 }
+/* チャットログ：メモ操作 */
 .logs dl dd.memo::before {
   color: #0c2;
 }
+.logs dl dd.memo {
+  color: #afa;
+}
 
 /* チャットログ：ユニット操作 */
+.logs dl dd.unit::before {
+  color: #07d;
+}
 .logs dl dd.unit {
   color: #acf;
 }
 .logs dl dd.unit i {
   opacity: 0.70;
 }
-.logs dl dd.unit::before {
-  color: #07d;
+/* チャットログ：チョイス */
+.logs dl dd.choice::before {
+  color: #8a0;
+}
+.logs dl dd.choice {
+  color: #ad5;
+}
+.logs dl dd.choice i,
+.logs dl dd.choice b,
+.logs dl dd.choice s {
+  display: inline-block;
+}
+.logs dl dd.choice s {
+  color: #888;
+  text-decoration: none;
 }
 /* チャットログ：ダイス */
 .logs dl dd.dice::before {
@@ -138,10 +160,6 @@ a[href]:hover   { color: #ffffff; }
 }
 .logs dl dd.dice i {
   opacity: 0.85;
-}
-.logs dl dd.dice s {
-  color: #888;
-  text-decoration: none;
 }
 .logs dl dd.dice b,
 .logs dl dd.dice strong {
@@ -189,6 +207,13 @@ a[href]:hover   { color: #ffffff; }
   vertical-align: text-bottom;
 }
 
+/* // カラー設定：サイドバー
+---------------------------------------------------------------------------------------------------- */
+/* ステータス欄 */
+#status #status-body > dl dl dt {
+  color: #bce;
+}
+
 /* // デフォルト設定：ログ
 ---------------------------------------------------------------------------------------------------- */
 /* ログ */
@@ -209,6 +234,41 @@ a[href]:hover   { color: #ffffff; }
   content: '共有メモ';
   opacity: 0.3;
 }
+/* // Font awesome
+---------------------------------------------------------------------------------------------------- */
+.s-icon {
+  display: inline-block;
+  position: relative;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: bottom;
+  text-shadow: none;
+}
+.s-icon i {
+  display: inline-block;
+  color: transparent;
+  font-style: normal;
+  font-size: 10%;
+}
+.s-icon::after,
+.s-icon::before {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-size: .9em;
+  text-shadow: #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+}
+.s-icon.passive::before{ content: "\f111"; font-weight: normal; }
+.s-icon.setup::before  { content: "△";    font-weight: bold; }
+.s-icon.major::before  { content: "\f04b"; font-weight: bold; }
+.s-icon.minor::before  { content: "\f04e"; font-weight: bold; }
+.s-icon.active::before { content: "\f075"; font-weight: normal; transform: scale(-1, 1); }
+.s-icon.active::after  { content: "\f00c"; font-weight: bold; transform: scale(0.6,0.6);  }
 
 /* // スクロールバー
 ---------------------------------------------------------------------------------------------------- */

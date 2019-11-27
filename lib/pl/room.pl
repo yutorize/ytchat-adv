@@ -89,6 +89,25 @@ if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
 elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }
 if($rooms{$id}{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
 
+my @text_replace;
+foreach (@set::replace_help){
+  push(@text_replace, {
+    'BEFORE' => @{$_}[0],
+    'AFTER'  => @{$_}[1],
+    'HELP'   => @{$_}[2],
+  });
+}
+$ROOM->param(TextReplace => \@text_replace);
+
+my @random_table;
+foreach my $key (sort keys %set::random_table){
+  next if !$set::random_table{$key}{'help'};
+  push(@random_table, {
+    'COMMAND'  => $key,
+    'HELP' => $set::random_table{$key}{'help'},
+  });
+}
+$ROOM->param(RandomTable => \@random_table);
 
 ###################
 ### 出力

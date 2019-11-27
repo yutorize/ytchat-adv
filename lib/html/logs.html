@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>過去ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.04.0">
-  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.04.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.04.0">
+  <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.06.0">
+  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.06.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.06.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <script>
 let mainTab = 1;
 window.onload = function(){
@@ -14,12 +15,20 @@ window.onload = function(){
   for(let i=0; i<lines.length; i++){
     lines[i].classList.add('main');
   };
+  secretView();
 }
 function tabSelect(num){
   let lines = document.querySelectorAll('[data-tab="'+num+'"]');
   const on = document.getElementById('tab-on-'+num).checked;
   for(let i=0; i<lines.length; i++){
-    lines[i].style.display = on ? 'block' : 'none';
+    lines[i].style.display = on ? 'grid' : 'none';
+  };
+}
+function secretView(){
+  let lines = document.querySelectorAll('.secret');
+  const on = document.getElementById('secret-on').checked;
+  for(let i=0; i<lines.length; i++){
+    lines[i].style.display = on ? 'grid' : 'none';
   };
 }
   </script>
@@ -31,6 +40,7 @@ function tabSelect(num){
     <h2>メニュー<label for="menu-toggle"></label></h2>
     <ul id="tablist"><TMPL_LOOP TabList>
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
+      <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
     <div id="loglist-area">
     <h3>現行ログ</h3>
@@ -42,6 +52,7 @@ function tabSelect(num){
       <li><a href="./?mode=logs&date=<TMPL_VAR NAME>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
     </ul>
     </div>
+    <ul><li><a href="./">戻る</a></li></ul>
   </aside>
 </div>
 <div id="base" class="box">
@@ -50,7 +61,7 @@ function tabSelect(num){
   </header>
   <article id="contents">
   <div class="logs">
-    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR TYPE>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
+    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR SECRET> <TMPL_VAR OPENlATER>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
       <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
       <TMPL_LOOP LogsDD><TMPL_IF COMM><dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd></TMPL_IF>
       <TMPL_IF INFO><dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>
