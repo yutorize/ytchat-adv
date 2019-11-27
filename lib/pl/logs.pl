@@ -150,7 +150,7 @@ $ROOM->param(RoomList => \@roomlist);
 ### 過去ログ一覧
 opendir(my $DIR,"./logs/");
 my @loglist;
-foreach my $name (readdir($DIR)){
+foreach my $name (sort readdir($DIR)){
   next if ($name eq '.');
   $name =~ s/\..+?$//;
   push(@loglist, {'NAME' => $name});
