@@ -57,6 +57,26 @@ sub dxRoll {
   return $code .' → '. $result;
 }
 
+sub encroachRoll {
+  my $rolls = shift;
+  $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
+  my $number = 0;
+  foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
+  my $result = (sttCalc('侵蝕',$number,'+'))[0];
+  return "侵蝕:${result} [+${rolls}D10→${number}]";
+}
+
+sub resurrectRoll {
+  my $rolls = shift;
+  $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
+  my $number = 0;
+  foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
+  my ($hp, $diff, $over) = sttCalc('HP',$number,'+');
+  my $encroach = (sttCalc('侵蝕',($number-$over),'+'))[0];
+  $number .= '>'.($number-$over)."(over${over})" if $over;
+  return "HP:${hp} 侵蝕:${encroach} [+${rolls}D10→${number}]";
+}
+
 sub emotionRoll {
   my $type = shift;
   my $result = "感情表${type} → ";

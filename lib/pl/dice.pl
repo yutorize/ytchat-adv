@@ -16,8 +16,8 @@ sub diceCheck {
   $comm =~ s/&gt;/>/;
   $comm =~ s/&lt;/</;
   $comm =~ s/<br>/ /;
-  $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＠＄＃＜＞、＝！：/a-zA-Z0-9\+\-\*\/@\$#<>,=!:/;
-  if   ($comm =~ /^[0-9\+\-\*]*[0-9]+D([0-9]|\s|$)/i){ return diceRoll($comm), 'dice'; }
+  $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＾＠＄＃（）＜＞、＝！：/a-zA-Z0-9\+\-\*\/\^@\$#\(\)<>,=!:/;
+  if   ($comm =~ /^[0-9\+\-\*]*[0-9]+D([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
   elsif($comm =~ /^[0-9]*@/){ return shuffleRoll($comm), 'choice'; }
   elsif($comm =~ /^[0-9]*\$/){ return choiceRoll($comm), 'choice'; }
   elsif($::in{'game'} eq 'sw2' && $comm =~ /^[rk][0-9()]/i) { require './lib/pl/dice/sw2.pl'; return rateRoll($comm), 'dice:sw'; }
@@ -25,6 +25,25 @@ sub diceCheck {
   elsif($::in{'game'} eq 'dx3' && $comm =~ /^[0-9]+(r|dx)/i)    { require './lib/pl/dice/dx3.pl'; return   dxRoll($comm), 'dice:dx'; }
   elsif($::in{'game'} eq 'dx3' && $comm =~ /^ET(P|N)?(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
   elsif($::in{'game'} eq 'dx3' && $comm =~ /^HC(?:\s|$)/i)      { require './lib/pl/dice/dx3.pl'; return        hcRoll(), 'dice:dx'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^ER([0-9]*)(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return  encroachRoll($1), 'unit'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^RE([0-9]*)(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return resurrectRoll($1), 'unit'; }
+  # 四則演算
+  elsif($comm =~ /^
+    ( \(? \-? [0-9]+ [\+\-\/*\^]
+      [0-9\+\-\/*\^()]*
+      [0-9] \)? )
+    [=＝](?:\s|$)
+    /ix){
+    my $formula = $1;
+    if($formula !~ /[\+\-\/\*\^]/) { return ''; }
+    if($formula =~ m|//|) { return ''; }
+    my $formula_perl = $formula;
+    $formula =~ s#\^#\*\*#g;
+    $formula_perl =~ s#\*\*#\^#g;
+    my $result = eval($formula);
+    if($result eq ''){ return ''; }
+    return "${formula_perl} = ${result}", 'dice';
+  }
 }
 
 sub diceRoll {

@@ -101,16 +101,17 @@ else {
   elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
     my %stts;
     foreach (split(' ', $1)){
-      $_ =~ tr/０-９＋－／＊＝：/0-9\+\-\/\*=:/;
-      if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*]*)$/){
+      $_ =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
+      if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*!]*)$/){
         my ($type, $op, $num) = ($1,$2,$3);
-        my ($result, $diff) = sttCalc($type,$num,$op);
+        my ($result, $diff, $over) = sttCalc($type,$num,$op);
+        $diff .= "(over${over})" if $over;
         $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
         $::in{'info'} .= " [$diff]" if ($diff ne '');
         $::in{'system'} = "unit";
         $stts{$type} = $result;
       }
-      elsif($_ =~ /^($stt_commands)[=:](.*)$/){
+      elsif($_ =~ /^($stt_commands)[:](.*)$/){
         my ($type, $result) = ($1,$2);
         $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
         $::in{'system'} = "unit";
@@ -150,7 +151,7 @@ else {
     $::in{'system'} = 'dice';
   }
   # ダイス処理
-  elsif($::in{'comm'} =~ /^(?:[\@＠\$＄]|[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-ー\@＠\$＄#＃()（）]{2,})/i){
+  elsif($::in{'comm'} =~ /^(?:[\@＠\$＄]|[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,})/i){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
     if($::in{'info'}){
@@ -158,6 +159,15 @@ else {
       $::in{'info'} .= '<<'.$1;
     }
   }
+  # ダイス末尾マッチ
+  #elsif($::in{'comm'} =~ /(?:\s|<br>)((?:[\@＠\$＄]|[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}).*)$/i){
+  #  require './lib/pl/dice.pl';
+  #  ($::in{'info'}, $::in{'system'}) = diceCheck($1);
+  #  if($::in{'info'}){
+  #    $::in{'comm'} =~ s/((?:\s|<br>).*?)$//;
+  #    $::in{'info'} .= '<<'.$1;
+  #  }
+  #}
 }
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
 
@@ -393,26 +403,38 @@ sub sttCalc {
   my $type = shift;
   my $num  = shift;
   my $op   = shift;
+  my $break;
   
+  if($num =~ s/!$//){ $break = 1; }
   if($op ne '='){ $num =  $op.$num; }
   
   my @nums = split('/', $num, 2);
   my @base = split('/', $in_stt{$type}, 2);
   my @diff;
-  foreach my $i (0 .. $#nums){
+  my @over;
+  if($base[0] > $base[1]){ $break = 1; }
+  foreach my $i (0 .. 1){
     next if $nums[$i] eq '';
     if($nums[$i] =~ /[+\-]/ && $op ne '='){
       $diff[$i] = calc($nums[$i]);
       $base[$i] = calc($base[$i]) + $diff[$i];
     }
     else {
-      $diff[$i] = $nums[$i] - $base[$i];
-      $base[$i] = $nums[$i];
+      $diff[$i] = calc($nums[$i]) - $base[$i];
+      $base[$i] = calc($nums[$i]);
     }
-    $diff[$i] = ($diff[$i] >= 0 ? '+' : '') . $diff[$i] if ($diff[$i] ne '');
   }
+  # 最大値頭打ち処理
+  if(!$break && $base[1] ne '' && $base[0] > $base[1]){
+    $over[0] = $base[0] - $base[1];
+    if($over[0] > 0){
+      $diff[0] -= $over[0];
+    } 
+    $base[0] = $base[1];
+  }
+  foreach my $i (0..1){ $diff[$i] = ($diff[$i] >= 0 ? '+' : '') . $diff[$i] if ($diff[$i] ne ''); }
   
-  return (join('/', @base), join('/', @diff));
+  return (join('/', @base), join('/', @diff)), $over[0];
 }
 
 1;

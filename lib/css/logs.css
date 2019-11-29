@@ -68,9 +68,13 @@ article#contents {
   opacity: 0.6;
   transform: scale(0.7);
 }
+.logs dl dd.info b {
+  display: inline-block;
+}
 .logs dl dd.info strong {
     display: inline-block;
-    transform: scale(1.17);
+  font-size: calc(1em / 0.85);
+  line-height: calc(1.8 * 0.85);
 }
 /* 発言ホバー時 */
 .logs dl::before {
