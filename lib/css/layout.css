@@ -170,7 +170,7 @@ body {
 ---------------------------------------------------------------------------------------------------- */
 .chat {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: max-content auto;
   grid-gap: .2rem;
   overflow: hidden;
   position: relative;
@@ -385,7 +385,7 @@ body {
 /* サブ */
 .chat.sub {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: max-content auto max-content;
   font-size: 1.4rem;
 }
 .chat.sub .logs {

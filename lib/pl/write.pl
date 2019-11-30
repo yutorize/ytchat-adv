@@ -141,7 +141,7 @@ else {
     $::in{'system'} = 'memo:'.$num;
     $::in{'name'} = "SYSTEM by $::in{'player'}";
     $::in{'info'} = "$::in{'comm'}";
-    $::in{'comm'} = "共有メモ(".($num+1).")を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
+    $::in{'comm'} = "共有メモ".($num+1)."を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
     delete $::in{'address'};
   }
   # BCDice処理
@@ -243,6 +243,7 @@ sub tagConvert{
     $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
   }
   
+  $comm =~ s#&lt;hr&gt;#<hr>#gi;
   $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/rt&gt;&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
   1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gi;
   1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gi;

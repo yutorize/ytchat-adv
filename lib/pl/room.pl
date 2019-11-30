@@ -102,6 +102,7 @@ $ROOM->param(TextReplace => \@text_replace);
 my @random_table;
 foreach my $key (sort keys %set::random_table){
   next if !$set::random_table{$key}{'help'};
+  next if ($set::random_table{$key}{'game'} && $set::random_table{$key}{'game'} ne $game);
   push(@random_table, {
     'COMMAND'  => $key,
     'HELP' => $set::random_table{$key}{'help'},

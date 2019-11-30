@@ -6,6 +6,7 @@
     <div class="help-detail-area">
       <table>
         <tr><th>キー</th><th>説明</th></tr>
+        <tr><th>(空の発言欄で)<br>↑</th><td>その発言欄での直前の発言を呼び出す</td></tr>
         <tr><th>Ctrl+↑<br>Ctrl+↓</th><td>名前の選択を変更する。</td></tr>
         <tr><th>Ctrl+←<br>Ctrl+→</th><td>メインのタブを変更する。</td></tr>
       </table>
@@ -34,7 +35,7 @@
         <tr><th>&lt;s&gt;テキスト&lt;/s&gt;</th><td><s>テキスト</s></td><td>打消線を引く</td></tr>
         <tr><th>&lt;u&gt;テキスト&lt;/u&gt;</th><td><u>テキスト</u></td><td>下線を引く</td></tr>
         <tr><th>&lt;c:#ee9900&gt;テキスト&lt;/c&gt;</th><td><span style="color:#ee9900">テキスト</span></td><td>文字色を変える。<br>カラーコードは任意に変えてよい。</td></tr>
-        <tr><th>&lt;big&gt;テキスト&lt;/big&gt;</th><td><span class="large">テキスト</span></td><td>文字を大きくする。（150%倍）</td></tr>
+        <tr><th>&lt;big&gt;テキスト&lt;/big&gt;</th><td><span class="large">テキスト</span></td><td>文字を大きくする。（150%）</td></tr>
         <tr><th>&lt;small&gt;テキスト&lt;/small&gt;</th><td><span class="small">テキスト</span></td><td>文字を小さくする。（80%）</td></tr>
         <tr><th>&lt;hide&gt;テキスト&lt;/hide&gt;</th><td><span class="hide">テキスト</span></td><td>文字を透明にする。<br>（ドラッグで選択状態にすると見える）</td></tr>
       </table>
@@ -55,16 +56,19 @@
         <tr><th>@ステータス名+数値   </th><td>「ステータス」の現在値に「数値」を加算する。<br>例: <code>@HP+8 リカバリィで回復。</code></td></tr>
         <tr><th>@ステータス名-数値   </th><td>「ステータス」の現在値から「数値」を減算する。<br>例: <code>@MP-3 キュア・ウーンズを使います。</code></td></tr>
         <tr><th>@ステータス名/数値   </th><td>「ステータス」の最大値を「数値」にする。<br>例: <code>@HP/30</code></td></tr>
-        <tr><th>@ステータス名/+数値  </th><td>「ステータス」の最大値に「数値」を加算する。<br>例: <code>@HP/+15 バーチャルタフネス貰いました。</code></td></tr>
+        <tr><th>@ステータス名/+数値  </th><td>「ステータス」の最大値に「数値」を加算する。<br>例: <code>@HP/+6</code> <code>@HP+15/+15 バーチャルタフネス貰いました。</code></td></tr>
         <tr><th>@ステータス名/-数値  </th><td>「ステータス」の最大値から「数値」を減算する。<br>例: <code>@HP/-10</code></td></tr>
         <tr><td colspan="2">
-           ステータスリモコンの各項目は「@ステータス名」が省略された状態になっています。<br>
-           +や-を入力しなかった場合は自動的に「=」として処理します。<br>
+          　ステータスリモコンの各項目は「@ステータス名」が省略された状態になっています。<br>
+          　+や-を入力しなかった場合は自動的に「=」として処理します。<br>
           「入力内容そのままで～」の設定の場合は常に「@ステータス名:」として処理します。<br>
         </td></tr>
         <tr><td colspan="2">
-           ステータスは一括で変更することができます。<br>
-           このさい、２つ目以降のステータス名の前に@は不要です。<br>
+          　ステータスは、最大値が入力されている
+        </td></tr>
+        <tr><td colspan="2">
+          　ステータスは一括で変更することができます。<br>
+          　このさい、２つ目以降のステータス名の前に@は不要です。<br>
           例: <code>@HP:25/25 MP:10/10 防護:4</code>、<code>@HP-12 MP-12</code>
         </td></tr>
         <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
