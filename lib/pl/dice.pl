@@ -132,7 +132,12 @@ sub dice {
     $num += $_ foreach @results;
     $num_total += $num;
     
-    push( @full_results, (join(',', @results)) );
+    my $result = join(',', @results);
+    if($::in{'game'} =~ /sw2/i){
+      $result .= ($rolls*$faces == $num) ? '!!' : ($rolls == $num) ? '...' : '';
+    }
+    
+    push( @full_results, $result);
     
     last if !$crit;
     last if $num < $crit;

@@ -93,12 +93,12 @@ sub rateCalc {
         $number = $dice + $demifixed;
         $inside_code = "($demifixed)+${dice}";
         #出目最低値がC値以下だと∞
-        if($demifixed > 1 && $demifixed+1 >= $crit){ return $code." C値${crit} → \[${inside_code}:クリティカル!!!\]... = ∞"; }
+        if($crit && $demifixed > 1 && $demifixed+1 >= $crit){ return $code." C値${crit} → \[${inside_code}:クリティカル!!!\]... = ∞"; }
       }
       #両方固定
       else {
-        $number = $fixed;
-        $number = ($number > 12) ? 12 : ($number < 2) ? 2 : $number;
+        $number = ($fixed > 12) ? 12 : ($fixed < 2) ? 2 : $fixed;
+        if($number <= 2){ return $code." → \[${number}:1ゾロ..\] = 0"; }
         $fixed = 0; # 1回処理したらなくなる
       }
     }
@@ -119,7 +119,7 @@ sub rateCalc {
     
     # 1ゾロ
     if(!$crits && $number <= 2){
-      return $code." → \[${inside_code}=${number}:1ゾロ..\] = 0";
+      return $code." → \[${inside_code}=${number}:ファンブル..\] = 0";
       last;
     }
     $inside_code .= $inside_code ? '=' : '';

@@ -64,7 +64,9 @@
           「入力内容そのままで～」の設定の場合は常に「@ステータス名:」として処理します。<br>
         </td></tr>
         <tr><td colspan="2">
-          　ステータスは、最大値が入力されている
+          　ステータスは、最大値が入力されている際、現在値がそれを超えた場合には最大値と同値に抑えられます。<br>
+          　ただし、数値の末尾に「!」を入力することで、最大値を超えた設定が可能です。<br>
+          　例：<code>@HP+15!</code>
         </td></tr>
         <tr><td colspan="2">
           　ステータスは一括で変更することができます。<br>
@@ -136,13 +138,15 @@
     <h4>威力表（ソード・ワールド）</h4>
     <div class="help-detail-area">
       <p>
-        <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#ee77bb;">!必殺</span><span style="color:#bb77ee;">$Cレイ</span><span style="color:#77aaee;">k首切り</span><br>
-        <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#eebb77;">[C値]</span><span style="color:#77ee77;">+修正値</span><span style="color:#ee77bb;">!必殺</span><span style="color:#bb77ee;">$出目修正</span><span style="color:#77aaee;">k首切り</span><span style="color:#cc77ee;">:繰返し回数</span>
+        <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#ee77bb;">!必殺</span><span style="color:#bb77ee;">$出目</span><span style="color:#77aaee;">k首切</span><span style="color:#cc77ee;">:繰返し回数</span><br>
+        <b>R</b><span style="color:#ee7777;">威力</span><span style="color:#eebb77;">[C値]</span><span style="color:#77ee77;">+修正値</span><span style="color:#ee77bb;">!必殺</span><span style="color:#bb77ee;">$出目</span><span style="color:#77aaee;">k首切</span><span style="color:#cc77ee;">:繰返し回数</span>
       </p>
       <p>
-        <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">!必殺</span>・<span style="color:#bb77ee;">$出目修正</span>・<span style="color:#77aaee;">k首切り</span>・<span style="color:#cc77ee;">:繰返し回数</span>は省略できます。<br>
-         修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
-         必殺、Cレイ（クリティカルレイ）、首切りは、効果による出目ないし威力の上昇値を記入します。<br>
+        <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#ee77bb;">!必殺</span>・<span style="color:#bb77ee;">$出目</span>・<span style="color:#77aaee;">k首切り</span>・<span style="color:#cc77ee;">:繰返し回数</span>は省略できます。<br>
+        　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//+1</span>」など）。<br>
+        　!必殺、k首切は、効果による出目ないし威力の上昇値を記入します。<br>
+        　$出目は、特定効果による出目の固定値や修正値（クリティカルレイ等）を記入します。<br>
+        　詳しくは下記を参照してください。
       </p>
       <p>
         威力表のダイスコードの記述に用いる記号等は、以下のものも使えるようになっています。
@@ -169,9 +173,19 @@
           <td>Num=出目上昇量。<br>Numを省略すると1として扱う。</td>
         </tr>
         <tr>
+          <th>出目固定<br>（合計値）</th>
+          <th> <b>$</b><i>Num</i> </th>
+          <td>Num=出目（2～12）。<br>出目をNumとして威力算出する。<br>クリティカル時、最初の1回のみで効果は消える。</td>
+        </tr>
+        <tr>
+          <th>出目固定<br>（片方）</th>
+          <th> <b>$n</b><i>Num</i> </th>
+          <td>Num=出目（1～6）。<br>出目の片方をNumとして威力算出する。<br>クリティカル時にも継続する。</td>
+        </tr>
+        <tr>
           <th>出目修正</th>
-          <th> <b>$</b><i>Num</i> <br> <b>$+</b><i>Num</i> </th>
-          <td>Num=出目or出目修正値。<br>出目をNumとして威力算出する。<br>+をつけると出目にその値を加える（クリレイ効果）。</td>
+          <th> <b>$+</b><i>Num</i> </th>
+          <td>Num=出目修正値。<br>出目にNumを加える（クリレイ効果）。<br>クリティカル時、最初の1回のみで効果は消える。</td>
         </tr>
         <tr>
           <th>首切効果</th>
@@ -227,6 +241,14 @@
       </p>
     </div>
     </TMPL_IF>
+    
+    <h4>四則演算</h4>
+    <div class="help-detail-area">
+      <p>
+        <span style="color:#ee7777;">計算式</span><b>=</b><br>
+      </p>
+      <p>　計算式には数字(0～9)、四則演算記号(+-*/)、べき乗記号(^または**)、丸括弧が使用できます。</p>
+    </div>
     
     <TMPL_IF helpOnBCDice>
     <h4>BCDice</h4>

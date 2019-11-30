@@ -167,9 +167,18 @@ a[href]:hover   { color: #ffffff; }
 .logs dl dd.dice strong {
   color: #f33;
 }
+.logs dl dd.dice em {
+  color: #e90;
+  font-weight: bold;
+}
+.logs dl dd.dice em.fail {
+  color: #888;
+  font-weight: bold;
+}
 .logs dl dd.dice .division {
   filter: grayscale(50%);
 }
+
 /* チャットログ：威力表 */
 .logs dl dd.dice[data-game="sw"] { color: #ea6; }
 .logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
