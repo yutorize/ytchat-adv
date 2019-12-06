@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.06.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout.css?0.06.0">
-  <link rel="stylesheet" media="all" href="lib/css/layout-sp.css?0.06.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.06.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.08.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="lib/js/lib/autosize.min.js" defer></script>
-  <script src="lib/js/lib/jquery.selection.js" defer></script>
-  <script src="lib/js/ui.js?0.06.0" defer></script>
-  <script src="lib/js/chat.js?0.06.0" defer></script>
+  <script src="./lib/js/lib/autosize.min.js" defer></script>
+  <script src="./lib/js/lib/jquery.selection.js" defer></script>
+  <script src="./lib/js/ui.js?0.08.0" defer></script>
+  <script src="./lib/js/chat.js?0.08.0" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -87,20 +88,23 @@
           <button onclick="formSubmit('form-comm-main');">送信</button>
           </div>
           <div class="decoration-buttons">
-            <span class="button insert-ruby">ルビ</span>
-            <span class="button insert-em">傍点</span>
-            <span class="button insert-bold" style="font-weight:bold;">太字</span>
-            <span class="button insert-oblique" style="font-family:inherit;font-style:oblique">斜体</span>
-            <span class="button insert-under" style="text-decoration:underline;">下線</span>
-            <span class="button insert-strike" style="text-decoration:line-through;">打消</span>
-            <span class="button insert-color"><span style="color:#f90;">色</span>字</span>
-            <span class="button insert-big"><span style="font-size:120%;">大</span>字</span>
-            <span class="button insert-small"><span style="font-size: 80%;">小</span>字</span>
-            <span class="button insert-hide">透明</span>
-            <br>
-            <span class="button insert-left">左寄せ←</span>
-            <span class="button insert-center">→中央←</span>
-            <span class="button insert-right">→右寄せ</span>
+            <span class="button insert-ruby"></span>
+            <span class="button insert-em"></span>
+            <span class="button insert-bold"    title="太字"></span>
+            <span class="button insert-oblique" title="斜体"></span>
+            <span class="button insert-under"   title="下線"></span>
+            <span class="button insert-strike"  title="打消線"></span>
+            <span class="button insert-big"     title="大きい字"></span>
+            <span class="button insert-small"   title="小さい字"></span>
+            <span class="button insert-color"   title="色変え"></span>
+            <span class="button insert-hide"    title="透明な字"></span>
+            <span class="button insert-horizon" title="水平線"></span>
+            <span class="button insert-left"    title="左揃え"></span>
+            <span class="button insert-center"  title="中央揃え"></span>
+            <span class="button insert-right"   title="右揃え"></span>
+          </div>
+          <div class="check-buttons">
+            <button onclick="unitCommandSubmit('check')">✔</button><button onclick="unitCommandSubmit('uncheck')">×</button>
           </div>
         </div>
         <div class="form-dice">
@@ -223,6 +227,40 @@
       　指定したワードが発言された際、強調表示します。<br>
       　改行で区切って複数設定することができます。<br>
       　自身の入室名はデフォルトで強調されます。<br>
+    </p>
+    <h3>ログフォント設定</h3>
+    <div id="font-sample" class="logs-font">
+      <TMPL_IF helpOnSW2>
+      ――『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
+      <TMPL_ELSE>
+      <TMPL_IF helpOnDX3>
+        昨日と同じ今日。今日と同じ明日。世界は繰り返し時を刻み、変わらないように見えた。だが、世界はすでに変貌していた。<br>
+        “ダブルクロス”――それは「裏切り」を意味する言葉。
+      <TMPL_ELSE>
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+      </TMPL_IF>
+      </TMPL_IF>
+    </div>
+    <p>
+      日本語フォント：
+      <select id="font-family-jp" onchange="fontFamilyChange(this.value)">
+        <option value='"UD Digi Kyokasho NP-R"'>UDデジタル教科書体（Windows10～）</option>
+        <option value='"BIZ UDMincho"'>BIZ UD明朝（Windows10～）</option>
+        <option value='"BIZ UDGothic"'>BIZ UDゴシック（Windows10～）</option>
+        <option value='"Meiryo"'>メイリオ（Windows）</option>
+        <option value='"YuGothic","Yu Gothic"'>游ゴシック（Mac/Windows8～）</option>
+        <option value='"YuMincho","Yu Mincho"'>游明朝（Mac/Windows8～）</option>
+        <option value='"YuKyokasho Yoko"'>游教科書体（Mac）</option>
+        <option value='"Hiragino Sans"'>ヒラギノ角ゴシック（Mac）</option>
+        <option value='"Hiragino Maru Gothic ProN"'>ヒラギノ丸ゴ（Mac）</option>
+        <option value='"Hiragino Mincho ProN"'>ヒラギノ明朝（Mac）</option>
+        <option value='"Klee"'>クレー（Mac）</option>
+        <option value='"Tsukushi A Round Gothic"'>筑紫A丸ゴシック（Mac）</option>
+        <option value='"Toppan Bunkyu Gothic"'>凸版文久ゴシック（Mac）</option>
+        <option value='"Toppan Bunkyu Mincho"'>凸版文久明朝（Mac）</option>
+        <option value='"Noto Sans JP"'>Noto Sans JP（Webフォント）</option>
+      </select><br>
+      文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
     </p>
     <h3>ログ初期化</h3>
     <p>

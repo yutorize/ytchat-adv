@@ -48,6 +48,42 @@ a[href]:hover   { color: #ffffff; }
 /* ラウンド */
 #round-value {
 }
+/* ステータス */
+#status #status-body > dl > dd > dl dd {
+  text-shadow: 
+    #000  1px 1px, #000 -1px -1px,
+    #000 -1px 1px, #000  1px -1px,
+    #000  0px 1px, #000  0px -1px,
+    #000 -1px 0px, #000  1px  0px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+}
+
+.gauge i { background: #7ad; }
+.gauge i::before { background: linear-gradient(to left, #ff5, transparent); }
+dd[id*="-HP-"] .gauge[data-signal="safe"]    i { background: #095; }
+dd[id*="-HP-"] .gauge[data-signal="caution"] i { background: #890; }
+dd[id*="-HP-"] .gauge[data-signal="warning"] i { background: #e80; }
+dd[id*="-HP-"] .gauge[data-signal="danger"]  i { background: #e00; }
+
+dd[id*="-MP-"] .gauge i { background: #42e; }
+
+dd[id*="-侵蝕-"] .gauge[data-signal="safe"]      i { background: #2ae; }
+dd[id*="-侵蝕-"] .gauge[data-signal="notice"]    i { background: #38e; }
+dd[id*="-侵蝕-"] .gauge[data-signal="attention"] i { background: #46e; }
+dd[id*="-侵蝕-"] .gauge[data-signal="caution"]   i { background: #83c; }
+dd[id*="-侵蝕-"] .gauge[data-signal="warning"]   i { background: #b18; }
+dd[id*="-侵蝕-"] .gauge[data-signal="danger"]    i { background: #e00; }
+dd[id*="-侵蝕-"] .gauge[data-signal="critical"]  i { background: #a00; }
+dd[id*="-侵蝕-"] .gauge[data-signal="fatal"]     i { background: #605; }
+dd[id*="-侵蝕-"] .gauge[data-signal="grave"]     i { background: #005; }
+dd[id*="-侵蝕-"] .gauge[data-signal="monster"]   i { background: #000; box-shadow: inset 0 0 .3rem #808; }
+
+dd[id*="-侵蝕-"] .gauge[data-signal="critical"] i::before,
+dd[id*="-侵蝕-"] .gauge[data-signal="fatal"] i::before,
+dd[id*="-侵蝕-"] .gauge[data-signal="grave"] i::before { background: linear-gradient(to left, #f00, transparent); }
+dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
+
+
 /* シート */
 .sheet .close-area {
   background: rgba(0,0,0,0.8);
@@ -63,10 +99,10 @@ a[href]:hover   { color: #ffffff; }
 }
 .logs dl dd {
   text-shadow: 
-    #333  1px 1px, #333 -1px -1px,
-    #333 -1px 1px, #333  1px -1px,
-    #333  0px 1px, #333  0px -1px,
-    #333 -1px 0px, #333  1px  0px,
+    #000  1px 1px, #000 -1px -1px,
+    #000 -1px 1px, #000  1px -1px,
+    #000  0px 1px, #000  0px -1px,
+    #000 -1px 0px, #000  1px  0px,
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
     #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
 }
@@ -216,6 +252,13 @@ a[href]:hover   { color: #ffffff; }
 /* チャットログ：ボタン */
 .logs dl dd button {
   vertical-align: text-bottom;
+}
+/* チャットログ：水平線 */
+.logs dl dd hr {
+  margin: .25em 0;
+  border-width: .1rem 0 0;
+  border-style: solid;
+  border-color: rgba(127,127,127,0.3);
 }
 
 /* // カラー設定：サイドバー

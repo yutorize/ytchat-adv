@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,900,900i&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž');
 /* // 基本設定
 ---------------------------------------------------------------------------------------------------- */
 * {
@@ -27,6 +27,7 @@ input,textarea,select, button, .button, .dice-button {
   border-radius: .8rem;
   background: rgba(30,30,30,0.8);
   color: #fff;
+  line-height: 1;
 }
 button, .button {
   display: inline-block;
@@ -90,21 +91,24 @@ input[type=range]::-moz-range-track {
 /* フォント */
 html,
 body,
-input,select,button {
+button,
+.log-font {
   font-family: 'Lato',"UD Digi Kyokasho NP-R","Meiryo","YuKyokasho Yoko";
 }
 h1,h2,h3,h4,h5,h6,dt,th,b,strong,label,
 #menubar, #topic,
 .bold {
   font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
-  font-weight: bold;
+  font-weight: 900;
+}
+.num-font {
+  font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
+  font-weight: 700;
 }
 textarea,
-#status dd,
-.sheet dd,
-.sheet input,
-.sheet select {
-  font-family: "UD Digi Kyokasho N-R","Meiryo","Tsukushi A Round Gothic";
+input,
+select {
+  font-family: "BIZ UDGothic","Meiryo","Tsukushi A Round Gothic";
 }
 button, .button {
   font-family: "Hiragino Kaku Gothic ProN","Meiryo";
@@ -149,109 +153,3 @@ img.icon { width: 1em; height: 1em; }
   margin-top: 1rem;
 }
 
-/* フロートボックス */
-.float-box {
-  position: absolute;
-  top: 2rem;
-  left: 1rem;
-  right: 1rem;
-  bottom: 2rem;
-  width: max-content;
-  height: max-content;
-  margin: auto;
-  padding: .5rem;
-  border-radius: 1rem;
-  
-  transition-property: transform, opacity;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-in-out;
-  transform: scaleY(0);
-  opacity: 0;
-  z-index: 99;
-}
-.float-box h2 {
-  font-size: 1.4em;
-}
-.float-box h3 {
-  font-size: 1.15em;
-  margin-top: .5em;
-  padding-top: .3em;
-  border-top: 1px solid rgba(127,127,127,0.8);
-}
-.float-box h4 {
-  font-size: 1.10em;
-  margin-top: .5em;
-  padding-top: .3em;
-  border-top: 1px dotted rgba(127,127,127,0.7);
-}
-.float-box textarea {
-  line-height: 1.5;
-}
-.float-box p {
-  line-height: 1.4;
-}
-.float-box .close.button {
-  position: absolute;
-  top: 0.2em;
-  right: 0.2em;
-}
-#dark-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 98;
-}
-
-/* 編集・追加ボタン */
-.add.button,
-.edit.button,
-.close.button {
-  width: calc(1.3em + 2px);
-  height: calc(1.3em + 2px);
-  padding: .15em;
-  font-size: 1.6rem;
-}
-
-/* ダイスボタン */
-.dice-button {
-  display: inline-grid;
-  grid-template-columns: auto 1fr;
-  margin: 0 1rem .3rem 0;
-  padding: 0;
-  border-radius: .5em ;
-  border-width: 1px;
-  overflow: hidden;
-  background: transparent;
-}
-.dice-button > * {
-  vertical-align: bottom;
-  font-size: 1.1rem;
-  color: #fff;
-  border-width: 0;
-  border-radius: 0;
-}
-.dice-button button {
-  padding: 0 .5em;
-  cursor: pointer;
-  border-right-width: .1rem;
-}
-.dice-button button::before {
-  content: '🎲';
-  font-size: 1.4rem;
-}
-.dice-button input,
-.dice-button textarea {
-  display: inline-block;
-  width: 100%;
-  height: auto;
-  padding: .3rem .3rem;
-  text-shadow: none;
-  font-size: 1.4rem;
-}
-.dice-button button:only-child {
-  grid-column: span 2;
-  border-radius: .5em;
-}

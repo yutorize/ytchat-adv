@@ -8,9 +8,11 @@ use Fcntl;
 ###################
 ### ルームリセット
 
-my $dir = "./room/$::in{'room'}/";
 
 error('パスワードが一致しません') if ($set::password ne $::in{'password'});
+
+my $dir = "./room/$::in{'room'}/";
+my $logs_dir = $set::rooms{$::in{'room'}}{'logs-dir'} ? $set::rooms{$::in{'room'}}{'logs-dir'} : $set::logs_dir;
 
 ## ファイル名
 my $filename;
@@ -31,15 +33,15 @@ else {
   $filename = $date;
   $filename .= $::in{'room'} if $set::logname_id_add;
   my $num = 0;
-  while (-f $set::logs_dir.$filename.'_'.$num.'.dat'){
+  while (-f "${logs_dir}/${filename}_${num}.dat"){
     $num++;
   }
-  $filename = $set::logs_dir.$filename.'_'.$num.'.dat';
+  $filename = "${logs_dir}/${filename}_${num}.dat";
 }
 
 ## ディレクトリチェック
-if(!-d $set::logs_dir){
-  mkdir $set::logs_dir;
+if(!-d $logs_dir){
+  mkdir $logs_dir;
 }
 
 error('既にファイルが存在します') if (-f $filename); #上書きは避ける
@@ -81,10 +83,10 @@ error('既にファイルが存在します') if (-f $filename); #上書きは�
 use File::Copy 'move';
 if(move($dir.'log-all.dat', $filename)){
   if($::in{'allReset'}){
-    unlink $dir.'room.dat';
-    unlink $dir.'log-key.dat';
-    unlink $dir.'log-pre.dat';
-    unlink $dir."log-num-$::in{'logKey'}.dat";
+    unlink $dir.'/room.dat';
+    unlink $dir.'/log-key.dat';
+    unlink $dir.'/log-pre.dat';
+    unlink $dir."/log-num-$::in{'logKey'}.dat";
   }
 }
 

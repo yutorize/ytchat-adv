@@ -147,10 +147,12 @@
   /* // フォーム
   ---------------------------------------------------------------------------------------------------- */
   #main-form .input-form {
-    grid-template-columns: auto 1fr;
+    display: block;
+  }
+  #main-form .input-form > div:first-child {
+    display: block;
   }
   .decoration-buttons {
-    display: none;
   }
   .form-dice {
     display: none;

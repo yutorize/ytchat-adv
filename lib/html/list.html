@@ -3,11 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>部屋一覧 - ゆとチャadv.</title>
+  <title>ゆとチャadv.</title>
   <link rel="stylesheet" media="all" href="lib/css/base.css">
   <link rel="stylesheet" media="all" href="lib/css/list.css">
   <link rel="stylesheet" media="all" href="lib/css/config.css">
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
+  $.ajax({
+    url: 'https://yutorize.2-d.jp/version/ytchat-adv.txt',
+    type: 'GET',
+    cache: false,
+    timeout: 10000,
+    dataType: 'text',
+  })
+  .done( (data) => {
+    if("<TMPL_VAR ver>" !== data){
+      document.getElementById('update-info').innerHTML = '<a href="https://yutorize.2-d.jp/?ytchat-adv">新しいバージョン'+data+'があります</a>'
+    }
+  });
   </script>
 </head>
 <body>
@@ -24,6 +38,7 @@
   </article>
   <footer>
     ゆとチャadv. ver.<TMPL_VAR ver> - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
+    <div id="update-info"></div>
   </footer>
 </div>
 </body>

@@ -26,13 +26,9 @@ if(!$::in{'system'}){
   if($::in{'comm'} eq ''){ error "発言がありません"; }
 }
 
-my %in_stt;
+my $in_stt;
 if($::in{'stt'}){
-  my $text = decode('utf8', $::in{'stt'});
-  foreach my $data ( split('<>', $text) ){
-    my ($name, $value) = split('=', $data);
-    $in_stt{$name} = $value;
-  }
+  $in_stt = decode_json( $::in{'stt'} );
 }
 
 foreach (%::in) {
@@ -243,7 +239,7 @@ sub tagConvert{
     $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
   }
   
-  $comm =~ s#&lt;hr&gt;#<hr>#gi;
+  $comm =~ s#&lt;hr&gt;(<br>)?#<hr>#gi;
   $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/rt&gt;&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
   1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gi;
   1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gi;
@@ -410,7 +406,7 @@ sub sttCalc {
   if($op ne '='){ $num =  $op.$num; }
   
   my @nums = split('/', $num, 2);
-  my @base = split('/', $in_stt{$type}, 2);
+  my @base = split('/', $in_stt->{$type}, 2);
   my @diff;
   my @over;
   if($base[0] > $base[1]){ $break = 1; }

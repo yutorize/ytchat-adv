@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.06.0">
-  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.06.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.06.0">
+  <link rel="stylesheet" media="all" href="lib/css/base.css?0.08.0">
+  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.08.0">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?0.08.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <script>
 let mainTab = 1;
@@ -31,10 +31,16 @@ function secretView(){
     lines[i].style.display = on ? 'grid' : 'none';
   };
 }
+function dirToggle(dir){
+  let lines = document.querySelectorAll('#loglist li[data-subdir="'+dir+'"]');
+  for(let i=0; i<lines.length; i++){
+    lines[i].style.display = (lines[i].style.display === 'none') ? 'block' : 'none';
+  };
+}
   </script>
 </head>
 <body>
-<div id="left">
+<div id="right">
   <input type="checkbox" id="menu-toggle">
   <aside id="menu" class="box">
     <h2>メニュー<label for="menu-toggle"></label></h2>
@@ -43,14 +49,18 @@ function secretView(){
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
     <div id="loglist-area">
+    <TMPL_IF RoomList>
     <h3>現行ログ</h3>
     <ul id="roomlist"><TMPL_LOOP RoomList>
       <li><a href="./?mode=logs&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
     </ul>
+    </TMPL_IF>
+    <TMPL_IF LogList>
     <h3>過去ログ</h3>
     <ul id="loglist"><TMPL_LOOP LogList>
-      <li><a href="./?mode=logs&date=<TMPL_VAR NAME>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
+      <li data-subdir="<TMPL_VAR SUB>" <TMPL_IF SUB>style="display:none"</TMPL_IF>><TMPL_IF DIR><a onclick="dirToggle('<TMPL_VAR NAME>');">▼<TMPL_VAR NAME>/</a><TMPL_ELSE><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>"><TMPL_VAR NAME></a></TMPL_IF></li></TMPL_LOOP>
     </ul>
+    </TMPL_IF>
     </div>
     <ul><li><a href="./">戻る</a></li></ul>
   </aside>

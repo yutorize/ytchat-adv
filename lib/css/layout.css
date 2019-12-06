@@ -86,6 +86,16 @@ body {
   flex-shrink: 0;
 }
 
+/* 編集・追加ボタン */
+.add.button,
+.edit.button,
+.close.button {
+  width: calc(1.3em + 2px);
+  height: calc(1.3em + 2px);
+  padding: .15em;
+  font-size: 1.6rem;
+}
+
 /* // メニュー
 ---------------------------------------------------------------------------------------------------- */
 #menubar {
@@ -257,10 +267,22 @@ body {
   position: relative;
   padding-right: .5rem;
 }
+.chat .logs dl dt,
 .chat .logs dl dd {
   min-width: 50%;
   position: relative;
   border-radius: .5rem;
+  animation-name: fadein;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 /* 投稿ユーザー表示 */
 .chat .logs dl::before {
@@ -296,7 +318,9 @@ body {
   margin-left: 1em;
 }
 .chat .logs dl dd.info::before {
-  content: '▶';
+  content: '\f054';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
   position: absolute;
   left: -.5em;
   text-shadow: none;
@@ -436,6 +460,7 @@ body.rom .input-form { display: none !important; }
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
 /* メイン */
 #main-form {
 }
@@ -443,6 +468,14 @@ body.rom .input-form { display: none !important; }
   display: grid;
   grid-gap: .5rem;
   grid-template-columns: auto 1fr 1.2fr;
+}
+@media (max-width: 900px) {
+  #main-form .input-form {
+    grid-template-columns: auto 1fr;
+  }
+  #main-form .input-form > div:first-child {
+    grid-row: span 2;
+  }
 }
 #main-form .input-form + .input-form {
   padding-left: 1rem;
@@ -544,29 +577,130 @@ body.rom .input-form { display: none !important; }
 #main-form .address-area label input:checked+span {
   color: #ffaa00;
 }
+#main-form .comm-area {
+}
 .decoration-buttons {
-  padding-right: 3em;
-  text-align: right;
+  display: flex;
+  padding-left: .5em;
+  padding-right: 7em;
+  border-top: 1px solid rgba(200,220,240,0.3);
 }
 .decoration-buttons .button {
-  width: auto;
+  position: relative;
+  width: 2.5rem;
+  height: 2rem;
+  padding: 0;
   background: transparent;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: normal;
-  overflow: hidden;
+  border-width: 0 1px 1px 0;
+  border-radius: 0;
+  overflow: visible;
 }
-.decoration-buttons .button span {
-  display: inline-block;
-  width: 1.1rem;
-  line-height: .6;
+.decoration-buttons .button:first-child {
+  border-left-width: 1px;
+  border-bottom-left-radius: .6rem;
 }
+.decoration-buttons .button:last-child {
+  border-bottom-right-radius: .5rem;
+}
+.decoration-buttons .button::before,
+.decoration-buttons .button::after {
+  position: absolute;
+  display: block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: .3rem;
+  white-space: nowrap;
+}
+.decoration-buttons .insert-ruby    { width: 3.2rem; }
+.decoration-buttons .insert-em      { width: 3.2rem; }
+.decoration-buttons .insert-ruby::before    { content:"ルビ"; }
+.decoration-buttons .insert-em::before      { content:"傍点"; }
+
+.decoration-buttons .insert-bold::before    { content:"\f032"; }
+.decoration-buttons .insert-oblique::before { content:"\f033"; }
+.decoration-buttons .insert-under::before   { content:"\f0cd"; }
+.decoration-buttons .insert-strike::before  { content:"\f0cc"; }
+.decoration-buttons .insert-big::before     { content:"\f031\f30c"; }
+.decoration-buttons .insert-small::before   { content:"\f031\f309"; }
+.decoration-buttons .insert-color::before   { content:"\f031"; color:#e80; }
+.decoration-buttons .insert-hide::before    { content:"\f031"; opacity:0.2; }
+.decoration-buttons .insert-horizon::before { content:"―"; }
+.decoration-buttons .insert-left::before    { content:"\f036"; }
+.decoration-buttons .insert-center::before  { content:"\f037"; }
+.decoration-buttons .insert-right::before   { content:"\f038"; }
+
+.check-buttons {
+  margin-top: -2rem;
+  margin-right: 1.5rem;
+  text-align: right;
+}
+.check-buttons button {
+  border-top: 0;
+}
+.check-buttons button:first-child {
+  width: 4rem;
+  border-radius: 0 0 0 .8rem;
+}
+.check-buttons button:last-child {
+  width: 2.5rem;
+  border-left: 0;
+  border-radius: 0 0 .8rem 0;
+}
+
 .input-form .add-button {
   vertical-align: super;
 }
 .input-form #sub-comm {
   margin-top: .5rem;
 }
-/* ダイス */
+
+/* ダイスボタン */
+.dice-button {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  margin: 0 1rem .3rem 0;
+  padding: 0;
+  border-radius: .5em ;
+  border-width: 1px;
+  overflow: hidden;
+  background: transparent;
+}
+.dice-button > * {
+  vertical-align: bottom;
+  font-size: 1.1rem;
+  color: #fff;
+  border-width: 0;
+  border-radius: 0;
+}
+.dice-button button {
+  padding: 0 .5em;
+  cursor: pointer;
+  border-right-width: .1rem;
+}
+.dice-button button::before {
+  content: '🎲';
+  font-size: 1.4rem;
+}
+.dice-button input,
+.dice-button textarea {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  padding: .3rem .3rem;
+  text-shadow: none;
+  font-size: 1.4rem;
+}
+.dice-button button:only-child {
+  grid-column: span 2;
+  border-radius: .5em;
+}
+
+/* ダイス欄 */
 .form-dice {
   position: relative;
   display: grid;
@@ -578,7 +712,7 @@ body.rom .input-form { display: none !important; }
 .form-dice .edit.button {
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: -.4rem;
 }
 .form-dice .edit.button + .edit.button {
   bottom: 2.4rem;
@@ -654,13 +788,26 @@ body.rom .input-form { display: none !important; }
   border-width: 0 0 .1rem;
   border-style: solid;
   border-color: rgba(127,127,127,0.4);
+  animation-name: addin;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+@keyframes addin {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 #status #status-body > dl.check::before {
   content: "\f00c";
   display: inline-block;
   position: absolute;
   top: .3rem;
-  left: -.45em;
+  left: -.5em;
   font-family: "Font Awesome 5 Free";
   font-size: 1em;
   font-weight: bold;
@@ -688,6 +835,7 @@ body.rom .input-form { display: none !important; }
 #status #status-body > dl > dd > dl dt {
   position: relative;
   font-size: 85%;
+  line-height: calc(1 / 0.85);
   padding-right: .1em;
 }
 #status #status-body > dl > dd > dl dt::after {
@@ -701,11 +849,46 @@ body.rom .input-form { display: none !important; }
 }
 #status #status-body > dl > dd > dl dd span {
   display: inline-block;
+  position: relative;
+  z-index: 3;
 }
+#status #status-body > dl > dd > dl dd .gauge {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: .5rem;
+  margin-top: -.4rem;
+  margin-bottom: -.1rem;
+  background: #333;
+  z-index: 1;
+}
+#status #status-body > dl > dd > dl dd .gauge i {
+  display: block;
+  position: absolute;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transition-property: width, color;
+  transition-duration: 1s,1s;
+  transition-timing-function: ease-out, ease-out;
+}
+#status #status-body > dl > dd > dl dd .gauge i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.4;
+}
+
 #status .add.button {
   position: absolute;
   bottom: .1em;
   right: .1em;
+  z-index: 10;
 }
 
 /* // 共有メモ
@@ -790,26 +973,75 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body {
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  overflow-y: auto;
+  grid-template-rows: auto minmax(min-content,1fr) auto;
+  overflow-y: hidden;
 }
 .sheet-body h3 {
   margin-bottom: .1rem;
 }
 
 /* リモコン */
+.sheet-body .status-remocon-area {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .sheet-body .status-remocon-area select {
   font-size: 0.9em;
 }
 .sheet-body .status-remocon-area ul {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .sheet-body .status-remocon-area ul li.dice-button {
+  grid-column: span 3;
+  margin-right: .3em
+}
+.sheet-body .status-remocon-area ul li.dice-button.mini {
+  grid-column: span 1;
+}
+.sheet-body .status-remocon-area ul li.dice-button.mini button {
+  padding: .3rem;
+}
+.sheet-body .status-remocon-area ul li.dice-button:last-child {
+  width: max-content;
+  margin-left: auto;
+}
+.sheet-body .status-remocon-sub ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-bottom: .3rem;
+  padding: .2rem 0 0 .3rem;
+  border-width: .1rem 0 0 .3rem;
+  border-style: solid;
+  border-color: rgba(127,127,127,0.8);
+}
+.sheet-body .status-remocon-sub ul li:first-child {
+  grid-column: span 4;
+  margin: 0 1rem .3rem 0;
+}
+.sheet-body .status-remocon-sub ul li:first-child input {
+  width: calc(100% - 3em);
+  margin-left: .3rem;
+  padding: .3rem;
+}
+.sheet-body .status-remocon-sub ul li.dice-button {
   grid-column: span 2;
 }
-.sheet-body .status-remocon-area ul li.dice-button.half {
-  grid-column: span 1;
+.sheet-body .status-remocon-sub ul li.dice-button button {
+  max-width: 3em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sheet-body .status-remocon-sub ul li.dice-button:last-child {
+  width: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.sheet-body .status-remocon-sub ul i {
+  font-style: normal;
+  cursor: pointer;
+}
+.sheet-body .status-remocon-sub ul.close li.dice-button {
+  display: none;
 }
 /* パレット */
 .sheet-body .chat-palette-area {
@@ -967,10 +1199,47 @@ body.rom .sheet { display: none !important; }
 #footer [onclick] {
   cursor: pointer;
 }
-
-/* // 各フロートボックス
+/* // フロートボックス
 ---------------------------------------------------------------------------------------------------- */
+.float-box {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 2rem;
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  padding: .5rem;
+  border-radius: 1rem;
+  
+  transition-property: transform, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  transform: scaleY(0);
+  opacity: 0;
+  z-index: 99;
+}
+.float-box h2 {
+  font-size: 1.4em;
+}
+.float-box h3 {
+  font-size: 1.15em;
+  margin-top: .5em;
+  padding-top: .3em;
+  border-top: 1px solid rgba(127,127,127,0.8);
+}
+.float-box h4 {
+  font-size: 1.10em;
+  margin-top: .5em;
+  padding-top: .3em;
+  border-top: 1px dotted rgba(127,127,127,0.7);
+}
+.float-box textarea {
+  line-height: 1.5;
+}
 .float-box p {
+  line-height: 1.4;
   margin: .5em;
 }
 .float-box table {
@@ -993,6 +1262,21 @@ body.rom .sheet { display: none !important; }
   border-right-style: dotted;
   border-color: inherit;
 }
+.float-box .close.button {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+}
+#dark-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 98;
+}
+/* 各種 */
 #edit-topic {
   top: 5em;
   left: 1.5em;
@@ -1043,8 +1327,14 @@ body.rom .sheet { display: none !important; }
   min-width: 14em;
 }
 #config-other p {
-  padding: .5em;
   line-height: 1.6;
+}
+#config-other #font-sample {
+  max-width: 30em;
+  padding: .5em 1em;
+  background-color: #111;
+  font-size: 1.6rem;
+  line-height: 1.8;
 }
 #enter-form {
   height: max-content;
