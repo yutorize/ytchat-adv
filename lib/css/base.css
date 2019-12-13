@@ -92,7 +92,8 @@ input[type=range]::-moz-range-track {
 html,
 body,
 button,
-.log-font {
+.log-font,
+.form-comm {
   font-family: 'Lato',"UD Digi Kyokasho NP-R","Meiryo","YuKyokasho Yoko";
 }
 h1,h2,h3,h4,h5,h6,dt,th,b,strong,label,
@@ -147,9 +148,5 @@ img.icon { width: 1em; height: 1em; }
 .box h4 {
   margin: .5em 0 0;
   font-size: 1.075em;
-}
-
-#sidebar .box + .box {
-  margin-top: 1rem;
 }
 

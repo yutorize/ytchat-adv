@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.08.0">
-  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.08.0">
-  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.08.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.09.0">
+  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.09.0">
+  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.09.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.09.0">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="./lib/js/lib/autosize.min.js" defer></script>
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
-  <script src="./lib/js/ui.js?0.08.0" defer></script>
-  <script src="./lib/js/chat.js?0.08.0" defer></script>
+  <script src="./lib/js/ui.js?0.09.0" defer></script>
+  <script src="./lib/js/chat.js?0.09.0" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <script>
@@ -53,7 +53,7 @@
     <!-- TOPIC -->
     <div class="box" id="topic">
       <div id="topic-value"></div>
-      <span class="edit button" onclick="topicOpen()">🖋</span>
+      <span class="edit button" onclick="topicOpen()"></span>
     </div>
     <!-- / TOPIC -->
     
@@ -149,6 +149,7 @@
     <!-- / FOOTER -->
   
     <!-- SHEET-->
+    <div id="sheet-area">
     <div id="sheet-unit-default" class="box sheet">
       <h2>ユニット追加</h2>
       <div class="sheet-body-default">
@@ -171,6 +172,7 @@
       </div>
       <div class="close-area" onclick="sheetOpen();"></div>
       <span class="close button" onclick="sheetClose();">×</span>
+    </div>
     </div>
     <!-- / SHEET-->
     
@@ -261,6 +263,33 @@
         <option value='"Noto Sans JP"'>Noto Sans JP（Webフォント）</option>
       </select><br>
       文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
+    </p>
+    <h3>ウィンドウ配置</h3>
+    <p>
+      <select id="window-layout" onchange="layoutChange(this.value)">
+        <optgroup label="３カラム・上寄せ">
+          <option value="CLStop"   >3C上:［ログ］［リスト］［シート］</option>
+          <option value="SCLtop"   >3C上:［シート］［ログ］［リスト］</option>
+          <option value="SLCtop"   >3C上:［シート］［リスト］［ログ］</option>
+        </optgroup>
+        <optgroup label="３カラム・下寄せ">
+          <option value="CLSbottom">3C下:［ログ］［リスト］［シート］</option>
+          <option value="SCLbottom">3C下:［シート］［ログ］［リスト］</option>
+          <option value="SLCbottom">3C下:［シート］［リスト］［ログ］</option>
+        </optgroup>
+        <optgroup label="２カラム・リスト上段">
+          <option value="CShighL">2C上:［ログ］［シート］</option>
+          <option value="SChighL">2C上:［シート］［ログ］</option>
+        </optgroup>
+        <optgroup label="２カラム・下寄せ・リスト下段">
+          <option value="CSshallowL">2C下:［ログ］［シート］</option>
+          <option value="SCshallowL">2C下:［シート］［ログ］</option>
+        </optgroup>
+        <optgroup label="２カラム・下寄せ・リスト最下段">
+          <option value="CSdeepL">2C最下:［ログ］［シート］</option>
+          <option value="SCdeepL">2C最下:［シート］［ログ］</option>
+        </optgroup>
+      </select>
     </p>
     <h3>ログ初期化</h3>
     <p>

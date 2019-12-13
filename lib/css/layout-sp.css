@@ -8,36 +8,14 @@
     height: 100vh;
     display: grid;
     grid-gap: .5rem;
-    grid-template-columns: 1fr 8em;
-    grid-template-rows: max-content 1fr max-content max-content max-content;
-  }
-  #topic {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-  }
-  #chat-area {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  #chat-closes-area {
-    display: none;
-  }
-  #sidebar {
-    grid-column: 2;
-    grid-row: 2 / span 2;
-  }
-  #main-form {
-    grid-column: 1 / span 2;
-    grid-row: 3;
-    z-index: 1;
-  }
-  #footer {
-    grid-column: 1 / span 2;
-    grid-row: 4;
-  }
-  #menubar {
-    grid-column: 1 / span 2;
-    grid-row: 5;
+    grid-template-columns: 1fr 8em !important;
+    grid-template-rows: max-content 1fr max-content max-content max-content !important;
+    grid-template-areas: 
+      "topic topic"
+      " chat  side"
+      " form  form"
+      " foot  foot"
+      " menu  menu" !important;
   }
   .sheet {
     position: fixed;

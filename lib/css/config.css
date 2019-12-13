@@ -60,10 +60,11 @@ a[href]:hover   { color: #ffffff; }
 
 .gauge i { background: #7ad; }
 .gauge i::before { background: linear-gradient(to left, #ff5, transparent); }
-dd[id*="-HP-"] .gauge[data-signal="safe"]    i { background: #095; }
-dd[id*="-HP-"] .gauge[data-signal="caution"] i { background: #890; }
-dd[id*="-HP-"] .gauge[data-signal="warning"] i { background: #e80; }
-dd[id*="-HP-"] .gauge[data-signal="danger"]  i { background: #e00; }
+dd[id*="-HP-"] .gauge[data-signal="safe"]      i { background: #095; }
+dd[id*="-HP-"] .gauge[data-signal="caution"]   i { background: #890; }
+dd[id*="-HP-"] .gauge[data-signal="warning"]   i { background: #e80; }
+dd[id*="-HP-"] .gauge[data-signal="danger"]    i { background: #e00; }
+dd[id*="-HP-"] .gauge[data-signal="knockdown"] i { background: #900; }
 
 dd[id*="-MP-"] .gauge i { background: #42e; }
 

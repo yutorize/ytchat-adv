@@ -13,9 +13,9 @@ my @rating = (['3','4','5','c','15','18','24','28','37','3c',],['4','5','6','e',
 sub rateRoll {
   my $comm = shift;
   if($comm !~ /^
-    (?: [kr] ( [0-9]+ | \([0-9\+\-]+\) ) )
+    (?: (?:[kr]|威力) ( [0-9]+ | \([0-9\+\-]+\) ) )
     (?:\[([0-9\+\-]+)\])?
-    ([0-9a-z\+\-\*\/\@\$><#!]*)
+    ([0-9a-z\+\-\*\/\@\$()><#!値必殺首切出目難半減]*)
     (?:\:([0-9]+))?
     (?:\s|$)
   /ix){
@@ -32,12 +32,13 @@ sub rateRoll {
   my $curse;
   my $gf;
   while($form =~ s/gf//gi)             { $gf = ' GF'; }                      #Gフォーチュン
-  while($form =~ s/\@([0-9]+)//gi)     { $crit     = $1 if !$crit; }         #C値
-  while($form =~ s/[rck]([0-9]*)//gi)  { $rate_up  = $1?$1:5 if !$rate_up; } #首切効果
-  while($form =~ s/[>#b!]([0-9]*)//gi) { $crit_atk = $1?$1:1 if !$crit_atk; }#必殺効果
-  while($form =~ s/[\$](n?[0-9]+)//gi) { $fixed    = $1 if !$fixed; }        #出目固定
-  while($form =~ s/[\$](\+[0-9]+)//gi) { $crit_ray = $1 if !$crit_ray; }     #出目修正
-  while($form =~ s/[<]([0-9]+)//gi)    { $curse    = $1 if !$curse; }        #Aカース「難しい」
+  while($form =~ s/(?:\@|C値)([0-9]+)//gi)          { $crit     = $1 if !$crit; }         #C値
+  while($form =~ s/(?:\@|C値)\(([0-9\+\-]+)\)//gi)  { $crit     = $1 if !$crit; }         #C値
+  while($form =~ s/(?:[rck]|首切)([0-9]*)//gi)      { $rate_up  = $1?$1:5 if !$rate_up; } #首切効果
+  while($form =~ s/(?:[#b!]|必殺)([0-9]*)//gi)      { $crit_atk = $1?$1:1 if !$crit_atk; }#必殺効果
+  while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)     { $fixed    = $1 if !$fixed; }        #出目固定
+  while($form =~ s/(?:[\$]|出目)(\+[0-9]+)//gi)     { $crit_ray = $1 if !$crit_ray; }     #出目修正
+  while($form =~ s/(?:[<]|難)([0-9]+)//gi)          { $curse    = $1 if !$curse; }        #Aカース「難しい」
   
   $rate = calc($rate);
   $crit = calc($crit);
@@ -167,6 +168,7 @@ sub rateCalc {
   my $result = join('+', @results);
   
   ## 修正値処理
+  $form =~ s|半減|//|;
   $form =~ s/(\/\/|\*\*)([0-9]*)/<\/\/>/;
   my $half_type = $1;
   my $half_num = $2;
@@ -188,8 +190,23 @@ sub rateCalc {
 }
 
 sub growRoll {
+  my $comm = shift;
+  if($comm !~ /^
+    (?: gr | 成長ダイス )
+    ( [0-9] )?
+    (?:\s|$)
+  /ix){
+    return "";
+  }
+  my $num = $1;
   my @grow = ('器用度','敏捷度','筋力','生命力','知力','精神力');
-  return $grow[int(rand(6))].' or '.$grow[int(rand(6))];
+  
+  $num = $num ? $num : 2;
+  my @result;
+  foreach(1 .. $num){
+    push(@result, $grow[int(rand(6))]);
+  }
+  return join(' or ', @result);
 }
 
 

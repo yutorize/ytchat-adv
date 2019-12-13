@@ -87,8 +87,9 @@
     <h3>ダイスコード</h3>
     <div class="help-detail-area">
       <p>
-        ダイスコードは、原則として発言の行頭に記述する必要があります。<br>
-        半角・全角は問わず反映されます。<br>
+        　ダイスコードは、原則として発言の先頭、ないし末尾に記述する必要があります。<br>
+        　通常の発言と同時に記述する場合、スペースか改行で区切ってください。<br>
+        　半角・全角は問わず反映されます。<br>
       </p>
     </div>
     
@@ -96,10 +97,10 @@
     <div class="help-detail-area">
       <p><span style="color:#ee7777;">ダイスの数</span><b>D</b><span style="color:#eebb77;">面の数</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#cc77ee;">:繰返し回数</span></p>
       <p>
-         <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#cc77ee;">:繰返し回数</span>は省略できます。<br>
-         修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
-         半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
-         また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
+        　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#cc77ee;">:繰返し回数</span>は省略できます。<br>
+        　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
+        　半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
+        　また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
       </p>
       <p>
         例1：「6面ダイスを1つ振る」<br>
@@ -149,7 +150,7 @@
         　詳しくは下記を参照してください。
       </p>
       <p>
-        威力表のダイスコードの記述に用いる記号等は、以下のものも使えるようになっています。
+        　威力表のダイスコードの記述に用いる記号等は、以下のものも使えるようになっています。
       </p>
       <table>
         <tr>
@@ -159,50 +160,53 @@
         </tr>
         <tr>
           <th>威力</th>
-          <th> <b>r</b><i>Num</i> <br> <b>k</b><i>Num</i> </th>
+          <th> <b>r</b><i>Num</i> <br> <b>k</b><i>Num</i> <br> <b>威力</b><i>Num</i> </th>
           <td>Num=威力。<br>必ず先頭に記述。<br>また、Numを()で囲うことで、()内での加減算が可。</td>
         </tr>
         <tr>
           <th>C値</th>
-          <th> <b>@</b><i>Num</i> <br> <b>[</b><i>Num</i><b>]</b> </th>
+          <th> <b>@</b><i>Num</i> <br> <b>[</b><i>Num</i><b>]</b> <br> <b>C値</b><i>Num</i> </th>
           <td>Num=C値。<br>[]で囲う形式の場合、必ず威力の直後に記述。<br>また、[]内での加減算が可。</td>
         </tr>
         <tr>
           <th>必殺効果</th>
-          <th> <b>></b><i>Num</i> <br> <b>#</b><i>Num</i> <br> <b>b</b><i>Num</i> <br> <b>!</b><i>Num</i> </th>
+          <th> <b>#</b><i>Num</i> <br> <b>b</b><i>Num</i> <br> <b>!</b><i>Num</i> <br> <b>必殺</b><i>Num</i> </th>
           <td>Num=出目上昇量。<br>Numを省略すると1として扱う。</td>
         </tr>
         <tr>
           <th>出目固定<br>（合計値）</th>
-          <th> <b>$</b><i>Num</i> </th>
+          <th> <b>$</b><i>Num</i> <br> <b>出目</b><i>Num</i> </th>
           <td>Num=出目（2～12）。<br>出目をNumとして威力算出する。<br>クリティカル時、最初の1回のみで効果は消える。</td>
         </tr>
         <tr>
           <th>出目固定<br>（片方）</th>
-          <th> <b>$n</b><i>Num</i> </th>
+          <th> <b>$n</b><i>Num</i> <br> <b>出目n</b><i>Num</i> </th>
           <td>Num=出目（1～6）。<br>出目の片方をNumとして威力算出する。<br>クリティカル時にも継続する。</td>
         </tr>
         <tr>
           <th>出目修正</th>
-          <th> <b>$+</b><i>Num</i> </th>
+          <th> <b>$+</b><i>Num</i> <br> <b>出目+</b><i>Num</i> </th>
           <td>Num=出目修正値。<br>出目にNumを加える（クリレイ効果）。<br>クリティカル時、最初の1回のみで効果は消える。</td>
         </tr>
         <tr>
           <th>首切効果</th>
-          <th> <b>r</b><i>Num</i> <br> <b>c</b><i>Num</i> <br> <b>k</b><i>Num</i> </th>
+          <th> <b>r</b><i>Num</i> <br> <b>c</b><i>Num</i> <br> <b>k</b><i>Num</i> <br> <b>首切</b><i>Num</i> </th>
           <td>Num=威力上昇量。<br>2.0の首切り刀なら10、2.5なら5。<br>Numを省略すると5として扱う</td>
         </tr>
         <tr>
           <th>アビスカース「難しい」</th>
-          <th> <b>&lt;</b><i>Num</i></th>
+          <th> <b>&lt;</b><i>Num</i> <br> <b>難</b><i>Num</i></th>
           <td>Num=出目。<br>指定出目以下の威力算出結果を0にする。</td>
         </tr>
       </table>
     </div>
     <h4>成長ダイス（ソード・ワールド）</h4>
     <div class="help-detail-area">
-      <p><b style="color:#ee7777;">GR</b></p>
-      <p>　器用度,敏捷度,筋力,生命力,知力,精神力の中からランダムに2つ表示する。</p>
+      <p><b style="color:#ee7777;">GR</b><br><b style="color:#ee7777;">成長ダイス</b></p>
+      <p>
+        　器用度,敏捷度,筋力,生命力,知力,精神力の中からランダムに2つ表示する。<br>
+        　数字を追加すると（「GR1」など）、その数ぶんだけ表示する。
+      </p>
     </div>
     </TMPL_IF>
     
@@ -216,7 +220,28 @@
         <span style="color:#ee7777;">判定値</span><b>DX</b><span style="color:#77ee77;">修正値</span><span style="color:#eebb77;">@C値</span><br>
       </p>
       <p>
-         <span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+        　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>は省略できます。<br>
+      </p>
+    </div>
+    <h4>シーン登場・衝動判定（ダブルクロス）</h4>
+    <div class="help-detail-area">
+      <p>
+        <b style="color:#ee7777;">ER</b><br>
+        <b style="color:#ee7777;">ER</b>n<br>
+      </p>
+      <p>
+        「nD10」侵蝕率を上昇させる。
+      </p>
+    </div>
+    <h4>リザレクト（ダブルクロス）</h4>
+    <div class="help-detail-area">
+      <p>
+        <b style="color:#ee7777;">RE</b><br>
+        <b style="color:#ee7777;">RE</b>n<br>
+      </p>
+      <p>
+        　nレベルのリザレクトを使用する。<br>
+        （「nD10」HPを回復し、回復したぶんだけ侵蝕率を上昇させる）
       </p>
     </div>
     <h4>感情表（ダブルクロス）</h4>
@@ -227,8 +252,8 @@
         <b style="color:#ee7777;">ETN</b>
       </p>
       <p>
-        感情表を振る。<br>
-        ETPはポジティブ、ETNはネガティブの表のみを振る。<br>
+        　感情表を振る。<br>
+        　ETPはポジティブ、ETNはネガティブの表のみを振る。<br>
       </p>
     </div>
     <h4>ハプニングチャート（ダブルクロス）</h4>
@@ -237,7 +262,7 @@
         <b style="color:#ee7777;">HC</b><br>
       </p>
       <p>
-        <a href="http://www.fear.co.jp/dbx3rd/download/dc3_fs_ver1.pdf" target="_blank">ハプニングチャート</a>を振る。
+        　<a href="http://www.fear.co.jp/dbx3rd/download/dc3_fs_ver1.pdf" target="_blank">ハプニングチャート</a>を振る。
       </p>
     </div>
     </TMPL_IF>
@@ -247,7 +272,10 @@
       <p>
         <span style="color:#ee7777;">計算式</span><b>=</b><br>
       </p>
-      <p>　計算式には数字(0～9)、四則演算記号(+-*/)、べき乗記号(^または**)、丸括弧が使用できます。</p>
+      <p>
+        　単純な計算式の後に＝を記述することで、計算結果を表示します。<br>
+        　計算式には数字(0～9)、四則演算記号(+-*/)、べき乗記号(^または**)、丸括弧が使用できます。
+      </p>
     </div>
     
     <TMPL_IF helpOnBCDice>

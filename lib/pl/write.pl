@@ -147,7 +147,11 @@ else {
     $::in{'system'} = 'dice';
   }
   # ダイス処理
-  elsif($::in{'comm'} =~ /^(?:[\@＠\$＄]|[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,})/i){
+  elsif($::in{'comm'} =~ /^(?:
+        [\@＠\$＄]
+      | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
+      | 威力|成長
+  )/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
     if($::in{'info'}){
@@ -156,14 +160,18 @@ else {
     }
   }
   # ダイス末尾マッチ
-  #elsif($::in{'comm'} =~ /(?:\s|<br>)((?:[\@＠\$＄]|[a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}).*)$/i){
-  #  require './lib/pl/dice.pl';
-  #  ($::in{'info'}, $::in{'system'}) = diceCheck($1);
-  #  if($::in{'info'}){
-  #    $::in{'comm'} =~ s/((?:\s|<br>).*?)$//;
-  #    $::in{'info'} .= '<<'.$1;
-  #  }
-  #}
+  elsif($::in{'comm'} =~ /(?:\s|<br>)((?:
+      [\@＠\$＄]
+    | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
+    | 威力|成長
+  ).*)$/ix){
+    require './lib/pl/dice.pl';
+    ($::in{'info'}, $::in{'system'}) = diceCheck($1);
+    if($::in{'info'}){
+      $::in{'comm'} =~ s/((?:\s|<br>).*?)$//;
+      $::in{'info'} .= '<<'.$1;
+    }
+  }
 }
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
 

@@ -4,6 +4,7 @@ use utf8;
 
 package set;
 
+use lib './module';
 require './lib/pl/config-default.pl';
 
 ## ログ削除パスワード （空欄のままだと「誰でも」可能です。注意してください）

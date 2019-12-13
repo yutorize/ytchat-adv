@@ -11,43 +11,46 @@ body {
   grid-gap: 1rem;
   grid-template-columns: 1fr 11em max-content;
   grid-template-rows: 2em max-content max-content 1fr max-content max-content;
+  grid-template-areas: 
+    " menu  menu sheet"
+    "topic  side sheet"
+    "close  side sheet"
+    " chat  side sheet"
+    " form  form  form"
+    " foot  foot  foot";
 }
 #menubar {
-  grid-column: 1 / span 2;
-  grid-row: 1;
+  grid-area: menu;
 }
 #topic {
-  grid-column: 1;
-  grid-row: 2;
+  grid-area: topic;
 }
 #chat-closes-area {
-  grid-column: 1;
-  grid-row: 3;
+  grid-area: close;
 }
 #chat-area {
-  grid-column: 1;
-  grid-row: 4;
+  grid-area: chat;
 }
 .chat.main {
 }
 .chat.sub {
 }
 #sidebar {
-  grid-column: 2;
-  grid-row: 2 / span 3;
+  grid-area: side;
 }
 #main-form {
-  grid-column: 1 / span 3;
-  grid-row: 5;
+  grid-area: form;
 }
 #footer {
-  grid-column: 1 / span 3;
-  grid-row: 6;
+  grid-area: foot;
 }
-.sheet {
-  grid-column: 3;
-  grid-row: 1 / span 4;
+#sheet-area {
+  grid-area: sheet;
   margin-right: -2rem;
+}
+#sheet-area.left {
+  margin-left: -2rem;
+  margin-right: 0;
 }
 /* チャットエリア */
 #chat-area {
@@ -82,19 +85,49 @@ body {
   justify-content: flex-start;
   flex-wrap: nowrap;
 }
+#sidebar > .box { margin: .5rem 0; }
+#sidebar > .box:first-child { margin-top: 0; }
+#sidebar > .box:last-child  { margin-bottom: 0; }
+@media (min-width: 601px) {
+  #sidebar[data-layout="row"] {
+    flex-wrap: wrap;
+  }
+  #sidebar[data-layout="bottom"] {
+    flex-direction: column-reverse;
+  }
+  #sidebar[data-layout="bottom"] > .box:first-child { margin-bottom: 0; }
+  #sidebar[data-layout="bottom"] > .box:last-child  { margin-top: 0; }
+  #sidebar[data-layout="row"] {
+    flex-direction: row;
+  }
+  #sidebar[data-layout="row"] > .box { margin: 0 .5rem; }
+  #sidebar[data-layout="row"] > .box:first-child { margin-left: 0; }
+  #sidebar[data-layout="row"] > .box:last-child  { margin-right: 0; }
+}
 #round {
   flex-shrink: 0;
 }
 
 /* 編集・追加ボタン */
 .add.button,
+.del.button,
 .edit.button,
 .close.button {
   width: calc(1.3em + 2px);
   height: calc(1.3em + 2px);
   padding: .15em;
   font-size: 1.6rem;
+  border-radius: 50%;
 }
+.add.button::before,
+.del.button::before,
+.edit.button::before,
+.close.button::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+.edit.button:empty { border: 0; }
+.edit.button:empty::before { content: "\f044" }
 
 /* // メニュー
 ---------------------------------------------------------------------------------------------------- */
@@ -157,14 +190,14 @@ body {
   overflow: hidden;
 }
 #topic-value {
-  padding: 0 1.5em 0 .5em;
+  padding: 0 .5em 0 1.8em;
   font-size: 1.2rem;
   line-height: 1.6rem;
 }
 #topic .edit.button {
   position: absolute;
   top: .2rem;
-  right: .2rem;
+  left: .2rem;
 }
 
 /* // ラウンド
@@ -174,6 +207,16 @@ body {
 }
 #round-value {
   text-align: center;
+}
+@media (min-width: 601px) {
+  [data-layout="row"] #round {
+    flex-basis: 8em;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* // チャットログ
@@ -275,6 +318,7 @@ body {
   animation-name: fadein;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
+  white-space: pre-wrap;
 }
 @keyframes fadein {
   from {
@@ -467,7 +511,7 @@ body.rom .input-form { display: none !important; }
 #main-form .input-form {
   display: grid;
   grid-gap: .5rem;
-  grid-template-columns: auto 1fr 1.2fr;
+  grid-template-columns: auto 1.2fr 1fr;
 }
 @media (max-width: 900px) {
   #main-form .input-form {
@@ -705,7 +749,7 @@ body.rom .input-form { display: none !important; }
   position: relative;
   display: grid;
   grid-gap: .3rem 1rem;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: max-content;
   padding-right: 2rem;
 }
@@ -760,11 +804,13 @@ body.rom .input-form { display: none !important; }
 .form-dice .dice-button i:hover::before {
   color: #fff;
 }
-.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); color: #fcc; }
+.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); color: #fec; }
+.form-dice .dice-button textarea[data-lock="dice"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); color: #fcc; }
 .form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); color: #fcf; }
 .form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); color: #cff; }
-.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); color: #fda; }
-.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\f6d1"; }
+.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(100,255,  0, 0.6), transparent); color: #cfb; }
+.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\f023"; }
+.form-dice .dice-button textarea[data-lock="dice"] + i::before { content: "\f6d1"; }
 .form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\f007"; }
 .form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
 .form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
@@ -781,6 +827,8 @@ body.rom .input-form { display: none !important; }
 #status #status-body {
   overflow: auto;
   padding-left: .5em;
+  display: flex;
+  flex-direction: column;
 }
 #status #status-body > dl {
   position: relative;
@@ -800,6 +848,21 @@ body.rom .input-form { display: none !important; }
   to {
     opacity: 1;
     transform: scaleY(1);
+  }
+}
+@media (min-width: 601px) {
+  [data-layout="row"] #status {
+    flex-grow: 5;
+    padding-bottom: 0;
+  }
+  [data-layout="row"] #status #status-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+  }
+  [data-layout="row"] #status #status-body > dl {
+    max-width: 18em;
+    margin-right: 1em;
+    border: 0;
   }
 }
 #status #status-body > dl.check::before {
@@ -911,11 +974,35 @@ body.rom .input-form { display: none !important; }
   border-bottom: .1rem solid rgba(127,127,127,0.4);
 }
 .memo ul#memo-list li:empty {
-  display: none;
+  display: none !important;
 }
 .memo ul#memo-list li[onclick]:hover {
   cursor: pointer;
   background: rgba(255,150,0,0.3);
+}
+@media (min-width: 601px) {
+  [data-layout="row"] .memo {
+    overflow: hidden;
+    flex-basis: 12em;
+    flex-grow: 0.5;
+    flex-shrink: 1;
+  }
+  [data-layout="row"] .memo ul#memo-list {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    overflow: auto;
+  }
+  [data-layout="row"] .memo ul#memo-list li {
+    display: inline-block;
+    max-width: 8em;
+    margin-right: .3rem;
+    padding: .3em;
+    background-color: rgba(127,127,127,0.15);
+    border: .1rem solid rgba(127,127,127,0.4);
+    border-radius: .8em;
+    font-size: 90%;
+  }
 }
 .memo .add.button {
   position: absolute;
@@ -955,17 +1042,28 @@ body.rom .sheet#sheet-unit-memo button { display: none; }
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
 body.rom .sheet { display: none !important; }
+#sheet-area {
+  display: grid;
+}
 .sheet {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
   width: 18.5em;
   display: grid;
   position: relative;
   grid-template-rows: auto 1fr auto;
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
   overflow: hidden;
   transition-property: margin, right, opacity;
   transition-duration: 0.15s;
   transition-timing-function: ease-in;
+}
+#sheet-area:not(.left) .sheet {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+#sheet-area.left .sheet {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 .sheet h2 {
   padding-bottom: .1em;
@@ -1140,6 +1238,12 @@ body.rom .sheet { display: none !important; }
   margin-left: -17em;
   right: -17em;
   opacity: 0.5;
+}
+.left .sheet.closed {
+  margin-left: 0;
+  right: 0;
+  margin-right: -17em;
+  left: -17em;
 }
 .sheet.closed .close-area {
   display: block;
