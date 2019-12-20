@@ -26,11 +26,6 @@ if(!$::in{'system'}){
   if($::in{'comm'} eq ''){ error "発言がありません"; }
 }
 
-my $in_stt;
-if($::in{'stt'}){
-  $in_stt = decode_json( $::in{'stt'} );
-}
-
 foreach (%::in) {
   $::in{$_} = decode('utf8', $::in{$_});
   $::in{$_} =~ s/</&lt;/g;
@@ -95,26 +90,7 @@ else {
   }
   #変更
   elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
-    my %stts;
-    foreach (split(' ', $1)){
-      $_ =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
-      if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*!]*)$/){
-        my ($type, $op, $num) = ($1,$2,$3);
-        my ($result, $diff, $over) = sttCalc($type,$num,$op);
-        $diff .= "(over${over})" if $over;
-        $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-        $::in{'info'} .= " [$diff]" if ($diff ne '');
-        $::in{'system'} = "unit";
-        $stts{$type} = $result;
-      }
-      elsif($_ =~ /^($stt_commands)[:](.*)$/){
-        my ($type, $result) = ($1,$2);
-        $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-        $::in{'system'} = "unit";
-        $stts{$type} = $result;
-      }
-    }
-    unitEdit($::in{'name'}, \%stts);
+    unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
   # トピック処理
@@ -164,11 +140,11 @@ else {
       [\@＠\$＄]
     | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
     | 威力|成長
-  ).*)$/ix){
+  )(?!.*(?:\s|<br>)).*)$/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($1);
     if($::in{'info'}){
-      $::in{'comm'} =~ s/((?:\s|<br>).*?)$//;
+      $::in{'comm'} =~ s/((?:\s|<br>)(?!.*(?:\s|<br>)).*)$//;
       $::in{'info'} .= '<<'.$1;
     }
   }
@@ -265,6 +241,8 @@ sub tagConvert{
   
   # 自動リンク
   $comm =~ s#(https?://[^\s\<]+)#<a href="$1" target="_blank">$1</a>#gi;
+  
+  $comm =~ s#&lt;br&gt;?#<br>#gi;
   
   return $comm;
 }
@@ -404,17 +382,53 @@ sub unitDelete {
   truncate($FH, tell($FH));
   close($FH);
 }
+sub unitCalcEdit {
+  my $set_name = shift;
+  my $set_text = shift;
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  my $result;
+  foreach (split(' ', $set_text)){
+    $_ =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
+    if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*!]*)$/){
+      my ($type, $op, $num) = ($1,$2,$3);
+      my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
+      $data{'unit'}{$set_name}{'status'}{$type} = $result;
+      $diff .= "(over${over})" if $over;
+      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
+      $::in{'info'} .= " [$diff]" if ($diff ne '');
+      $::in{'system'} = "unit";
+    }
+    elsif($_ =~ /^($stt_commands)[:](.*)$/){
+      my ($type, $result) = ($1,$2);
+      $data{'unit'}{$set_name}{'status'}{$type} = $result;
+      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
+      $::in{'system'} = "unit";
+    }
+  }
+  
+  $data{'unit'}{$set_name}{'color'} = $::in{'color'};
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
 sub sttCalc {
   my $type = shift;
   my $num  = shift;
   my $op   = shift;
+  my $base = shift;
   my $break;
   
   if($num =~ s/!$//){ $break = 1; }
   if($op ne '='){ $num =  $op.$num; }
   
   my @nums = split('/', $num, 2);
-  my @base = split('/', $in_stt->{$type}, 2);
+  my @base = split('/', $base, 2);
   my @diff;
   my @over;
   if($base[0] > $base[1]){ $break = 1; }

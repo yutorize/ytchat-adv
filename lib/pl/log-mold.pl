@@ -184,13 +184,14 @@ if($opt{'logList'}){
          $subdir =~ s|^$dir/?||;
       my $path = $File::Find::name;
          $path =~ s|^$dir/?(.+?)\.dat$|$1|;
+      my $current = ($name eq $::in{'log'}) ? 1 : 0;
       if(-d $file){
         if($name ne '.'){
           push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'DIR' => 1});
         }
       }
       if(-f $file){
-        push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'PATH' => $path});
+        push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'PATH' => $path, 'CURRENT' => $current});
       }
   }, $dir;
   $ROOM->param(LogList => \@loglist);

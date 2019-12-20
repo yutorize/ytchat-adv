@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="lib/css/base.css?0.08.0">
-  <link rel="stylesheet" media="all" href="lib/css/logs.css?0.08.0">
-  <link rel="stylesheet" media="all" href="lib/css/config.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.08.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.08.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <script>
 let mainTab = 1;
@@ -58,7 +58,7 @@ function dirToggle(dir){
     <TMPL_IF LogList>
     <h3>過去ログ</h3>
     <ul id="loglist"><TMPL_LOOP LogList>
-      <li data-subdir="<TMPL_VAR SUB>" <TMPL_IF SUB>style="display:none"</TMPL_IF>><TMPL_IF DIR><a onclick="dirToggle('<TMPL_VAR NAME>');">▼<TMPL_VAR NAME>/</a><TMPL_ELSE><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>"><TMPL_VAR NAME></a></TMPL_IF></li></TMPL_LOOP>
+      <li data-subdir="<TMPL_VAR SUB>" <TMPL_IF SUB>style="display:none"</TMPL_IF>><TMPL_IF DIR><a onclick="dirToggle('<TMPL_VAR NAME>');">▼<TMPL_VAR NAME>/</a><TMPL_ELSE><TMPL_IF CURRENT><b><TMPL_VAR NAME></b></b><TMPL_ELSE><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>"><TMPL_VAR NAME></a></TMPL_IF></TMPL_IF></li></TMPL_LOOP>
     </ul>
     </TMPL_IF>
     </div>

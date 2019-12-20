@@ -36,10 +36,13 @@ foreach my $id (sort keys %rooms){
   my $game = $games{$rooms{$id}{'game'}} ? $games{$rooms{$id}{'game'}}{'name'}
            : $rooms{$id}{'game'} ? $rooms{$id}{'game'}
            : 'その他';
+  my $size = sprintf("%.1f", (-s "./room/$id/log-all.dat") / 1024);
+  $size =~ s|\.([0-9]+)|.<small>$1</small>|;
   push(@list, {
     "ID"     => $id,
     "NAME"   => $rooms{$id}{'name'},
     "GAME"   => $game,
+    "SIZE"   => $size.' kb',
   })
 }
 

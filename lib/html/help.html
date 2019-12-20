@@ -14,10 +14,11 @@
     
     <h3>ダイス欄のタイプ</h3>
     <div class="help-detail-area">
-      <p>アイコンをクリックすると<i class="fas fa-dice-d6"></i>→<i class="fas fa-user"></i>→<i class="fas fa-comment"></i>→<i class="fas fa-sticky-note"></i>の順で変わります。</p>
+      <p>アイコンをクリックすると<i class="fas fa-dice-d6"></i>→<i class="fas fa-user"></i>→<i class="fas fa-comment"></i>→<i class="fas fa-sticky-note"></i>→<span class="fas fa-lock"></span>の順で変わります。</p>
       <table>
         <tr><th>アイコン</th><th>説明</th></tr>
-        <tr><th><span class="fas fa-dice-d6"></span></th><td>内容を送信しても欄に内容が残る。</td></tr>
+        <tr><th><span class="fas fa-lock"></span></th><td>内容を送信しても欄に内容が残る。</td></tr>
+        <tr><th><span class="fas fa-dice-d6"></span></th><td>内容を送信しても欄にコマンドが残る。</td></tr>
         <tr><th><span class="fas fa-user"></span></th><td>内容を送信すると欄に発言者名が残る。</td></tr>
         <tr><th><span class="fas fa-comment"></span></th><td>内容を送信すると欄が空になる。</td></tr>
         <tr><th><span class="fas fa-sticky-note"></span></th><td>内容を送信できない。メモ欄。</td></tr>
@@ -131,8 +132,8 @@
     </div>
     <h4>任意項目ランダム選択（非重複）</h4>
     <div class="help-detail-area">
-    <p><span style="color:#ee7777;">選ぶ人数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
-    <p>　BCDiceにおける choice[] に相当しますが、一度に複数人、重複せず選ぶことができます。</p>
+    <p><span style="color:#ee7777;">選ぶ個数</span><b>@</b><span style="color:#eebb77;">項目1</span>,<span style="color:#eebb77;">項目2</span>,<span style="color:#eebb77;">項目3</span>...</p>
+    <p>　BCDiceにおける choice[] に相当しますが、一度に複数項目、重複せず選ぶことができます。</p>
     </div>
     
     <TMPL_IF helpOnSW2>

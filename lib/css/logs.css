@@ -171,7 +171,8 @@ article#contents {
 #menu #loglist-area {
   overflow: auto;
 }
-#menu ul li a {
+#menu ul li a,
+#menu ul li b {
   display: block;
   padding: .3rem;
   background: none;
@@ -179,6 +180,9 @@ article#contents {
 #menu ul li a[onclick]:hover {
   opacity: 0.5;
   cursor: pointer;
+}
+#menu ul li b{
+  color: #ffbb00;
 }
 #menu-toggle {
   display: none;
@@ -202,12 +206,10 @@ article#contents {
     position: relative;
     text-align: right;
   }
-  #menu #tablist,
-  #menu #loglist-area {
+  #menu > :not(h2) {
     display: none;
   }
-  #menu-toggle:checked + #menu #tablist,
-  #menu-toggle:checked + #menu #loglist-area {
+  #menu-toggle:checked + #menu > :not(h2) {
     display: block;
   }
   label[for="menu-toggle"] {

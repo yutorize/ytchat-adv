@@ -320,13 +320,18 @@ body {
   animation-timing-function: ease-out;
   white-space: pre-wrap;
 }
+.chat .logs dl dd {
+  animation-name: newfade;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
 @keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes newfade {
+  from { box-shadow: inset -.1rem 0 1rem rgba(255,155,0,0.4); }
+  to   { box-shadow: none; }
 }
 /* 投稿ユーザー表示 */
 .chat .logs dl::before {

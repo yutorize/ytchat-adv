@@ -17,7 +17,7 @@ foreach(<$FH>) {
   chomp;
   $_ =~ s/\\/\\\\/g;
   $_ =~ s/"/\\"/g;
-  $_ =~ s/\t/\\t/;
+  $_ =~ s/\t/\\t/g;
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
   last if $::in{'num'} > $num - 1;
   my (undef, $time) = split(/ /, $date);

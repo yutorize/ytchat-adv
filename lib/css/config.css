@@ -103,9 +103,9 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
     #000  1px 1px, #000 -1px -1px,
     #000 -1px 1px, #000  1px -1px,
     #000  0px 1px, #000  0px -1px,
-    #000 -1px 0px, #000  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+    #000 -1px 0px, #000  1px  0px;
+    /* #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
+    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px*/
 }
 .logs dl dd:hover {
   background-color:rgba(100,200,255,0.1) !important;
@@ -124,13 +124,6 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 }
 .logs dl dd.info {
   font-size: 85%;
-  text-shadow: 
-    #222  1px 1px, #222 -1px -1px,
-    #222 -1px 1px, #222  1px -1px,
-    #222  0px 1px, #222  0px -1px,
-    #222 -1px 0px, #222  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
 }
 .logs dl dd.info i {
   font-size: 90%;
@@ -188,13 +181,6 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .logs dl dd.dice {
   background: rgba(0,0,0,0.2);
   color: #e55;
-  text-shadow: 
-    #300  1px 1px, #300 -1px -1px,
-    #300 -1px 1px, #300  1px -1px,
-    #300  0px 1px, #300  0px -1px,
-    #300 -1px 0px, #300  1px  0px,
-    #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px;
   letter-spacing: 0.1rem;
 }
 .logs dl dd.dice i {
