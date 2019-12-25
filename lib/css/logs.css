@@ -67,6 +67,10 @@ article#contents {
   padding-left: .5rem;
   grid-column: span 2;
   border-radius: .5rem;
+  white-space: pre-wrap;
+}
+.logs dd.info {
+  white-space: normal;
 }
 .logs dl dd.info::before {
   content: '▶';

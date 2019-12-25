@@ -301,7 +301,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: .5em;
-  word-wrap : break-word;
+  overflow-wrap: break-word;
 }
 .chat .logs:empty {
   text-align: center;
@@ -312,18 +312,22 @@ body {
 }
 .chat .logs dl dt,
 .chat .logs dl dd {
-  min-width: 50%;
   position: relative;
   border-radius: .5rem;
   animation-name: fadein;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 .chat .logs dl dd {
   animation-name: newfade;
   animation-duration: 5s;
   animation-timing-function: linear;
+}
+.chat .logs dl dd.info {
+  white-space: normal;
 }
 @keyframes fadein {
   from { opacity: 0; }
@@ -422,7 +426,7 @@ body {
 }
 .chat.main .logs dl {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: auto 1fr;
 }
 .chat.main .logs dl dt {
   grid-column: 1;
@@ -432,13 +436,16 @@ body {
   min-height: calc((1em * 1.8) - .1rem);
 }
 .chat.main .logs dl dt {
+  padding-right: .6em;
   font-size: 90%;
   line-height: 2;
+  text-align: right;
 }
 .chat.main .logs dl dt::after {
   content: ":";
   display: inline-block;
   width: .6em;
+  margin-right: -.6em;
   color: #fff;
   font-weight: 100;
   text-align: center;
@@ -447,6 +454,9 @@ body {
 .chat.main .logs dl.system dt::after {
   content: ">";
   width: 1em;
+}
+.chat.main .logs dl dd {
+  min-width: 10em;
 }
 .chat.main .logs dl dd.info {
   grid-column: 1 / span 2;
@@ -743,6 +753,9 @@ body.rom .input-form { display: none !important; }
   padding: .3rem .3rem;
   text-shadow: none;
   font-size: 1.4rem;
+  border-width: 1px 0;
+  border-color: transparent;
+  overflow: hidden;
 }
 .dice-button button:only-child {
   grid-column: span 2;

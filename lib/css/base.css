@@ -25,9 +25,12 @@ input,textarea,select, button, .button, .dice-button {
   padding: .0rem .5rem;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: .8rem;
-  background: rgba(30,30,30,0.8);
+  background: rgba(30,35,50,0.8);
   color: #fff;
   line-height: 1;
+}
+input:focus,textarea:focus,select:focus {
+  background: rgba(40,45,50,0.8);
 }
 button, .button {
   display: inline-block;
@@ -56,6 +59,9 @@ input:focus,textarea:focus,select:focus,button:focus {
 }
 textarea {
   resize: none;
+}
+textarea.autosize {
+  overflow: hidden;
 }
 ul {
   list-style-type: none;
