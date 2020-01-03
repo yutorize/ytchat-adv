@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž');
 /* // 基本設定
 ---------------------------------------------------------------------------------------------------- */
 * {
@@ -30,7 +30,7 @@ input,textarea,select, button, .button, .dice-button {
   line-height: 1;
 }
 input:focus,textarea:focus,select:focus {
-  background: rgba(40,45,50,0.8);
+  background: rgba(55,60,65,0.8);
 }
 button, .button {
   display: inline-block;

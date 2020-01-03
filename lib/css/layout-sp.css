@@ -13,6 +13,7 @@
     grid-template-areas: 
       "topic topic"
       " chat  side"
+      " chat  side"
       " form  form"
       " foot  foot"
       " menu  menu" !important;
@@ -93,7 +94,10 @@
   .chat.main .logs dl {
     display: block;
   }
-  .chat.main dl dd {
+  .chat.main .logs dl dt {
+    text-align: left;
+  }
+  .chat.main .logs dl dd {
     padding-left: .5em;
     min-height: calc((1em * 1.6) - .1rem);
   }

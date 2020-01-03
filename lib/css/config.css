@@ -272,10 +272,10 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 }
 /* チャットログ：水平線 */
 .logs dl dd hr {
-  margin: .25em 0;
+  margin: .75em 0;
   border-width: .1rem 0 0;
   border-style: solid;
-  border-color: rgba(127,127,127,0.3);
+  border-color: rgba(127,127,127,0.8);
 }
 
 /* // カラー設定：サイドバー

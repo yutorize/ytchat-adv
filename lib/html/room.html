@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.09.2a">
-  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.09.2a">
-  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.09.2a">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.09.2a">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.09.3">
+  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.09.3">
+  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.09.3">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.09.3">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -15,8 +15,8 @@
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.09.2a" defer></script>
-  <script src="./lib/js/chat.js?0.09.2a" defer></script>
+  <script src="./lib/js/ui.js?0.09.3" defer></script>
+  <script src="./lib/js/chat.js?0.09.3" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <script>
@@ -294,6 +294,7 @@
       </select>
     </p>
     <h3>ログ初期化</h3>
+    <form>
     <p>
       ログを過去ログに格納し、初期化します。<br>
       <input type="hidden" id="room-reset-filename">
@@ -304,6 +305,7 @@
       パスワード:<input type="password" id="room-reset-password"><br>
     </p>
     <p class="right"><button onclick="resetRoom();">ログ初期化</button></p>
+    </form>
     <span class="close button" onclick="boxClose('config-other');">×</span>
   </div>
   
@@ -330,7 +332,11 @@
       <button onclick="enterRomRoom();">見学入室</button>
     </p>
     <div class="right">
-      <a onclick="boxOpen('config-other');" href="#">その他設定</a> ／ <a href="?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
+      <a href="./?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
+      ／
+      <a onclick="boxOpen('config-other');" href="#">設定</a>
+      ／
+      <a href="./">部屋一覧</a>
     </div>
   </div>
   

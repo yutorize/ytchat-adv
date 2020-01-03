@@ -1046,8 +1046,10 @@ body.rom .input-form { display: none !important; }
   overflow-y: auto;
 }
 .sheet #sheet-memo-value {
-  border: 0;
+  border: 1px solid transparent;
   line-height: 1.4;
+  font-size:80%;
+  padding: .4rem;
 }
 .sheet .sheet-memo-body > button {
   margin: 0 calc(50% - 5em);

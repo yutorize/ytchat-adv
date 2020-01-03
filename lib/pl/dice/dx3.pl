@@ -62,8 +62,8 @@ sub encroachRoll {
   $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
   my $number = 0;
   foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
-  my $result = (sttCalc('侵蝕',$number,'+'))[0];
-  return "侵蝕:${result} [+${rolls}D10→${number}]";
+  my $result = ( unitCalcEdit($::in{'name'}, '侵蝕+'.$number) )[0];
+  return "${rolls}D10→${number} $result";
 }
 
 sub resurrectRoll {
@@ -71,10 +71,12 @@ sub resurrectRoll {
   $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
   my $number = 0;
   foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
-  my ($hp, $diff, $over) = sttCalc('HP',$number,'+');
-  my $encroach = (sttCalc('侵蝕',($number-$over),'+'))[0];
-  $number .= '>'.($number-$over)."(over${over})" if $over;
-  return "HP:${hp} 侵蝕:${encroach} [+${rolls}D10→${number}]";
+  my $result_hp = ( unitCalcEdit($::in{'name'}, 'HP+'.$number) )[0];
+  my $over = 0;
+  if($result_hp =~ /over([0-9]+)/){ $over = $1; }
+  my $result_en = ( unitCalcEdit($::in{'name'}, '侵蝕+'.($number-$over)) )[0];
+  
+  return "${rolls}D10→${number} $result_hp $result_en";
 }
 
 sub emotionRoll {

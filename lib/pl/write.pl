@@ -90,7 +90,7 @@ else {
   }
   #変更
   elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
-    unitCalcEdit($::in{'name'}, $1);
+    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
   # トピック処理
@@ -391,7 +391,7 @@ sub unitCalcEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  my $result;
+  my $result_info; my $result_system;
   foreach (split(' ', $set_text)){
     $_ =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
     if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*!]*)$/){
@@ -399,15 +399,15 @@ sub unitCalcEdit {
       my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
       $data{'unit'}{$set_name}{'status'}{$type} = $result;
       $diff .= "(over${over})" if $over;
-      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-      $::in{'info'} .= " [$diff]" if ($diff ne '');
-      $::in{'system'} = "unit";
+      $result_info .= ($result_info ? ' ' : '') . "$type:$result";
+      $result_info .= " [$diff]" if ($diff ne '');
+      $result_system = "unit";
     }
     elsif($_ =~ /^($stt_commands)[:](.*)$/){
       my ($type, $result) = ($1,$2);
       $data{'unit'}{$set_name}{'status'}{$type} = $result;
-      $::in{'info'} .= ($::in{'info'} ? ' ' : '') . "$type:$result";
-      $::in{'system'} = "unit";
+      $result_info .= ($result_info ? ' ' : '') . "$type:$result";
+      $result_system = "unit";
     }
   }
   
@@ -416,6 +416,8 @@ sub unitCalcEdit {
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
+  
+  return ($result_info, $result_system);
 }
 sub sttCalc {
   my $type = shift;
