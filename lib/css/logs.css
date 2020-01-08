@@ -49,8 +49,6 @@ article#contents {
 }
 .logs dl {
   position: relative;
-  display: grid;
-  grid-template-columns: max-content 1fr;
 }
 .logs dl:not(.main) {
   padding-left: 2.5em;
@@ -65,28 +63,10 @@ article#contents {
   position: relative;
   margin-left: .5rem;
   padding-left: .5rem;
-  grid-column: span 2;
   border-radius: .5rem;
-  white-space: pre-wrap;
-}
-.logs dd.info {
-  white-space: normal;
 }
 .logs dl dd.info::before {
-  content: '▶';
-  position: absolute;
   left: -.6em;
-  text-shadow: none;
-  opacity: 0.6;
-  transform: scale(0.7);
-}
-.logs dl dd.info b {
-  display: inline-block;
-}
-.logs dl dd.info strong {
-    display: inline-block;
-  font-size: calc(1em / 0.85);
-  line-height: calc(1.8 * 0.85);
 }
 /* 発言ホバー時 */
 .logs dl::before {

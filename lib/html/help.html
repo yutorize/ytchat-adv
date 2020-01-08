@@ -25,7 +25,7 @@
     <div class="help-detail-area">
       <table>
         <tr><th>記述</th><th>結果</th><th>説明</th></tr>
-        <tr><th>&lt;ruby&gt;テキスト&lt;rt&gt;てきすと&lt;rt&gt;&lt;/ruby&gt;</th><td><ruby>テキスト<rt>てきすと</rt></ruby></td><td>ルビ（ふりがな）を振る</td></tr>
+        <tr><th>&lt;ruby&gt;テキスト(てきすと)&lt;/ruby&gt;</th><td><ruby>テキスト<rt>てきすと</rt></ruby></td><td>ルビ（ふりがな）を振る</td></tr>
         <tr><th>&lt;em&gt;テキスト&lt;/em&gt;</th><td><em>テキスト</em></td><td>傍点を振る</td></tr>
         <tr><th>&lt;b&gt;テキスト&lt;/b&gt;</th><td><b>テキスト</b></td><td>太字にする</td></tr>
         <tr><th>&lt;i&gt;テキスト&lt;/i&gt;</th><td><i style="color:inherit;">テキスト</i></td><td>斜体にする</td></tr>
@@ -47,6 +47,7 @@
       <p>テキストコマンドは、原則として発言の行頭に記述する必要があります。</p>
       <table>
         <tr><th>コマンド</th><th>説明</th></tr>
+        <tr><th>[タブ名]発言</th><td>「タブ名」に「発言」内容を送信する。<br>他のコマンドと併用可。このコマンドが必ず先頭。</td></tr>
         <tr><th>名前@発言</th><td>「名前」で「発言」内容を送信する。<br>名前欄・ユニット欄にある名前のみ有効。<br>また、他のコマンドと併用可。</td></tr>
         <tr><th>@ステータス名:文字列 </th><td>「ステータス」を「文字列」で更新する。<br>例: <code>@HP:25/25</code>、<code>@MP:なし</code></td></tr>
         <tr><th>@ステータス名=数値   </th><td>「ステータス」の現在値を「数値」にする。<br>例: <code>@HP=-5</code></td></tr>

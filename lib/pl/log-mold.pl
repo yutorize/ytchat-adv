@@ -194,9 +194,15 @@ if($opt{'logList'}){
         push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'PATH' => $path, 'CURRENT' => $current});
       }
   }, $dir;
+  @loglist = sort { $a->{'NAME'} cmp $b->{'NAME'} } @loglist;
   $ROOM->param(LogList => \@loglist);
   $ROOM->param(idDir => $id) if($id && $rooms{$id}{'logs-dir'});
 }
+
+###################
+### CSS
+$ROOM->param(customCSS => $set::custom_css);
+
 ###################
 ### 出力
 return $ROOM->output;

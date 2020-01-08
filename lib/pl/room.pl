@@ -110,6 +110,8 @@ foreach my $key (sort keys %set::random_table){
 }
 $ROOM->param(RandomTable => \@random_table);
 
+$ROOM->param(customCSS => $set::custom_css);
+
 ###################
 ### 出力
 print "Content-Type: text/html\n\n";

@@ -1,0 +1,753 @@
+@charset "utf-8";
+/* // 基本レイアウト
+---------------------------------------------------------------------------------------------------- */
+body {
+  overflow: hidden;
+}
+#base {
+  padding: 0 2rem;
+  height: 100vh;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr 11em max-content;
+  grid-template-rows: 2em max-content max-content 1fr max-content max-content;
+  grid-template-areas: 
+    " menu  menu sheet"
+    "topic  side sheet"
+    "close  side sheet"
+    " chat  side sheet"
+    " form  form  form"
+    " foot  foot  foot";
+}
+#menubar {
+  grid-area: menu;
+}
+#topic {
+  grid-area: topic;
+}
+#chat-closes-area {
+  grid-area: close;
+}
+#chat-area {
+  grid-area: chat;
+}
+.chat.main {
+}
+.chat.sub {
+}
+#sidebar {
+  grid-area: side;
+}
+#main-form {
+  grid-area: form;
+}
+#footer {
+  grid-area: foot;
+}
+#sheet-area {
+  grid-area: sheet;
+  margin-right: -2rem;
+}
+#sheet-area.left {
+  margin-left: -2rem;
+  margin-right: 0;
+}
+#tablist-area {
+  display: none;
+}
+/* チャットエリア */
+#chat-area {
+  display: flex;
+  overflow: hidden;
+  margin: -1.5rem -1rem 0 0;
+}
+#chat-closes-area:empty + #chat-area {
+  margin-top: -2rem;
+}
+#chat-area .chat {
+  margin: 1rem 1rem 0 0;
+  flex: 1 10 100%;
+}
+#chat-area .chat.main {
+  flex: 1 4 100%;
+}
+#chat-closes-area {
+  display: flex;
+  justify-content: flex-end;
+}
+#chat-closes-area .chat {
+}
+#chat-closes-area .chat + .chat {
+  margin-left: 1rem;
+}
+
+/* サイドバー */
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+#sidebar > .box { margin: .5rem 0; }
+#sidebar > .box:first-child { margin-top: 0; }
+#sidebar > .box:last-child  { margin-bottom: 0; }
+@media (min-width: 601px) {
+  #sidebar[data-layout="row"] {
+    flex-wrap: wrap;
+  }
+  #sidebar[data-layout="bottom"] {
+    flex-direction: column-reverse;
+  }
+  #sidebar[data-layout="bottom"] > .box:first-child { margin-bottom: 0; }
+  #sidebar[data-layout="bottom"] > .box:last-child  { margin-top: 0; }
+  #sidebar[data-layout="row"] {
+    flex-direction: row;
+  }
+  #sidebar[data-layout="row"] > .box { margin: 0 .5rem; }
+  #sidebar[data-layout="row"] > .box:first-child { margin-left: 0; }
+  #sidebar[data-layout="row"] > .box:last-child  { margin-right: 0; }
+}
+#round {
+  flex-shrink: 0;
+}
+
+/* // ヘッダ
+---------------------------------------------------------------------------------------------------- */
+#sp-header {
+  display: none;
+}
+
+/* // メニュー
+---------------------------------------------------------------------------------------------------- */
+#menubar {
+  display: grid;
+  padding: 0 1em;
+  grid-template-columns: auto auto;
+}
+#menubar ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#menubar ul li {
+  flex-basis: 10rem;
+  text-align: center;
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: rgba(255,255,255,0.1);
+}
+#menubar ul li + li {
+  border-left: 0;
+}
+#menubar ul li a {
+  display: block;
+  padding: .5em;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  white-space: nowrap;
+}
+#menubar ul li a:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+}
+#menubar ul + ul {
+  justify-content: flex-end;
+  font-size: 80%;
+}
+#menubar ul + ul input {
+  width: 100%;
+}
+#menubar li#menu-mute-button {
+  flex-basis: 5rem;
+}
+
+/* // ラウンド
+---------------------------------------------------------------------------------------------------- */
+[data-layout="row"] #round {
+  flex-basis: 8em;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* // チャットログ
+---------------------------------------------------------------------------------------------------- */
+.chat {
+  display: grid;
+  grid-template-rows: max-content auto;
+  grid-gap: .2rem;
+  overflow: hidden;
+  position: relative;
+}
+.chat h2 {
+  border-radius: .5rem;
+  font-size: 1.3rem;
+  cursor: move;
+}
+.chat h2 label {
+  display: inline-block;
+  padding: .4rem;
+  cursor: pointer;
+}
+.chat h2 label input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.chat h2 label input:focus+span::before {
+  box-shadow: 0 0 0 .1rem #09f, 0 0 .5rem .0rem #09f;
+}
+.chat h2 label input+span::before {
+  display: inline-block;
+  content: "　";
+  width: 1em;
+  margin-right: 0.1em;
+  border-radius: .2em;
+  background-color: #000;
+  color: transparent;
+  transform: scale(1);
+}
+.chat h2 label:hover input+span::before {
+  box-shadow: inset 0 0 .5rem #9df;
+}
+.chat h2 label input:checked+span::before {
+  content: "✔";
+  color: #f77;
+  text-shadow: 
+    #711  1px 1px, #711 -1px -1px,
+    #711 -1px 1px, #711  1px -1px,
+    #711  0px 1px, #711  0px -1px,
+    #711 -1px 0px, #711  1px  0px;
+}
+/* フォントサイズ調整バー */
+.chat .option {
+  position: absolute;
+  top: .3rem;
+  right: 3rem;
+  font-size: 1rem;
+}
+.chat .option::before {
+  content: "フォントサイズ";
+  display: block;
+  text-align: center;
+  text-shadow: none;
+  opacity: 0.8;
+}
+.chat .option input[type="range"] {
+  width: 10rem;
+}
+/* 閉じるボタン */
+.chat .close.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* メイン */
+.chat.main {
+  font-size: 1.6rem;
+}
+.chat.main .logs {
+  line-height: 1.8;
+}
+.chat.main .logs dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+.chat.main .logs dl dt {
+  grid-column: 1;
+}
+.chat.main .logs dl dd {
+  grid-column: 2;
+  min-height: calc((1em * 1.8) - .1rem);
+}
+.chat.main .logs dl dt {
+  padding-right: .6em;
+  font-size: 90%;
+  line-height: 2;
+  text-align: right;
+}
+.chat.main .logs dl dt::after {
+  content: ":";
+  display: inline-block;
+  width: .6em;
+  margin-right: -.6em;
+  color: #fff;
+  font-weight: 100;
+  text-align: center;
+  opacity: 0.5;
+}
+.chat.main .logs dl.system dt::after {
+  content: ">";
+  width: 1em;
+}
+.chat.main .logs dl dd {
+  min-width: 10em;
+}
+.chat.main .logs dl dd.info {
+  grid-column: 1 / span 2;
+  padding: 0 .5em;
+}
+.chat.main .input-form {
+  display: none;
+}
+/* サブ */
+.chat.sub {
+  display: grid;
+  grid-template-rows: max-content auto max-content;
+  font-size: 1.4rem;
+}
+.chat.sub .logs {
+  line-height: 1.6;
+}
+.chat.sub dl dd {
+  padding-left: .5em;
+  min-height: calc((1em * 1.6) - .1rem);
+}
+.chat.sub .logs dl:after {
+  top: 0;
+}
+/* クローズ */
+.chat.close {
+}
+.chat.close > * {
+  display: none;
+}
+.chat.close > h2 {
+  display: block;
+}
+
+/* // フォーム
+---------------------------------------------------------------------------------------------------- */
+
+/* メイン */
+#main-form {
+  z-index: 10;
+  max-height: 50vh;
+}
+#main-form .input-form {
+  display: grid;
+  grid-gap: .5rem;
+  grid-template-columns: auto 1.2fr 1fr;
+}
+@media (max-width: 900px) {
+  #main-form .input-form {
+    grid-template-columns: auto 1fr;
+  }
+  #main-form .input-form > div:first-child {
+    grid-row: span 2;
+  }
+}
+#main-form .input-form + .input-form {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255,255,255,0.2);
+}
+#main-form .input-form > div:first-child {
+  display: grid;
+  margin-bottom: -.2rem;
+  grid-gap: .3rem;
+  grid-template-rows: auto max-content;
+}
+#main-form select.form-name {
+  min-width: 8em;
+  max-width: 13em;
+  height: auto;
+  padding: 0;
+  font-size: 0.9em;
+}
+#main-form select.form-name option {
+  font-weight: bold;
+  padding: 0 .5rem;
+}
+#main-form select.form-name + button {
+  margin-right: 3em;
+}
+#main-form .main-name,
+#main-form input[id*="form-color"] {
+  height: 2.2rem;
+  vertical-align: bottom;
+}
+#main-form .main-name {
+  display: inline-block;
+  min-width: 8em;
+  padding: .3rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: .5rem;
+  text-align: center;
+}
+#main-form input[type="color"] {
+  width: 5em;
+}
+#main-form input#form-color-text {
+  width: 7em;
+}
+#main-form .comm-config-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+#main-form .color-area {
+  display: grid;
+  grid-gap: .2rem;
+  grid-template-columns: auto auto auto;
+  margin-right: .8em;
+}
+#main-form .address-area {
+  display: inline-flex;
+  position: relative;
+  margin-left: auto;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: .8rem;
+}
+#main-form .address-area::before {
+  position: absolute;
+  content: "⇒";
+  left: -1.1em;
+  bottom: 0;
+}
+#main-form .address-area select {
+  max-width: 10em;
+  border: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#main-form .address-area label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: 4em;
+  padding: 0 .3rem;
+  border-top-right-radius: .8rem;
+  border-bottom-right-radius: .8rem;
+  font-size: 80%;
+}
+#main-form .comm-area {
+  margin-right: 2rem;
+}
+
+/* 装飾ボタン */
+.decoration-buttons {
+  margin-right: 2rem;
+}
+/* チェックボタン */
+.check-buttons {
+  margin-top: -2rem;
+  margin-right: 3.5rem;
+  text-align: right;
+}
+.check-buttons button {
+  border-top: 0;
+}
+.check-buttons button:first-child {
+  width: 4rem;
+  border-radius: 0 0 0 .8rem;
+}
+.check-buttons button:last-child {
+  width: 2.5rem;
+  border-left: 0;
+  border-radius: 0 0 .8rem 0;
+}
+
+.input-form .add-button {
+  vertical-align: super;
+}
+.input-form #sub-comm {
+  margin-top: .5rem;
+}
+
+/* ダイス欄 */
+#form-dice-0 {
+  margin-top: 1rem;
+}
+.form-dice {
+  position: relative;
+  display: grid;
+  grid-gap: .3rem 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: max-content;
+  padding-right: 2rem;
+}
+.form-dice .edit.button {
+  position: absolute;
+  bottom: 0;
+  right: -.4rem;
+}
+.form-dice .edit.button + .edit.button {
+  bottom: 2.4rem;
+}
+.form-dice .edit.button + .edit.button + .edit.button {
+  bottom: 4.8rem;
+}
+.form-dice .dice-button {
+  grid-template-columns: auto 1fr auto;
+  width: 100%;
+  margin: 0;
+  overflow: visible;
+}
+.form-dice .dice-button button   { grid-column: 3; grid-row: 1; }
+.form-dice .dice-button textarea { grid-column: 2; grid-row: 1; }
+.form-dice .dice-button i        { grid-column: 1; grid-row: 1; }
+.form-dice .dice-button button   {
+  border-width: 0 0 0 .1rem;
+  border-radius: 0 .5em .5em 0;
+}
+.form-dice .dice-button button::before {
+  content: "⏎";
+}
+.form-dice .dice-button i {
+  position: relative;
+  display: block;
+  width: 2.4em;
+  border-width: 0 .1rem 0 0;
+  border-radius: .5em 0 0 .5em;
+}
+.form-dice .dice-button i::before {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .4rem;
+  margin: auto;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: bold;
+  text-shadow: none
+}
+.form-dice .dice-button i:hover::before {
+  color: #fff;
+}
+.form-dice .dice-button textarea[data-lock="full"] + i { background: linear-gradient(to right, rgba(255,255,  0, 0.6), transparent); color: #fec; }
+.form-dice .dice-button textarea[data-lock="dice"] + i { background: linear-gradient(to right, rgba(255, 50,  0, 0.6), transparent); color: #fcc; }
+.form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); color: #fcf; }
+.form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); color: #cff; }
+.form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(100,255,  0, 0.6), transparent); color: #cfb; }
+.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\f023"; }
+.form-dice .dice-button textarea[data-lock="dice"] + i::before { content: "\f6d1"; }
+.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\f007"; }
+.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
+.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
+
+/* // ステータス
+---------------------------------------------------------------------------------------------------- */
+[data-layout="row"] #status {
+  flex-grow: 5;
+  padding-bottom: 0;
+}
+[data-layout="row"] #status #status-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+}
+[data-layout="row"] #status #status-body > dl {
+  max-width: 18em;
+  margin-right: 1em;
+  border: 0;
+}
+
+/* // 共有メモ
+---------------------------------------------------------------------------------------------------- */
+.memo {
+  position: relative;
+  padding-bottom: 1.2em;
+  overflow: auto;
+  flex-shrink: 0;
+}
+.memo #memo-list {
+}
+.memo ul#memo-list {
+}
+.memo ul#memo-list li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: .3em 0;
+  border-bottom: .1rem solid rgba(127,127,127,0.4);
+}
+[data-layout="row"] .memo {
+  overflow: hidden;
+  flex-basis: 12em;
+  flex-grow: 0.5;
+  flex-shrink: 1;
+}
+[data-layout="row"] .memo ul#memo-list {
+  position: absolute;
+  width: auto;
+  height: 100%;
+  overflow: auto;
+}
+[data-layout="row"] .memo ul#memo-list li {
+  display: inline-block;
+  max-width: 8em;
+  margin-right: .3rem;
+  padding: .3em;
+  background-color: rgba(127,127,127,0.15);
+  border: .1rem solid rgba(127,127,127,0.4);
+  border-radius: .8em;
+  font-size: 90%;
+}
+
+/* // ユニットシート
+---------------------------------------------------------------------------------------------------- */
+
+/* 閉じた状態 */
+.sheet.closed {
+  margin-left: -17em;
+  right: -17em;
+  opacity: 0.5;
+}
+.left .sheet.closed {
+  margin-left: 0;
+  right: 0;
+  margin-right: -17em;
+  left: -17em;
+}
+.sheet.closed .close-area {
+  display: block;
+}
+.sheet .close-area {
+  content: '';
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+.sheet .close-area:hover {
+  background: none;
+}
+
+/* // フッタ
+---------------------------------------------------------------------------------------------------- */
+#footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  overflow: hidden;
+}
+#footer dl {
+  display: flex;
+  position: relative;
+  margin: .5rem;
+  line-height: 1.2rem;
+}
+#footer dl dt {
+  white-space: nowrap;
+}
+#footer dl dt::after {
+  content: ":";
+  margin-right: .3em;
+}
+#footer dl dd {
+  margin-right: 2.5em;
+  font-size: 0.8em;
+}
+#footer dl + dl {
+  margin-left: 2.5em;
+}
+#footer dl dd:last-child {
+  margin-right: 0;
+}
+#footer [onclick] {
+  cursor: pointer;
+}
+/* // フロートボックス
+---------------------------------------------------------------------------------------------------- */
+.float-box {
+  position: absolute;
+  top: 2rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 2rem;
+  width: max-content;
+  height: max-content;
+  max-height: 100%;
+  margin: auto;
+  padding: .5rem;
+  border-radius: 1rem;
+  transform: scaleY(0);
+  opacity: 0;
+  overflow: auto;
+}
+.float-box.open {
+  transform: none;
+  opacity: 1;
+}
+/* 入室 */
+#enter-form {
+  height: max-content;
+  max-height: 100vh;
+}
+/* 退室 */
+#exit-form {
+  max-height: 16em;
+}
+/* 各種 */
+#edit-topic {
+  top: 5em;
+  left: 1.5em;
+  right: auto;
+  bottom: auto;
+}
+#edit-topic textarea {
+  width: 60vw;
+  max-width: 100vw;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#edit-npc {
+  top: auto;
+  left: 10em;
+  right: auto;
+  bottom: 10em;
+}
+#edit-npc textarea {
+  width: 20em;
+  max-width: 65vw;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#config-dice textarea {
+  width: 40em;
+  max-width: 65vw;
+  height: 50em;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
+#config-sound table tr td:last-child {
+  width: 4.5em;
+  text-align: right;
+}
+#config-other p {
+  padding: .5em;
+  line-height: 1.6;
+}
+#member-list {
+  top: auto;
+  left: 2em;
+  right: auto;
+  bottom: 2em;
+  min-width: 14em;
+}
+#config-other p {
+  line-height: 1.6;
+}
+#config-other #font-sample {
+  max-width: 30em;
+  padding: .5em 1em;
+  background-color: #111;
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
+#help-window .box-body {
+  overflow: auto;
+  max-width: 50em;
+  padding-bottom: 2em;
+}
+

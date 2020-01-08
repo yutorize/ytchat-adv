@@ -1,0 +1,866 @@
+@charset "utf-8";
+/* // チャット共通
+---------------------------------------------------------------------------------------------------- */
+/* 編集・追加ボタン */
+.add.button,
+.del.button,
+.edit.button,
+.close.button {
+  width: calc(1.3em + 2px);
+  height: calc(1.3em + 2px);
+  padding: .15em;
+  font-size: 1.6rem;
+  border-radius: 50%;
+}
+.add.button::before,
+.del.button::before,
+.edit.button::before,
+.close.button::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+.edit.button:empty { border: 0; }
+.edit.button:empty::before { content: "\f044" }
+
+/* // メニュー
+---------------------------------------------------------------------------------------------------- */
+.mute-button::before {
+  content: "\f028";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  color: #0f7;
+}
+.mute-button.mute-on::before {
+  content: "\f6a9";
+  color: #f00;
+}
+
+/* // トピック
+---------------------------------------------------------------------------------------------------- */
+#topic {
+  position: relative;
+  overflow: hidden;
+}
+#topic-value {
+  padding: 0 .5em 0 1.8em;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+#topic .edit.button {
+  position: absolute;
+  top: .2rem;
+  left: .2rem;
+}
+
+/* // ラウンド
+---------------------------------------------------------------------------------------------------- */
+#round {
+  text-align: center;
+}
+#round-value {
+  text-align: center;
+}
+
+/* // ステータス
+---------------------------------------------------------------------------------------------------- */
+#status {
+  position: relative;
+  padding-left: 0;
+  padding-bottom: 1.2em;
+  display: grid;
+  overflow: hidden;
+}
+#status #status-body {
+  overflow: auto;
+  padding-left: .5em;
+  display: flex;
+  flex-direction: column;
+}
+#status #status-body > dl {
+  position: relative;
+  padding: .3rem 0;
+  border-width: 0 0 .1rem;
+  border-style: solid;
+  border-color: rgba(127,127,127,0.4);
+  animation-name: addin;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+@keyframes addin {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+#status #status-body > dl.check::before {
+  content: "\f00c";
+  display: inline-block;
+  position: absolute;
+  top: .3rem;
+  left: -.5em;
+  font-family: "Font Awesome 5 Free";
+  font-size: 1em;
+  font-weight: bold;
+  color: #f20;
+  transform: scaleY(1.2);
+}
+#status #status-body > dl > dt {
+  padding: 0 0 .1em .5em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#status #status-body > dl > dt[onclick]:hover {
+  cursor: pointer;
+  background: rgba(255,150,0,0.3);
+  white-space: normal;
+}
+#status #status-body > dl > dd {
+  padding: 0 0 .1em .6em;
+}
+#status #status-body > dl > dd > dl {
+  display: grid;
+  grid-template-columns: minmax(2em,auto) 1fr;
+} 
+#status #status-body > dl > dd > dl dt {
+  position: relative;
+  font-size: 85%;
+  line-height: calc(1 / 0.85);
+  padding-right: .1em;
+}
+#status #status-body > dl > dd > dl dt::after {
+  content: ":";
+  position: absolute;
+  right: -.15em;
+  opacity: 0.5;
+}
+#status #status-body > dl > dd > dl dd {
+  padding-left: .2em;
+}
+#status #status-body > dl > dd > dl dd span {
+  display: inline-block;
+  position: relative;
+  z-index: 3;
+}
+#status #status-body > dl > dd > dl dd .gauge {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: .5rem;
+  margin-top: -.4rem;
+  margin-bottom: -.1rem;
+  background: #333;
+  z-index: 1;
+}
+#status #status-body > dl > dd > dl dd .gauge i {
+  display: block;
+  position: absolute;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transition-property: width, color;
+  transition-duration: 1s,1s;
+  transition-timing-function: ease-out, ease-out;
+}
+#status #status-body > dl > dd > dl dd .gauge i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.4;
+}
+
+#status .add.button {
+  position: absolute;
+  bottom: .1em;
+  right: .1em;
+  z-index: 10;
+}
+
+/* // 共有メモ
+---------------------------------------------------------------------------------------------------- */
+.memo ul#memo-list li:empty {
+  display: none !important;
+}
+.memo ul#memo-list li[onclick]:hover {
+  cursor: pointer;
+  background: rgba(255,150,0,0.3);
+}
+.memo .add.button {
+  position: absolute;
+  bottom: .1em;
+  right: .1em;
+}
+
+.sheet .sheet-memo-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto max-content 1fr;
+  grid-gap: 1rem;
+  text-align: right;
+  overflow-y: hidden;
+}
+.sheet .sheet-memo-body .sheet-memo-outline {
+  grid-row: 2;
+  margin-top: 1em;
+  padding: 0;
+  border: .1rem solid rgba(127,127,127,0.8);
+  border-radius: .5rem;
+  overflow-y: auto;
+}
+.sheet #sheet-memo-value {
+  border: 1px solid transparent;
+  line-height: 1.4;
+  font-size:80%;
+  padding: .4rem;
+}
+.sheet .sheet-memo-body > button {
+  margin: 0 calc(50% - 5em);
+  grid-row: 3;
+}
+body.rom .sheet#sheet-unit-memo { display: grid !important; }
+body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }
+body.rom .sheet#sheet-unit-memo button { display: none; }
+
+/* // ユニットシート
+---------------------------------------------------------------------------------------------------- */
+body.rom .sheet { display: none !important; }
+#sheet-area {
+  display: grid;
+}
+.sheet {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  width: 18.5em;
+  display: grid;
+  position: relative;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  transition-property: margin, right, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in;
+}
+#sheet-area:not(.left) .sheet {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+#sheet-area.left .sheet {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.sheet h2 {
+  padding-bottom: .1em;
+  border-bottom: .1rem solid rgba(127,127,127,0.8);
+}
+.sheet-body {
+  display: grid;
+  grid-template-rows: auto minmax(min-content,1fr) auto;
+  overflow-y: hidden;
+}
+.sheet-body h3 {
+  margin-bottom: .1rem;
+}
+
+/* リモコン */
+.sheet-body .status-remocon-area {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.sheet-body .status-remocon-area select {
+  font-size: 0.9em;
+}
+.sheet-body .status-remocon-area ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.sheet-body .status-remocon-area ul li.dice-button {
+  grid-column: span 3;
+  margin-right: .3em
+}
+.sheet-body .status-remocon-area ul li.dice-button.mini {
+  grid-column: span 1;
+}
+.sheet-body .status-remocon-area ul li.dice-button.mini button {
+  padding: .3rem;
+}
+.sheet-body .status-remocon-area ul li.dice-button:last-child {
+  width: max-content;
+  margin-left: auto;
+}
+.sheet-body .status-remocon-sub ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-bottom: .3rem;
+  padding: .2rem 0 0 .3rem;
+  border-width: .1rem 0 0 .3rem;
+  border-style: solid;
+  border-color: rgba(127,127,127,0.8);
+}
+.sheet-body .status-remocon-sub ul li:first-child {
+  grid-column: span 4;
+  margin: 0 1rem .3rem 0;
+}
+.sheet-body .status-remocon-sub ul li:first-child input {
+  width: calc(100% - 3em);
+  margin-left: .3rem;
+  padding: .3rem;
+}
+.sheet-body .status-remocon-sub ul li.dice-button {
+  grid-column: span 2;
+}
+.sheet-body .status-remocon-sub ul li.dice-button button {
+  max-width: 3em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sheet-body .status-remocon-sub ul li.dice-button:last-child {
+  width: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.sheet-body .status-remocon-sub ul i {
+  font-style: normal;
+  cursor: pointer;
+}
+.sheet-body .status-remocon-sub ul.close li.dice-button {
+  display: none;
+}
+/* パレット */
+.sheet-body .chat-palette-area {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  margin-top: 0.5rem;
+  border-top: .1rem solid rgba(127,127,127,0.5);
+}
+.sheet-body .chat-palette-palette-area {
+  position: relative;
+  display: grid;
+}
+.sheet-body .chat-palette-palette-area select,
+.sheet-body .chat-palette-palette-area textarea {
+  font-size: 1.2rem;
+  border-top-right-radius: 0;
+  z-index: 2;
+}
+.sheet-body .chat-palette-palette-area select{
+  padding: 0;
+}
+.sheet-body select.chat-palette option {
+  padding: .4rem .5rem;
+  border-bottom: .1rem solid rgba(127,127,127,0.5);
+}
+.sheet-body .chat-palette-palette-area textarea {
+  line-height: calc(1em + .9rem);
+  padding: 0 .5rem;
+}
+.sheet-body .chat-palette-palette-area .edit.button {
+  position: absolute;
+  width: 4.5em;
+  height: 2rem;
+  top: -2rem;
+  right: 0;
+  padding: .25rem 0;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  font-family: inherit;
+  font-size: 1.4rem;
+  z-index: 1;
+}
+/* デフォルトシート */
+.sheet-body-default {
+  padding: .5em;
+}
+.sheet-body-default dl {
+  display: grid;
+}
+.sheet-body-default dt {
+  padding: .2em 0;
+}
+.sheet-body-default dd {
+  display: flex;
+  padding: .2em .5em .5em;
+}
+.sheet-body-default dd input {
+  width: 100%;
+  flex-grow: 1;
+}
+.sheet-body-default dd input[list] {
+  flex-shrink: 1;
+}
+.sheet-body-default button {
+  display: block;
+  margin: 1em auto;
+  padding: .3em 1em;
+  font-size: 1em;
+}
+
+/* フッタ */
+.sheet-footer {
+  padding-top: .5em;
+}
+.sheet input[type="url"] {
+  width: 100%;
+}
+.sheet select {
+  font-size: 1.1em;
+}
+.sheet .dice-button button:before {
+  content:"";
+}
+.sheet-footer #member-num {
+  white-space: nowrap;
+}
+
+/* 他 */
+.sheet textarea {
+  width: 100%;
+  height: auto;
+  font-size: 1.4rem;
+  padding: .5rem;
+}
+
+.sheet .close.button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* // フォーム
+---------------------------------------------------------------------------------------------------- */
+body.rom #main-form::before { content: '見学者は発言できません。'; }
+body.rom .input-form { display: none !important; }
+
+.input-form input,
+.input-form select {
+  font-size: 1.4rem;
+  vertical-align: bottom;
+}
+.input-form .comm-area textarea {
+  width: 100%;
+  padding: .5rem;
+  font-size: 1.4rem;
+}
+.comm-area {
+  display: grid;
+  grid-template-columns: auto max-content;
+  margin: .5em 0;
+}
+.comm-area textarea {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.comm-area button {
+  border-left-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* メイン */
+#main-form .address-area label {
+  opacity: 0.5;
+}
+#main-form .secret .address-area label {
+  opacity: 1;
+}
+#main-form .address-area label:hover {
+  box-shadow: inset 0 0 .5rem #7af;
+}
+#main-form .address-area label input {
+  vertical-align: text-bottom;
+}
+#main-form .address-area label input+span::after {
+  content: "後で公開";
+}
+#main-form .address-area label input:checked+span {
+  color: #ffaa00;
+}
+/* 装飾ボタン */
+.decoration-buttons {
+  display: flex;
+  padding-left: .5em;
+  padding-right: 7em;
+  border-top: 1px solid rgba(200,220,240,0.3);
+}
+.decoration-buttons .button {
+  position: relative;
+  width: 2.5rem;
+  height: 2rem;
+  padding: 0;
+  background: transparent;
+  font-size: 1.2rem;
+  font-weight: normal;
+  border-width: 0 1px 1px 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.decoration-buttons .button:first-child {
+  border-left-width: 1px;
+  border-bottom-left-radius: .6rem;
+}
+.decoration-buttons .button:last-child {
+  border-bottom-right-radius: .5rem;
+}
+.decoration-buttons .button::before,
+.decoration-buttons .button::after {
+  position: absolute;
+  display: block;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: .3rem;
+  white-space: nowrap;
+}
+.decoration-buttons .insert-ruby    { width: 3.2rem; }
+.decoration-buttons .insert-em      { width: 3.2rem; }
+.decoration-buttons .insert-ruby::before    { content:"ルビ"; }
+.decoration-buttons .insert-em::before      { content:"傍点"; }
+
+.decoration-buttons .insert-bold::before    { content:"\f032"; }
+.decoration-buttons .insert-oblique::before { content:"\f033"; }
+.decoration-buttons .insert-under::before   { content:"\f0cd"; }
+.decoration-buttons .insert-strike::before  { content:"\f0cc"; }
+.decoration-buttons .insert-big::before     { content:"\f031\f30c"; }
+.decoration-buttons .insert-small::before   { content:"\f031\f309"; }
+.decoration-buttons .insert-color::before   { content:"\f031"; color:#e80; }
+.decoration-buttons .insert-hide::before    { content:"\f031"; opacity:0.2; }
+.decoration-buttons .insert-horizon::before { content:"―"; }
+.decoration-buttons .insert-left::before    { content:"\f036"; }
+.decoration-buttons .insert-center::before  { content:"\f037"; }
+.decoration-buttons .insert-right::before   { content:"\f038"; }
+
+/* ダイスボタン */
+.dice-button {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  margin: 0 1rem .3rem 0;
+  padding: 0;
+  border-radius: .5em ;
+  border-width: 1px;
+  overflow: hidden;
+  background: transparent;
+}
+.dice-button > * {
+  vertical-align: bottom;
+  font-size: 1.1rem;
+  color: #fff;
+  border-width: 0;
+  border-radius: 0;
+}
+.dice-button button {
+  padding: 0 .5em;
+  cursor: pointer;
+  border-right-width: .1rem;
+}
+.dice-button button::before {
+  content: '🎲';
+  font-size: 1.4rem;
+}
+.dice-button input,
+.dice-button textarea {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  padding: .3rem .3rem;
+  text-shadow: none;
+  font-size: 1.4rem;
+  border-width: 1px 0;
+  border-color: transparent;
+  overflow: hidden;
+}
+.dice-button button:only-child {
+  grid-column: span 2;
+  border-radius: .5em;
+}
+
+/* // チャットログ
+---------------------------------------------------------------------------------------------------- */
+.chat .notice-unread {
+  position: absolute;
+  text-align: center;
+  background: rgba(0,150,50,0.8);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+.chat .notice-unread:hover {
+  background: rgba(150,150,150,0.8);
+}
+.chat .notice-unread[data-unread="0"] {
+  display: none;
+}
+.chat .notice-unread::after {
+  content: "(" attr(data-unread) ")";
+}
+.chat.close .tab-name {
+  color: #ffcc00;
+}
+.chat.close .tab-name::after {
+  content: "(" attr(data-unread) ")";
+}
+.chat.close .tab-name[data-unread="0"] {
+  color: inherit;
+}
+/* ログ */
+.chat .logs {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: .5em;
+  overflow-wrap: break-word;
+}
+.chat .logs:empty {
+  text-align: center;
+}
+.chat .logs dl {
+  position: relative;
+  padding-right: .5rem;
+}
+.chat .logs dl dt,
+.chat .logs dl dd {
+  position: relative;
+  border-radius: .5rem;
+  animation-name: fadein;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+}
+.chat .logs dl dd {
+  animation-name: newfade;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes newfade {
+  from { box-shadow: inset -.1rem 0 1rem rgba(255,155,0,0.4); }
+  to   { box-shadow: none; }
+}
+/* 投稿ユーザー表示 */
+.chat .logs dl::before {
+  content: attr(data-user);
+  position: absolute;
+  font-size: 1rem;
+  top: -1rem;
+  left: 0;
+  opacity: 0;
+}
+.chat .logs dl:hover::before,
+.chat .logs dl:hover::after {
+  opacity: 0.5;
+}
+/* タイムスタンプ表示 */
+.chat .logs dl dd::after {
+  content: attr(data-date);
+  position: absolute;
+  font-size: 1.2rem;
+  top: -1.2rem;
+  right: 0;
+  opacity: 0;
+  font-family: 'Arial';
+  font-weight: normal;
+}
+.chat .logs dl dd:hover::after {
+  opacity: 0.7;
+}
+/* システムメッセージ */
+.chat .logs dl.system {
+}
+/* ダイス・システムメッセージ補足表示部 */
+.chat .logs dl dd.info {
+  margin-left: 1em;
+}
+.chat .logs dl dd.info::before {
+  left: -.5em;
+}
+.chat .logs dl dd.info i {
+  margin-left: .2rem;
+}
+.chat .logs dl dd.info[data-code]::after {
+  content: "" attr(data-code) " --- " attr(data-date);
+}
+
+/* // 各フロートボックス
+---------------------------------------------------------------------------------------------------- */
+.float-box {
+  transition-property: transform, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  z-index: 99;
+}
+.float-box h2 {
+  font-size: 1.4em;
+}
+.float-box h3 {
+  font-size: 1.15em;
+  margin-top: .5em;
+  padding-top: .3em;
+  border-top: 1px solid rgba(127,127,127,0.8);
+}
+.float-box h4 {
+  font-size: 1.10em;
+  margin-top: .5em;
+  padding-top: .3em;
+  border-top: 1px dotted rgba(127,127,127,0.7);
+}
+.float-box textarea {
+  line-height: 1.5;
+}
+.float-box p {
+  line-height: 1.4;
+  margin: .5em;
+}
+.float-box table {
+  margin: .5em;
+  border-width: .1rem;
+  border-style: solid;
+  border-collapse: collapse;
+}
+.float-box table tr {
+  border-width: 0 0 .1rem;
+  border-style: solid;
+}
+.float-box table th,
+.float-box table td {
+  padding: .5rem 1rem;
+}
+.float-box table th,
+.float-box table td {
+  border-right-width: .1rem;
+  border-right-style: dotted;
+  border-color: inherit;
+}
+.float-box .close.button {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+}
+#dark-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 98;
+}
+/* z-index */
+#enter-form   { z-index: 100; }
+#exit-form    { z-index: 100; }
+#config-other { z-index: 200; }
+/* 入室 */
+#enter-form p {
+  padding: 3em 5em;
+  text-align: center;
+  border-bottom: .1rem solid rgba(127,127,127,0.5);
+}
+/* 退室 */
+#exit-form {
+  padding: 4em;
+  text-align: center;
+}
+/* ヘルプ */
+#help-window {
+  height: auto;
+  display: grid;
+  grid-template-rows: max-content 1fr;
+}
+#help-window h3::before,
+#help-window h4::before {
+  content: "◆";
+  color: #ea0;
+}
+#help-window h4::before {
+  content: "▼";
+}
+#help-window h3:hover,
+#help-window h4:hover {
+  background: rgba(255,200,100,0.4);
+  cursor: pointer;
+}
+#help-window .help-detail-area {
+  height: 0px;
+  overflow: hidden;
+}
+#help-window .help-detail-area.open {
+  height: auto;
+  overflow: auto;
+}
+#help-window code {
+  display: inline-block;
+  padding: .2rem .5rem;
+  background: rgba(0,255,100,0.4);
+  border-radius: 1rem;
+}
+#help-window h3:nth-child(n+2) {
+  margin-top: 1em;
+}
+#help-window h4 {
+  margin-top: .5em;
+}
+#help-window table th b {
+  color: #eeaa00;
+}
+#help-window table i {
+  margin: 0 .1em;
+  color: #99aacc;
+  font-weight: normal;
+}
+
+.mem-signal::before {
+  display: inline-block;
+  width: 1.5em;
+  margin-right: .5em;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  text-align: center;
+}
+.mem-signal.green::before  { content: "\f012"; color: #0f0; }
+.mem-signal.yellow::before { content: "\f071"; color: #ff0; }
+.mem-signal.red::before    { content: "\f057"; color: #f00; }
+
+/* // その他
+---------------------------------------------------------------------------------------------------- */
+/* カラーピッカー */
+body .sp-replacer {
+  height: 2.2rem;
+  padding: .3rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: .8rem;
+}
+body .sp-replacer .sp-preview {
+  height: 1.4rem;
+}
+body .sp-replacer .sp-dd {
+  line-height: 1rem;
+  color: white;
+}
+.sp-container {
+  background-color: #111 !important;
+}
+.sp-container .sp-palette-container {
+  max-height: 300px;
+  overflow: auto;
+  padding-bottom: 0px;
+  margin-bottom: -0px;
+}
+.sp-container .sp-palette {
+  max-width: 280px;
+}
+.sp-container .sp-thumb-el {
+  border-color: #000 !important;
+}

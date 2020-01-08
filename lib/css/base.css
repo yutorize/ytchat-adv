@@ -42,6 +42,7 @@ button, .button {
   line-height: 1;
   text-align: center;
   cursor: pointer;
+  user-select: none;
 }
 button {
   background: linear-gradient(145deg, rgba(50,60,80,0.8), rgba(30,40,60,0.8));
@@ -156,3 +157,30 @@ img.icon { width: 1em; height: 1em; }
   font-size: 1.075em;
 }
 
+/* ログ */
+.logs dt,
+.logs dd {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.logs dd.info {
+  white-space: normal;
+}
+.logs dl dd.info::before {
+  content: '\f054';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  position: absolute;
+  text-shadow: none;
+  opacity: 0.6;
+  transform: scale(0.7);
+}
+.logs dl dd.info b {
+  display: inline-block;
+}
+.logs dl dd.info strong {
+  display: inline-block;
+  font-size: calc(1em / 0.85);
+  line-height: calc(1.8 * 0.85);
+}

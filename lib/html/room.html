@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.09.3">
-  <link rel="stylesheet" media="all" href="./lib/css/layout.css?0.09.3">
-  <link rel="stylesheet" media="all" href="./lib/css/layout-sp.css?0.09.3">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.09.3">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.10.0">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.10.0">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.10.0">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.10.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.10.0">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.09.3" defer></script>
-  <script src="./lib/js/chat.js?0.09.3" defer></script>
+  <script src="./lib/js/ui.js?0.10.0" defer></script>
+  <script src="./lib/js/ui-sp.js?0.10.0" defer></script>
+  <script src="./lib/js/chat.js?0.10.0" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <script>
@@ -36,18 +39,23 @@
 </head>
 <body>
   <div id="base">
+    <div class="box" id="sp-header">
+      <div class="head-menu"><span id="menu-open" onclick="menuToggle();"></span></div>
+      <h1><TMPL_VAR title></h1>
+      <div class="head-mute"><span class="mute-button" onclick="muteToggle();"></span></div>
+      <div class="head-side"><span id="side-open" onclick="sideToggle();"></span></div>
+    </div>
     <div class="box" id="menubar">
     <ul>
-      <li><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
-      <li onclick="sheetSelect('default');sheetOpen();"><a>ユニット</a></li>
-      <li><a style="cursor:not-allowed;">背景</a></li>
-      <li><a onclick="boxOpen('config-sound');">サウンド</a></li>
-      <li><a onclick="boxOpen('config-other');">その他設定</a></li>
-      <li><a onclick="boxOpen('help-window');">ヘルプ</a></li>
-      <li><a onclick="boxOpen('exit-form');">退室</a></li>
+      <li id="menu-button-logs"><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
+      <li id="menu-button-back"><a style="cursor:not-allowed;">背景</a></li>
+      <li id="menu-button-sound"><a onclick="boxOpen('config-sound');">サウンド</a></li>
+      <li id="menu-button-other"><a onclick="boxOpen('config-other');">その他設定</a></li>
+      <li id="menu-button-help"><a onclick="boxOpen('help-window');">ヘルプ</a></li>
+      <li id="menu-button-exit"><a onclick="boxOpen('exit-form');">退室</a></li>
     </ul>
     <ul>
-      <li id="mute-button"><a onclick="muteToggle();"></a></li>
+      <li id="menu-mute-button"><a class="mute-button" onclick="muteToggle();"></a></li>
       <li>ウィンドウ透過度<input id="option-box-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.8"></li>
     </ul>
     </div>
@@ -64,6 +72,9 @@
     <div id="chat-area"></div>
     <!-- / CHAT-AREA -->
     
+    <div class="box" id="tablist-area">
+      <ul id="tablist"></ul>
+    </div>
     <!-- FORM-AREA -->
     <div class="box" id="main-form">
       <div class="input-form">
@@ -108,11 +119,16 @@
           <div class="check-buttons">
             <button onclick="unitCommandSubmit('check')">✔</button><button onclick="unitCommandSubmit('uncheck')">×</button>
           </div>
+          <div class="form-dice" id="form-dice-0">
+            <span class="edit button" onclick="diceDel(0);">－</span>
+            <span class="edit button" onclick="diceAdd(0);">＋</span>
+            <span class="edit button" onclick="diceScale(0);">⇔</span>
+          </div>
         </div>
-        <div class="form-dice">
-          <span class="edit button" onclick="diceDel();">－</span>
-          <span class="edit button" onclick="diceAdd();">＋</span>
-          <span class="edit button" onclick="diceScale();">⇔</span>
+        <div class="form-dice" id="form-dice-1">
+          <span class="edit button" onclick="diceDel(1);">－</span>
+          <span class="edit button" onclick="diceAdd(1);">＋</span>
+          <span class="edit button" onclick="diceScale(1);">⇔</span>
         </div>
       </div>
     </div>
@@ -227,10 +243,15 @@
     <h2>その他設定</h2>
     <h3>通知設定</h3>
     <p>
+      <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
       強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
       　指定したワードが発言された際、強調表示します。<br>
       　改行で区切って複数設定することができます。<br>
-      　自身の入室名はデフォルトで強調されます。<br>
+    </p>
+    <p>
+      除外ワード：<br><textarea id="except-list-value" class="autosize" rows="2" onchange="exceptListChange();"></textarea><br>
+      　強調ワードが発言されても、同発言に除外ワードが含まれる場合は強調されません。<br>
+      　改行で区切って複数設定することができます。<br>
     </p>
     <h3>ログフォント設定</h3>
     <div id="font-sample" class="logs-font">
@@ -343,7 +364,7 @@
   <div class="float-box" id="exit-form">
     このルームから退室しますか？<br>
     退室すると、以下の情報がリセットされます。<br>
-    ［ダイス欄］<br>
+    ［ダイス欄の入力値］<br>
     ［チャットパレット］<br>
     ［個人メモ］<br>
     <br>

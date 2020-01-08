@@ -50,6 +50,7 @@ elsif($::in{'system'} eq 'exit'){
   memberEdit('exit', $::in{'player'}, $::in{'userId'});
 }
 else {
+  memberEdit('enter', $::in{'player'}, $::in{'userId'});
   # ラウンド処理
   if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
     my $num = roundChange($1);
@@ -224,7 +225,7 @@ sub tagConvert{
   }
   
   $comm =~ s#&lt;hr&gt;(<br>)?#<hr>#gi;
-  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/rt&gt;&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
+  $comm =~ s#&lt;ruby&gt;(.+?)\((.*?)\)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
   1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gi;
   1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gi;
   1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gi;
@@ -258,13 +259,31 @@ sub memberEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  if   ($type eq 'enter'){ $data{'member'}{$user} = $name; }
-  elsif($type eq 'exit') { delete $data{'member'}{$user}; }
+  if   ($type eq 'enter'){
+    $data{'member'}{$user} = {};
+    $data{'member'}{$user}{'name'} = $name;
+    $data{'member'}{$user}{'date'} = time;
+  }
+  elsif($type eq 'exit') {
+    delete $data{'member'}{$user};
+  }
+  # 最終アクセスが1日前のは消す
+  foreach my $key (keys %{$data{'member'}}) {
+    if(ref($data{'member'}{$key}) eq 'HASH' && time - $data{'member'}{$key}{'date'} < 60*60*24){ next; }
+    delete $data{'member'}{$key};
+  }
   
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
+  
+  if($::in{'system'} eq 'reload'){
+    print "Content-type:application/json; charset=UTF-8\n\n";
+    print decode('utf8', encode_json \%{$data{'member'}});
+    exit;
+  }
 }
+
 sub topicEdit {
   my $topic = shift;
   
