@@ -4,6 +4,7 @@
 html,body {
   height: 100%;
 }
+/*
 #base {
   padding: 0;
   width: 100%;
@@ -27,7 +28,7 @@ html,body {
 #main-form {
   margin-top: .1rem !important;
 }
-/*
+*/
 #base {
   padding: 0;
   width: 100%;
@@ -58,7 +59,6 @@ html,body {
 #main-form {
   grid-area: form;
 }
-*/
 #sheet-area {
   position: fixed;
   margin: 0;

@@ -65,9 +65,6 @@ article#contents {
   padding-left: .5rem;
   border-radius: .5rem;
 }
-.logs dl dd.info::before {
-  left: -.6em;
-}
 /* 発言ホバー時 */
 .logs dl::before {
   content: attr(data-user);

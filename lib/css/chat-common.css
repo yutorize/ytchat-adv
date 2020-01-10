@@ -683,9 +683,6 @@ body.rom .input-form { display: none !important; }
 .chat .logs dl dd.info {
   margin-left: 1em;
 }
-.chat .logs dl dd.info::before {
-  left: -.5em;
-}
 .chat .logs dl dd.info i {
   margin-left: .2rem;
 }

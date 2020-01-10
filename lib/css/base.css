@@ -172,6 +172,7 @@ img.icon { width: 1em; height: 1em; }
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
   position: absolute;
+  left: -.5em;
   text-shadow: none;
   opacity: 0.6;
   transform: scale(0.7);
