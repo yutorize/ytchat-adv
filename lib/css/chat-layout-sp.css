@@ -346,17 +346,51 @@ input[type=range]::-moz-range-thumb {
 
 /* // フォーム
 ---------------------------------------------------------------------------------------------------- */
-#main-form #main-name1 {
-  display: none;
+#main-form {
+  padding: .5rem 0 0;
 }
 #main-form .input-form {
   display: block;
 }
-#main-form .input-form > div:first-child {
-  display: block;
+#main-form .input-form .namelist-area {
+  display: flex;
+  position: relative;
+}
+#main-form .input-form .namelist-area::before {
+  position: absolute;
+  display: flex;
+  content: "▼変更";
+  width: 4.5em;
+  top: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#main-form .input-form .namelist-area > * {
+  border-left-width: 0;
+  border-bottom-width: 0;
+}
+#main-form .input-form .namelist-area select {
+  order: -1;
+  width: 4.5em;
+  border-radius: 0;
+  color: transparent;
+}
+#main-form .namelist-area #npc-del-button {
+  border-radius: 0;
+  display: none;
+}
+#main-form .namelist-area #npc-edit-button {
+  border-radius: 0;
+}
+#main-form .namelist-area #npc-add-button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 #main-form .comm-config-area {
-  margin-top: .2rem;
   display: flex;
   justify-content: space-between;
 }
@@ -364,11 +398,29 @@ input[type=range]::-moz-range-thumb {
   height: 1.6em;
   vertical-align: bottom;
 }
+#main-form #main-name1 {
+  width: 8em;
+  border-left-width: 0;
+  border-radius: 0;
+}
+#main-form #form-color,
+#main-form .sp-replacer {
+  border-right-width: 1px;
+  border-radius: 0  .8rem .8rem 0;
+}
 #main-form #form-color-text {
-  width: 6em;
+  display: none;
 }
 #main-form .address-area {
   text-align: right;
+}
+#main-form .comm-area {
+  margin: .2rem 0 0;
+}
+#main-form .comm-area > * {
+  border-width: 1px 0 0; 
+  border-color: rgba(127,127,127, 0.5);
+  border-radius: 0;
 }
 .decoration-buttons {
   display: none;

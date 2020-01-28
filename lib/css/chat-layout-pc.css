@@ -278,6 +278,10 @@ body {
   text-align: center;
   opacity: 0.5;
 }
+.chat.main .logs dl dt:empty::after {
+  display: none;
+}
+
 .chat.main .logs dl.system dt::after {
   content: ">";
   width: 1em;
@@ -335,7 +339,7 @@ body {
   #main-form .input-form {
     grid-template-columns: auto 1fr;
   }
-  #main-form .input-form > div:first-child {
+  #main-form .input-form .namelist-area {
     grid-row: span 2;
   }
 }
@@ -343,38 +347,43 @@ body {
   padding-left: 1rem;
   border-left: 1px solid rgba(255,255,255,0.2);
 }
-#main-form .input-form > div:first-child {
+#main-form .namelist-area {
   display: grid;
   margin-bottom: -.2rem;
-  grid-gap: .3rem;
-  grid-template-rows: auto max-content;
+  grid-gap: 0;
+  grid-template-columns: 1.5em 1fr 2em;
+  grid-template-rows: max-content auto;
 }
-#main-form select.form-name {
+#main-form .namelist-area #npc-del-button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#main-form .namelist-area #npc-edit-button {
+  border-radius: 0;
+  border-left-width: 0;
+}
+#main-form .namelist-area #npc-add-button {
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-width: 0;
+}
+#main-form .namelist-area select.form-name {
+  grid-column: span 3;
   min-width: 8em;
   max-width: 13em;
   height: auto;
-  padding: 0;
+  padding: .5rem 0 0;
   font-size: 0.9em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top-width: 0;
 }
-#main-form select.form-name option {
+#main-form .namelist-area select.form-name option {
   font-weight: bold;
   padding: 0 .5rem;
-}
-#main-form select.form-name + button {
-  margin-right: 3em;
-}
-#main-form .main-name,
-#main-form input[id*="form-color"] {
-  height: 2.2rem;
-  vertical-align: bottom;
-}
-#main-form .main-name {
-  display: inline-block;
-  min-width: 8em;
-  padding: .3rem;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: .5rem;
-  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 #main-form input[type="color"] {
   width: 5em;
@@ -387,41 +396,6 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
-}
-#main-form .color-area {
-  display: grid;
-  grid-gap: .2rem;
-  grid-template-columns: auto auto auto;
-  margin-right: .8em;
-}
-#main-form .address-area {
-  display: inline-flex;
-  position: relative;
-  margin-left: auto;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: .8rem;
-}
-#main-form .address-area::before {
-  position: absolute;
-  content: "⇒";
-  left: -1.1em;
-  bottom: 0;
-}
-#main-form .address-area select {
-  max-width: 10em;
-  border: none;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-#main-form .address-area label {
-  display: flex;
-  align-items: center;
-  position: relative;
-  min-width: 4em;
-  padding: 0 .3rem;
-  border-top-right-radius: .8rem;
-  border-bottom-right-radius: .8rem;
-  font-size: 80%;
 }
 #main-form .comm-area {
   margin-right: 2rem;

@@ -465,7 +465,60 @@ body.rom .input-form { display: none !important; }
 }
 
 /* メイン */
+#main-form .name-area {
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: auto auto auto;
+  margin-right: .8em;
+}
+#main-form .name-area input {
+  height: 2.2rem;
+  vertical-align: bottom;
+}
+#main-form .name-area > * {
+  border-radius: 0;
+  border-right-width: 0;
+}
+#main-form .name-area > *:first-child {
+  border-radius: .8rem 0 0 .8rem;
+}
+#main-form .name-area > *:last-child {
+  border-radius: 0  .8rem .8rem 0;
+  border-right-width: 1px;
+}
+#main-form .name-area .main-name {
+  display: inline-block;
+  width: 12em;
+  text-align: center;
+}
+#main-form .address-area {
+  display: inline-flex;
+  position: relative;
+  margin-left: auto;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: .8rem;
+}
+#main-form .address-area::before {
+  position: absolute;
+  content: "⇒";
+  left: -1.1em;
+  bottom: 0;
+}
+#main-form .address-area select {
+  max-width: 10em;
+  border: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 #main-form .address-area label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: 4em;
+  padding: 0 .3rem;
+  border-top-right-radius: .8rem;
+  border-bottom-right-radius: .8rem;
+  font-size: 80%;
   opacity: 0.5;
 }
 #main-form .secret .address-area label {

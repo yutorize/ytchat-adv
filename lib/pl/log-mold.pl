@@ -94,8 +94,11 @@ foreach (<$FH>){
   my @infos = split(/<br>/,$info);
   foreach (@infos){
     { $_ =~ s/\<\<(.*)$//; $code = $1; }
-    if($system =~ /^dice/){
-      $_ =~ s#(\[.*?\#])#<i>$1</i>#g;
+    if($system =~ /^choice/){
+      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
+    }
+    elsif($system =~ /^dice/){
+      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
       $_ =~ s# = ([0-9a-z.]+)# = <b>$1</b>#gi;
       #クリティカルをグラデにする
@@ -115,7 +118,8 @@ foreach (<$FH>){
   $info = join('<br>', @infos);
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   
-  
+  $comm =~ s#(―+)#<span class="dash">$1</span>#g;
+  $info =~ s#(―+)#<span class="dash">$1</span>#g;
   
   if ( $before_tab   ne $tab
     || $before_name  ne $name

@@ -32,8 +32,7 @@ sub rateRoll {
   my $curse;
   my $gf;
   while($form =~ s/gf//gi)             { $gf = ' GF'; }                      #Gフォーチュン
-  while($form =~ s/(?:\@|C値)([0-9]+)//gi)          { $crit     = $1 if !$crit; }         #C値
-  while($form =~ s/(?:\@|C値)\(([0-9\+\-]+)\)//gi)  { $crit     = $1 if !$crit; }         #C値
+  while($form =~ s/(?:\@|C値)([0-9][0-9\+\-]*)//gi) { $crit     = $1 if !$crit; }         #C値
   while($form =~ s/(?:[rck]|首切)([0-9]*)//gi)      { $rate_up  = $1?$1:5 if !$rate_up; } #首切効果
   while($form =~ s/(?:[#b!]|必殺)([0-9]*)//gi)      { $crit_atk = $1?$1:1 if !$crit_atk; }#必殺効果
   while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)     { $fixed    = $1 if !$fixed; }        #出目固定

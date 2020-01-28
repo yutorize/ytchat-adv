@@ -33,7 +33,8 @@ a[href]:hover   { color: #ffffff; }
   box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
   text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
 }
-.box h3 {
+.box #main-name1 {
+  text-shadow: inherit;
 }
 .float-box {
   background: rgba(10,10,30,0.9);

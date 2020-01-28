@@ -22,11 +22,11 @@ sub diceCheck {
   elsif($comm =~ /^[0-9]*\$/){ return choiceRoll($comm), 'choice'; }
   elsif($::in{'game'} eq 'sw2' && $comm =~ /^([rk]|威力)[0-9()]/i){ require './lib/pl/dice/sw2.pl'; return rateRoll($comm), 'dice:sw'; }
   elsif($::in{'game'} eq 'sw2' && $comm =~ /^(?:gr|成長ダイス)/i) { require './lib/pl/dice/sw2.pl'; return growRoll($comm), 'dice:sw'; }
-  elsif($::in{'game'} eq 'dx3' && $comm =~ /^[0-9]+(r|dx)/i)    { require './lib/pl/dice/dx3.pl'; return   dxRoll($comm), 'dice:dx'; }
-  elsif($::in{'game'} eq 'dx3' && $comm =~ /^ET(P|N)?(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
-  elsif($::in{'game'} eq 'dx3' && $comm =~ /^HC(?:\s|$)/i)      { require './lib/pl/dice/dx3.pl'; return        hcRoll(), 'dice:dx'; }
-  elsif($::in{'game'} eq 'dx3' && $comm =~ /^ER([0-9]*)(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return  encroachRoll($1), 'unit'; }
-  elsif($::in{'game'} eq 'dx3' && $comm =~ /^RE([0-9]*)(?:\s|$)/i){ require './lib/pl/dice/dx3.pl'; return resurrectRoll($1), 'unit'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^[0-9\+\-\*\/]+(r|dx)/i){ require './lib/pl/dice/dx3.pl'; return   dxRoll($comm), 'dice:dx'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^ET(P|N)?(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^HC(?:\s|$)/i)          { require './lib/pl/dice/dx3.pl'; return        hcRoll(), 'dice:dx'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^ER([0-9]*)(?:\s|$)/i)  { require './lib/pl/dice/dx3.pl'; return  encroachRoll($1), 'unit'; }
+  elsif($::in{'game'} eq 'dx3' && $comm =~ /^RE([0-9]*)(?:\s|$)/i)  { require './lib/pl/dice/dx3.pl'; return resurrectRoll($1), 'unit'; }
   # 四則演算
   elsif($comm =~ /^
     ( \(? \-? [0-9]+ [\+\-\/*\^]

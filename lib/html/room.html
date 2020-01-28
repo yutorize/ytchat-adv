@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.10.1">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.10.1">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.10.1">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.10.1">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.10.1">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.10.1c">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.10.1c">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.10.1c">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.10.1c">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.10.1c">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
@@ -17,11 +17,11 @@
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.10.1" defer></script>
-  <script src="./lib/js/ui-sp.js?0.10.1" defer></script>
-  <script src="./lib/js/chat.js?0.10.1" defer></script>
+  <script src="./lib/js/ui.js?0.10.1c" defer></script>
+  <script src="./lib/js/ui-sp.js?0.10.1c" defer></script>
+  <script src="./lib/js/chat.js?0.10.1c" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const setStatus = ['<TMPL_VAR SttNameList>'];
@@ -78,21 +78,23 @@
     <!-- FORM-AREA -->
     <div class="box" id="main-form">
       <div class="input-form">
-        <div>
-        <select class="form-name bold" id="form-name" size="4" style="background:transparent;">
-          <option value="0" selected></option>
-        </select>
-        <button id="npc-edit-button" onclick="npcOpen()">追加／編集</button>
+        <div class="namelist-area">
+          <span id="npc-del-button" class="button" onclick="npcDel()" title="一番下の名前を削除します">－</span>
+          <span id="npc-edit-button" class="button" onclick="npcOpen()" title="名前一覧を一括編集します">編集</span>
+          <span id="npc-add-button" class="button" onclick="npcAdd()" title="空の名前を追加します">＋</span>
+          <select class="form-name bold" id="form-name" size="4" style="background:transparent;">
+            <option value="0" selected></option>
+          </select>
         </div>
         <div>
           <div class="comm-config-area">
-            <div class="color-area">
-              <span id="main-name1" class="main-name bold"></span>
-              <input type="color" id="form-color" class="selectcolor-main" list="color-list" value="#FFFFFF">
-              <input type="text" id="form-color-text" class="selectcolor-main" list="color-list" value="#FFFFFF">
+            <div class="name-area">
+              <input type="text" id="main-name1" class="main-name bold" style="background:transparent" title="現在の名前" placeholder="名前が空欄です" readonly>
+              <input type="color" id="form-color" class="selectcolor-main" list="color-list" value="#FFFFFF" title="名前色">
+              <input type="text" id="form-color-text" class="selectcolor-main" list="color-list" value="#FFFFFF" title="名前のカラーコード">
             </div>
             <div class="address-area">
-              <select id="form-address"><option value="">全員</option></select>
+              <select id="form-address" title="発言送信先"><option value="">全員</option></select>
               <label for="secret-openlater" title="チェックを入れると、過去ログになった時には公開されます。"><input type="checkbox" id="secret-openlater"><span></span></label>
             </div>
           </div>
@@ -213,14 +215,15 @@
   </div>
   
   <div class="float-box" id="edit-npc">
-    <h2>名前欄編集</h2>
+    <h2>名前欄一括編集</h2>
     <div class="comm-area">
     <textarea class="autosize" id="edit-npc-value"></textarea>
     <button onclick="npcSave('edit-npc-value');boxClose('edit-npc');">決定</button>
     </div>
     ※改行で区切ります。<br>
     ※色は名前末尾に6桁のカラーコードで指定。<br>
-    　省略すると、ランダムな色を割り当て。
+    　省略すると、ランダムな色を割り当てます。<br>
+    ※入室名は変更できません。<br>
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
   </div>
   
@@ -256,11 +259,11 @@
     <h3>ログフォント設定</h3>
     <div id="font-sample" class="logs-font">
       <TMPL_IF helpOnSW2>
-      ――『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
+      <span class="dash">――</span>『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
       <TMPL_ELSE>
       <TMPL_IF helpOnDX3>
         昨日と同じ今日。今日と同じ明日。世界は繰り返し時を刻み、変わらないように見えた。だが、世界はすでに変貌していた。<br>
-        “ダブルクロス”――それは「裏切り」を意味する言葉。
+        “ダブルクロス”<span class="dash">――</span>それは「裏切り」を意味する言葉。
       <TMPL_ELSE>
         あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
       </TMPL_IF>
@@ -269,21 +272,32 @@
     <p>
       日本語フォント：
       <select id="font-family-jp" onchange="fontFamilyChange(this.value)">
-        <option value='"UD Digi Kyokasho NP-R"'>UDデジタル教科書体（Windows10～）</option>
-        <option value='"BIZ UDMincho"'>BIZ UD明朝（Windows10～）</option>
-        <option value='"BIZ UDGothic"'>BIZ UDゴシック（Windows10～）</option>
-        <option value='"Meiryo"'>メイリオ（Windows）</option>
-        <option value='"YuGothic","Yu Gothic"'>游ゴシック（Mac/Windows8～）</option>
-        <option value='"YuMincho","Yu Mincho"'>游明朝（Mac/Windows8～）</option>
-        <option value='"YuKyokasho Yoko"'>游教科書体（Mac）</option>
-        <option value='"Hiragino Sans"'>ヒラギノ角ゴシック（Mac）</option>
-        <option value='"Hiragino Maru Gothic ProN"'>ヒラギノ丸ゴ（Mac）</option>
-        <option value='"Hiragino Mincho ProN"'>ヒラギノ明朝（Mac）</option>
-        <option value='"Klee"'>クレー（Mac）</option>
-        <option value='"Tsukushi A Round Gothic"'>筑紫A丸ゴシック（Mac）</option>
-        <option value='"Toppan Bunkyu Gothic"'>凸版文久ゴシック（Mac）</option>
-        <option value='"Toppan Bunkyu Mincho"'>凸版文久明朝（Mac）</option>
-        <option value='"Noto Sans JP"'>Noto Sans JP（Webフォント）</option>
+      <optgroup label="Webフォント（GoogleFonts）">
+        <option value='"Noto Sans JP"'>Noto Sans JP</option>
+        <option value='"Kosugi"'>小杉ゴシック</option>
+        <option value='"Kosugi Maru"'>小杉丸ゴシック</option>
+        <option value='"Sawarabi Gothic"'>さわらびゴシック</option>
+      </optgroup>
+      <optgroup label="Windows標準フォント">
+        <option value='"UD Digi Kyokasho NP-R"' selected>UDデジタル教科書体（Win10～）</option>
+        <option value='"BIZ UDMincho"'>BIZ UD明朝（Win10～）</option>
+        <option value='"BIZ UDGothic"'>BIZ UDゴシック（Win10～）</option>
+        <option value='"Meiryo"'>メイリオ</option>
+      </optgroup>
+      <optgroup label="Windows/Mac標準フォント">
+        <option value='"YuGothic","Yu Gothic"'>游ゴシック（Win8～）</option>
+        <option value='"YuMincho","Yu Mincho"'>游明朝（Win8～）</option>
+      </optgroup>
+      <optgroup label="Mac標準フォント">
+        <option value='"YuKyokasho Yoko"'>游教科書体</option>
+        <option value='"Hiragino Sans"'>ヒラギノ角ゴシック</option>
+        <option value='"Hiragino Maru Gothic ProN"'>ヒラギノ丸ゴ</option>
+        <option value='"Hiragino Mincho ProN"'>ヒラギノ明朝</option>
+        <option value='"Klee"'>クレー</option>
+        <option value='"Tsukushi A Round Gothic"'>筑紫A丸ゴシック</option>
+        <option value='"Toppan Bunkyu Gothic"'>凸版文久ゴシック</option>
+        <option value='"Toppan Bunkyu Mincho"'>凸版文久明朝</option>
+      </optgroup>
       </select><br>
       文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
     </p>
@@ -396,7 +410,7 @@
     <option value="#444444">hurricane</option>
     <option value="#222222">graphite</option>
     <option value="#000000">black</option>
-    <option value="#56002b">chianti</option>
+    <option value="#56002b">emperors robe</option>
     <option value="#812b56">claret</option>
     <option value="#81002b">burgundy</option>
     <option value="#ab002b">fez</option>
@@ -570,7 +584,7 @@
     <option value="#00ab81">oriental green</option>
     <option value="#00ab56">emerald green</option>
     <option value="#2bab81">beans green</option>
-    <option value="#81d5ab">winter green</option>
+    <option value="#81d5ab">anglesey／winter green</option>
     <option value="#81d581">primavera</option>
     <option value="#56d5ab">coral green</option>
     <option value="#2bd5ab">blue zircon</option>
@@ -586,11 +600,11 @@
     <option value="#56ffab">light spring green</option>
     <option value="#81ffd5">wateau</option>
     <option value="#abffd5">spring stream</option>
-    <option value="#d5ffff">powder aqua</option>
-    <option value="#abffff">horizon blue</option>
-    <option value="#81ffff">light cyan</option>
+    <option value="#d5ffff">glacier blue／light cyan</option>
+    <option value="#abffff">celeste</option>
+    <option value="#81ffff">electric blue</option>
     <option value="#81d5ff">sky blue</option>
-    <option value="#56ffff">west country</option>
+    <option value="#56ffff">thunderbird blue</option>
     <option value="#56d5ff">myosotis</option>
     <option value="#2bffff">italian blue</option>
     <option value="#2bd5ff">cornwall</option>
@@ -603,7 +617,7 @@
     <option value="#0081d5">cerulean blue</option>
     <option value="#2bd5d5">flesh blue</option>
     <option value="#2babd5">clear sky</option>
-    <option value="#56d5d5">viking</option>
+    <option value="#56d5d5">viking／sea serpent</option>
     <option value="#56abd5">comet blue</option>
     <option value="#81d5d5">arcardia</option>
     <option value="#abd5d5">fairy land</option>
@@ -624,7 +638,7 @@
     <option value="#2b5681">dark ocean</option>
     <option value="#002b81">luxor</option>
     <option value="#002bab">strato blue</option>
-    <option value="#0056ab">cote d’azur</option>
+    <option value="#0056ab">cote d'azur</option>
     <option value="#2b56ab">cadiz blue</option>
     <option value="#5681ab">cadet blue</option>
     <option value="#81abd5">southern cross</option>
@@ -641,7 +655,7 @@
     <option value="#5681ff">cornflower blue</option>
     <option value="#56abff">forget me not</option>
     <option value="#81abff">lavender blue</option>
-    <option value="#abd5ff">light blue</option>
+    <option value="#abd5ff">fresh air／light blue</option>
     <option value="#d5d5ff">alice blue</option>
     <option value="#ababff">hermes blue</option>
     <option value="#8181ff">menuetto</option>
@@ -650,7 +664,7 @@
     <option value="#8156ff">hyacinth purple</option>
     <option value="#2b2bff">sapphire</option>
     <option value="#562bff">bermude</option>
-    <option value="#812bff">bishop’s violet</option>
+    <option value="#812bff">bishop's violet</option>
     <option value="#0000ff">blue</option>
     <option value="#2b00ff">madinne blau</option>
     <option value="#5600ff">blue magenta</option>
@@ -673,7 +687,7 @@
     <option value="#2b0081">helio blue redish</option>
     <option value="#2b2b81">midnight blue</option>
     <option value="#565681">blue gray</option>
-    <option value="#2b2b56">marine d’hiver</option>
+    <option value="#2b2b56">marine d'hiver</option>
     <option value="#000056">stratos</option>
     <option value="#00002b">sorcerer</option>
     <option value="#2b0056">purple navy</option>

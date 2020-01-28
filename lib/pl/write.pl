@@ -22,7 +22,7 @@ if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
 if(!-d "room/".$::in{'room'}){ error "ルームがありません"; }
 if(!$::in{'system'}){
-  if($::in{'name'} eq ''){ error "名前がありません"; }
+  if($::in{'userId'} eq ''){ error "送信者が不明です"; }
   if($::in{'comm'} eq ''){ error "発言がありません"; }
 }
 
