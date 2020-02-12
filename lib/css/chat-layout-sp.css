@@ -74,7 +74,7 @@ html,body {
   bottom: 0;
   z-index: 10;
 }
-.sheet.closed {
+#sheet-area.closed .sheet {
   display: none;
 }
 body.rom .sheet.closed#sheet-unit-memo {

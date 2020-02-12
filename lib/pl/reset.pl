@@ -17,7 +17,8 @@ my $logs_dir = $set::rooms{$::in{'room'}}{'logs-dir'} ? $set::rooms{$::in{'room'
 ## ファイル名
 my $filename;
 if($::in{'filename'}){
-  $filename = $::in{'filename'}.'.dat' if $::in{'filename'};
+  if($::in{'filename'} !~ /^[-0-9a-zA-Z_.]+$/){ error('ファイル名に使えない文字があります'); }
+  $filename = "${logs_dir}/$::in{'filename'}.dat" if $::in{'filename'};
 }
 else {
   sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
@@ -44,7 +45,7 @@ if(!-d $logs_dir){
   mkdir $logs_dir;
 }
 
-error('既にファイルが存在します') if (-f $filename); #上書きは避ける
+error('同名のファイルが存在します') if (-f $filename); #上書きは避ける
 
 ## ログ生成
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);

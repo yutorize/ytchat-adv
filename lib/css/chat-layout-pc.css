@@ -10,7 +10,7 @@ body {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 11em max-content;
-  grid-template-rows: 2em max-content max-content 1fr max-content max-content;
+  grid-template-rows: max-content max-content max-content 1fr max-content max-content;
   grid-template-areas: 
     " menu  menu sheet"
     "topic  side sheet"
@@ -46,11 +46,6 @@ body {
 }
 #sheet-area {
   grid-area: sheet;
-  margin-right: -2rem;
-}
-#sheet-area.left {
-  margin-left: -2rem;
-  margin-right: 0;
 }
 #tablist-area {
   display: none;
@@ -123,6 +118,7 @@ body {
   display: grid;
   padding: 0 1em;
   grid-template-columns: auto auto;
+  align-items: stretch;
 }
 #menubar ul {
   display: flex;
@@ -154,11 +150,17 @@ body {
   justify-content: flex-end;
   font-size: 80%;
 }
+#menubar ul + ul li {
+  border: 0;
+}
 #menubar ul + ul input {
   width: 100%;
 }
 #menubar li#menu-mute-button {
   flex-basis: 5rem;
+}
+#menubar li#menu-mute-button a {
+  
 }
 
 /* // ラウンド
@@ -229,10 +231,10 @@ body {
   font-size: 1rem;
 }
 .chat .option::before {
-  content: "フォントサイズ";
+  content: "文字サイズ " attr(data-value) "%";
   display: block;
+  margin-bottom: .1rem;
   text-align: center;
-  text-shadow: none;
   opacity: 0.8;
 }
 .chat .option input[type="range"] {
@@ -565,20 +567,26 @@ body {
 
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
-
+#sheet-area {
+  margin-right: -2rem;
+}
+#sheet-area.left {
+  margin-left: -2rem;
+  margin-right: 0;
+}
 /* 閉じた状態 */
-.sheet.closed {
-  margin-left: -17em;
-  right: -17em;
+#sheet-area.closed {
+  margin-left: calc(-18.5em + 2rem);
+  right: calc(-18.5em + 2rem);
   opacity: 0.5;
 }
-.left .sheet.closed {
-  margin-left: 0;
+#sheet-area.left.closed {
+  margin-left: -2rem;
   right: 0;
-  margin-right: -17em;
-  left: -17em;
+  margin-right: calc(-18.5em + 2rem);
+  left: calc(-18.5em + 2rem);
 }
-.sheet.closed .close-area {
+.closed .sheet .close-area {
   display: block;
 }
 .sheet .close-area {
@@ -634,33 +642,44 @@ body {
 /* // フロートボックス
 ---------------------------------------------------------------------------------------------------- */
 .float-box {
-  position: absolute;
-  top: 2rem;
-  left: 1rem;
-  right: 1rem;
-  bottom: 2rem;
+  position: fixed;
+  top: 3rem;
+  left: 5%;
+  right: auto;
+  bottom: auto;
   width: max-content;
   height: max-content;
-  max-height: 100%;
+  max-height: 80%;
   margin: auto;
   padding: .5rem;
   border-radius: 1rem;
   transform: scaleY(0);
   opacity: 0;
   overflow: auto;
+  resize: both;
 }
 .float-box.open {
   transform: none;
   opacity: 1;
 }
+.float-box h2 {
+  cursor: move;
+}
 /* 入室 */
 #enter-form {
   height: max-content;
   max-height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 /* 退室 */
 #exit-form {
   max-height: 16em;
+  top: 3rem;
+  left: 0;
+  right: 0;
 }
 /* 各種 */
 #edit-topic {
@@ -687,20 +706,29 @@ body {
   max-height: 80vh;
   margin-top: .1rem;
 }
-#config-dice textarea {
-  width: 40em;
-  max-width: 65vw;
-  height: 50em;
-  max-height: 80vh;
-  margin-top: .1rem;
+#bg-set {
+  width: 30em;
+}
+#bg-set input {
+  width: 100%;
+}
+#bg-set button {
+  display: block;
+  width: max-content;
+  margin: 1em auto;
+}
+#bg-set .bg-set-preview-area {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+#bg-set .bg-set-preview-area {
 }
 #config-sound table tr td:last-child {
   width: 4.5em;
   text-align: right;
-}
-#config-other p {
-  padding: .5em;
-  line-height: 1.6;
 }
 #member-list {
   top: auto;
@@ -709,19 +737,19 @@ body {
   bottom: 2em;
   min-width: 14em;
 }
+#config-other {
+  width: 36em;
+}
 #config-other p {
+  padding: .5em;
   line-height: 1.6;
 }
-#config-other #font-sample {
-  max-width: 30em;
-  padding: .5em 1em;
-  background-color: #111;
-  font-size: 1.6rem;
-  line-height: 1.8;
+#help-window {
+  width: 50em;
+  height: 80%;
 }
 #help-window .box-body {
   overflow: auto;
-  max-width: 50em;
   padding-bottom: 2em;
 }
 

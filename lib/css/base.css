@@ -22,7 +22,7 @@ body {
   background-repeat: no-repeat;
 }
 input,textarea,select, button, .button, .dice-button {
-  padding: .0rem .5rem;
+  padding: .2rem .5rem;
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: .8rem;
   background: rgba(30,35,50,0.8);
@@ -69,6 +69,9 @@ ul {
 }
 input[type="color"] {
 }
+.link {
+  cursor: pointer;
+}
 
 /* スライダー */
 input[type="range"],
@@ -101,10 +104,10 @@ body,
 button,
 .log-font,
 .form-comm {
-  font-family: 'Lato',"UD Digi Kyokasho NP-R","Meiryo","YuKyokasho Yoko";
+  font-family: 'Lato',"BIZ UDGothic","Meiryo","YuKyokasho Yoko";
 }
 h1,h2,h3,h4,h5,h6,dt,th,b,strong,label,
-#menubar, #topic,
+#menubar, #topic, .topic .info, .float-box summary,
 .bold {
   font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
   font-weight: 900;
@@ -124,6 +127,7 @@ button, .button {
 }
 .dash {
   font-family: "Meiryo","Noto Sans JP";
+  font-weight: normal;
 }
 em {
   -webkit-text-emphasis: dot filled;
@@ -167,6 +171,9 @@ img.icon { width: 1em; height: 1em; }
   word-break: break-word;
   overflow-wrap: break-word;
 }
+.logs dl dd a {
+  display: inline-block;
+}
 .logs dd.info {
   white-space: normal;
 }
@@ -175,7 +182,7 @@ img.icon { width: 1em; height: 1em; }
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
   position: absolute;
-  left: -.5em;
+  left: -.25em;
   text-shadow: none;
   opacity: 0.6;
   transform: scale(0.7);
@@ -187,4 +194,8 @@ img.icon { width: 1em; height: 1em; }
   display: inline-block;
   font-size: calc(1em / 0.85);
   line-height: calc(1.8 * 0.85);
+}
+.logs dl.system {
+  padding-top   : .25em;
+  padding-bottom: .25em;
 }

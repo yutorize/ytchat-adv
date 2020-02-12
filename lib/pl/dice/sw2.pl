@@ -152,10 +152,13 @@ sub rateCalc {
     # クリティカル
     if($crit && $number >= $crit){
       push(@results, " $power\[${inside_code}${number_result}:クリティカル!\] ");
+      # 首切
       if($rate_up){
         $rate += $rate_up;
+        $rate = 100 if $rate > 100; #威力100以上にはしない
         $code .= ">$rate";
       }
+      # 〆
       push(@results, "[クリティカル限界設定オーバーです。振り足してください]") if ($crits >= $crits_max);
       next;
     }

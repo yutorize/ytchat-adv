@@ -4,43 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.10.0">
-  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.10.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.10.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
-  <script>
-let mainTab = 1;
-window.onload = function(){
-  let lines = document.querySelectorAll('[data-tab="1"]');
-  for(let i=0; i<lines.length; i++){
-    lines[i].classList.add('main');
-  };
-  secretView();
-}
-function tabSelect(num){
-  let lines = document.querySelectorAll('[data-tab="'+num+'"]');
-  const on = document.getElementById('tab-on-'+num).checked;
-  for(let i=0; i<lines.length; i++){
-    lines[i].style.display = on ? 'grid' : 'none';
-  };
-}
-function secretView(){
-  let lines = document.querySelectorAll('.secret');
-  const on = document.getElementById('secret-on').checked;
-  for(let i=0; i<lines.length; i++){
-    lines[i].style.display = on ? 'grid' : 'none';
-  };
-}
-function dirToggle(dir){
-  let lines = document.querySelectorAll('#loglist li[data-subdir="'+dir+'"]');
-  for(let i=0; i<lines.length; i++){
-    lines[i].style.display = (lines[i].style.display === 'none') ? 'block' : 'none';
-  };
-}
-  </script>
+  <script src="./lib/js/logs.js?0.12.0" defer></script>
+  <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="bg-image bg-front"></div>
+  <div class="bg-image bg-back"></div>
 <div id="right">
   <input type="checkbox" id="menu-toggle">
   <aside id="menu" class="box">
@@ -49,17 +23,22 @@ function dirToggle(dir){
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
+    <dl id="options">
+      <dt>背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
+      <dt>文字サイズ <span id="option-fontsize-view">100</span> %</dd><dd><input id="option-fontsize" type="range" min="80" max="120" step="1" value="100"></dd>
+      <dt>日本語フォント</dd><dd><select id="option-fontfamily"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
+    </dl>
     <div id="loglist-area">
     <TMPL_IF RoomList>
     <h3>現行ログ</h3>
     <ul id="roomlist"><TMPL_LOOP RoomList>
-      <li><a href="./?mode=logs&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></li></TMPL_LOOP>
+      <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
     </ul>
     </TMPL_IF>
     <TMPL_IF LogList>
     <h3>過去ログ</h3>
     <ul id="loglist"><TMPL_LOOP LogList>
-      <li data-subdir="<TMPL_VAR SUB>" <TMPL_IF SUB>style="display:none"</TMPL_IF>><TMPL_IF DIR><a onclick="dirToggle('<TMPL_VAR NAME>');">▼<TMPL_VAR NAME>/</a><TMPL_ELSE><TMPL_IF CURRENT><b><TMPL_VAR NAME></b></b><TMPL_ELSE><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>"><TMPL_VAR NAME></a></TMPL_IF></TMPL_IF></li></TMPL_LOOP>
+      <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
     </ul>
     </TMPL_IF>
     </div>
@@ -72,7 +51,7 @@ function dirToggle(dir){
   </header>
   <article id="contents">
   <div class="logs">
-    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR SECRET> <TMPL_VAR OPENlATER>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
+    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR CLASS>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
       <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
       <TMPL_LOOP LogsDD><TMPL_IF COMM><dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd></TMPL_IF>
       <TMPL_IF INFO><dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>

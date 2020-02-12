@@ -87,7 +87,14 @@ foreach (<$FH>){
     }
   }
   
-  my $type = ($system =~ /^(check|round|dice)/) ? 'dice' : $system;
+  if($system =~ /^bg:(.+)$/){
+    $comm = '<span class="bg-border" data-url="'.$1.'"></span>'.$comm;
+  }
+  elsif($system =~ /^bg$/){
+    $comm = '<span class="bg-border"></span>'.$comm;
+  }
+  
+  my $type = ($system =~ /^(check|dice)/) ? 'dice' : $system;
      $type =~ s/:.*?$//;
   my $game = ($system =~ /^dice:(.*)$/) ? $1 : '';
   my $code;
@@ -121,10 +128,17 @@ foreach (<$FH>){
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;
   $info =~ s#(―+)#<span class="dash">$1</span>#g;
   
+  my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
+     $class .= ($system =~ /^(topic|memo|bg|ready|round|enter|exit)/) ? "$1 " : '';
+     $class .= ($system =~ /^bg/)   ? 'important ' : '';
+     $class .= $address   ? 'secret '    : '';
+     $class .= $openlater ? 'openlater ' : '';
+  
   if ( $before_tab   ne $tab
     || $before_name  ne $name
     || $before_color ne $color
     || $before_user  ne $user
+    || ($name eq '!SYSTEM')
   ){
     push(@logs, {
       "NUM"    => $num,
@@ -134,8 +148,7 @@ foreach (<$FH>){
       "USER"   => $user,
       "NAME"   => $name,
       "COLOR"  => $color,
-      "SECRET" => $address ? 'secret' : '',
-      "OPENlATER" => $openlater ? 'openlater' : '',
+      "CLASS" => $class,
       "LogsDD" => [],
     });
   }
@@ -168,37 +181,36 @@ $ROOM->param(TabList => \@tablist);
 if($opt{'roomList'}){
   my @roomlist;
   foreach my $i (sort keys %rooms){
+    next if $i eq '';
     next if ($rooms{$i}{'secret'} && $id ne $i);
-    push(@roomlist, {'ID' => $i, 'NAME' => $rooms{$i}{'name'}});
+    my $byte = int( (stat("room/${i}/log-all.dat"))[7] / 1024 + 0.5);
+    my $current = ($i eq $id && !$::in{'log'}) ? 1 : 0;
+    push(@roomlist, {'ID' => $i, 'NAME' => $rooms{$i}{'name'}, 'BYTE' => $byte, 'CURRENT' => $current});
   }
   $ROOM->param(RoomList => \@roomlist);
 }
 ###################
 ### 過去ログ一覧
-use File::Find;
 if($opt{'logList'}){
   my $dir = $logs_dir;
      $dir =~ s|/$||;
+  opendir(my $DIR, $dir);
+  my @filelist = readdir($DIR);
+  closedir($DIR);
   my @loglist;
-  find sub {
-      my $file = $_;
-      my $name = $file;
+  #foreach(reverse sort @filelist) {
+  #  if ($_ !~ /\./) {
+  #  }
+  #}
+  foreach(reverse sort @filelist) {
+    if ($_ =~ /\.dat$/) {
+      my $byte = int( (stat("$dir/$_"))[7] / 1024 + 0.5);
+      my $name = $_;
          $name =~ s/\..+?$//;
-      my $subdir = $File::Find::dir;
-         $subdir =~ s|^$dir/?||;
-      my $path = $File::Find::name;
-         $path =~ s|^$dir/?(.+?)\.dat$|$1|;
       my $current = ($name eq $::in{'log'}) ? 1 : 0;
-      if(-d $file){
-        if($name ne '.'){
-          push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'DIR' => 1});
-        }
-      }
-      if(-f $file){
-        push(@loglist, {'NAME' => $name, 'SUB' => $subdir, 'PATH' => $path, 'CURRENT' => $current});
-      }
-  }, $dir;
-  @loglist = sort { $a->{'NAME'} cmp $b->{'NAME'} } @loglist;
+      push(@loglist, {'NAME' => $name, 'PATH' => $name, 'BYTE' => $byte, 'CURRENT' => $current,});
+    }
+  }
   $ROOM->param(LogList => \@loglist);
   $ROOM->param(idDir => $id) if($id && $rooms{$id}{'logs-dir'});
 }

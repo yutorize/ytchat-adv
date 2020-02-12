@@ -29,9 +29,28 @@ a[href]:hover   { color: #ffffff; }
 }
 /* ベース */
 .box {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.7);
   box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+  text-shadow: 
+    #000  1px 1px 1px, #000 -1px -1px 1px,
+    #000 -1px 1px 1px, #000  1px -1px 1px,
+    #000  0px 1px 1px, #000  0px -1px 1px,
+    #000 -1px 0px 1px, #000  1px  0px 1px,
+    #000  1px 1px 1px, #000 -1px -1px 1px,
+    #000 -1px 1px 1px, #000  1px -1px 1px,
+    #000  0px 1px 1px, #000  0px -1px 1px,
+    #000 -1px 0px 1px, #000  1px  0px 1px;
+}
+#form-name {
+  text-shadow: inherit;
+}
+#form-name :checked {
+  text-shadow: none;
+}
+@media (max-width: 600px) {
+  .box {
+    background-color: rgba(0,0,0,0.7);
+  }
 }
 .box #main-name1 {
   text-shadow: inherit;
@@ -51,15 +70,6 @@ a[href]:hover   { color: #ffffff; }
 #round-value {
 }
 /* ステータス */
-#status #status-body > dl > dd > dl dd {
-  text-shadow: 
-    #000  1px 1px, #000 -1px -1px,
-    #000 -1px 1px, #000  1px -1px,
-    #000  0px 1px, #000  0px -1px,
-    #000 -1px 0px, #000  1px  0px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
-}
-
 .gauge i { background: #7ad; }
 .gauge i::before { background: linear-gradient(to left, #ff5, transparent); }
 dd[id*="-HP-"] .gauge[data-signal="safe"]      i { background: #095; }
@@ -92,6 +102,14 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   background: rgba(0,0,0,0.8);
 }
 /* チャットログ */
+.chat {
+  background-image: linear-gradient(to right, rgba(0,0,0, 0.4), transparent);
+}
+@media (max-width: 600px) {
+  .chat {
+    background-color: rgba(0,0,0, 0.3);
+  }
+}
 .chat h2 {
   background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
 }
@@ -100,32 +118,18 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   border-style: solid;
   border-color: rgba(255,255,255,0.1);
 }
+.logs dl dt,
 .logs dl dd {
-  text-shadow: 
-    #000  1px 1px, #000 -1px -1px,
-    #000 -1px 1px, #000  1px -1px,
-    #000  0px 1px, #000  0px -1px,
-    #000 -1px 0px, #000  1px  0px;
-    /* #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px,
-    #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px, #000 0 0 2px*/
-}
-.logs dl dd:hover {
-  background-color:rgba(100,200,255,0.1) !important;
 }
 .logs dl dd.comm mark {
   color: #ff9900;
   font-weight: bold;
   background: transparent;
 }
-/* チャットログ：システムメッセージ */
-.logs dl.system {
-  color: #ccc;
-  font-size: 90%;
-}
-.logs dl.system dd.comm {
-}
 .logs dl dd.info {
   font-size: 85%;
+  color: #acd;
+  background: rgba(0,0,0,0.2);
 }
 .logs dl dd.info i {
   font-size: 90%;
@@ -135,102 +139,124 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   -webkit-text-emphasis: none;
           text-emphasis: none;
 }
-/* チャットログ：トピック操作 */
-.logs dl dd.topic::before {
-  color: #0c2;
+.logs dl:hover {
+  background-image: linear-gradient(rgba(0,0,0, 0.3), rgba(0,0,0, 0.3));
 }
-.logs dl dd.topic {
-  color: #afa;
+.logs dl dd:hover {
+  box-shadow: 0 0 0 .1rem rgba(100,200,255,0.2) inset !important;
 }
-/* チャットログ：メモ操作 */
-.logs dl dd.memo::before {
-  color: #0c2;
+/* チャットログ：システムメッセージ */
+.logs dl.system {
+  color: #fff;
+  font-size: 90%;
+  background-color: rgba(50,60,80,0.6);
 }
-.logs dl dd.memo {
-  color: #afa;
+.logs dl.system dd.comm {
+  font-weight: bold;
 }
+.logs dl.system dd.comm::before {
+  content: '';
+  display: inline-block;
+  width: 1.6em;
+  margin-left: -.5em;
+  font-size: 1em;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  text-align: center;
+  opacity: 1 !important;
+  border-radius: 50%;
+}
+.logs dl.system.enter dd.comm::before { color: #fd9; content: "\f52b"; }
+.logs dl.system.exit  dd.comm::before { color: #89a; content: "\f52a"; }
+.logs dl.system.bg    dd.comm::before { color: #c8f; content: "\f03e"; }
+.logs dl.system.topic dd.comm::before { color: #7f7; content: "\f044"; }
+.logs dl.system.ready dd.comm::before { color: #f77; content: "\f0ae"; }
+.logs dl.system.round dd.comm::before { color: #f90; content: "\f562"; }
+.logs dl.system.memo  dd.comm::before { color: #7f7; content: "\f249"; }
+.logs dl.system.round dd.info { color: #f90; font-weight: bold; font-size: inherit; }
+.logs dl.system.topic dd.info { color: #afa; font-weight: bold; }
+.logs dl.system.memo  dd.info { color: #afa; }
 
 /* チャットログ：ユニット操作 */
-.logs dl dd.unit::before {
+.logs dl dd.info.unit::before {
   color: #07d;
 }
-.logs dl dd.unit {
+.logs dl dd.info.unit {
   color: #acf;
 }
-.logs dl dd.unit i {
+.logs dl dd.info.unit i {
   opacity: 0.70;
 }
 /* チャットログ：チョイス */
-.logs dl dd.choice::before {
-  color: #8a0;
+.logs dl dd.info.choice::before {
+  color: #fe0;
 }
-.logs dl dd.choice {
-  color: #ad5;
+.logs dl dd.info.choice {
+  color: #ec0;
 }
-.logs dl dd.choice i,
-.logs dl dd.choice b,
-.logs dl dd.choice s {
+.logs dl dd.info.choice i,
+.logs dl dd.info.choice b,
+.logs dl dd.info.choice s {
   display: inline-block;
 }
-.logs dl dd.choice s {
+.logs dl dd.info.choice s {
   color: #888;
   text-decoration: none;
 }
 /* チャットログ：ダイス */
-.logs dl dd.dice::before {
+.logs dl dd.info.dice::before {
   color: #f33;
 }
-.logs dl dd.dice {
-  background: rgba(0,0,0,0.2);
+.logs dl dd.info.dice {
   color: #e55;
   letter-spacing: 0.1rem;
 }
-.logs dl dd.dice i {
+.logs dl dd.info.dice i {
   opacity: 0.85;
 }
-.logs dl dd.dice b,
-.logs dl dd.dice strong {
+.logs dl dd.info.dice b,
+.logs dl dd.info.dice strong {
   color: #f33;
 }
-.logs dl dd.dice em {
+.logs dl dd.info.dice em {
   color: #e90;
   font-weight: bold;
 }
-.logs dl dd.dice em.fail {
+.logs dl dd.info.dice em.fail {
   color: #888;
   font-weight: bold;
 }
-.logs dl dd.dice .division {
+.logs dl dd.info.dice .division {
   filter: grayscale(50%);
 }
 
 /* チャットログ：威力表 */
-.logs dl dd.dice[data-game="sw"] { color: #ea6; }
-.logs dl dd.dice[data-game="sw"] em { color: #ee8f61; }
-.logs dl dd.dice[data-game="sw"] em em { color: #ee875c; }
-.logs dl dd.dice[data-game="sw"] em em em { color: #ee7d57; }
-.logs dl dd.dice[data-game="sw"] em em em em { color: #ee7452; }
-.logs dl dd.dice[data-game="sw"] em em em em em { color: #ee6a4d; }
-.logs dl dd.dice[data-game="sw"] em em em em em em { color: #ee6047; }
-.logs dl dd.dice[data-game="sw"] em em em em em em em { color: #ee5542; }
-.logs dl dd.dice[data-game="sw"] em em em em em em em em { color: #ee4a3d; }
-.logs dl dd.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
-.logs dl dd.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
-.logs dl dd.dice[data-game="sw"] em.fail { color: #888; }
+.logs dl dd.info.dice[data-game="sw"] { color: #ea6; }
+.logs dl dd.info.dice[data-game="sw"] em { color: #ee8f61; }
+.logs dl dd.info.dice[data-game="sw"] em em { color: #ee875c; }
+.logs dl dd.info.dice[data-game="sw"] em em em { color: #ee7d57; }
+.logs dl dd.info.dice[data-game="sw"] em em em em { color: #ee7452; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em { color: #ee6a4d; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em em { color: #ee6047; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em em em { color: #ee5542; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em em em em { color: #ee4a3d; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em em em em em { color: #ee3f38; }
+.logs dl dd.info.dice[data-game="sw"] em em em em em em em em em em { color: #ee3333; }
+.logs dl dd.info.dice[data-game="sw"] em.fail { color: #888; }
 
 /* チャットログ：ダブルクロス */
-.logs dl dd.dice[data-game="dx"] { color: #9999ff; }
-.logs dl dd.dice[data-game="dx"] em { color: #a18feb; }
-.logs dl dd.dice[data-game="dx"] em em { color: #aa85d7; }
-.logs dl dd.dice[data-game="dx"] em em em { color: #b27bc2; }
-.logs dl dd.dice[data-game="dx"] em em em em { color: #bb71ae; }
-.logs dl dd.dice[data-game="dx"] em em em em em { color: #c36699; }
-.logs dl dd.dice[data-game="dx"] em em em em em em { color: #cc5c85; }
-.logs dl dd.dice[data-game="dx"] em em em em em em em { color: #d45271; }
-.logs dl dd.dice[data-game="dx"] em em em em em em em em { color: #dd485c; }
-.logs dl dd.dice[data-game="dx"] em em em em em em em em em { color: #e53e48; }
-.logs dl dd.dice[data-game="dx"] em em em em em em em em em em { color: #ee3333; }
-.logs dl dd.dice[data-game="dx"] em.fail { color: #888; }
+.logs dl dd.info.dice[data-game="dx"] { color: #9999ff; }
+.logs dl dd.info.dice[data-game="dx"] em { color: #a18feb; }
+.logs dl dd.info.dice[data-game="dx"] em em { color: #aa85d7; }
+.logs dl dd.info.dice[data-game="dx"] em em em { color: #b27bc2; }
+.logs dl dd.info.dice[data-game="dx"] em em em em { color: #bb71ae; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em { color: #c36699; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em em { color: #cc5c85; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em em em { color: #d45271; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em em em em { color: #dd485c; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em em em em em { color: #e53e48; }
+.logs dl dd.info.dice[data-game="dx"] em em em em em em em em em em { color: #ee3333; }
+.logs dl dd.info.dice[data-game="dx"] em.fail { color: #888; }
 
 /* チャットログ：タイムスタンプ */
 .logs dl dd:after {

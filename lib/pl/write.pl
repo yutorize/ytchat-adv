@@ -3,8 +3,8 @@ use strict;
 use utf8;
 use open ":utf8";
 use open ":std";
-use Encode qw/encode decode/;
 use Fcntl;
+use Encode qw/encode decode/;
 use JSON::PP;
 
 ###################
@@ -34,19 +34,20 @@ foreach (%::in) {
   $::in{$_} =~ s/\\/&#92;/g;
 }
 
+$::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
+
 # 入退室処理
 if($::in{'system'} eq 'enter'){
-  $::in{'name'} = "SYSTEM";
-  $::in{'comm'} = "$::in{'player'}が入室しました。";
+  $::in{'name'} = "!SYSTEM";
+  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました。";
   if($::in{'unitAdd'}){ $::in{'system'} .= ' unit'; unitEdit($::in{'player'}); }
   delete $::in{'color'};
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
 }
 elsif($::in{'system'} eq 'exit'){
-  $::in{'name'} = "SYSTEM";
-  $::in{'comm'} = "$::in{'player'}が退室しました。";
+  $::in{'name'} = "!SYSTEM";
+  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が退室しました。";
   delete $::in{'color'};
-  #unitDelete($::in{'player'});
   memberEdit('exit', $::in{'player'}, $::in{'userId'});
 }
 else {
@@ -54,8 +55,8 @@ else {
   # ラウンド処理
   if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
     my $num = roundChange($1);
-    $::in{'name'} = "SYSTEM by $::in{'player'}";
-    $::in{'comm'} = "ラウンドを".($1 >= 0 ? '進め' : '戻し')."ました。（$1）";
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ラウンドを変更（$1） by $::in{'player'}";
     $::in{'info'} = "ラウンド: ${num}";
     $::in{'system'} = "round:".$num;
     delete $::in{'address'};
@@ -72,8 +73,8 @@ else {
   }
   #レディチェック
   elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
-    $::in{'name'} = "SYSTEM by $::in{'player'}";
-    $::in{'comm'} = "レディチェックを開始しました。";
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
     $::in{'system'} = "ready";
     delete $::in{'color'};
     checkReset();
@@ -82,8 +83,8 @@ else {
   #削除
   elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
     my $name = $1 ? $1 : $::in{'name'};
-    $::in{'name'} = "SYSTEM by $::in{'player'}";
-    $::in{'comm'} = "ユニット「${name}」を削除しました。";
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ユニット「${name}」を削除 by $::in{'player'}";
     $::in{'system'} = "unit-delete:${name}";
     delete $::in{'color'};
     unitDelete($name);
@@ -99,9 +100,9 @@ else {
     topicEdit($::in{'comm'});
     $::in{'tab'} = '1';
     $::in{'system'} = 'topic';
-    $::in{'name'} = "TOPIC by $::in{'player'}";
+    $::in{'name'} = "!SYSTEM";
     $::in{'info'} = "$::in{'comm'}";
-    $::in{'comm'} = $::in{'comm'} ? "" : "削除しました" ;
+    $::in{'comm'} = "トピックを".($::in{'info'} ? "変更" : "削除")." by $::in{'player'}";
     delete $::in{'color'};
     delete $::in{'address'};
   }
@@ -112,10 +113,36 @@ else {
     my $num = memoEdit($1, $::in{'comm'});
     $::in{'tab'} = '1';
     $::in{'system'} = 'memo:'.$num;
-    $::in{'name'} = "SYSTEM by $::in{'player'}";
+    $::in{'name'} = "!SYSTEM";
     $::in{'info'} = "$::in{'comm'}";
-    $::in{'comm'} = "共有メモ".($num+1)."を". ($new ? '追加' : ($::in{'comm'} ? '更新' : "削除")) ."しました";
+    $::in{'comm'} = "共有メモ".($num+1).'を'. ($new ? '追加' : ($::in{'info'} ? '更新' : "削除")) ." by $::in{'player'}";
     delete $::in{'address'};
+  }
+  # 背景変更処理
+  elsif($::in{'comm'} =~ s</bgreset><>i){
+    bgEdit('','');
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "背景を削除 by $::in{'player'}";
+    $::in{'system'} = 'bg';
+    delete $::in{'color'};
+  }
+  elsif($::in{'comm'} =~ s</bg(?:\s(.*?))?\s+(https?://.+)><>i){
+    my $url = $2;
+    my $title = $1 || '無題';
+    if($set::src_url_limit) {
+      my $hit = 0;
+      foreach my $domain (@set::src_url_list){
+        next if !$domain;
+        if($url =~ "^https?://$domain"){ $hit = 1; last; }
+      }
+      if(!$hit){ error('許可されていないURLです'); }
+    }
+    bgEdit($url,$title);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "背景を変更 by $::in{'player'}";
+    $::in{'info'} = "$title";
+    $::in{'system'} = 'bg:'.$url;
+    delete $::in{'color'};
   }
   # BCDice処理
   elsif($::in{'bcdice'}){
@@ -318,6 +345,27 @@ sub memoEdit {
   close($FH);
   
   return $num;
+}
+sub bgEdit {
+  my $url = shift;
+  my $title = shift;
+  
+  my %data;
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  $data{'bg'}{'url'} = $url;
+  $data{'bg'}{'title'} = $title;
+  
+  if($url){
+    $data{'bg-history'}{$url} = $title;
+  }
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
 }
 
 sub tabEdit {

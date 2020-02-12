@@ -5,11 +5,14 @@ use open ":utf8";
 use open ":std";
 use Fcntl;
 use HTML::Template;
+use Encode qw/encode decode/;
+use JSON::PP;
 
 my $id = $::in{'id'}; #部屋ID
 
 my %rooms = %set::rooms;
 my %games = %set::games;
+my %roomdata;
 
 ###################
 ### 部屋の有無をチェック
@@ -42,11 +45,24 @@ if (!-f "./room/${id}/room.dat"){
     print $FH $key;
   close($FH);
 }
-if (!-f "./room/${id}/log-all.dat"){
-  sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    print $FH ">$rooms{$id}{'name'}<>".join(',',@tabs)."\n";
+else {
+  my $dir = "./room/$::in{'id'}/";
+  sysopen(my $FH, $dir.'room.dat', O_RDONLY) or error "room.datが開けません";
+  %roomdata = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   close($FH);
 }
+
+if (!-f "./room/${id}/log-all.dat"){
+  my @time = localtime(time);
+  my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$time[3],$time[2],$time[1],$time[0]);
+  
+  sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+    print $FH ">$rooms{$id}{'name'}<>".join(',',@tabs)."\n";
+    if($roomdata{'bg'}){ print $FH "0<>$date<>1<>!SYSTEM<><>背景が引き継がれました<>$roomdata{'bg'}{'title'}<>bg:$roomdata{'bg'}{'url'}<>ゆとチャadv.<000><><>\n"; }
+    if($roomdata{'topic'}){ print $FH "0<>$date<>1<>!SYSTEM<><>トピックが引き継がれました<>$roomdata{'topic'}<>topic<>ゆとチャadv.<000><><>\n"; }
+  close($FH);
+}
+
 if (!-f "./room/${id}/log-pre.dat"){
   sysopen (my $FH, "./room/${id}/log-pre.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
   close($FH);
@@ -109,6 +125,22 @@ foreach my $key (sort keys %set::random_table){
   });
 }
 $ROOM->param(RandomTable => \@random_table);
+
+my @bg_list;
+foreach (@set::bg_preset){
+  next if !$_;
+  push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1] });
+}
+$ROOM->param(bgPreset => \@bg_list);
+
+my @src_url;
+if($set::src_url_limit){
+  foreach (@set::src_url_list){
+    next if !$_;
+    push(@src_url, { 'URL' => $_ });
+  }
+}
+$ROOM->param(srcURL => \@src_url);
 
 $ROOM->param(customCSS => $set::custom_css);
 

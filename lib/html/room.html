@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.11.0">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.11.0">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.11.0">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.11.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.11.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.12.0">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.12.0">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
@@ -17,9 +17,9 @@
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.11.0" defer></script>
-  <script src="./lib/js/ui-sp.js?0.11.0" defer></script>
-  <script src="./lib/js/chat.js?0.11.0" defer></script>
+  <script src="./lib/js/ui.js?0.12.0" defer></script>
+  <script src="./lib/js/ui-sp.js?0.12.0" defer></script>
+  <script src="./lib/js/chat.js?0.12.0" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
   <script>
@@ -38,6 +38,8 @@
   </script>
 </head>
 <body>
+  <div class="bg-image bg-front"></div>
+  <div class="bg-image bg-back"></div>
   <div id="base">
     <div class="box" id="sp-header">
       <div class="head-menu"><span id="menu-open" onclick="menuToggle();"></span></div>
@@ -48,7 +50,7 @@
     <div class="box" id="menubar">
     <ul>
       <li id="menu-button-logs"><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
-      <li id="menu-button-back"><a style="cursor:not-allowed;">背景</a></li>
+      <li id="menu-button-back"><a onclick="boxOpen('bg-set');">背景</a></li>
       <li id="menu-button-sound"><a onclick="boxOpen('config-sound');">サウンド</a></li>
       <li id="menu-button-other"><a onclick="boxOpen('config-other');">その他設定</a></li>
       <li id="menu-button-help"><a onclick="boxOpen('help-window');">ヘルプ</a></li>
@@ -56,7 +58,7 @@
     </ul>
     <ul>
       <li id="menu-mute-button"><a class="mute-button" onclick="muteToggle();"></a></li>
-      <li>ウィンドウ透過度<input id="option-box-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.8"></li>
+      <li>背景不透過 <span id="option-opacity-view">70</span>%<input id="option-box-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></li>
     </ul>
     </div>
     
@@ -162,7 +164,7 @@
         <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystemName></dd>
       </dl>
       <dl>
-        <dt>背景</dt><dd>－</dd>
+        <dt>背景</dt><dd id="bg-title">－</dd>
         <dt>BGM</dt><dd>－</dd>
       </dl>
     </div>
@@ -208,12 +210,6 @@
     <span class="close button" onclick="boxClose('edit-topic');">×</span>
   </div>
   
-  <div class="float-box" id="config-dice">
-    <h2>ダイス編集</h2>
-    <textarea id=""></textarea>
-    <span class="close button" onclick="boxClose('config-dice');">×</span>
-  </div>
-  
   <div class="float-box" id="edit-npc">
     <h2>名前欄一括編集</h2>
     <div class="comm-area">
@@ -225,6 +221,39 @@
     　省略すると、ランダムな色を割り当てます。<br>
     ※入室名は変更できません。<br>
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
+  </div>
+  
+  <div class="float-box" id="bg-set">
+    <h2>背景</h2>
+    <div>
+      <h3>背景画像変更</h3>
+      <div class="bg-set-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
+      <p>
+        タイトル・権利表記等：<br>
+        <input type="text" id="bg-set-title" placeholder="XXX／(c)YYY..."><br>
+        ＵＲＬ：<br>
+        <input type="text" id="bg-set-url" oninput="bgPreview();" placeholder="http://..."><br>
+        <button onclick="bgSubmit();">変更する</button>
+      </p>
+    </div>
+    <div>
+      <h3>プリセット</h3>
+      <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
+        <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
+      </ul>
+      <h3>履歴</h3>
+      <ul class="bg-list" id="bg-history"></ul>
+      <TMPL_IF srcURL>
+      <h3>使用可能URL</h3>
+      <p>下記のドメインから始まるURL以外は使用できません。</p>
+      <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
+      </TMPL_IF>
+      <h3></h3>
+      <p class="right">
+        <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する<br>（初期状態に戻す）</button>
+      </p>
+    <span class="close button" onclick="boxClose('bg-set');">×</span>
+    </div>
   </div>
   
   <div class="float-box" id="config-sound">
@@ -244,103 +273,85 @@
   
   <div class="float-box" id="config-other">
     <h2>その他設定</h2>
-    <h3>通知設定</h3>
-    <p>
-      <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
-      強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
-      　指定したワードが発言された際、強調表示します。<br>
-      　改行で区切って複数設定することができます。<br>
-    </p>
-    <p>
-      除外ワード：<br><textarea id="except-list-value" class="autosize" rows="2" onchange="exceptListChange();"></textarea><br>
-      　強調ワードが発言されても、同発言に除外ワードが含まれる場合は強調されません。<br>
-      　改行で区切って複数設定することができます。<br>
-    </p>
-    <h3>ログフォント設定</h3>
-    <div id="font-sample" class="logs-font">
-      <TMPL_IF helpOnSW2>
-      <span class="dash">――</span>『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
-      <TMPL_ELSE>
-      <TMPL_IF helpOnDX3>
-        昨日と同じ今日。今日と同じ明日。世界は繰り返し時を刻み、変わらないように見えた。だが、世界はすでに変貌していた。<br>
-        “ダブルクロス”<span class="dash">――</span>それは「裏切り」を意味する言葉。
-      <TMPL_ELSE>
-        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
-      </TMPL_IF>
-      </TMPL_IF>
-    </div>
-    <p>
-      日本語フォント：
-      <select id="font-family-jp" onchange="fontFamilyChange(this.value)">
-      <optgroup label="Webフォント（GoogleFonts）">
-        <option value='"Noto Sans JP"'>Noto Sans JP</option>
-        <option value='"Kosugi"'>小杉ゴシック</option>
-        <option value='"Kosugi Maru"'>小杉丸ゴシック</option>
-        <option value='"Sawarabi Gothic"'>さわらびゴシック</option>
-      </optgroup>
-      <optgroup label="Windows標準フォント">
-        <option value='"UD Digi Kyokasho NP-R"' selected>UDデジタル教科書体（Win10～）</option>
-        <option value='"BIZ UDMincho"'>BIZ UD明朝（Win10～）</option>
-        <option value='"BIZ UDGothic"'>BIZ UDゴシック（Win10～）</option>
-        <option value='"Meiryo"'>メイリオ</option>
-      </optgroup>
-      <optgroup label="Windows/Mac標準フォント">
-        <option value='"YuGothic","Yu Gothic"'>游ゴシック（Win8～）</option>
-        <option value='"YuMincho","Yu Mincho"'>游明朝（Win8～）</option>
-      </optgroup>
-      <optgroup label="Mac標準フォント">
-        <option value='"YuKyokasho Yoko"'>游教科書体</option>
-        <option value='"Hiragino Sans"'>ヒラギノ角ゴシック</option>
-        <option value='"Hiragino Maru Gothic ProN"'>ヒラギノ丸ゴ</option>
-        <option value='"Hiragino Mincho ProN"'>ヒラギノ明朝</option>
-        <option value='"Klee"'>クレー</option>
-        <option value='"Tsukushi A Round Gothic"'>筑紫A丸ゴシック</option>
-        <option value='"Toppan Bunkyu Gothic"'>凸版文久ゴシック</option>
-        <option value='"Toppan Bunkyu Mincho"'>凸版文久明朝</option>
-      </optgroup>
-      </select><br>
-      文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
-    </p>
-    <h3>ウィンドウ配置</h3>
-    <p>
-      <select id="window-layout" onchange="layoutChange(this.value)">
-        <optgroup label="３カラム・上寄せ">
-          <option value="CLStop"   >3C上:［ログ］［リスト］［シート］</option>
-          <option value="SCLtop"   >3C上:［シート］［ログ］［リスト］</option>
-          <option value="SLCtop"   >3C上:［シート］［リスト］［ログ］</option>
+    <details>
+      <summary>通知設定</summary>
+      <p>
+        <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
+        強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
+        　指定したワードが発言された際、強調表示します。<br>
+        　改行で区切って複数設定することができます。<br>
+      </p>
+      <p>
+        除外ワード：<br><textarea id="except-list-value" class="autosize" rows="2" onchange="exceptListChange();"></textarea><br>
+        　強調ワードが発言されても、同発言に除外ワードが含まれる場合は強調されません。<br>
+        　改行で区切って複数設定することができます。<br>
+      </p>
+    </details>
+    <details>
+      <summary>ログフォント設定</summary>
+      <div id="font-sample" class="logs-font">
+        <TMPL_IF helpOnSW2>
+        <span class="dash">――</span>『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
+        <TMPL_ELSE>
+        <TMPL_IF helpOnDX3>
+          昨日と同じ今日。今日と同じ明日。世界は繰り返し時を刻み、変わらないように見えた。だが、世界はすでに変貌していた。<br>
+          “ダブルクロス”<span class="dash">――</span>それは「裏切り」を意味する言葉。
+        <TMPL_ELSE>
+          あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。
+        </TMPL_IF>
+        </TMPL_IF>
+      </div>
+      <p>
+        日本語フォント：
+        <select id="font-family-jp" onchange="fontFamilyChange(this.value)">
+        <TMPL_INCLUDE NAME="option-fonts.html">
+        </select><br>
+        文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
+      </p>
+    </details>
+    <details>
+      <summary>ウィンドウ配置</summary>
+      <p>
+        ステータス・メモ一覧の配置：
+        <select id="window-layout-sidebar" onchange="layoutChange()">
+        <optgroup label="縦並び">
+          <option value="right-top"   >→┃ 右側／↑上寄せ</option>
+          <option value="right-bottom">→┃ 右側／↓下寄せ</option>
+          <option value="left-top"    >┃← 左側／↑上寄せ</option>
+          <option value="left-bottom" >┃← 左側／↓下寄せ</option>
         </optgroup>
-        <optgroup label="３カラム・下寄せ">
-          <option value="CLSbottom">3C下:［ログ］［リスト］［シート］</option>
-          <option value="SCLbottom">3C下:［シート］［ログ］［リスト］</option>
-          <option value="SLCbottom">3C下:［シート］［リスト］［ログ］</option>
+        <optgroup label="横並び">
+          <option value="high"   >━↑ 上段</option>
+          <option value="shallow">━↓ 中下段（発言エリアの上）</option>
+          <option value="deep"   >━↓ 最下段（発言エリアの下）</option>
         </optgroup>
-        <optgroup label="２カラム・リスト上段">
-          <option value="CShighL">2C上:［ログ］［シート］</option>
-          <option value="SChighL">2C上:［シート］［ログ］</option>
-        </optgroup>
-        <optgroup label="２カラム・下寄せ・リスト下段">
-          <option value="CSshallowL">2C下:［ログ］［シート］</option>
-          <option value="SCshallowL">2C下:［シート］［ログ］</option>
-        </optgroup>
-        <optgroup label="２カラム・下寄せ・リスト最下段">
-          <option value="CSdeepL">2C最下:［ログ］［シート］</option>
-          <option value="SCdeepL">2C最下:［シート］［ログ］</option>
-        </optgroup>
-      </select>
-    </p>
-    <h3>ログ初期化</h3>
-    <form>
-    <p>
-      ログを過去ログに格納し、初期化します。<br>
-      <input type="hidden" id="room-reset-filename">
-      <br>
-      <input type="checkbox" id="room-reset-all" checked>現行ログ・トピック・ユニットも初期化する<br>
-      （全員が強制退室になります）<br>
-      <br>
-      パスワード:<input type="password" id="room-reset-password"><br>
-    </p>
-    <p class="right"><button onclick="resetRoom();">ログ初期化</button></p>
-    </form>
+        </select><br>
+        キャラシート（リモコン・パレット操作エリア）の配置：
+        <select id="window-layout-sheet" onchange="layoutChange()">
+          <option value="R">→ 右端</option>
+          <option value="L">← 左端</option>
+        </select><br>
+      </p>
+    </details>
+    <details>
+      <summary>ログ初期化</summary>
+      <form onsubmit="resetRoom();return false;">
+      <p>
+        このルームの現行ログを過去ログに格納（保存）し、初期化します。<br>
+        <br>
+        <label><input type="checkbox" id="room-reset-all" checked>最新ログ・トピック・ユニットも初期化する</label><br>
+        （全員が強制退室になります）<br>
+        <br>
+        ログファイル名：<br>
+        <input type="text" id="room-reset-filename" pattern="^[-0-9a-zA-Z_.]+$" title="使用できる文字は、半角英数字とハイフン、アンダーバー、ピリオドのみです。"><br>
+        空欄の場合、自動的に日付からファイル名をつけます。<br>
+        <br>
+        パスワード：<br>
+        <input type="password" id="room-reset-password"><br>
+      </p>
+      <p class="center"><button>ログ初期化</button></p>
+      </form>
+    </details>
     <span class="close button" onclick="boxClose('config-other');">×</span>
   </div>
   
@@ -391,9 +402,9 @@
   <div class="float-box" id="help-window">
     <h2>ヘルプ</h2>
     <div class="box-body">
-<TMPL_INCLUDE NAME="help.html">
-    <span class="close button" onclick="boxClose('help-window');">×</span>
+      <TMPL_INCLUDE NAME="help.html">
     </div>
+    <span class="close button" onclick="boxClose('help-window');">×</span>
   </div>
   
   <div id="dark-back"></div>
