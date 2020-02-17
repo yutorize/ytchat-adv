@@ -8,6 +8,8 @@ use HTML::Template;
 use Encode qw/encode decode/;
 use JSON::PP;
 
+error('ユーザーによるゲームルームの作成が許可されていません。') if !$set::userroom_on;
+
 my %rooms;
 if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
   my $text = join('', <$FH>);
@@ -32,7 +34,7 @@ my @status = $::in{'status'} ? split(/[ 　]/, $::in{'status'}) : ();
 
 {
   my %data;
-  sysopen(my $FH, './room/list.dat', O_RDWR) or error "list.datが開けません";
+  sysopen(my $FH, './room/list.dat', O_RDWR | O_CREAT) or error "list.datが開けません";
   flock($FH, 2);
   my $text = join('', <$FH>);
   %data = %{ decode_json(encode('utf8', $text)) } if $text;

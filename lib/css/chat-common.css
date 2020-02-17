@@ -516,11 +516,8 @@ body.rom .input-form { display: none !important; }
 #main-form .address-area label input {
   vertical-align: text-bottom;
 }
-#main-form .address-area label input+span::after {
-  content: "後で公開";
-}
-#main-form .address-area label input:checked+span {
-  color: #ffaa00;
+#main-form .address-area label input+b {
+  user-select: none;
 }
 /* 装飾ボタン */
 .decoration-buttons {
@@ -751,7 +748,7 @@ body.rom .input-form { display: none !important; }
   user-select: none;
 }
 .float-box summary:hover {
-  background: rgba(255,200,100,0.4);
+  background: rgba(127,127,127,0.1);
 }
 .float-box h2 {
   font-size: 1.4em;

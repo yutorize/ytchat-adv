@@ -20,6 +20,20 @@ a[href]:hover   { color: #ffffff; }
   line-height: 1;
   color: #fff;
 }
+summary:hover,
+label:hover {
+  color: #ffaa00;
+}
+label input+b {
+  font-style: normal;
+  color: #8899aa;
+}
+label input:checked+b {
+  color: inherit;
+}
+label:hover input+b {
+  color: inherit !important;
+}
 /* 秘話 */
 .secret {
   background-color: rgba(255,0,50,0.1);
@@ -148,7 +162,6 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 /* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #fff;
-  font-size: 90%;
   background-color: rgba(50,60,80,0.6);
 }
 .logs dl.system dd.comm {
@@ -173,7 +186,8 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .logs dl.system.ready dd.comm::before { color: #f77; content: "\f0ae"; }
 .logs dl.system.round dd.comm::before { color: #f90; content: "\f562"; }
 .logs dl.system.memo  dd.comm::before { color: #7f7; content: "\f249"; }
-.logs dl.system.round dd.info { color: #f90; font-weight: bold; font-size: inherit; }
+
+.logs dl.system.round dd.info { color: #f90; font-weight: bold; }
 .logs dl.system.topic dd.info { color: #afa; font-weight: bold; }
 .logs dl.system.memo  dd.info { color: #afa; }
 
@@ -263,10 +277,6 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   color: #5af;
   letter-spacing: 0rem;
   text-shadow: none;
-}
-/* チャットログ：ボタン */
-.logs dl dd button {
-  vertical-align: text-bottom;
 }
 /* チャットログ：水平線 */
 .logs dl dd hr {

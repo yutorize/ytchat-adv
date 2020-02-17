@@ -41,14 +41,14 @@ $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 # 入退室処理
 if($::in{'system'} eq 'enter'){
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました。";
+  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました";
   if($::in{'unitAdd'}){ $::in{'system'} .= ' unit'; unitEdit($::in{'player'}); }
   delete $::in{'color'};
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
 }
 elsif($::in{'system'} eq 'exit'){
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が退室しました。";
+  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が退室しました";
   delete $::in{'color'};
   memberEdit('exit', $::in{'player'}, $::in{'userId'});
 }

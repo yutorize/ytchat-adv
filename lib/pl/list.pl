@@ -8,8 +8,6 @@ use HTML::Template;
 use Encode qw/encode decode/;
 use JSON::PP;
 
-my $id = $::in{'id'}; #部屋ID
-
 my %games = %set::games;
 my %rooms;
 if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
@@ -36,9 +34,6 @@ $ROOM = HTML::Template->new(
 
 ###################
 ### 読み込み処理
-
-$ROOM->param(roomId => $id);
-$ROOM->param(title => $rooms{$id}{'name'});
 my @list; my @addlist;
 foreach my $id (sort keys %rooms){
   next if !$id;
@@ -69,6 +64,10 @@ push @list, @addlist;
 
 $ROOM->param(List => \@list);
 
+$ROOM->param(userRoomOn => $set::userroom_on);
+$ROOM->param(userRoomFormOpen => $::in{'form'} ? 'open' : '');
+
+$ROOM->param(home => $set::home_url);
 
 $ROOM->param(ver => $::ver);
 

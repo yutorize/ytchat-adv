@@ -138,6 +138,8 @@ foreach (<$FH>){
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;
   $info =~ s#(―+)#<span class="dash">$1</span>#g;
   
+  if($system =~ /memo/){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
+  
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
      $class .= ($system =~ /^(topic|memo|bg|ready|round|enter|exit)/) ? "$1 " : '';
      $class .= ($system =~ /^bg/)   ? 'important ' : '';

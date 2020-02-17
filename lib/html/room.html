@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0a">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.12.0a">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.12.0a">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.12.0a">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0b">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.12.0b">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.12.0b">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.12.0b">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0b">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
@@ -17,9 +17,9 @@
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.12.0a" defer></script>
-  <script src="./lib/js/ui-sp.js?0.12.0a" defer></script>
-  <script src="./lib/js/chat.js?0.12.0a" defer></script>
+  <script src="./lib/js/ui.js?0.12.0b" defer></script>
+  <script src="./lib/js/ui-sp.js?0.12.0b" defer></script>
+  <script src="./lib/js/chat.js?0.12.0b" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
   <script>
@@ -97,7 +97,7 @@
             </div>
             <div class="address-area">
               <select id="form-address" title="発言送信先"><option value="">全員</option></select>
-              <label for="secret-openlater" title="チェックを入れると、過去ログになった時には公開されます。"><input type="checkbox" id="secret-openlater"><span></span></label>
+              <label for="secret-openlater" title="チェックを入れると、過去ログになった時には公開されます。"><input type="checkbox" id="secret-openlater"><b>後で公開</b></label>
             </div>
           </div>
           <div class="comm-area">
@@ -179,8 +179,8 @@
           <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
           <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="selectcolor-unit" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
           <dt>ステータス</dt><dd><input id="new-unit-stt-value"   type="text" value="<TMPL_VAR newUnitSttDefault>"></dd>
+          <dt><label><input type="checkbox" id="new-unit-addname"><b>名前欄にも追加する</b></label></dt>
         </dl>
-          <dt><input type="checkbox" id="new-unit-addname">名前欄にも追加する</dt>
         <button onclick="newUnitSubmit();">作成</button>
       </div>
       <div class="close-area" onclick="sheetOpen();"></div>
@@ -343,11 +343,11 @@
         <br>
         <b>パスワード</b>：<input type="password" id="room-reset-password"><br>
         <br>
-        <label><input type="checkbox" id="room-reset-all" checked>最新ログ・トピック・ユニットも初期化する</label><br>
+        <label><input type="checkbox" id="room-reset-all" checked><b>最新ログ・トピック・ユニットも初期化する</b></label><br>
         （全員が強制退室になります）<br>
         <TMPL_IF userRoomFlag>
         <br>
-        <label><input type="checkbox" id="room-delete">ルームを削除する</label>
+        <label><input type="checkbox" id="room-delete"><b>ルームを削除する</b></label>
         <TMPL_ELSE><input type="hidden" id="room-delete">
         </TMPL_IF>
       </p>

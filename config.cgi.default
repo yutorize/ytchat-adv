@@ -7,6 +7,9 @@ package set;
 use lib './module';
 require './lib/pl/config-default.pl';
 
+## ●ホームURL（ゆとチャadv.TOPから更に戻るリンク）
+our $home_url = '';
+
 ## ●ログ削除パスワード （空欄のままだと「誰でも」可能です。注意してください）
 our $password = '';
 
@@ -43,6 +46,8 @@ our %rooms = (
 #    'logs-dir' => './logs/',      #過去ログの保存先 その部屋だけ別にしたい時に指定
 #  },
 );
+
+our $userroom_on = 0; # ユーザーがゲームルームの作成を許可するかどうか（1=許可 0=不許可）
 
 our $logname_id_add = 1; # 過去ログのファイル名の末尾にIDを入れるかどうか（1=入れる 0=入れない）
 

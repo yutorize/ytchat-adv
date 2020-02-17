@@ -102,6 +102,14 @@ article#contents {
 .logs dl dd:hover::after {
   opacity: 0.7;
 }
+.logs dl dd.info {
+  font-size: 90%;
+}
+.logs dl dd.info strong {
+  display: inline-block;
+  font-size: calc(1em / 0.9);
+  line-height: calc(1.8 * 0.9);
+}
 /* メニュー -------------------------------------------------- */
 #menu {
   display: grid;
@@ -132,18 +140,12 @@ article#contents {
 #menu summary {
   user-select: none;
 }
-#menu summary:hover {
-  color: #eeaa00;
-}
 /* タブリスト */
 #menu ul#tablist li label {
   display: block;
   padding: .3rem;
   background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
   cursor: pointer;
-}
-#menu ul#tablist li label:hover {
-  color: #eeaa00;
 }
 #menu ul#tablist li label input {
   display: none;

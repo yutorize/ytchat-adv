@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0a">
-  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.12.0a">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0b">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0b">
+  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.12.0b">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
-  <script src="./lib/js/logs.js?0.12.0a" defer></script>
+  <script src="./lib/js/logs.js?0.12.0b" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
-<body>
+<body id="logviewer">
   <div class="bg-image bg-front"></div>
   <div class="bg-image bg-back"></div>
 <div id="right">
@@ -25,7 +25,7 @@
     </ul>
     <dl id="options">
       <dt>背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
-      <dt>文字サイズ <span id="option-fontsize-view">100</span> %</dd><dd><input id="option-fontsize" type="range" min="80" max="120" step="1" value="100"></dd>
+      <dt>文字サイズ <span id="option-fontsize-view">100</span> %</dd><dd><input id="option-fontsize" type="range" min="80" max="130" step="1" value="100"></dd>
       <dt>日本語フォント</dd><dd><select id="option-fontfamily"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
     </dl>
     <div id="loglist-area">
