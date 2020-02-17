@@ -139,7 +139,6 @@ body {
   display: block;
   padding: .5em;
   color: inherit;
-  cursor: pointer;
   background: none;
   white-space: nowrap;
 }
@@ -658,9 +657,6 @@ body {
 }
 #footer dl dd:last-child {
   margin-right: 0;
-}
-#footer [onclick] {
-  cursor: pointer;
 }
 /* // フロートボックス
 ---------------------------------------------------------------------------------------------------- */

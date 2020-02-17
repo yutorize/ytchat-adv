@@ -72,7 +72,8 @@ input[type="color"] {
 .link {
   cursor: pointer;
 }
-summary {
+summary,
+[onclick] {
   cursor: pointer;
 }
 

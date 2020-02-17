@@ -118,7 +118,6 @@
   text-overflow: ellipsis;
 }
 #status #status-body > dl > dt[onclick]:hover {
-  cursor: pointer;
   background: rgba(255,150,0,0.3);
   white-space: normal;
 }
@@ -194,7 +193,6 @@
   display: none !important;
 }
 .memo ul#memo-list li[onclick]:hover {
-  cursor: pointer;
   background: rgba(255,150,0,0.3);
 }
 .memo .add.button {
@@ -314,7 +312,6 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body .status-remocon-sub ul i {
   font-style: normal;
-  cursor: pointer;
 }
 .sheet-body .status-remocon-sub ul.close li.dice-button {
   display: none;
@@ -601,7 +598,6 @@ body.rom .input-form { display: none !important; }
 }
 .dice-button button {
   padding: 0 .5em;
-  cursor: pointer;
   border-right-width: .1rem;
 }
 .dice-button button::before {
@@ -630,12 +626,12 @@ body.rom .input-form { display: none !important; }
 .chat .notice-unread {
   position: absolute;
   text-align: center;
-  background: rgba(0,150,50,0.8);
+  background: rgba(50,255,100,0.3);
   left: 0;
   right: 0;
   bottom: 0;
+  padding: .5rem;
   z-index: 10;
-  cursor: pointer;
 }
 .chat .notice-unread:hover {
   background: rgba(150,150,150,0.8);
@@ -752,7 +748,6 @@ body.rom .input-form { display: none !important; }
 }
 .float-box summary {
   font-weight: bold;
-  cursor: pointer;
   user-select: none;
 }
 .float-box summary:hover {
@@ -861,7 +856,6 @@ body.rom .input-form { display: none !important; }
 }
 #bg-set .bg-list li:hover {
   background: none;
-  cursor: pointer;
 }
 /* 設定 */
 #config-other #font-sample {

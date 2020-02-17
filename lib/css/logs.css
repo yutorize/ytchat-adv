@@ -197,7 +197,6 @@ article#contents {
 }
 #menu ul li a[onclick]:hover {
   opacity: 0.5;
-  cursor: pointer;
 }
 #menu #loglist-area ul li .bold {
   color: #ffbb00;
