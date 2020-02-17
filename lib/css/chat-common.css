@@ -237,29 +237,11 @@ body.rom .sheet#sheet-unit-memo button { display: none; }
 ---------------------------------------------------------------------------------------------------- */
 body.rom .sheet { display: none !important; }
 #sheet-area {
-  position: relative;
-  width: 18.5em;
-  transition-property: margin, left, right, opacity;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-in;
 }
 .sheet {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
-}
-#sheet-area:not(.left) .sheet {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
-#sheet-area.left .sheet {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
 }
 .sheet h2 {
   padding-bottom: .1em;

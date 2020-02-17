@@ -5,11 +5,21 @@ use open ":utf8";
 use open ":std";
 use Fcntl;
 use HTML::Template;
+use Encode qw/encode decode/;
+use JSON::PP;
 
 my $id = $::in{'id'}; #部屋ID
 
-my %rooms = %set::rooms;
 my %games = %set::games;
+my %rooms;
+if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
+  my $text = join('', <$FH>);
+  %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
+  close($FH);
+}
+foreach my $key (keys %set::rooms){
+  $rooms{$key} = $set::rooms{$key};
+}
 
 ###################
 ### テンプレート読み込み
@@ -29,7 +39,7 @@ $ROOM = HTML::Template->new(
 
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
-my @list;
+my @list; my @addlist;
 foreach my $id (sort keys %rooms){
   next if !$id;
   next if $rooms{$id}{'secret'};
@@ -38,13 +48,24 @@ foreach my $id (sort keys %rooms){
            : 'その他';
   my $size = sprintf("%.1f", (-s "./room/$id/log-all.dat") / 1024);
   $size =~ s|\.([0-9]+)|.<small>$1</small>|;
-  push(@list, {
-    "ID"     => $id,
-    "NAME"   => $rooms{$id}{'name'},
-    "GAME"   => $game,
-    "SIZE"   => $size.' kb',
-  })
+  if($set::rooms{$id}){
+    push(@list, {
+      "ID"     => $id,
+      "NAME"   => $rooms{$id}{'name'},
+      "GAME"   => $game,
+      "SIZE"   => $size.' kb',
+    });
+  }
+  else {
+    push(@addlist, {
+      "ID"     => $id,
+      "NAME"   => $rooms{$id}{'name'},
+      "GAME"   => $game,
+      "SIZE"   => $size.' kb',
+    });
+  }
 }
+push @list, @addlist;
 
 $ROOM->param(List => \@list);
 

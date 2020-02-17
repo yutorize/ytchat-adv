@@ -72,6 +72,9 @@ input[type="color"] {
 .link {
   cursor: pointer;
 }
+summary {
+  cursor: pointer;
+}
 
 /* スライダー */
 input[type="range"],

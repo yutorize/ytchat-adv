@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.12.0">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.12.0">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.12.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.12.0a">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.12.0a">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0a">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
@@ -17,9 +17,9 @@
 <!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.12.0" defer></script>
-  <script src="./lib/js/ui-sp.js?0.12.0" defer></script>
-  <script src="./lib/js/chat.js?0.12.0" defer></script>
+  <script src="./lib/js/ui.js?0.12.0a" defer></script>
+  <script src="./lib/js/ui-sp.js?0.12.0a" defer></script>
+  <script src="./lib/js/chat.js?0.12.0a" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
   <script>
@@ -233,24 +233,26 @@
         <input type="text" id="bg-set-title" placeholder="XXX／(c)YYY..."><br>
         ＵＲＬ：<br>
         <input type="text" id="bg-set-url" oninput="bgPreview();" placeholder="http://..."><br>
+      <p class="center">
         <button onclick="bgSubmit();">変更する</button>
       </p>
     </div>
     <div>
-      <h3>プリセット</h3>
+      <h4>プリセット</h4>
       <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
         <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
       </ul>
-      <h3>履歴</h3>
+      <h4>履歴</h4>
       <ul class="bg-list" id="bg-history"></ul>
       <TMPL_IF srcURL>
-      <h3>使用可能URL</h3>
+      <h4>使用可能URL</h4>
       <p>下記のドメインから始まるURL以外は使用できません。</p>
       <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
       </TMPL_IF>
-      <h3></h3>
-      <p class="right">
-        <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する<br>（初期状態に戻す）</button>
+      <h3>背景画像削除</h3>
+      <p>現在の背景を削除し、初期状態に戻します。</p>
+      <p class="center">
+        <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する</button>
       </p>
     <span class="close button" onclick="boxClose('bg-set');">×</span>
     </div>
@@ -334,21 +336,38 @@
       </p>
     </details>
     <details>
-      <summary>ログ初期化</summary>
+      <summary onclick="getFileName();">ログ初期化</summary>
       <form onsubmit="resetRoom();return false;">
       <p>
         このルームの現行ログを過去ログに格納（保存）し、初期化します。<br>
         <br>
+        <b>パスワード</b>：<input type="password" id="room-reset-password"><br>
+        <br>
         <label><input type="checkbox" id="room-reset-all" checked>最新ログ・トピック・ユニットも初期化する</label><br>
         （全員が強制退室になります）<br>
+        <TMPL_IF userRoomFlag>
         <br>
-        ログファイル名：<br>
-        <input type="text" id="room-reset-filename" pattern="^[-0-9a-zA-Z_.]+$" title="使用できる文字は、半角英数字とハイフン、アンダーバー、ピリオドのみです。"><br>
-        空欄の場合、自動的に日付からファイル名をつけます。<br>
-        <br>
-        パスワード：<br>
-        <input type="password" id="room-reset-password"><br>
+        <label><input type="checkbox" id="room-delete">ルームを削除する</label>
+        <TMPL_ELSE><input type="hidden" id="room-delete">
+        </TMPL_IF>
       </p>
+        <details open>
+          <summary>過去ログ設定</summary>
+          <p>
+            　保存される過去ログに関わる設定です。<br>
+            　ログが空の場合は過去ログは保存されないため、入力の意味はありません。<br>
+            <br>
+            <b>ログファイル名</b>：<br>
+            <input type="text" id="room-reset-filename" pattern="^[-0-9a-zA-Z_.]+$" title="使用できる文字は、半角英数字とハイフン、アンダーバー、ピリオドのみです。"> <a class="fas fa-sync-alt link" onclick="getFileName();">日付から設定</a><br>
+            　過去ログ一覧に表示されます。<br>
+            　空欄の場合、自動的に日付からファイル名をつけます。<br>
+            <br>
+            <b>ログタイトル</b>：<br>
+            <input type="text" id="room-reset-logtitle"><br>
+            　ログのタイトルバーと見出しに表示されます。<br>
+            　空欄の場合、ゲームルーム名と同じになります。<br>
+          </p>
+          </details>
       <p class="center"><button>ログ初期化</button></p>
       </form>
     </details>

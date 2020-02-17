@@ -568,17 +568,24 @@ body {
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
 #sheet-area {
+  position: relative;
+  width: 18.5em;
+  transition-property: margin, left, right, opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in;
+}
+#sheet-area:not(.left) {
   margin-right: -2rem;
 }
 #sheet-area.left {
   margin-left: -2rem;
-  margin-right: 0;
 }
-/* 閉じた状態 */
 #sheet-area.closed {
+  opacity: 0.5;
+}
+#sheet-area:not(.left).closed {
   margin-left: calc(-18.5em + 2rem);
   right: calc(-18.5em + 2rem);
-  opacity: 0.5;
 }
 #sheet-area.left.closed {
   margin-left: -2rem;
@@ -586,8 +593,21 @@ body {
   margin-right: calc(-18.5em + 2rem);
   left: calc(-18.5em + 2rem);
 }
-.closed .sheet .close-area {
-  display: block;
+
+#sheet-area:not(.left) .sheet {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+#sheet-area.left .sheet {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.sheet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .sheet .close-area {
   content: '';
@@ -599,6 +619,9 @@ body {
   bottom: 0;
   z-index: 99;
   cursor: pointer;
+}
+.closed .sheet .close-area {
+  display: block;
 }
 .sheet .close-area:hover {
   background: none;
@@ -711,11 +734,6 @@ body {
 }
 #bg-set input {
   width: 100%;
-}
-#bg-set button {
-  display: block;
-  width: max-content;
-  margin: 1em auto;
 }
 #bg-set .bg-set-preview-area {
   height: 200px;

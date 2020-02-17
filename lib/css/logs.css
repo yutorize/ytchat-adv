@@ -27,7 +27,8 @@ body {
   margin-right: auto;
   padding-left: .2rem;
 }
-header {
+/* メイン -------------------------------------------------- */
+#base header {
   position: sticky;
   top: 0;
   margin: -.5rem;
@@ -35,17 +36,18 @@ header {
   background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.8), transparent);
   z-index: 98;
 }
-header h1 {
+#base header h1 {
   display: inline-block;
   margin-right: .5em;
   font-size: 1.5em !important;
 }
-header h2 {
+#base header h2 {
   display: inline-block;
   font-size: 1em !important;
 }
 article#contents {
 }
+/* ログ */
 .logs {
   margin: 1rem;
 }
@@ -73,7 +75,6 @@ article#contents {
   padding-left: .5rem;
   border-radius: .5rem;
 }
-/* 発言ホバー時 */
 .logs dl::before {
   content: '[' attr(data-tab-name) '] ' attr(data-user);
   position: absolute;
@@ -101,17 +102,16 @@ article#contents {
 .logs dl dd:hover::after {
   opacity: 0.7;
 }
-/* メニュー */
+/* メニュー -------------------------------------------------- */
 #menu {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: max-content;
   grid-template-rows: auto auto max-content 1fr;
   overflow: hidden;
   position: sticky;
   top: 0;
-  width: max-content;
-  max-height: 100vh;
-  margin-left: auto;
+  max-height: calc(100vh - 2.6rem);
+  margin-right: auto;
   padding: 0 .8rem;
   z-index: 999;
 }
@@ -120,14 +120,22 @@ article#contents {
   margin: 1rem .8rem;
 }
 #menu h3 {
-  font-size: 100%;
   margin: 0;
+  font-size: 100%;
 }
-#menu ul,
-#menu dl {
+#menu > ul,
+#menu > dl,
+#menu details {
   padding-bottom: 1em;
   border-top : 1px solid rgba(127,127,127,0.5);
 }
+#menu summary {
+  user-select: none;
+}
+#menu summary:hover {
+  color: #eeaa00;
+}
+/* タブリスト */
 #menu ul#tablist li label {
   display: block;
   padding: .3rem;
@@ -158,6 +166,7 @@ article#contents {
     #711  0px 1px, #711  0px -1px,
     #711 -1px 0px, #711  1px  0px;
 }
+/* オプション */
 #menu dl#options dt {
   margin: .5rem 0 .1rem;
   font-size: 1.2rem;
@@ -175,6 +184,7 @@ article#contents {
   font-size: 80%;
 }
 
+/* ログリスト */
 #menu #loglist-area {
   margin-right: -.7rem;
   overflow: auto;
@@ -206,6 +216,7 @@ article#contents {
   font-family: Arial;
   font-weight: normal;
   text-align: right;
+  white-space: nowrap;
 }
 #menu-toggle {
   display: none;
@@ -213,6 +224,8 @@ article#contents {
 #menu-toggle + label {
   display: none;
 }
+
+/* モバイル */
 @media (max-width: 600px) {
   header {
     line-height: 1.2;
@@ -250,14 +263,39 @@ article#contents {
   }
 }
 
-/* フッタ */
-footer {
+/* フッタ -------------------------------------------------- */
+#base footer {
   border-top: 1px solid rgba(127,127,127,0.5);
   margin: -.5rem;
-  padding: 1rem;
+  padding: 1rem 1rem 3rem;
   text-align: center;
   font-size: 1.4rem;
   background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+/* ボトムバー -------------------------------------------------- */
+#bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.6));
+  padding: .7rem 1rem .5rem;
+  font-size: 1.2rem;
+  z-index: 1000;
+}
+#bottom-bar dl {
+  display: flex;
+  justify-content: flex-end;
+}
+#bottom-bar dt {
+  margin: 0 .3rem 0 2rem;
+}
+#bottom-bar dt::after {
+  content: ':';
+}
+#bottom-bar dd {
+  font-size: 1.1rem;
 }
 
 /* // 背景

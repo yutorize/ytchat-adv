@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0">
-  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.12.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.12.0a">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.12.0a">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
-  <script src="./lib/js/logs.js?0.12.0" defer></script>
+  <script src="./lib/js/logs.js?0.12.0a" defer></script>
   <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -30,19 +30,23 @@
     </dl>
     <div id="loglist-area">
     <TMPL_IF RoomList>
-    <h3>現行ログ</h3>
-    <ul id="roomlist"><TMPL_LOOP RoomList>
-      <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
-    </ul>
+    <details <TMPL_VAR roomListOpen>>
+      <summary class="bold">現行ログ</summary>
+      <ul id="roomlist"><TMPL_LOOP RoomList>
+        <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
+      </ul>
+      </details>
     </TMPL_IF>
     <TMPL_IF LogList>
-    <h3>過去ログ</h3>
-    <ul id="loglist"><TMPL_LOOP LogList>
-      <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
-    </ul>
+    <details <TMPL_VAR logListOpen>>
+    <summary class="bold">過去ログ</summary>
+      <ul id="loglist"><TMPL_LOOP LogList>
+        <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
+      </ul>
+    </details>
     </TMPL_IF>
     </div>
-    <ul><li><a href="./">戻る</a></li></ul>
+    <ul><li class="right"><a href="./">ルーム一覧に戻る</a></li></ul>
   </aside>
 </div>
 <div id="base" class="box">
@@ -61,6 +65,12 @@
   <footer>
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
   </footer>
+</div>
+<div id="bottom-bar">
+  <dl>
+    <dt>背景</dt><dd id="bg-title">－</dd>
+    <dt>BGM</dt><dd id="music-title">－</dd>
+  </dl>
 </div>
 </body>
 </html>

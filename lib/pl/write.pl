@@ -13,10 +13,6 @@ use JSON::PP;
 my $log_pre_max = 50;
 my $dir = "./room/$::in{'room'}/";
 
-my @status = $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
-           : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
-           : ('HP','MP','他');
-my $stt_commands = join('|', @status);
 
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
@@ -33,6 +29,12 @@ foreach (%::in) {
   $::in{$_} =~ s/\r\n?|\n/<br>/g;
   $::in{$_} =~ s/\\/&#92;/g;
 }
+
+my @status = $::in{'status'} ? (split(' ', $::in{'status'}))
+          # : $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
+          # : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
+           : ('HP','MP','他');
+my $stt_commands = join('|', @status);
 
 $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 

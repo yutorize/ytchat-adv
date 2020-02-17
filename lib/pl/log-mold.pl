@@ -5,6 +5,8 @@ use open ":utf8";
 use open ":std";
 use Fcntl;
 use HTML::Template;
+use Encode qw/encode decode/;
+use JSON::PP;
 use CGI::Cookie;
 
 ###################
@@ -21,8 +23,16 @@ my $cookie_id = $cookies{'ytchat-userid'}->value if(exists $cookies{'ytchat-user
 
 my $id = $::in{'id'}; #部屋ID
 
-my %rooms = %set::rooms;
 my %games = %set::games;
+my %rooms;
+if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
+  my $text = join('', <$FH>);
+  %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
+  close($FH);
+}
+foreach my $key (keys %set::rooms){
+  $rooms{$key} = $set::rooms{$key};
+}
 
 my $logs_dir = ($id && $rooms{$id}{'logs-dir'}) ? $rooms{$id}{'logs-dir'} : $set::logs_dir;
 
@@ -88,7 +98,7 @@ foreach (<$FH>){
   }
   
   if($system =~ /^bg:(.+)$/){
-    $comm = '<span class="bg-border" data-url="'.$1.'"></span>'.$comm;
+    $comm = '<span class="bg-border" data-url="'.$1.'" data-title="'.$info.'"></span>'.$comm;
   }
   elsif($system =~ /^bg$/){
     $comm = '<span class="bg-border"></span>'.$comm;
@@ -188,6 +198,7 @@ if($opt{'roomList'}){
     push(@roomlist, {'ID' => $i, 'NAME' => $rooms{$i}{'name'}, 'BYTE' => $byte, 'CURRENT' => $current});
   }
   $ROOM->param(RoomList => \@roomlist);
+  $ROOM->param(roomListOpen => !$::in{'log'} ? 'open' : '');
 }
 ###################
 ### 過去ログ一覧
@@ -213,6 +224,7 @@ if($opt{'logList'}){
   }
   $ROOM->param(LogList => \@loglist);
   $ROOM->param(idDir => $id) if($id && $rooms{$id}{'logs-dir'});
+  $ROOM->param(logListOpen => $::in{'log'} ? 'open' : '');
 }
 
 ###################

@@ -18,10 +18,55 @@
     dataType: 'text',
   })
   .done( (data) => {
-    if("<TMPL_VAR ver>" !== data){
+    if("<TMPL_VAR ver>" != data){
       document.getElementById('update-info').innerHTML = '<a href="https://yutorize.2-d.jp/?ytchat-adv">新しいバージョン'+data+'があります</a>'
     }
   });
+  function gameChange(game){
+    document.getElementById('bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
+    const status = document.getElementById('set-status');
+    if     (game == 'sw2'){ status.placeholder = 'HP　MP　防護'; }
+    else if(game == 'dx3'){ status.placeholder = 'HP　侵食　行動'; }
+    else                  { status.placeholder = 'HP　MP　他'; }
+  }
+  function BCDiceGet(apiUrl){
+    const select = document.getElementById('set-bcdice-game');
+    $.ajax({
+      url: apiUrl+'/v1/names',
+      type: 'GET',
+      cache: false,
+      timeout: 10000,
+      dataType: 'json',
+    })
+    .done( (data) => {
+      console.log(1)
+      data['names'].sort(function(a,b){
+        if(a.name < b.name) return -1;
+        if(a.name > b.name) return 1;
+        return 0;
+      });
+      while (0 < select.childNodes.length) {
+        select.removeChild(select.childNodes[0]);
+      }
+      for(let key in data['names']){
+        let op = document.createElement("option");
+        op.text = data['names'][key]['name'];
+        op.value = data['names'][key]['system'];
+        select.appendChild(op);
+      }
+    })
+    .fail( (data) => {
+      alert('APIサーバーにアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
+    });
+  }
+  function formCheck(){
+    if(document.getElementById('set-game').value == 'bcdice'){
+      if(document.getElementById('set-bcdice-url').value == ''){
+        alert('BCDice-APIのURLを入力してください');
+        return false;
+      }
+    }
+  }
   </script>
 </head>
 <body>
@@ -31,6 +76,30 @@
   </header>
   <article id="contents">
     <h2>ゲームルーム一覧</h2>
+    <details class="left" style="margin:auto; width:32em;">
+      <summary class="left" style="user-select: none">新規ルーム作成</summary>
+      <form action="./" style="padding-left: 1em; background:rgba(127,127,127,0.1);" onsubmit="return formCheck();">
+        <input type="hidden" name="mode" value="create">
+        ゲームルーム名: <input type="text" name="name" required><br>
+        管理パスワード: <input type="password" name="pass"><br>
+        ゲームシステム: <select name="game" id="set-game" onchange="gameChange(this.value)">
+          <option value="sw2">ソードワールド2.x</option>
+          <option value="dx3">ダブルクロス3rd</option>
+          <option value="">その他</option>
+          <option value="bcdice">その他：BCDice-API使用</option>
+        </select><br>
+        <div id="bcdice-options" style="margin-left: 1em; display: none;">
+          <b>BCDice用オプション</b><br>
+          APIのURL: <input type="url" name="bcdice-url" id="set-bcdice-url" placeholder="https//..." onchange="BCDiceGet(this.value);" style="width:20em;"><br>
+          ダイスボット: <select name="bcdice-game" id="set-bcdice-game"></select>
+        </div>
+        チャットタブ: <input type="text" name="tab" id="set-tab" placeholder="メイン　サブ"><br>
+        ステータス　: <input type="text" name="status" id="set-status" placeholder="HP　MP　防護"><br>
+        ※タブ、ステータスともにスペースで区切る。<br>
+        　空の場合はデフォルトを適用。
+        <div class="center"><button>作成</button></div>
+      </form>
+    </details>
     <table class="list">
       <thead><tr><th>ゲームルーム名</th><th>ゲームシステム</th><th>ログ</th><th>ログサイズ</th></tr></thead>
       <TMPL_LOOP List><tr><th><a href="./?mode=room&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></th><td><TMPL_VAR GAME></td><td><a href="./?mode=logs&id=<TMPL_VAR ID>">▶</a></td><td><TMPL_VAR SIZE></td></tr></TMPL_LOOP>

@@ -4,60 +4,76 @@ use utf8;
 use open ":utf8";
 use open ":std";
 use Fcntl;
+use Encode qw/encode decode/;
+use JSON::PP;
 
 ###################
 ### ルームリセット
 
+my $id = $::in{'room'}; #部屋ID
 
-error('パスワードが一致しません') if ($set::password ne $::in{'password'});
-
-my $dir = "./room/$::in{'room'}/";
-my $logs_dir = $set::rooms{$::in{'room'}}{'logs-dir'} ? $set::rooms{$::in{'room'}}{'logs-dir'} : $set::logs_dir;
-
-## ファイル名
-my $filename;
-if($::in{'filename'}){
-  if($::in{'filename'} !~ /^[-0-9a-zA-Z_.]+$/){ error('ファイル名に使えない文字があります'); }
-  $filename = "${logs_dir}/$::in{'filename'}.dat" if $::in{'filename'};
+my %userrooms;
+if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
+  my $text = join('', <$FH>);
+  %userrooms = %{ decode_json(encode('utf8', $text)) } if $text;
+  close($FH);
 }
-else {
-  sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
-  my $date;
-  while(<$RD>){
-    next if($_ =~ /^>/);
-    $date = (split(/<>/, $_))[1];
-    last if $date;
+## パスワードチェック
+unless(
+  #管理パスが一致すれば通す
+  $set::password eq $::in{'password'}
+  #ユーザー作成部屋なら
+  || ($userrooms{$id} && (
+    #パスワード設定がなければ通す
+        !$userrooms{$id}{'pass'}
+    #もしくはパスワード設定があり入力と一致すれば通す
+    || ( $userrooms{$id}{'pass'} && c_crypt($::in{'password'},$userrooms{$id}{'pass'}) )
+  ))
+) {
+  error('パスワードが一致しません');
+}
+
+my $dir = "./room/$id/";
+my $logs_dir = $set::rooms{$id}{'logs-dir'} || $set::logs_dir;
+
+my $jumpurl = './';
+my $filename = $::in{'filename'};
+## ログがある場合 
+if(-s $dir.'log-all.dat'){
+  ## 部屋データ取得
+  sysopen(my $FH, $dir.'room.dat', O_RDONLY) or error "room.datが開けません";
+  my %roomdata = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  close($FH);
+
+  ## ファイル名
+  my $filepath;
+  if($filename){
+    if($filename !~ /^[-0-9a-zA-Z_.]+$/){ error('ファイル名に使えない文字があります'); }
+    $filepath = "${logs_dir}/$filename.dat" if $::in{'filename'};
   }
-  close($RD);
-  $date =~ s<^([0-9]{4})/([0-9]{2})/([0-9]{2}) .+$><$1$2$3>;
-  error('ログから日付が取得できませんでした') if !$date;
-  $filename = $date;
-  $filename .= $::in{'room'} if $set::logname_id_add;
-  my $num = 0;
-  while (-f "${logs_dir}/${filename}_${num}.dat"){
-    $num++;
+  else {
+    $filename = getFileNameDate();
+    $filepath = "${logs_dir}/".$filename.".dat";
   }
-  $filename = "${logs_dir}/${filename}_${num}.dat";
-}
 
-## ディレクトリチェック
-if(!-d $logs_dir){
-  mkdir $logs_dir;
-}
+  ## ディレクトリチェック
+  if(!-d $logs_dir){
+    mkdir $logs_dir;
+  }
 
-error('同名のファイルが存在します') if (-f $filename); #上書きは避ける
+  error('同名のファイルが存在します') if (-f $filepath); #上書きは避ける
 
 ## ログ生成
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
-#sysopen (my $WR, $filename, O_WRONLY | O_TRUNC | O_CREAT, 0666);
+#sysopen (my $WR, $filepath, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 #
-#my @tabs = @{$set::rooms{$::in{'room'}}{'tab'}};
+#my @tabs = @{$set::rooms{$id}{'tab'}};
 #my $before_tab;
 #my $before_name;
 #my $before_color;
 #my $before_user;
 #my %namecolor;
-#print $WR "<h1>$set::rooms{$::in{'room'}}{'name'}</h1>\n";
+#print $WR "<h1>$set::rooms{$id}{'name'}</h1>\n";
 #while(<$RD>){
 #  my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user) = split(/<>/, $_);
 #  my $type = ($system =~ /^check|round/) ? 'dice' : ($system) ? $system : 'dice';
@@ -81,18 +97,52 @@ error('同名のファイルが存在します') if (-f $filename); #上書き�
 #close($WR);
 #close($RD);
 
-use File::Copy 'move';
-if(move($dir.'log-all.dat', $filename)){
-  if($::in{'allReset'}){
-    unlink $dir.'/room.dat';
-    unlink $dir.'/log-key.dat';
-    unlink $dir.'/log-pre.dat';
-    unlink $dir."/log-num-$::in{'logKey'}.dat";
-  }
-}
+  my $title = decode('utf8', $::in{'title'}) || $set::rooms{$id}{'name'} || $userrooms{$id}{'name'};
+  $title =~ s/</&lt;/g; $title =~ s/>/&gt;/g; $title =~ s/\r\n?|\n//g;
+  my @tab;
+  foreach (sort {$a <=> $b} keys %{$roomdata{'tab'}}){ push(@tab, $roomdata{'tab'}{$_}); }
+  sysopen(my $FH, $dir.'log-all.dat', O_RDWR) or error "log-all.datが開けません";
+  flock($FH, 2);
+  my @lines = <$FH>;
+  unshift(@lines, ">${title}<>".join(',',@tab)."\n");
+  seek($FH, 0, 0);
+  print $FH @lines;
+  truncate($FH, tell($FH));
+  close($FH);
 
+  use File::Copy 'move';
+  use File::Path 'rmtree';
+  if(move($dir.'log-all.dat', $filepath)){
+    if($::in{'allReset'}){
+      rmtree $dir;
+    }
+  }
+  $jumpurl .= '?mode=logs'.($set::rooms{$id}{'logs-dir'} ? "&id=${id}":'')."&log=${filename}";
+}
+## ログがない場合
+else { rmtree $dir; }
+
+## 部屋ごと削除
+if($::in{'roomDelete'}){
+  my %data;
+  sysopen(my $FH, './room/list.dat', O_RDWR) or error "list.datが開けません";
+  flock($FH, 2);
+  my $text = join('', <$FH>);
+  %data = %{ decode_json(encode('utf8', $text)) } if $text;
+  seek($FH, 0, 0);
+
+  delete $data{$id};
+
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
 print "Content-type:application/json; charset=UTF-8\n\n";
-  print '{"status":"ok","text":"リセット完了"}';
+print '{"status":"ok",';
+print ' "url":"./'.$jumpurl.'",';
+print ' "text":"リセット完了"}';
+
+
 
 exit;
 

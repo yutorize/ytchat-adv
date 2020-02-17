@@ -10,15 +10,24 @@ use JSON::PP;
 
 my $id = $::in{'id'}; #部屋ID
 
-my %rooms = %set::rooms;
 my %games = %set::games;
+my %rooms;
+if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
+  my $text = join('', <$FH>);
+  %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
+  close($FH);
+}
+foreach my $key (keys %set::rooms){
+  $rooms{$key} = $set::rooms{$key};
+}
 my %roomdata;
 
 ###################
 ### 部屋の有無をチェック
 error('ルームがありません') if !exists($rooms{$id});
 
-my @tabs = $rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サブ'); 
+my %room = %{$rooms{$id}};
+my @tabs = $room{'tab'} ? @{$room{'tab'}} : ('メイン','サブ'); 
 
 ###################
 ### ディレクトリ・ファイルが無い場合
@@ -57,7 +66,6 @@ if (!-f "./room/${id}/log-all.dat"){
   my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$time[3],$time[2],$time[1],$time[0]);
   
   sysopen (my $FH, "./room/${id}/log-all.dat", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-    print $FH ">$rooms{$id}{'name'}<>".join(',',@tabs)."\n";
     if($roomdata{'bg'}){ print $FH "0<>$date<>1<>!SYSTEM<><>背景が引き継がれました<>$roomdata{'bg'}{'title'}<>bg:$roomdata{'bg'}{'url'}<>ゆとチャadv.<000><><>\n"; }
     if($roomdata{'topic'}){ print $FH "0<>$date<>1<>!SYSTEM<><>トピックが引き継がれました<>$roomdata{'topic'}<>topic<>ゆとチャadv.<000><><>\n"; }
   close($FH);
@@ -85,16 +93,16 @@ $ROOM = HTML::Template->new(
 ### 読み込み処理
 
 $ROOM->param(roomId => $id);
-$ROOM->param(title => $rooms{$id}{'name'});
+$ROOM->param(title => $room{'name'});
 
-my $game = $rooms{$id}{'game'};
+my $game = $room{'game'};
 $ROOM->param(gameSystem => $game);
 $ROOM->param(gameSystemName => $games{$game}{'name'} ? $games{$game}{'name'} : $game ? $game : '－');
 
-$ROOM->param(bcdiceAPI => $rooms{$id}{'bcdice'} ? $set::bcdice_api : '');
+$ROOM->param(bcdiceAPI => $room{'bcdice'} ? $set::bcdice_api : '');
 $ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game ? $game : 'DiceBot');
 
-my @status = $rooms{$id}{'status'} ? @{$rooms{$id}{'status'}}
+my @status = $room{'status'} ? @{$room{'status'}}
            : $games{$game}{'status'} ? @{$games{$game}{'status'}}
            : ('HP','MP','他');
 $ROOM->param(SttNameList => join("','", @status));
@@ -103,7 +111,7 @@ $ROOM->param(newUnitSttDefault => join(': ',@status).':');
 
 if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
 elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }
-if($rooms{$id}{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
+if($room{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
 
 my @text_replace;
 foreach (@set::replace_help){
@@ -143,6 +151,8 @@ if($set::src_url_limit){
 $ROOM->param(srcURL => \@src_url);
 
 $ROOM->param(customCSS => $set::custom_css);
+
+$ROOM->param(userRoomFlag => exists($set::rooms{$id}) ? 0 : 1);
 
 ###################
 ### 出力
