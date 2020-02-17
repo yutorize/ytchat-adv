@@ -99,7 +99,7 @@ my $game = $room{'game'};
 $ROOM->param(gameSystem => $game);
 $ROOM->param(gameSystemName => $games{$game}{'name'} ? $games{$game}{'name'} : $game ? $game : '－');
 
-$ROOM->param(bcdiceAPI => $room{'bcdice'} ? $set::bcdice_api : '');
+$ROOM->param(bcdiceAPI => $room{'bcdice-url'} || ($room{'bcdice'} ? $set::bcdice_api : ''));
 $ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game ? $game : 'DiceBot');
 
 my @status = $room{'status'} ? @{$room{'status'}}
