@@ -850,6 +850,7 @@ body.rom .input-form { display: none !important; }
   list-style-type: none;
   font-size: 85%;
   line-height: 1.2;
+  cursor: pointer;
 }
 #bg-set .bg-list li:hover {
   background: none;

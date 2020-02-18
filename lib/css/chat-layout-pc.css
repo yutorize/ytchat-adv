@@ -569,8 +569,8 @@ body {
 #sheet-area {
   position: relative;
   width: 18.5em;
-  transition-property: margin, left, right, opacity;
-  transition-duration: 0.15s;
+  transition-property: left, right, opacity;
+  transition-duration: 0.25s;
   transition-timing-function: ease-in;
 }
 #sheet-area:not(.left) {
@@ -587,8 +587,6 @@ body {
   right: calc(-18.5em + 2rem);
 }
 #sheet-area.left.closed {
-  margin-left: -2rem;
-  right: 0;
   margin-right: calc(-18.5em + 2rem);
   left: calc(-18.5em + 2rem);
 }
@@ -596,10 +594,12 @@ body {
 #sheet-area:not(.left) .sheet {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
+  animation-name: sheetrightfade;
 }
 #sheet-area.left .sheet {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  animation-name: sheetleftfade;
 }
 .sheet {
   position: absolute;
@@ -607,6 +607,18 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+}
+.sheet {
+}
+@keyframes sheetrightfade {
+  from { opacity: 0; left: 16em; right: -16em; }
+  to   { opacity: 1; }
+}
+@keyframes sheetleftfade {
+  from { opacity: 0; left: -16em; right: 16em; }
+  to   { opacity: 1; }
 }
 .sheet .close-area {
   content: '';
