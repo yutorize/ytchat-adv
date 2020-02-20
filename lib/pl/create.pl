@@ -16,6 +16,7 @@ if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
   %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
   close($FH);
 }
+error('ゲームルームの作成上限数に達しています。') if ($set::userroom_max && keys %rooms >= $set::userroom_max);
 foreach my $key (keys %set::rooms){
   $rooms{$key} = $set::rooms{$key};
 }

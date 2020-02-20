@@ -15,6 +15,7 @@ if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
   %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
   close($FH);
 }
+my $userroom_num = keys %rooms;
 foreach my $key (keys %set::rooms){
   $rooms{$key} = $set::rooms{$key};
 }
@@ -64,7 +65,9 @@ push @list, @addlist;
 
 $ROOM->param(List => \@list);
 
-$ROOM->param(userRoomOn => $set::userroom_on);
+my $userroom_on = $set::userroom_on;
+if($userroom_on && $set::userroom_max && $userroom_num >= $set::userroom_max){ $userroom_on = 0; }
+$ROOM->param(userRoomOn => $userroom_on);
 $ROOM->param(userRoomFormOpen => $::in{'form'} ? 'open' : '');
 
 $ROOM->param(home => $set::home_url);
