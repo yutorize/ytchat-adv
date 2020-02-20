@@ -82,6 +82,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   flex-wrap: nowrap;
+  overflow: auto;
 }
 #sidebar > .box { margin: .5rem 0; }
 #sidebar > .box:first-child { margin-top: 0; }
