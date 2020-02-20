@@ -642,11 +642,11 @@ body {
   animation-name: closeleftfade;
 }
 @keyframes closerightfade {
-  from { opacity: 1; left: -10em; }
+  from { opacity: 1; left: -5em; }
   to   { }
 }
 @keyframes closeleftfade {
-  from { opacity: 1; right: -10em; }
+  from { opacity: 1; right: -5em; }
   to   { }
 }
 
