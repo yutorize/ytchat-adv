@@ -580,9 +580,6 @@ body {
 #sheet-area.left {
   margin-left: -2rem;
 }
-#sheet-area.closed {
-  opacity: 0.5;
-}
 #sheet-area:not(.left).closed {
   margin-left: calc(-18.5em + 2rem);
   right: calc(-18.5em + 2rem);
@@ -614,29 +611,43 @@ body {
 .sheet {
 }
 @keyframes sheetrightfade {
-  from { opacity: 0; left: 16em; right: -16em; }
-  to   { opacity: 1; }
+  from { opacity: 0.5; left: 16em; right: -16em; }
+  to   { }
 }
 @keyframes sheetleftfade {
-  from { opacity: 0; left: -16em; right: 16em; }
-  to   { opacity: 1; }
+  from { opacity: 0.5; left: -16em; right: 16em; }
+  to   { }
 }
-.sheet .close-area {
-  content: '';
+#sheet-area.closed {
+  opacity: 0.5;
+}
+#sheet-area.closed:hover {
+  opacity: 1;
+}
+.sheet#close-area {
   display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
   cursor: pointer;
+  animation-duration: 0.15s;
 }
-.closed .sheet .close-area {
-  display: block;
+.closed .sheet:not(#close-area) {
+  display: none;
 }
-.sheet .close-area:hover {
-  background: none;
+.closed .sheet#close-area {
+  display: block !important;
+}
+#sheet-area:not(.left) .sheet#close-area {
+  animation-name: closerightfade;
+}
+#sheet-area.left .sheet#close-area {
+  animation-name: closeleftfade;
+}
+@keyframes closerightfade {
+  from { opacity: 1; left: -10em; }
+  to   { }
+}
+@keyframes closeleftfade {
+  from { opacity: 1; right: -10em; }
+  to   { }
 }
 
 /* // フッタ
