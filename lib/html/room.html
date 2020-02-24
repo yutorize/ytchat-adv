@@ -4,27 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.13.1">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.13.1">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.13.1">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.13.1">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.13.1">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.14.0">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.14.0">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.14.0">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.14.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.14.0">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<!--  <script src="./lib/js/lib/autosize.min.js" defer></script>-->
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.13.1" defer></script>
-  <script src="./lib/js/ui-sp.js?0.13.1" defer></script>
-  <script src="./lib/js/chat.js?0.13.1" defer></script>
+  <script src="./lib/js/ui.js?0.14.0" defer></script>
+  <script src="./lib/js/ui-sp.js?0.14.0" defer></script>
+  <script src="./lib/js/chat.js?0.14.0" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
   <script>
     const roomId = '<TMPL_VAR roomId>';
-    const setStatus = ['<TMPL_VAR SttNameList>'];
+    const tabArray = ['<TMPL_VAR tabArray>'];
+    const setStatus = ['<TMPL_VAR sttNameList>'];
     const gameSystem = '<TMPL_VAR gameSystem>';
     const gameSystemName = '<TMPL_VAR gameSystemName>';
     const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
@@ -51,8 +50,8 @@
     <ul>
       <li id="menu-button-logs"><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
       <li id="menu-button-back"><a onclick="boxOpen('bg-set');">背景</a></li>
-      <li id="menu-button-sound"><a onclick="boxOpen('config-sound');">サウンド</a></li>
-      <li id="menu-button-other"><a onclick="boxOpen('config-other');">その他設定</a></li>
+      <li id="menu-button-user"><a onclick="boxOpen('config-user');">個人設定</a></li>
+      <li id="menu-button-room"><a onclick="boxOpen('config-room');">ルーム設定</a></li>
       <li id="menu-button-help"><a onclick="boxOpen('help-window');">ヘルプ</a></li>
       <li id="menu-button-exit"><a onclick="boxOpen('exit-form');">退室</a></li>
     </ul>
@@ -107,6 +106,7 @@
           <div class="decoration-buttons">
             <span class="button insert-ruby"></span>
             <span class="button insert-em"></span>
+            <span class="button insert-serif"></span>
             <span class="button insert-bold"    title="太字"></span>
             <span class="button insert-oblique" title="斜体"></span>
             <span class="button insert-under"   title="下線"></span>
@@ -223,9 +223,8 @@
   </div>
   
   <div class="float-box" id="bg-set">
-    <h2>背景</h2>
+    <h2>背景画像変更</h2>
     <div>
-      <h3>背景画像変更</h3>
       <div class="bg-set-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
       <p>
         タイトル・権利表記等：<br>
@@ -237,18 +236,18 @@
       </p>
     </div>
     <div>
-      <h4>プリセット</h4>
+      <h4><i class="far fa-images"></i>プリセット</h4>
       <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
         <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
       </ul>
-      <h4>履歴</h4>
+      <h4><i class="fas fa-history"></i>履歴</h4>
       <ul class="bg-list" id="bg-history"></ul>
       <TMPL_IF srcURL>
-      <h4>使用可能URL</h4>
+      <h4><i class="fas fa-check-circle"></i>使用可能URL</h4>
       <p>下記のドメインから始まるURL以外は使用できません。</p>
       <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
       </TMPL_IF>
-      <h3>背景画像削除</h3>
+      <h3><i class="fas fa-trash-alt"></i>背景画像削除</h3>
       <p>現在の背景を削除し、初期状態に戻します。</p>
       <p class="center">
         <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する</button>
@@ -257,9 +256,11 @@
     </div>
   </div>
   
-  <div class="float-box" id="config-sound">
-    <h2>サウンド設定</h2>
-    <h3>音量</h3>
+  <div class="float-box" id="config-user">
+    <h2>ユーザー個人設定</h2>
+    <p>　ゲームルームを跨いで、あなただけに適用される設定です。</p>
+    <details>
+      <summary><i class="fas fa-volume-up"></i>音量設定</summary>
     <table>
       <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
       <tr><th>チャット着信</th><td><input type="range" id="volume-chat" min="0" max="100" step="1" value="80"></td><td id="volume-chat-view">80%</td></tr>
@@ -269,13 +270,9 @@
     <p>
       強調ワード音量・レディチェック音量は0にするとチャット着信音に統一されます。<br>
     </p>
-    <span class="close button" onclick="boxClose('config-sound');">×</span>
-  </div>
-  
-  <div class="float-box" id="config-other">
-    <h2>その他設定</h2>
+    </details>
     <details>
-      <summary>通知設定</summary>
+      <summary><i class="fas fa-exclamation-circle"></i>通知設定</summary>
       <p>
         <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
         強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
@@ -289,7 +286,8 @@
       </p>
     </details>
     <details>
-      <summary>ログフォント設定</summary>
+      <summary><i class="fas fa-font"></i>ログフォント設定</summary>
+      <p>文字の明るさ　： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
       <div id="font-sample" class="logs-font">
         <TMPL_IF helpOnSW2>
         <span class="dash">――</span>『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
@@ -302,16 +300,24 @@
         </TMPL_IF>
         </TMPL_IF>
       </div>
-      <p>
+      <p style="margin-top:0;">
         日本語フォント：
-        <select id="font-family-jp" onchange="fontFamilyChange(this.value)">
+        <select id="option-font-family-jp">
         <TMPL_INCLUDE NAME="option-fonts.html">
-        </select><br>
-        文字の明るさ　： <input id="option-font-brightness" type="range" min="7" max="15" step="1" value="15">
+        </select>
+      </p>
+      <div id="font-sample" class="logs-font serif">
+        『ノームやノーム、足をとれ！　固めて縛って釘付けろ！』
+      </div>
+      <p style="margin-top:0;">
+        明朝体フォント：
+        <select id="option-font-family-min">
+        <TMPL_INCLUDE NAME="option-fonts-min.html">
+        </select>
       </p>
     </details>
     <details>
-      <summary>ウィンドウ配置</summary>
+      <summary><i class="far fa-window-maximize"></i>ウィンドウ配置</summary>
       <p>
         ステータス・メモ一覧の配置：
         <select id="window-layout-sidebar" onchange="layoutChange()">
@@ -334,8 +340,93 @@
         </select><br>
       </p>
     </details>
+    <span class="close button" onclick="boxClose('config-user');">×</span>
+  </div>
+  
+  <div class="float-box" id="config-room">
+    <h2>ゲームルーム設定</h2>
+    <p>
+      　このゲームルームにのみ適用される設定です。<br>
+      　変更すると、入室中の全ユーザーに変更が適用されます。<br>
+    </p>
     <details>
-      <summary onclick="getFileName();">ログ初期化</summary>
+      <summary><i class="fas fa-cogs"></i>基本設定</summary>
+      <TMPL_IF userRoomFlag>
+      <form onsubmit="roomChange();return false;">
+      <p>
+        ゲームルーム名: <input type="text" id="config-room-name" value="<TMPL_VAR title>"><br>
+        チャットタブ　: <input type="text" id="config-room-tab" value="<TMPL_VAR tabArrayValue>"><br>
+        ステータス　　: <input type="text" id="config-room-status" value="<TMPL_VAR SttNameListValue>"><br>
+        ゲームシステム: <select id="config-room-game" onchange="gameChange(this.value)">
+          <option value="sw2">ソードワールド2.x</option>
+          <option value="dx3">ダブルクロス3rd</option>
+          <option value="">その他</option>
+          <option value="bcdice">その他：BCDice-API使用</option>
+        </select><br>
+      </p>
+      <p id="config-room-bcdice-options" style="padding-left: 1em; display: none;">
+          <b>BCDice用オプション</b><br>
+          APIのURL: <input type="url" id="config-room-bcdice-url" placeholder="https//..." onchange="BCDiceGet(this.value);" value="<TMPL_VAR bcdiceAPI>" style="width:20em;"><br>
+          ダイスボット: <select id="config-room-bcdice-game"></select>
+      </p>
+      <p>パスワード: <input type="password" id="config-room-password"></p>
+      <p class="center"><button>変更</button></p>
+      </form>
+      <TMPL_ELSE>
+      <p>
+        ゲームルーム名: <TMPL_VAR title><br>
+        チャットタブ　: <TMPL_VAR tabArrayValue><br>
+        ステータス　　: <TMPL_VAR SttNameListValue><br>
+        ゲームシステム: <TMPL_VAR gameSystemName><br>
+      </p>
+      <p>
+        ※ユーザーは変更できないゲームルームです。
+      </p>
+      </TMPL_IF>
+    </details>
+    <script>
+    function gameChange(game){
+      document.getElementById('config-room-bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
+      const status = document.getElementById('config-room-status');
+      if     (game == 'sw2'){ status.value = 'HP　MP　防護'; }
+      else if(game == 'dx3'){ status.value = 'HP　侵食　行動'; }
+      else                  { status.value = 'HP　MP　他'; }
+    }
+    function BCDiceGet(apiUrl, set){
+      const select = document.getElementById('config-room-bcdice-game');
+      $.ajax({
+        url: apiUrl+'/v1/names',
+        type: 'GET',
+        cache: false,
+        timeout: 10000,
+        dataType: 'json',
+      })
+      .done( (data) => {
+        data['names'].sort(function(a,b){
+          if(a.name < b.name) return -1;
+          if(a.name > b.name) return 1;
+          return 0;
+        });
+        while (0 < select.childNodes.length) {
+          select.removeChild(select.childNodes[0]);
+        }
+        for(let key in data['names']){
+          let op = document.createElement("option");
+          op.text = data['names'][key]['name'];
+          op.value = data['names'][key]['system'];
+          if(bcdiceSystem === data['names'][key]['system']){
+            op.selected = true;
+          }
+          select.appendChild(op);
+        }
+      })
+      .fail( (data) => {
+        alert('APIサーバーにアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
+      });
+    }
+    </script>
+    <details>
+      <summary onclick="getFileName();"><i class="fas fa-file-export"></i>ログ初期化／保存／ルーム削除</summary>
       <form onsubmit="resetRoom();return false;">
       <p>
         このルームの現行ログを過去ログに格納（保存）し、初期化します。<br>
@@ -370,7 +461,8 @@
       <p class="center"><button>ログ初期化</button></p>
       </form>
     </details>
-    <span class="close button" onclick="boxClose('config-other');">×</span>
+    <span class="close button" onclick="boxClose('config-room');">×</span>
+  </div>
   </div>
   
   <div class="float-box" id="member-list">
@@ -396,11 +488,13 @@
       <button onclick="enterRomRoom();">見学入室</button>
     </p>
     <div class="right">
-      <a href="./?mode=logs&id=<TMPL_VAR roomId>">ログ</a>
+      <a href="./?mode=logs&id=<TMPL_VAR roomId>"><i class="fas fa-align-left"></i>ログ</a>
       ／
-      <a onclick="boxOpen('config-other');" href="#">設定</a>
+      <a onclick="boxOpen('config-user');" href="#"><i class="fas fa-user-cog"></i>個人設定</a>
       ／
-      <a href="./">部屋一覧</a>
+      <a onclick="boxOpen('config-room');" href="#"><i class="fas fa-cog"></i>ルーム設定</a>
+      ／
+      <a href="./"><i class="fas fa-undo-alt"></i>戻る</a>
     </div>
   </div>
   

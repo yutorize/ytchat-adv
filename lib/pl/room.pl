@@ -27,7 +27,7 @@ my %roomdata;
 error('ルームがありません') if !exists($rooms{$id});
 
 my %room = %{$rooms{$id}};
-my @tabs = $room{'tab'} ? @{$room{'tab'}} : ('メイン','サブ'); 
+my @tabs = $room{'tab'} ? @{$room{'tab'}} : ('メイン','サブ');
 
 ###################
 ### ディレクトリ・ファイルが無い場合
@@ -105,13 +105,16 @@ $ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} :
 my @status = $room{'status'} ? @{$room{'status'}}
            : $games{$game}{'status'} ? @{$games{$game}{'status'}}
            : ('HP','MP','他');
-$ROOM->param(SttNameList => join("','", @status));
+$ROOM->param(sttNameList => join("','", @status));
+$ROOM->param(SttNameListValue => join("　", @status));
+$ROOM->param(tabArray => join("','", @tabs));
+$ROOM->param(tabArrayValue => join("　", @tabs));
 
 $ROOM->param(newUnitSttDefault => join(': ',@status).':');
 
 if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
 elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }
-if($room{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
+if($room{'bcdice-url'} || $room{'bcdice'}) { $ROOM->param(helpOnBCDice => 1); }
 
 my @text_replace;
 foreach (@set::replace_help){

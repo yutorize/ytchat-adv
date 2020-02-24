@@ -135,9 +135,10 @@ article#contents {
 #menu > dl,
 #menu details {
   padding-bottom: 1em;
-  border-top : 1px solid rgba(127,127,127,0.5);
+  border-top : .1rem solid var(--border-color-pale);
 }
 #menu summary {
+  padding: .3rem 0;
   user-select: none;
 }
 /* タブリスト */
@@ -163,10 +164,10 @@ article#contents {
 #menu ul#tablist li label input:checked + b::before {
   color: #f77;
   text-shadow: 
-    #711  1px 1px, #711 -1px -1px,
-    #711 -1px 1px, #711  1px -1px,
-    #711  0px 1px, #711  0px -1px,
-    #711 -1px 0px, #711  1px  0px;
+    #711  .1rem .1rem, #711 -.1rem -.1rem,
+    #711 -.1rem .1rem, #711  .1rem -.1rem,
+    #711   0rem .1rem, #711   0rem -.1rem,
+    #711 -.1rem  0rem, #711  .1rem   0rem;
 }
 /* オプション */
 #menu dl#options dt {
@@ -237,7 +238,7 @@ article#contents {
   #menu {
     position: fixed;
     right: 0;
-    border: .1rem solid rgba(127,127,127,0.5);
+    border: .1rem solid var(--border-color-pale);
   }
   #menu h2 {
     position: relative;
@@ -266,7 +267,7 @@ article#contents {
 
 /* フッタ -------------------------------------------------- */
 #base footer {
-  border-top: 1px solid rgba(127,127,127,0.5);
+  border-top: .1rem solid var(--border-color-pale);
   margin: -.5rem;
   padding: 1rem 1rem 3rem;
   text-align: center;

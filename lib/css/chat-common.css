@@ -27,6 +27,23 @@
 #menubar {
   user-select: none;
 }
+.float-box > h2::before,
+#menubar ul li > a::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+#menu-button-logs > a::before { content: "\f036"; }
+#bg-set > h2::before,
+#menu-button-back > a::before { content: "\f03e"; }
+#config-user > h2::before,
+#menu-button-user > a::before { content: "\f4fe"; }
+#config-room > h2::before,
+#menu-button-room > a::before { content: "\f013"; }
+#help-window > h2::before,
+#menu-button-help > a::before { content: "\f059"; }
+#exit-room > h2::before,
+#menu-button-exit > a::before { content: "\f52a"; }
+#menu-button-exit:hover > a::before { content: "\f52b"; }
 .mute-button::before {
   content: "\f028";
   font-family: "Font Awesome 5 Free";
@@ -84,7 +101,7 @@
   padding: .3rem 0;
   border-width: 0 0 .1rem;
   border-style: solid;
-  border-color: rgba(127,127,127,0.4);
+  border-color: var(--border-color-pale);
   animation-name: addin;
   animation-duration: 0.2s;
   animation-timing-function: ease-out;
@@ -213,12 +230,12 @@
   grid-row: 2;
   margin-top: 1em;
   padding: 0;
-  border: .1rem solid rgba(127,127,127,0.8);
+  border: .1rem solid var(--border-color);
   border-radius: .5rem;
   overflow-y: auto;
 }
 .sheet #sheet-memo-value {
-  border: 1px solid transparent;
+  border: .1rem solid transparent;
   line-height: 1.4;
   font-size:80%;
   padding: .4rem;
@@ -243,7 +260,7 @@ body.rom .sheet { display: none !important; }
 }
 .sheet h2 {
   padding-bottom: .1em;
-  border-bottom: .1rem solid rgba(127,127,127,0.8);
+  border-bottom: .1rem solid var(--border-color);
 }
 .sheet-body {
   display: grid;
@@ -287,7 +304,7 @@ body.rom .sheet { display: none !important; }
   padding: .2rem 0 0 .3rem;
   border-width: .1rem 0 0 .3rem;
   border-style: solid;
-  border-color: rgba(127,127,127,0.8);
+  border-color: var(--border-color);
 }
 .sheet-body .status-remocon-sub ul li:first-child {
   grid-column: span 4;
@@ -322,7 +339,7 @@ body.rom .sheet { display: none !important; }
   display: grid;
   grid-template-rows: auto 1fr auto;
   margin-top: 0.5rem;
-  border-top: .1rem solid rgba(127,127,127,0.5);
+  border-top: .1rem solid var(--border-color);
 }
 .sheet-body .chat-palette-palette-area {
   position: relative;
@@ -339,7 +356,7 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body select.chat-palette option {
   padding: .4rem .5rem;
-  border-bottom: .1rem solid rgba(127,127,127,0.5);
+  border-bottom: .1rem solid var(--border-color-pale);
 }
 .sheet-body .chat-palette-palette-area textarea {
   line-height: calc(1em + .9rem);
@@ -470,7 +487,7 @@ body.rom .input-form { display: none !important; }
 }
 #main-form .name-area > *:last-child {
   border-radius: 0  .8rem .8rem 0;
-  border-right-width: 1px;
+  border-right-width: .1rem;
 }
 #main-form .name-area .main-name {
   display: inline-block;
@@ -481,7 +498,7 @@ body.rom .input-form { display: none !important; }
   display: inline-flex;
   position: relative;
   margin-left: auto;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: .1rem solid var(--border-color);
   border-radius: .8rem;
 }
 #main-form .address-area::before {
@@ -524,7 +541,7 @@ body.rom .input-form { display: none !important; }
   display: flex;
   padding-left: .5em;
   padding-right: 7em;
-  border-top: 1px solid rgba(200,220,240,0.3);
+  border-top: .1rem solid var(--border-color-input);
 }
 .decoration-buttons .button {
   position: relative;
@@ -534,12 +551,12 @@ body.rom .input-form { display: none !important; }
   background: transparent;
   font-size: 1.2rem;
   font-weight: normal;
-  border-width: 0 1px 1px 0;
+  border-width: 0 .1rem .1rem 0;
   border-radius: 0;
   overflow: visible;
 }
 .decoration-buttons .button:first-child {
-  border-left-width: 1px;
+  border-left-width: .1rem;
   border-bottom-left-radius: .6rem;
 }
 .decoration-buttons .button:last-child {
@@ -557,17 +574,21 @@ body.rom .input-form { display: none !important; }
   bottom: .3rem;
   white-space: nowrap;
 }
-.decoration-buttons .insert-ruby    { width: 3.2rem; }
-.decoration-buttons .insert-em      { width: 3.2rem; }
+.decoration-buttons .insert-ruby    { width: 3rem; }
+.decoration-buttons .insert-em      { width: 3rem; }
+.decoration-buttons .insert-serif   { width: 3rem; }
 .decoration-buttons .insert-ruby::before    { content:"ルビ"; }
 .decoration-buttons .insert-em::before      { content:"傍点"; }
+.decoration-buttons .insert-serif::before   { content:"明朝"; }
 
 .decoration-buttons .insert-bold::before    { content:"\f032"; }
 .decoration-buttons .insert-oblique::before { content:"\f033"; }
 .decoration-buttons .insert-under::before   { content:"\f0cd"; }
 .decoration-buttons .insert-strike::before  { content:"\f0cc"; }
-.decoration-buttons .insert-big::before     { content:"\f031\f30c"; }
-.decoration-buttons .insert-small::before   { content:"\f031\f309"; }
+.decoration-buttons .insert-big::before     { content:"\f031"; left: .2rem; right: auto; }
+.decoration-buttons .insert-small::before   { content:"\f031"; left: .2rem; right: auto; }
+.decoration-buttons .insert-big::after      { content:"\f067"; left: auto; right: .2rem; font-size: 80%; }
+.decoration-buttons .insert-small::after    { content:"\f068"; left: auto; right: .2rem; font-size: 80%; }
 .decoration-buttons .insert-color::before   { content:"\f031"; color:#e80; }
 .decoration-buttons .insert-hide::before    { content:"\f031"; opacity:0.2; }
 .decoration-buttons .insert-horizon::before { content:"―"; }
@@ -582,14 +603,13 @@ body.rom .input-form { display: none !important; }
   margin: 0 1rem .3rem 0;
   padding: 0;
   border-radius: .5em ;
-  border-width: 1px;
+  border-width: .1rem;
   overflow: hidden;
   background: transparent;
 }
 .dice-button > * {
   vertical-align: bottom;
   font-size: 1.1rem;
-  color: #fff;
   border-width: 0;
   border-radius: 0;
 }
@@ -609,7 +629,7 @@ body.rom .input-form { display: none !important; }
   padding: .3rem .3rem;
   text-shadow: none;
   font-size: 1.4rem;
-  border-width: 1px 0;
+  border-width: .1rem 0;
   border-color: transparent;
   overflow: hidden;
 }
@@ -750,32 +770,56 @@ body.rom .input-form { display: none !important; }
 .float-box summary:hover {
   background: rgba(127,127,127,0.1);
 }
+.float-box summary i,
+.float-box h3 i,
+.float-box h4 i {
+  margin-right: .5rem;
+  color: #fb0;
+}
 .float-box h2 {
-  font-size: 1.4em;
+  margin: -.2rem -.2rem 0;
+  padding: .8rem;
+  border-radius: .5rem;
+  font-size: 1em;
+  background: linear-gradient(to right, rgba(100,127,150,0.5), transparent);
+}
+.float-box h2::before {
+  display: inline-block;
+  margin-right: .25em;
+  transform: scale(1.2);
+  color: #dc8;
 }
 .float-box h3,
 .float-box details summary {
-  font-size: 1.15em;
+  font-size: 1em;
   margin-top: .5em;
-  padding-top: .3em;
-  border-top: 1px solid rgba(127,127,127,0.8);
+  padding: .5em 0 .2em;
+  border-top: .1rem solid var(--border-color);
 }
 .float-box h4,
 .float-box details details summary {
-  font-size: 1.10em;
+  font-size: 1em;
   margin-top: .5em;
-  padding-top: .3em;
-  border-top: 1px dotted rgba(127,127,127,0.7);
+  padding: .5em 0 .2em;
+  border-top: .1rem dotted var(--border-color-pale);
 }
 .float-box h5 {
   margin-top: .5em;
 }
+.float-box hr {
+  border-width: 0;
+  border-top: .1rem solid var(--border-color-pale);
+}
+
 .float-box textarea {
   line-height: 1.5;
 }
 .float-box p {
   line-height: 1.4;
   margin: .5em;
+}
+.float-box p button {
+  padding: .5rem 1rem;
 }
 .float-box ul {
   line-height: 1.4;
@@ -819,12 +863,13 @@ body.rom .input-form { display: none !important; }
 /* z-index */
 #enter-form   { z-index: 100; }
 #exit-form    { z-index: 100; }
-#config-other { z-index: 200; }
+#config-user  { z-index: 200; }
+#config-room  { z-index: 200; }
 /* 入室 */
 #enter-form p {
   padding: 3em 5em;
   text-align: center;
-  border-bottom: .1rem solid rgba(127,127,127,0.5);
+  border-bottom: .1rem solid var(--border-color);
 }
 /* 退室 */
 #exit-form {
@@ -856,7 +901,7 @@ body.rom .input-form { display: none !important; }
   background: none;
 }
 /* 設定 */
-#config-other #font-sample {
+#config-user #font-sample {
   max-width: 30em;
   margin: 0 .5rem;
   padding: .5em 1em;
@@ -939,7 +984,7 @@ body .sp-replacer {
   height: 2.2rem;
   padding: .3rem;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: .1rem solid var(--border-color);
   border-radius: .8rem;
 }
 body .sp-replacer .sp-preview {

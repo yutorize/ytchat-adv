@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.13.1">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.13.1">
-  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.13.1">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.14.0">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.14.0">
+  <link rel="stylesheet" media="all" href="./lib/css/logs.css?0.14.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
-  <script src="./lib/js/logs.js?0.13.1" defer></script>
-  <link href="https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Noto+Sans+JP|Sawarabi+Gothic&display=swap" rel="stylesheet">
+  <script src="./lib/js/logs.js?0.14.0" defer></script>
 </head>
 <body id="logviewer">
   <div class="bg-image bg-front"></div>
@@ -25,8 +24,9 @@
     </ul>
     <dl id="options">
       <dt>背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
-      <dt>文字サイズ <span id="option-fontsize-view">100</span> %</dd><dd><input id="option-fontsize" type="range" min="80" max="130" step="1" value="100"></dd>
-      <dt>日本語フォント</dd><dd><select id="option-fontfamily"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
+      <dt>文字の輝度 <span id="option-font-lightness-view">100</span> %</dd><dd><input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"></dd>
+      <dt>文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
+      <dt>日本語フォント</dd><dd><select id="option-font-family-jp"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
     </dl>
     <div id="loglist-area">
     <TMPL_IF RoomList>
@@ -46,7 +46,7 @@
     </details>
     </TMPL_IF>
     </div>
-    <ul><li class="right"><a href="./">ルーム一覧に戻る</a></li></ul>
+    <ul><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></ul>
   </aside>
 </div>
 <div id="base" class="box">
@@ -54,7 +54,7 @@
     <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
   </header>
   <article id="contents">
-  <div class="logs">
+  <div class="logs logs-font">
     <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR CLASS>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
       <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
       <TMPL_LOOP LogsDD><TMPL_IF COMM><dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd></TMPL_IF>

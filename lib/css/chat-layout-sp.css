@@ -198,15 +198,25 @@ input[type=range]::-moz-range-thumb {
 #menubar ul {
   font-size: 4vw;
   line-height: 8vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 #menubar ul + ul {
   display: none;
 }
+#menubar ul li {
+  text-align: center;
+}
 #menubar ul li a {
   display: block;
+  padding: 2.5rem 0;
   color: inherit;
   background: none;
   cursor: pointer;
+}
+#menubar ul li a::before {
+  display: block;
+  font-size: 250%;
 }
 /* // フッタ
 ---------------------------------------------------------------------------------------------------- */
@@ -228,7 +238,7 @@ input[type=range]::-moz-range-thumb {
 }
 #sidebar .box {
   border-radius: 0;
-  border-bottom: 1px solid rgba(127,127,127,0.6);
+  border-bottom: .1rem solid var(--border-color);
 }
 
 /* // 共有メモ
@@ -243,7 +253,7 @@ input[type=range]::-moz-range-thumb {
   margin-right: .3rem;
   padding: .3em;
   background-color: rgba(127,127,127,0.15);
-  border: .1rem solid rgba(127,127,127,0.4);
+  border: .1rem solid var(--border-color-pale);
   border-radius: .8em;
   font-size: 90%;
   overflow: hidden;
@@ -333,7 +343,7 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 #tablist li.bold {
-  border-color: rgba(127,127,127,1);
+  border-color: var(--border-color);
   color: #ffcc00;
 }
 #tablist li::after {
@@ -405,7 +415,7 @@ input[type=range]::-moz-range-thumb {
 }
 #main-form #form-color,
 #main-form .sp-replacer {
-  border-right-width: 1px;
+  border-right-width: .1rem;
   border-radius: 0  .8rem .8rem 0;
 }
 #main-form #form-color-text {
@@ -418,8 +428,8 @@ input[type=range]::-moz-range-thumb {
   margin: .2rem 0 0;
 }
 #main-form .comm-area > * {
-  border-width: 1px 0 0; 
-  border-color: rgba(127,127,127, 0.5);
+  border-width: .1rem 0 0; 
+  border-color: var(--border-color-pale);
   border-radius: 0;
 }
 .decoration-buttons {

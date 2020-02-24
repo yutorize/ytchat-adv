@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "0.13.1";
+our $ver = "0.14.0";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -30,6 +30,7 @@ elsif ($mode eq 'load')  { require './lib/pl/load.pl'; }   #ルームロード
 elsif ($mode eq 'create'){ require './lib/pl/create.pl'; } #ルーム作成
 elsif ($mode eq 'logs')  { require './lib/pl/logs.pl'; }   #過去ログ
 elsif ($mode eq 'reset') { require './lib/pl/reset.pl'; }  #ルームリセット
+elsif ($mode eq 'change'){ require './lib/pl/change.pl'; } #ルーム設定変更
 elsif ($mode eq 'getfilename') { message(getFileNameDate()); }
 else { require './lib/pl/list.pl'; } #部屋一覧
 
@@ -114,7 +115,7 @@ sub message {
 
 ## エラー
 sub error {
-  if($in{'mode'} =~ /write|read|reset/){
+  if($in{'mode'} =~ /write|read|reset|change/){
     print "Content-type:application/json; charset=UTF-8\n\n";
     print '{"status":"error","text":"'.$_[0].'"}';
   }

@@ -129,19 +129,24 @@ body {
 #menubar ul li {
   flex-basis: 10rem;
   text-align: center;
-  border-width: 0 1px;
+  border-width: 0 .1rem;
   border-style: solid;
-  border-color: rgba(255,255,255,0.1);
+  border-color: var(--border-color-faint);
 }
 #menubar ul li + li {
   border-left: 0;
 }
 #menubar ul li a {
   display: block;
-  padding: .5em;
+  padding: calc(.5em / 0.8);
   color: inherit;
   background: none;
   white-space: nowrap;
+  font-size: .8em;
+}
+#menubar ul li a::before {
+  margin-right: .2rem;
+  font-size: calc(1em / 0.8);
 }
 #menubar ul li a:hover {
   box-shadow: inset 0 0 .5rem #7af;
@@ -218,10 +223,10 @@ body {
   content: "✔";
   color: #f77;
   text-shadow: 
-    #711  1px 1px, #711 -1px -1px,
-    #711 -1px 1px, #711  1px -1px,
-    #711  0px 1px, #711  0px -1px,
-    #711 -1px 0px, #711  1px  0px;
+    #711  .1rem .1rem, #711 -.1rem -.1rem,
+    #711 -.1rem .1rem, #711  .1rem -.1rem,
+    #711   0rem .1rem, #711   0rem -.1rem,
+    #711 -.1rem  0rem, #711  .1rem   0rem;
 }
 /* フォントサイズ調整バー */
 .chat .option {
@@ -347,7 +352,7 @@ body {
 }
 #main-form .input-form + .input-form {
   padding-left: 1rem;
-  border-left: 1px solid rgba(255,255,255,0.2);
+  border-left: .1rem solid var(--border-color-pale);
 }
 #main-form .namelist-area {
   display: grid;
@@ -385,7 +390,7 @@ body {
 #main-form .namelist-area select.form-name option {
   font-weight: bold;
   padding: 0 .5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
+  border-bottom: .1rem solid var(--border-color);
 }
 #main-form input[type="color"] {
   width: 5em;
@@ -540,7 +545,7 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: .3em 0;
-  border-bottom: .1rem solid rgba(127,127,127,0.4);
+  border-bottom: .1rem solid var(--border-color-pale);
 }
 [data-layout="row"] .memo {
   overflow: hidden;
@@ -560,7 +565,7 @@ body {
   margin-right: .3rem;
   padding: .3em;
   background-color: rgba(127,127,127,0.15);
-  border: .1rem solid rgba(127,127,127,0.4);
+  border: .1rem solid var(--border-color-pale);
   border-radius: .8em;
   font-size: 90%;
 }
@@ -764,10 +769,6 @@ body {
 }
 #bg-set .bg-set-preview-area {
 }
-#config-sound table tr td:last-child {
-  width: 4.5em;
-  text-align: right;
-}
 #member-list {
   top: auto;
   left: 2em;
@@ -775,10 +776,12 @@ body {
   bottom: 2em;
   min-width: 14em;
 }
-#config-other {
+#config-user,
+#config-room {
   width: 36em;
 }
-#config-other p {
+#config-user p,
+#config-room p {
   padding: .5em;
   line-height: 1.6;
 }

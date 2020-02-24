@@ -1,24 +1,86 @@
 @charset "utf-8";
-
-/* // カラー設定：チャット
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž%26&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž%26&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Sawarabi+Gothic|Noto+Sans+JP:400,700|Noto+Serif+JP:400,700&display=swap');
+/* // カスタムプロパティ
 ---------------------------------------------------------------------------------------------------- */
+:root {
+  /* 基本フォント色 */
+  --base-font-color: hsl(
+    var(--base-font-color-hue),
+    var(--base-font-color-saturation),
+    var(--base-font-color-lightness)
+  );
+  --base-font-color-hue : 0; /* 基本フォント色の色相 */
+  --base-font-color-saturation: 0%; /* 基本フォント色の彩度 */
+  --base-font-color-lightness: 100%; /* 基本フォント色の明るさ */
+  
+  /* ログフォント色（色相と彩度は基本と共通） */
+  --logs-font-color: hsl(
+    var(--base-font-color-hue),
+    var(--base-font-color-saturation),
+    var(--logs-font-color-lightness)
+  ); 
+  --logs-font-color-lightness: 100%; /* ログフォント色の明るさ */
+  
+  /* ログフォント体（色相と彩度は基本と共通） */
+  --logs-font-family-jp: "BIZ UDGothic";  /* 通常（ゴシック） */
+  --logs-font-family-min: "Noto Serif JP"; /* 明朝体 */
+  
+  /* テキスト縁取り */
+  --box-text-shadow-color: #000;
+  --box-text-shadow:
+    var(--box-text-shadow-color)  .1rem .1rem .1rem, var(--box-text-shadow-color) -.1rem -.1rem .1rem,
+    var(--box-text-shadow-color) -.1rem .1rem .1rem, var(--box-text-shadow-color)  .1rem -.1rem .1rem,
+    var(--box-text-shadow-color)   0rem .1rem .1rem, var(--box-text-shadow-color)   0rem -.1rem .1rem,
+    var(--box-text-shadow-color) -.1rem  0rem .1rem, var(--box-text-shadow-color)  .1rem   0rem .1rem,
+    var(--box-text-shadow-color)  .1rem .1rem .1rem, var(--box-text-shadow-color) -.1rem -.1rem .1rem,
+    var(--box-text-shadow-color) -.1rem .1rem .1rem, var(--box-text-shadow-color)  .1rem -.1rem .1rem,
+    var(--box-text-shadow-color)   0rem .1rem .1rem, var(--box-text-shadow-color)   0rem -.1rem .1rem,
+    var(--box-text-shadow-color) -.1rem  0rem .1rem, var(--box-text-shadow-color)  .1rem   0rem .1rem ;
+  
+  /* ボーダー */
+  --border-color      : rgba(255,255,255,0.3); /* ボーダー色 */
+  --border-color-pale : rgba(255,255,255,0.2); /* ボーダー色（薄い） */
+  --border-color-faint: rgba(255,255,255,0.1); /* ボーダー色（とても薄い） */
+  --border-color-deep : rgba(255,255,255,0.5); /* ボーダー色（濃い） */
+  --border-color-input: rgba(200,220,240,0.3); /* ボーダー色（フォーム類） */
+  --box-bg-opacity: 0.7;
+  --box-bg-color: rgba(0,0,0, var(--box-bg-opacity));
+}
+
+/* // ベース設定
+---------------------------------------------------------------------------------------------------- */
+/* デフォルト背景 */
+body {
+  background-image: linear-gradient(160deg, #808899, #202233);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.box {
+  background-color: var(--box-bg-color);
+  box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
+  text-shadow: var(--box-text-shadow);
+}
+/* リンク */
 a { text-decoration: none; }
 .link,
 a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,180,255,0.5) 0%, rgba(50,180,255,0.5) 20%, transparent 20%); }
 a[href]:visited { color: #77ccff; }
 .link:hover,
 a[href]:hover   { color: #ffffff; }
-.logs a[href]::before {
-  content: "\f35d";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-right: .2rem;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
-  font-size: .8em;
-  line-height: 1;
+
+/* 他 */
+input, textarea, select, button, .button, .dice-button {
+  background: rgba(30,35,50,0.8);
   color: #fff;
+}
+input:focus,textarea:focus,select:focus {
+  background: rgba(55,60,65,0.8);
+}
+button, .button {
+  background: linear-gradient(145deg, rgba(50,60,80,0.8), rgba(30,40,60,0.8));
+  color: #dde;
 }
 summary:hover,
 label:hover {
@@ -34,6 +96,9 @@ label input:checked+b {
 label:hover input+b {
   color: inherit !important;
 }
+
+/* // カラー設定：チャット
+---------------------------------------------------------------------------------------------------- */
 /* 秘話 */
 .secret {
   background-color: rgba(255,0,50,0.1);
@@ -42,19 +107,6 @@ label:hover input+b {
   background-color: rgba(0,170,190,0.1);
 }
 /* ベース */
-.box {
-  background-color: rgba(0,0,0,0.7);
-  box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
-  text-shadow: 
-    #000  1px 1px 1px, #000 -1px -1px 1px,
-    #000 -1px 1px 1px, #000  1px -1px 1px,
-    #000  0px 1px 1px, #000  0px -1px 1px,
-    #000 -1px 0px 1px, #000  1px  0px 1px,
-    #000  1px 1px 1px, #000 -1px -1px 1px,
-    #000 -1px 1px 1px, #000  1px -1px 1px,
-    #000  0px 1px 1px, #000  0px -1px 1px,
-    #000 -1px 0px 1px, #000  1px  0px 1px;
-}
 #form-name {
   text-shadow: inherit;
 }
@@ -71,7 +123,7 @@ label:hover input+b {
 }
 .float-box {
   background: rgba(10,10,30,0.9);
-  border: 1px solid #777;
+  border: .1rem solid #777;
   box-shadow: 0 0 .5em .1em #000;
   text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
 }
@@ -110,11 +162,6 @@ dd[id*="-侵蝕-"] .gauge[data-signal="fatal"] i::before,
 dd[id*="-侵蝕-"] .gauge[data-signal="grave"] i::before { background: linear-gradient(to left, #f00, transparent); }
 dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 
-
-/* シート */
-.sheet .close-area {
-  background: rgba(0,0,0,0.8);
-}
 /* チャットログ */
 .chat {
   background-image: linear-gradient(to right, rgba(0,0,0, 0.4), transparent);
@@ -127,10 +174,13 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .chat h2 {
   background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
 }
+.logs-font {
+  color: var(--logs-font-color);
+}
 .logs dl {
-  border-width: 1px 0 0;
+  border-width: .1rem 0 0;
   border-style: solid;
-  border-color: rgba(255,255,255,0.1);
+  border-color: var(--border-color-faint);
 }
 .logs dl dt,
 .logs dl dd {
@@ -159,6 +209,19 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .logs dl dd:hover {
   box-shadow: 0 0 0 .1rem rgba(100,200,255,0.2) inset !important;
 }
+/* チャットログ：リンク */
+.logs a[href]::before {
+  content: "\f35d";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: .2rem;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  font-size: .8em;
+  line-height: 1;
+  color: #fff;
+}
 /* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #fff;
@@ -179,17 +242,19 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   opacity: 1 !important;
   border-radius: 50%;
 }
-.logs dl.system.enter dd.comm::before { color: #fd9; content: "\f52b"; }
-.logs dl.system.exit  dd.comm::before { color: #89a; content: "\f52a"; }
-.logs dl.system.bg    dd.comm::before { color: #c8f; content: "\f03e"; }
-.logs dl.system.topic dd.comm::before { color: #7f7; content: "\f044"; }
-.logs dl.system.ready dd.comm::before { color: #f77; content: "\f0ae"; }
-.logs dl.system.round dd.comm::before { color: #f90; content: "\f562"; }
-.logs dl.system.memo  dd.comm::before { color: #7f7; content: "\f249"; }
+.logs dl.system.enter  dd.comm::before { color: #fd9; content: "\f52b"; }
+.logs dl.system.exit   dd.comm::before { color: #89a; content: "\f52a"; }
+.logs dl.system.bg     dd.comm::before { color: #c8f; content: "\f03e"; }
+.logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f044"; }
+.logs dl.system.ready  dd.comm::before { color: #f77; content: "\f0ae"; }
+.logs dl.system.round  dd.comm::before { color: #f90; content: "\f562"; }
+.logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f249"; }
+.logs dl.system.change dd.comm::before { color: #f55; content: "\f085"; }
 
-.logs dl.system.round dd.info { color: #f90; font-weight: bold; }
-.logs dl.system.topic dd.info { color: #afa; font-weight: bold; }
-.logs dl.system.memo  dd.info { color: #afa; }
+.logs dl.system.round  dd.info { color: #f90; font-weight: bold; }
+.logs dl.system.topic  dd.info { color: #afa; font-weight: bold; }
+.logs dl.system.memo   dd.info { color: #afa; }
+.logs dl.system.change dd.info { color: #f99; }
 
 /* チャットログ：ユニット操作 */
 .logs dl dd.info.unit::before {
@@ -283,7 +348,8 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   margin: .75em 0;
   border-width: .1rem 0 0;
   border-style: solid;
-  border-color: rgba(127,127,127,0.8);
+  border-color: var(--border-color-deep);
+  box-shadow: var(--box-text-shadow);
 }
 
 /* // カラー設定：サイドバー
@@ -361,24 +427,26 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .sp-container ::-webkit-scrollbar-track,
 .box::-webkit-scrollbar-track,
 .box ::-webkit-scrollbar-track,
-.float-box::-webkit-scrollbar,
-.float-box ::-webkit-scrollbar {
+.float-box::-webkit-scrollbar-track,
+.float-box ::-webkit-scrollbar-track {
   border-radius: .8rem;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, .5);
 }
 .sp-container ::-webkit-scrollbar-thumb,
 .box::-webkit-scrollbar-thumb,
 .box ::-webkit-scrollbar-thumb,
-.float-box::-webkit-scrollbar,
-.float-box ::-webkit-scrollbar {
+.float-box::-webkit-scrollbar-thumb,
+.float-box ::-webkit-scrollbar-thumb {
   background-color: rgba(150, 150, 150, .5);
   border-radius: 10px;
 }
 .sp-container,
 .box,
-.float-box {
+.box *,
+.float-box,
+.float-box * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, .5) rgba(150, 150, 150, .5);
+  scrollbar-color: rgba(150, 150, 150, .5) rgba(0, 0, 0, .5);
 }
 
 

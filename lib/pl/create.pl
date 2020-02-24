@@ -42,10 +42,10 @@ my @status = $::in{'status'} ? split(/[ 　]/, $::in{'status'}) : ();
   seek($FH, 0, 0);
 
   $data{$id} = {
-    'name' => $::in{'name'},
-    'pass' => ($::in{'pass'} ne '' ? e_crypt($::in{'pass'}) : undef),
-    'game' => $game,
-    'tab' => (@tab ? [@tab] : undef),
+    'name'   => $::in{'name'},
+    'pass'   => ($::in{'pass'} ne '' ? e_crypt($::in{'pass'}) : undef),
+    'game'   => $game,
+    'tab'    => (@tab ? [@tab] : undef),
     'status' => (@status ? [@status] : undef),
     'bcdice-url' => $::in{'bcdice-url'},
   };

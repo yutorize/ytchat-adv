@@ -29,7 +29,7 @@ table.list {
   border-collapse: collapse;
 }
 table.list tr {
-  border-bottom: 1px solid rgba(127,127,127,0.8);
+  border-bottom: .1rem solid var(--border-color);
 }
 table.list thead {
   background: rgba(127,127,127,0.3);
@@ -60,7 +60,7 @@ table.list tbody td {
 
 /* フッタ */
 footer {
-  border-top: 1px solid rgba(127,127,127,0.5);
+  border-top: .1rem solid var(--border-color-pale);
   padding: .5rem;
   text-align: center;
   font-size: 1.4rem;
