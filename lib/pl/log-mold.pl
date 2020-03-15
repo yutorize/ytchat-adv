@@ -34,11 +34,11 @@ foreach my $key (keys %set::rooms){
   $rooms{$key} = $set::rooms{$key};
 }
 
-my $logs_dir = ($id && $rooms{$id}{'logs-dir'}) ? $rooms{$id}{'logs-dir'} : $set::logs_dir;
-
 ###################
 ### 部屋の有無をチェック
-error('データがありません') if !exists($rooms{$id}) && !$::in{'log'};
+my $error_flag = (!exists($rooms{$id}) && !$::in{'log'}) ? 1 : 0;
+
+my $logs_dir = ($id && $rooms{$id}{'logs-dir'}) ? $rooms{$id}{'logs-dir'} : $set::logs_dir;
 
 my @tabs = $id ? ($rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サブ')) : ();
 
@@ -63,7 +63,7 @@ $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');
 
 my $logfile = ($opt{'old'}) ? "${logs_dir}/$::in{'log'}.dat" : "./room/${id}/log-all.dat";
-sysopen (my $FH, $logfile, O_RDONLY);
+sysopen (my $FH, $logfile, O_RDONLY) or $error_flag = 1;
 my @logs;
 my $before_tab;
 my $before_name;
@@ -196,6 +196,7 @@ if($opt{'roomList'}){
   foreach my $i (sort keys %rooms){
     next if $i eq '';
     next if ($rooms{$i}{'secret'} && $id ne $i);
+    next if $rooms{$i}{'name'} eq '';
     my $byte = int( (stat("room/${i}/log-all.dat"))[7] / 1024 + 0.5);
     my $current = ($i eq $id && !$::in{'log'}) ? 1 : 0;
     push(@roomlist, {'ID' => $i, 'NAME' => $rooms{$i}{'name'}, 'BYTE' => $byte, 'CURRENT' => $current});
@@ -228,6 +229,38 @@ if($opt{'logList'}){
   $ROOM->param(LogList => \@loglist);
   $ROOM->param(idDir => $id) if($id && $rooms{$id}{'logs-dir'});
   $ROOM->param(logListOpen => $::in{'log'} ? 'open' : '');
+}
+
+
+###################
+### エラー
+if($error_flag){
+  if($::in{'id'} || $::in{'log'}) {
+    $ROOM->param(title => 'NO DATA');
+    $ROOM->param(subtitle => '');
+    $ROOM->param(Logs => \@{[{
+      "NAME"   => 'SYSTEM',
+      "USER"   => 'system',
+      "CLASS" => 'main',
+      "LogsDD" => [{
+        "COMM"  => '該当するルーム、またはログがありません。',
+      }]
+    }]});
+  }
+  else {
+    $ROOM->param(title => 'ゆとチャadv.');
+    $ROOM->param(subtitle => 'ログビューアー');
+    $ROOM->param(Logs => \@{[{
+      "NAME"   => 'SYSTEM',
+      "USER"   => 'system',
+      "CLASS" => 'main',
+      "LogsDD" => [{
+        "COMM"  => 'ログが選択されていません。<br>メニューから任意のルーム／ログを選択してください。',
+      }]
+    }]});
+    $ROOM->param(roomListOpen => '');
+    $ROOM->param(logListOpen => '');
+  }
 }
 
 ###################

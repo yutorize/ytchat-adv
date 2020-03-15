@@ -266,9 +266,15 @@ article#contents {
 }
 
 /* フッタ -------------------------------------------------- */
+#base {
+  padding-bottom: calc(4.1rem + 1em + 1rem);
+}
 #base footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   border-top: .1rem solid var(--border-color-pale);
-  margin: -.5rem;
   padding: 1rem 1rem 3rem;
   text-align: center;
   font-size: 1.4rem;
