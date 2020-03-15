@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.14.0">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.14.0">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.14.0">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.14.0">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.14.0">
+  <link rel="stylesheet" media="all" href="./lib/css/base.css?0.14.0e">
+  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?0.14.0e">
+  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?0.14.0e">
+  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?0.14.0e">
+  <link rel="stylesheet" media="all" href="./lib/css/config.css?0.14.0e">
   <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
@@ -16,9 +16,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="./lib/js/lib/jquery.selection.js" defer></script>
   <script src='./lib/js/lib/spectrum.js' defer></script>
-  <script src="./lib/js/ui.js?0.14.0" defer></script>
-  <script src="./lib/js/ui-sp.js?0.14.0" defer></script>
-  <script src="./lib/js/chat.js?0.14.0" defer></script>
+  <script src="./lib/js/ui.js?0.14.0e" defer></script>
+  <script src="./lib/js/ui-sp.js?0.14.0e" defer></script>
+  <script src="./lib/js/chat.js?0.14.0e" defer></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <script>
     const roomId = '<TMPL_VAR roomId>';
@@ -150,6 +150,7 @@
       <div class="box" id="status">
         <div id="status-body"></div>
         <span class="add button" onclick="sheetSelect('default');sheetOpen();">+</span>
+        <span class="edit button" onclick="statusScale();">⇔</span>
       </div>
       <div class="box memo">
         <ul id="memo-list" class="bold"></ul>
@@ -178,7 +179,7 @@
         <dl>
           <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
           <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="selectcolor-unit" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
-          <dt>ステータス</dt><dd><input id="new-unit-stt-value"   type="text" value="<TMPL_VAR newUnitSttDefault>"></dd>
+          <dt>ステータス</dt><dd><textarea class="autosize" id="new-unit-stt-value"><TMPL_VAR newUnitSttDefault></textarea></dd>
           <dt><label><input type="checkbox" id="new-unit-addname"><b>名前欄にも追加する</b></label></dt>
         </dl>
         <button onclick="newUnitSubmit();">作成</button>
@@ -352,7 +353,6 @@
     <details>
       <summary><i class="fas fa-cogs"></i>基本設定</summary>
       <TMPL_IF userRoomFlag>
-      <form onsubmit="roomChange();return false;">
       <p>
         ゲームルーム名: <input type="text" id="config-room-name" value="<TMPL_VAR title>"><br>
         チャットタブ　: <input type="text" id="config-room-tab" value="<TMPL_VAR tabArrayValue>"><br>
@@ -369,6 +369,7 @@
           APIのURL: <input type="url" id="config-room-bcdice-url" placeholder="https//..." onchange="BCDiceGet(this.value);" value="<TMPL_VAR bcdiceAPI>" style="width:20em;"><br>
           ダイスボット: <select id="config-room-bcdice-game"></select>
       </p>
+      <form onsubmit="roomChange();return false;">
       <p>パスワード: <input type="password" id="config-room-password"></p>
       <p class="center"><button>変更</button></p>
       </form>
@@ -389,10 +390,11 @@
       document.getElementById('config-room-bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
       const status = document.getElementById('config-room-status');
       if     (game == 'sw2'){ status.value = 'HP　MP　防護'; }
-      else if(game == 'dx3'){ status.value = 'HP　侵食　行動'; }
+      else if(game == 'dx3'){ status.value = 'HP　侵蝕　行動'; }
       else                  { status.value = 'HP　MP　他'; }
     }
     function BCDiceGet(apiUrl, set){
+      console.log('BCDiceGet >> API: '+apiUrl);
       const select = document.getElementById('config-room-bcdice-game');
       $.ajax({
         url: apiUrl+'/v1/names',
@@ -421,7 +423,7 @@
         }
       })
       .fail( (data) => {
-        alert('APIサーバーにアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
+        alert('APIサーバー（'+apiUrl+'）にアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
       });
     }
     </script>

@@ -26,7 +26,6 @@ foreach (%::in) {
   $::in{$_} = decode('utf8', $::in{$_});
   $::in{$_} =~ s/</&lt;/g;
   $::in{$_} =~ s/>/&gt;/g;
-  $::in{$_} =~ s/\r\n?|\n/<br>/g;
   $::in{$_} =~ s/\\/&#92;/g;
 }
 
@@ -93,7 +92,7 @@ else {
     delete $::in{'address'};
   }
   #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:.*?)(?:\s|$))+)//){
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
@@ -148,7 +147,7 @@ else {
   }
   # BCDice処理
   elsif($::in{'bcdice'}){
-    $::in{'comm'} =~ s/^(.*?(?:\s|<br>|$))//;
+    $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
     $::in{'info'} = $::in{'bcdice'}.'<<'.$1;
     $::in{'system'} = 'dice';
   }
@@ -156,25 +155,25 @@ else {
   elsif($::in{'comm'} =~ /^(?:
         [\@＠\$＄]
       | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
-      | 威力|成長
+      | 威力[0-9]|成長
   )/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
     if($::in{'info'}){
-      $::in{'comm'} =~ s/^(.*?(?:\s|<br>|$))//;
+      $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
       $::in{'info'} .= '<<'.$1;
     }
   }
   # ダイス末尾マッチ
-  elsif($::in{'comm'} =~ /(?:\s|<br>)((?:
+  elsif($::in{'comm'} =~ /\s((?:
       [\@＠\$＄]
     | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
     | 威力|成長
-  )(?!.*(?:\s|<br>)).*)$/ix){
+  )(?!.*\s).*)$/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($1);
     if($::in{'info'}){
-      $::in{'comm'} =~ s/((?:\s|<br>)(?!.*(?:\s|<br>)).*)$//;
+      $::in{'comm'} =~ s/(\s(?!.*\s).*)$//;
       $::in{'info'} .= '<<'.$1;
     }
   }
@@ -191,8 +190,8 @@ if($::in{'address'}){
 $::in{'comm'} = tagConvert($::in{'comm'});
 
 # 最終安全装置
-$::in{'comm'} =~ s/<>/&lt;&gt;/g; $::in{'comm'} =~ s/\r\n?|\n/ /g;
-$::in{'info'} =~ s/<>/&lt;&gt;/g; $::in{'info'} =~ s/\r\n?|\n/ /g;
+$::in{'comm'} =~ s/<>/&lt;&gt;/g; $::in{'comm'} =~ s/\r\n?|\n/<br>/g;
+$::in{'info'} =~ s/<>/&lt;&gt;/g; $::in{'info'} =~ s/\r\n?|\n/<br>/g;
 
 # 時間取得
 my @time = localtime(time);
@@ -253,22 +252,22 @@ sub tagConvert{
     $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
   }
   
-  $comm =~ s#&lt;hr&gt;(<br>)?#<hr>#gi;
+  $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
   $comm =~ s#&lt;ruby&gt;(.+?)\((.*?)\)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
-  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gi;
-  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gi;
-  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gi;
-  1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gi;
-  1 while $comm =~ s#&lt;i&gt;(.*?)&lt;/i&gt;#<i>$1</i>#gi;
-  1 while $comm =~ s#&lt;s&gt;(.*?)&lt;/s&gt;#<s>$1</s>#gi;
-  1 while $comm =~ s#&lt;u&gt;(.*?)&lt;/u&gt;#<u>$1</u>#gi;
-  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gi;
-  1 while $comm =~ s#&lt;big&gt;(.*?)&lt;/big&gt;#<span class="large">$1</span>#gi;
-  1 while $comm =~ s#&lt;small&gt;(.*?)&lt;/small&gt;#<span class="small">$1</span>#gi;
+  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
+  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
+  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
+  1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gis;
+  1 while $comm =~ s#&lt;i&gt;(.*?)&lt;/i&gt;#<i>$1</i>#gis;
+  1 while $comm =~ s#&lt;s&gt;(.*?)&lt;/s&gt;#<s>$1</s>#gis;
+  1 while $comm =~ s#&lt;u&gt;(.*?)&lt;/u&gt;#<u>$1</u>#gis;
+  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gis;
+  1 while $comm =~ s#&lt;big&gt;(.*?)&lt;/big&gt;#<span class="large">$1</span>#gis;
+  1 while $comm =~ s#&lt;small&gt;(.*?)&lt;/small&gt;#<span class="small">$1</span>#gis;
   
-  1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;(?:<br>)?#<div class="left">$1</div>#gi;
-  1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;(?:<br>)?#<div class="center">$1</div>#gi;
-  1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;(?:<br>)?#<div class="right">$1</div>#gi;
+  1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;\n?#<div class="left">$1</div>#gis;
+  1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
+  1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
   
   # 自動リンク
   $comm =~ s#(https?://[^\s\<]+)#<a href="$1" target="_blank">$1</a>#gi;
@@ -316,6 +315,7 @@ sub memberEdit {
 
 sub topicEdit {
   my $topic = shift;
+  $topic =~ s/\r\n?|\n/<br>/g;
   
   my %data;
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
@@ -462,10 +462,16 @@ sub unitCalcEdit {
   seek($FH, 0, 0);
   
   my $result_info; my $result_system;
-  foreach (split(' ', $set_text)){
-    $_ =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
-    if($_ =~ /^($stt_commands)([+\-\/=])([0-9\+\-\/\*!]*)$/){
-      my ($type, $op, $num) = ($1,$2,$3);
+  $set_text =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
+  while($set_text =~ s/^
+    ($stt_commands)
+    ([+\-\/=\:])
+    (?: "(.*?)" | (.*?) )
+    (?:\s|$)
+  //xs){
+    my ($type, $op, $text, $num) = ($1,$2,$3,$4);
+    if($num eq '' && $text){ $num = $text; }
+    if($op =~ /^[+\-\/=]$/){
       my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
       $data{'unit'}{$set_name}{'status'}{$type} = $result;
       $diff .= "(over${over})" if $over;
@@ -473,8 +479,9 @@ sub unitCalcEdit {
       $result_info .= " [$diff]" if ($diff ne '');
       $result_system = "unit";
     }
-    elsif($_ =~ /^($stt_commands)[:](.*)$/){
-      my ($type, $result) = ($1,$2);
+    elsif($op =~ /^:$/){
+      my $result = $num;
+      $result =~ s/ /&nbsp;/g;
       $data{'unit'}{$set_name}{'status'}{$type} = $result;
       $result_info .= ($result_info ? ' ' : '') . "$type:$result";
       $result_system = "unit";

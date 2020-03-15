@@ -110,7 +110,7 @@ $ROOM->param(SttNameListValue => join("　", @status));
 $ROOM->param(tabArray => join("','", @tabs));
 $ROOM->param(tabArrayValue => join("　", @tabs));
 
-$ROOM->param(newUnitSttDefault => join(': ',@status).':');
+$ROOM->param(newUnitSttDefault => join(":\n",@status).':');
 
 if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
 elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }

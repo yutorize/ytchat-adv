@@ -27,10 +27,11 @@
     document.getElementById('bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
     const status = document.getElementById('set-status');
     if     (game == 'sw2'){ status.placeholder = 'HP　MP　防護'; }
-    else if(game == 'dx3'){ status.placeholder = 'HP　侵食　行動'; }
+    else if(game == 'dx3'){ status.placeholder = 'HP　侵蝕　行動'; }
     else                  { status.placeholder = 'HP　MP　他'; }
   }
   function BCDiceGet(apiUrl){
+    console.log('BCDiceGet-API: '+apiUrl);
     const select = document.getElementById('set-bcdice-game');
     $.ajax({
       url: apiUrl+'/v1/names',
@@ -40,7 +41,6 @@
       dataType: 'json',
     })
     .done( (data) => {
-      console.log(1)
       data['names'].sort(function(a,b){
         if(a.name < b.name) return -1;
         if(a.name > b.name) return 1;
@@ -57,8 +57,7 @@
       }
     })
     .fail( (data) => {
-      alert('APIサーバーにアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
-    });
+      alert('APIサーバー（'+apiUrl+'）にアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
   }
   function formCheck(){
     if(document.getElementById('set-game').value == 'bcdice'){

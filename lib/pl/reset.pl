@@ -45,7 +45,7 @@ if(-s $dir.'log-all.dat'){
   my %roomdata = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   close($FH);
 
-  ## ファイル名
+  ## ファイル名チェック
   my $filepath;
   if($filename){
     if($filename !~ /^[-0-9a-zA-Z_.]+$/){ error('ファイル名に使えない文字があります'); }
@@ -56,12 +56,21 @@ if(-s $dir.'log-all.dat'){
     $filepath = "${logs_dir}/".$filename.".dat";
   }
 
-  ## ディレクトリチェック
+  ## ディレクトリチェック／作成
   if(!-d $logs_dir){
     mkdir $logs_dir;
   }
+  ## アクセス制限ファイルチェック／作成
+  if(!-f "${logs_dir}/.htaccess"){
+    sysopen (my $FH, "${logs_dir}/.htaccess", O_WRONLY | O_TRUNC | O_CREAT, 0666);
+      print $FH '<Files ~ "\.dat$">',"\n";
+      print $FH 'deny from all',"\n";
+      print $FH '</Files>',"\n";
+    close($FH);
+  }
 
-  error('同名のファイルが存在します') if (-f $filepath); #上書きは避ける
+  ## 上書き回避
+  error('同名のファイルが存在します') if (-f $filepath); 
 
 ## ログ生成
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);

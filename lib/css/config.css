@@ -45,6 +45,8 @@
   --border-color-faint: rgba(255,255,255,0.1); /* ボーダー色（とても薄い） */
   --border-color-deep : rgba(255,255,255,0.5); /* ボーダー色（濃い） */
   --border-color-input: rgba(200,220,240,0.3); /* ボーダー色（フォーム類） */
+  
+  /* ボックス（ウィンドウ）背景 */
   --box-bg-opacity: 0.7;
   --box-bg-color: rgba(0,0,0, var(--box-bg-opacity));
 }
@@ -357,6 +359,12 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 /* ステータス欄 */
 #status #status-body > dl dl dt {
   color: #bce;
+}
+.sheet-body .status-remocon-sub ul:nth-child(odd){
+  background: rgba(127,127,127,0.45);
+}
+.sheet-body .status-remocon-sub ul:nth-child(even){
+  background: rgba(127,127,127,0.1);
 }
 
 /* // デフォルト設定：ログ

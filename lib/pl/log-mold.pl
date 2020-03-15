@@ -145,6 +145,7 @@ foreach (<$FH>){
      $class .= ($system =~ /^bg/)   ? 'important ' : '';
      $class .= $address   ? 'secret '    : '';
      $class .= $openlater ? 'openlater ' : '';
+     $class .= $tab == 1 ? 'main ' : '';
   
   if ( $before_tab   ne $tab
     || $before_name  ne $name
