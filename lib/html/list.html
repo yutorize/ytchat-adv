@@ -107,6 +107,7 @@
     <table class="list">
       <thead><tr><th>ゲームルーム名</th><th>ゲームシステム</th><th>ログ</th><th>ログサイズ</th></tr></thead>
       <TMPL_LOOP List><tr><th><a href="./?mode=room&id=<TMPL_VAR ID>"><TMPL_VAR NAME></a></th><td><TMPL_VAR GAME></td><td><a href="./?mode=logs&id=<TMPL_VAR ID>">▶</a></td><td><TMPL_VAR SIZE></td></tr></TMPL_LOOP>
+      <tfoot><tr style="border:none;"><td colspan="4" class="right" style="padding:1rem 0"><a href="./?mode=logs">>>ログ一覧</a></td></tr></tfoot>
     </table>
   </article>
   <TMPL_IF home><a href="<TMPL_VAR home>" style="position:absolute;top:1rem;right:1rem"><i class="fas fa-home"></i>戻る</a></TMPL_IF>
