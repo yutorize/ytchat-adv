@@ -31,7 +31,6 @@
     else                  { status.placeholder = 'HP　MP　他'; }
   }
   function BCDiceGet(apiUrl){
-    console.log('BCDiceGet-API: '+apiUrl);
     const select = document.getElementById('set-bcdice-game');
     $.ajax({
       url: apiUrl+'/v1/names',
@@ -58,6 +57,7 @@
     })
     .fail( (data) => {
       alert('APIサーバー（'+apiUrl+'）にアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
+    });
   }
   function formCheck(){
     if(document.getElementById('set-game').value == 'bcdice'){
