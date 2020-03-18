@@ -122,7 +122,8 @@ button, .button {
   font-family: "Meiryo","Noto Sans JP";
   font-weight: normal;
 }
-.logs em {
+.logs em,
+.float-box em {
   -webkit-text-emphasis: dot filled;
           text-emphasis: dot filled;
   font-style: inherit; 
