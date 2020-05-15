@@ -82,7 +82,54 @@ body {
   justify-content: flex-start;
   flex-wrap: nowrap;
   overflow: auto;
+  position: relative;
 }
+#sidebar:not([data-layout="row"]) { width: 11em; }
+
+#sidebar:not([data-layout="row"]).close { width: 2em; }
+#sidebar[data-layout="row"].close { height: 2em; }
+
+#sidebar.close > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 !important;
+  padding: .5em 0 !important;
+}
+#sidebar > .button.toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#sidebar[data-layout="row"].close > * {
+  flex-grow: 0;
+  flex-basis: 2em;
+}
+#sidebar:not([data-layout="row"]).close > * + * {
+  margin-top: .3rem !important;
+}
+#sidebar[data-layout="row"].close > * + * {
+  margin-left: .3rem !important;
+}
+#sidebar.close > * > * {
+  display: none !important;
+}
+#sidebar > .button.toggle,
+#sidebar.close > *::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+#sidebar.close #status::before { content:"\f0c0"; }
+#sidebar.close .memo::before   { content:"\f249"; }
+
+#sidebar .button.toggle::before { content:"\f422"; }
+#sidebar.close .button.toggle::before { content:"\f424"; }
+
+#sidebar:not([data-layout="row"]).close #round { overflow: hidden; }
+#sidebar[data-layout="row"].close #round { flex-basis: 4em; white-space: nowrap; overflow: hidden; }
+#sidebar.close #round #round-value { display: inline-block !important; }
+#sidebar:not([data-layout="row"]).close #round #round-value { width: 1em; }
+
 #sidebar > .box { margin: .5rem 0; }
 #sidebar > .box:first-child { margin-top: 0; }
 #sidebar > .box:last-child  { margin-bottom: 0; }
@@ -164,16 +211,6 @@ body {
 }
 #menubar li#menu-mute-button a {
   
-}
-
-/* // ラウンド
----------------------------------------------------------------------------------------------------- */
-[data-layout="row"] #round {
-  flex-basis: 8em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 /* // チャットログ
@@ -509,6 +546,24 @@ body {
 .form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
 .form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
 
+
+/* // ラウンド
+---------------------------------------------------------------------------------------------------- */
+#sidebar:not(.close) #round #round-value::before {
+  content: 'ラウンド: ';
+}
+#sidebar.close #round #round-value::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  content:"\f562";
+}
+[data-layout="row"] #round {
+  flex-basis: 8em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 /* // ステータス
 ---------------------------------------------------------------------------------------------------- */
 [data-layout="row"] #status {
