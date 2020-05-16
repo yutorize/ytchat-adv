@@ -125,7 +125,7 @@ sub rateCalc {
     $inside_code .= $inside_code ? '=' : '';
     
     # 必殺
-    if($crit_atk){
+    if($crit_atk && $number > 2){
       $number += $crit_atk;
       $number = 12 if $number > 12;
       $number_result .=">$number";
