@@ -264,6 +264,100 @@ article#contents {
     background-color: rgba(255,150,0,0.5);
   }
 }
+/* クレジット表記 -------------------------------------------------- */
+aside.credit {
+  margin: 1em;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background: rgba(10,20,40,0.6);
+}
+aside.credit h3 {
+  margin: .1em .4em;
+  font-family: var(--logs-font-family-min);
+}
+aside.credit li {
+  border-top: 1px dotted var(--border-color-pale);
+  padding: .2em 1em;
+}
+
+/* 統計 -------------------------------------------------- */
+.stat-table {
+  margin: 0 1em 1em;
+  border-collapse: collapse;
+  border: .1rem double  var(--border-color);
+}
+.stat-dice thead th,
+.stat-dice tfoot th {
+  width: 2.5em;
+  border: .1rem solid var(--border-color-pale);
+  background: rgba(70,70,90,0.6);
+}
+.stat-dice thead th:first-child,
+.stat-dice tfoot th:first-child,
+.stat-dice thead th:last-child,
+.stat-dice tfoot th:last-child,
+.stat-dice thead th:nth-last-child(2),
+.stat-dice tfoot th:nth-last-child(2) {
+  width: auto;
+  background: rgba(100,100,100,0.6);
+}
+.stat-dice tbody th {
+  padding: .5em;
+  border: .1rem solid var(--border-color-pale);
+}
+.stat-dice tbody td {
+  border-width: .1rem;
+  border-style: solid dotted;
+  border-color: var(--border-color-pale);
+  text-align: center;
+  vertical-align: bottom;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.stat-dice tbody td:nth-last-child(2) {
+  padding: 0 .5em .5em;
+  border-left-style: solid;
+}
+.stat-dice tbody td:last-child {
+  padding: 0 .5em .5em;
+  border-left-style: solid;
+  font-weight: bold;
+  font-size: 120%;
+}
+.stat-dice tbody td small {
+  display: block;
+  opacity: 0.8;
+}
+.stat-dice tbody tr.stat-graf-row td:not(:first-child) {
+  border-left: none;
+  border-right: none;
+}
+.stat-table i {
+  display: block;
+  width: auto;
+  margin: .2em .5em 0;
+  background: #956;
+}
+.stat-table.code-2D6 thead th:nth-child(7),
+.stat-table.code-2D6 tfoot th:nth-child(7) {
+  background: rgba(70,100,80,0.6);
+}
+.stat-table.code-2D6 tr.stat-graf-row td:nth-child(7),
+.stat-table.code-2D6 tr:not(.stat-graf-row) td:nth-child(6) {
+  background: rgba(100,250,150,0.1);
+}
+.stat-table.code-D10 thead th:nth-child(6),
+.stat-table.code-D10 tfoot th:nth-child(6),
+.stat-table.code-D10 thead th:nth-child(7),
+.stat-table.code-D10 tfoot th:nth-child(7) {
+  background: rgba(70,100,80,0.6);
+}
+.stat-table.code-D10 tr.stat-graf-row td:nth-child(6),
+.stat-table.code-D10 tr.stat-graf-row td:nth-child(7),
+.stat-table.code-D10 tr:not(.stat-graf-row) td:nth-child(5),
+.stat-table.code-D10 tr:not(.stat-graf-row) td:nth-child(6) {
+  background: rgba(100,250,150,0.1);
+}
 
 /* フッタ -------------------------------------------------- */
 #base {

@@ -71,6 +71,9 @@ my $before_color;
 my $before_user;
 my @bgms; my %bgms;
 my @bgis; my %bgis;
+my %stat;
+my %stat_count;
+my %user_color;
 foreach (<$FH>){
   chomp;
   if($_ =~ s/^>//) {
@@ -83,6 +86,7 @@ foreach (<$FH>){
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
   my $userid;
   $user =~ s/<(.+?)>$/$userid = $1; '';/e;
+  $user_color{$name} = $color;
   
   my $openlater;
   if($address){
@@ -101,6 +105,8 @@ foreach (<$FH>){
   
   if($system =~ /^bgm:([0-9]+):(.+)$/){
     $comm = '<span class="bgm-border" data-url="'.$2.'" data-title="'.$info.'" data-vol="'.$1.'"></span>'.$comm;
+    if(!$bgms{$2}){ push(@bgms, $2) }
+    $bgms{$2} = $info;
     $info .= "<small>$1％</small>";
   }
   elsif($system =~ /^bgm$/){
@@ -108,6 +114,8 @@ foreach (<$FH>){
   }
   elsif($system =~ /^bg:(.+)$/){
     $comm = '<span class="bg-border" data-url="'.$1.'" data-title="'.$info.'"></span>'.$comm;
+    if(!$bgis{$1}){ push(@bgis, $1) }
+    $bgis{$1} = $info;
   }
   elsif($system =~ /^bg$/){
     $comm = '<span class="bg-border"></span>'.$comm;
@@ -124,6 +132,46 @@ foreach (<$FH>){
       $_ =~ s#(\[.*?\])#<i>$1</i>#g;
     }
     elsif($system =~ /^dice/){
+      #出目統計
+      if(1){
+        my $dices = $_;
+        if($dices =~ /^2D6 /){
+          if($dices =~ /([0-9]+)\[([0-9,]+)(.+?)?\]/){
+            $stat_count{'2D6'}++;
+            $stat{$user}{'2D6'}{'total'}{$1}++;
+            $stat{$user}{'2D6'}{'combo'}{$2}++;
+            foreach (split(',',$2)){
+              $stat{$user}{'2D6'}{'single'}{$_}++;
+            }
+          }
+        }
+        elsif($game eq 'sw'){
+          while($dices =~ s/\[([0-9]+)\+([0-9]+)=([0-9]+)(.+?)?\]//){
+            $stat_count{'2D6'}++;
+            $stat{$user}{'2D6'}{'total'}{$3}++;
+            $stat{$user}{'2D6'}{'combo'}{"$1,$2"}++;
+            $stat{$user}{'2D6'}{'single'}{$1}++;
+            $stat{$user}{'2D6'}{'single'}{$2}++;
+          }
+        }
+        elsif($dices =~ /^[0-9]+D10 /){
+          if($dices =~ /[0-9]+\[([0-9,]+)(.+?)?\]/){
+            foreach (split(',',$1)){
+              $stat_count{'D10'}++;
+              $stat{$user}{'D10'}{'single'}{$_}++;
+            }
+          }
+        }
+        elsif($game eq 'dx'){
+          while($dices =~ s/[0-9]+\[([0-9,]+)(.+?)?\]//){
+            foreach (split(',',$1)){
+              $stat_count{'D10'}++;
+              $stat{$user}{'D10'}{'single'}{$_}++;
+            }
+          }
+        }
+      }
+      # 成形
       $_ =~ s#(\[.*?\])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
       $_ =~ s# = ([0-9a-z.]+)# = <b>$1</b>#gi;
@@ -138,6 +186,15 @@ foreach (<$FH>){
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
     if($system =~ /^unit/){
+      if(1){
+        my $dices = $_;
+        if($dices =~ /^[0-9]+D10→([0-9,]+)\s/){
+          foreach (split(',',$1)){
+            $stat_count{'D10'}++;
+            $stat{$user}{'D10'}{'single'}{$_}++;
+          }
+        }
+      }
       $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
   }
@@ -150,8 +207,6 @@ foreach (<$FH>){
   if($system =~ /memo/){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
   
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
-     $class .= ($system =~ /^(topic|memo|bg|ready|round|enter|exit)/) ? "$1 " : '';
-     $class .= ($system =~ /^bg/)   ? 'important ' : '';
      $class .= ($system =~ /^(topic|memo|bgm?|ready|round|enter|exit)/) ? "$1 " : '';
      $class .= ($system =~ /^bgm?/)   ? 'important ' : '';
      $class .= $address   ? 'secret '    : '';
@@ -192,6 +247,48 @@ foreach (<$FH>){
 close($FH);
 $ROOM->param(Logs => \@logs);
 
+my @bgm_list;
+my @bgi_list;
+push(@bgm_list,{ "TITLE"  => $bgms{$_} }) foreach @bgms;
+push(@bgi_list,{ "TITLE"  => $bgis{$_} }) foreach @bgis;
+$ROOM->param(BgmList => \@bgm_list);
+$ROOM->param(BgiList => \@bgi_list);
+
+
+## 出目統計
+my $user_stat_dice;
+my $stat_game = $stat_count{'D10'} > $stat_count{'2D6'} ? 'D10' : '2D6';
+my $stat_type = $stat_game eq '2D6' ? 'total' : 'single';
+my %stat_nums = (
+  '2D6' => [2..12],
+  'D10' => [1..10],
+);
+foreach my $name (sort keys %stat){
+  my $c = 0; my $t = 0; my $max = 0;
+  my $cell1; my $cell2;
+  foreach(@{$stat_nums{$stat_game}}){
+    my $n = $stat{$name}{$stat_game}{$stat_type}{$_};
+    $c += $n;
+    $t += $_ * $n;
+    $max = $n if ($n > $max);
+  }
+  next if !$c;
+  my $coefficient = 100 / ($max / $c * 100);
+  foreach(@{$stat_nums{$stat_game}}){
+    my $per = sprintf("%.1f", $stat{$name}{$stat_game}{$stat_type}{$_} / $c * 100);
+    $cell1 .= '<td><i style="height:'.($per * $coefficient).'px;"></i></td>';
+    $cell2 .= "<td>$stat{$name}{$stat_game}{$stat_type}{$_}<small>$per\%</small></td>";
+  }
+  $cell1 .= '<td></td><td></td>';
+  $cell2 .= '<td>'.$c.'回</td><td>'.sprintf("%.2f", $t / $c).'</td>';
+  $user_stat_dice .= "<tr class=\"stat-graf-row\"><th rowspan=\"2\" style=\"color:$user_color{$name}\">$name</th>$cell1</tr><tr>$cell2</tr>";
+}
+my $thead;
+foreach (@{$stat_nums{$stat_game}}){
+  $thead .= "<th>$_</th>";
+}
+$thead = "<thead><th></th>$thead<th>合計</th><th>平均</th></thead><tfoot><th></th>$thead<th>合計</th><th>平均</th></tfoot>";
+$ROOM->param(statDice => "<table class=\"stat-table stat-dice code-$stat_game\">${thead}${user_stat_dice}</table>") if $user_stat_dice;
 ###################
 ### タブ一覧
 my @tablist;

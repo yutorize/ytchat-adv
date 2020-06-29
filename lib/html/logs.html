@@ -75,6 +75,18 @@
     </dl></TMPL_LOOP>
   </div>
   </article>
+  <TMPL_IF statDice><aside class="credit">
+    <h3>出目統計</h3>
+    <TMPL_VAR statDice>
+  </aside></TMPL_IF>
+  <TMPL_IF BgmList><aside class="credit">
+    <h3>BGMリスト</h3>
+    <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+  </aside></TMPL_IF>
+  <TMPL_IF BgiList><aside class="credit">
+    <h3>背景リスト</h3>
+    <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+  </aside></TMPL_IF>
   <footer>
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
   </footer>
