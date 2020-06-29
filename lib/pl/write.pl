@@ -201,7 +201,7 @@ else {
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($1);
     if($::in{'info'}){
-      $::in{'comm'} =~ s/(\s(?!.*\s).*)$//;
+      $::in{'comm'} =~ s/\s((?!.*\s).*)$//;
       $::in{'info'} .= '<<'.$1;
     }
   }
