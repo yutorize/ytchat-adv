@@ -372,6 +372,50 @@ article#contents {
 #sound-confirm p .mute-button {
   margin: 1em .5em;
 }
+/* // ローディング
+---------------------------------------------------------------------------------------------------- */
+#loading {
+  display: grid;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1001;
+  transition: all 1s;
+}
+#loading::before {
+  content:'読込中';
+  margin: auto auto 0;
+}
+#loading-animation {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: #000;
+}
+#loading-animation::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: auto;
+  height: 1px;
+  margin: 0;
+  background: linear-gradient(to right, #000, #22ddff, #000);
+  position: absolute;
+  animation: loading 2s infinite ease-out;
+}
+#loading.loaded {
+  opacity: 0;
+  visibility: hidden;
+}
+@keyframes loading {
+    0% { left:    0; right: 100%; }
+   50% { left:    0; right:    0;  }
+  100% { left: 100%; right:    0;  }
+}
+
 /* // 背景
 ---------------------------------------------------------------------------------------------------- */
 .bg-image {
