@@ -54,10 +54,10 @@ elsif($::in{'system'} eq 'exit'){
 else {
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
   # ラウンド処理
-  if($::in{'comm'} =~ s<^/round([+\-][0-9])(?:\s|$)><>i){
+  if($::in{'comm'} =~ s<^/round([+\-][0-9]|reset)(?:\s|$)><>i){
     my $num = roundChange($1);
     $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "ラウンドを変更（$1） by $::in{'player'}";
+    $::in{'comm'} = "ラウンドを".($num ? "変更（$1）" : 'リセット')." by $::in{'player'}";
     $::in{'info'} = "ラウンド: ${num}";
     $::in{'system'} = "round:".$num;
     delete $::in{'address'};
@@ -465,7 +465,10 @@ sub roundChange {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  $data{'round'} += $num;
+  if($num eq 'reset'){
+    $data{'round'} = 0;
+  }
+  else { $data{'round'} += $num; }
   
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
