@@ -60,10 +60,14 @@ sub dxRoll {
 sub encroachRoll {
   my $rolls = shift;
   $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
-  my $number = 0;
-  foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
+  my $number = 0; my @numbers;
+  foreach(1 .. $rolls){
+    my $n = int(rand(10)) + 1;
+    $number += $n;
+    push(@numbers, $n);
+  }
   my $result = ( unitCalcEdit($::in{'name'}, '侵蝕+'.$number) )[0];
-  return "${rolls}D10→${number} $result";
+  return "${rolls}D10→".join(',',@numbers)." $result";
 }
 
 sub resurrectRoll {
