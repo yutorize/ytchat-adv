@@ -206,10 +206,12 @@ img.icon { width: 1em; height: 1em; }
 }
 .logs dl.system dd.comm { font-size: 90%; }
 .logs dl.system dd.comm::before  { font-size: calc(1em / 0.9); }
+.logs dl.system.bgm   dd.comm,
 .logs dl.system.bg    dd.comm,
 .logs dl.system.topic dd.comm,
 .logs dl.system.memo  dd.comm,
 .logs dl.system.round dd.comm { font-size: 80%; }
+.logs dl.system.bgm   dd.comm::before,
 .logs dl.system.bg    dd.comm::before,
 .logs dl.system.topic dd.comm::before,
 .logs dl.system.memo  dd.comm::before,

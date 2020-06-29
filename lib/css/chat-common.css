@@ -75,6 +75,8 @@ html,body {
 #menu-button-logs > a::before { content: "\f036"; }
 #bg-set > h2::before,
 #menu-button-back > a::before { content: "\f03e"; }
+#bgm-set > h2::before,
+#menu-button-bgms > a::before { content: "\f001"; }
 #config-user > h2::before,
 #menu-button-user > a::before { content: "\f4fe"; }
 #config-room > h2::before,
@@ -919,19 +921,21 @@ body.rom .input-form { display: none !important; }
   padding: 4em;
   text-align: center;
 }
-/* 背景 */
-#bg-set {
+/* 背景/BGM */
+#bg-set,
+#bgm-set {
   height: auto;
   display: grid;
   grid-template-rows: max-content max-content 1fr;
 }
-#bg-set h2 + div + div {
+#bg-set h2 + div + div,
+#bgm-set h2 + div + div {
   overflow-y: auto;
 }
-#bg-set .bg-list {
+.bg-list {
   margin: 0;
 }
-#bg-set .bg-list li {
+.bg-list li {
   margin: .1rem 0 0 0;
   padding: .5rem 1rem;
   background: rgba(100,127,150,0.3);
@@ -940,8 +944,68 @@ body.rom .input-form { display: none !important; }
   line-height: 1.2;
   cursor: pointer;
 }
-#bg-set .bg-list li:hover {
+.bg-list li:hover {
   background: none;
+}
+#bgm-set-preview:not([src]) + #bgm-set-preview-area,
+#bgm-set-preview[src=""] + #bgm-set-preview-area {
+  opacity: 0.2;
+}
+#bgm-set-preview-area {
+  display: block;
+  margin: .5em 1em;
+  padding: 1em .5em;
+  border-radius: 2em;
+  background: #567;
+  text-align: center;
+}
+#bgm-set-preview-play {
+  display: inline-block;
+  margin: -.5em .2em 0;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  vertical-align: bottom;
+  font-size: 180%;
+  cursor: pointer;
+}
+#bgm-set-preview-play:hover {
+  opacity: 0.5;
+}
+#bgm-set-preview-play::before {
+  content:'\f04b';
+}
+#bgm-set-preview-play.playing::before {
+  content:'\f04c';
+}
+#bgm-set-preview-play::before {
+}
+#bgm-set-preview-seekbar {
+  display: inline-block;
+  width: 80%;
+  min-width: 160px;
+  height: 10px;
+  margin: 0 .2em;
+  border-radius: 5px;
+  background: linear-gradient(to right, #aaa, #789) no-repeat #eee;
+}
+.bg-list li[data-vol] {
+  position: relative;
+}
+.bg-list li[data-vol]::before {
+  content:'\f04b';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  position: relative;
+  left: -4px;
+  font-size: 80%;
+}
+.bg-list li[data-vol]::after{
+  content: "\f028 " attr(data-vol) "%";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  color: #ed9;
+  font-size: 90%;
+  margin-left: .5em;
 }
 /* 設定 */
 #config-user #font-sample {

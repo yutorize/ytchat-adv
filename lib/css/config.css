@@ -246,6 +246,7 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 }
 .logs dl.system.enter  dd.comm::before { color: #fd9; content: "\f52b"; }
 .logs dl.system.exit   dd.comm::before { color: #89a; content: "\f52a"; }
+.logs dl.system.bgm    dd.comm::before { color: #f8c; content: "\f001"; }
 .logs dl.system.bg     dd.comm::before { color: #c8f; content: "\f03e"; }
 .logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f044"; }
 .logs dl.system.ready  dd.comm::before { color: #f77; content: "\f0ae"; }
@@ -257,6 +258,14 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 .logs dl.system.topic  dd.info { color: #afa; font-weight: bold; }
 .logs dl.system.memo   dd.info { color: #afa; }
 .logs dl.system.change dd.info { color: #f99; }
+
+.logs dl.system.bgm dd.info small { color: #b9a; }
+.logs dl.system.bgm dd.info small::before {
+  content: '\f028';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  margin: auto .2em auto .5em;
+}
 
 /* チャットログ：ユニット操作 */
 .logs dl dd.info.unit::before {

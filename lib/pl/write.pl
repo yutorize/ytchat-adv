@@ -119,6 +119,34 @@ else {
     $::in{'comm'} = "共有メモ".($num+1).'を'. ($new ? '追加' : ($::in{'info'} ? '更新' : "削除")) ." by $::in{'player'}";
     delete $::in{'address'};
   }
+  # BGM変更処理
+  elsif($::in{'comm'} =~ s</bgmreset><>i){
+    bgmEdit('','');
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "BGMを削除 by $::in{'player'}";
+    $::in{'system'} = 'bgm';
+    delete $::in{'color'};
+  }
+  elsif($::in{'comm'} =~ s</bgm(?:\s(.*?))?(?:\s([0-9]{1,3}))?\s+(https?://.+)><>i){
+    my $url = $3;
+    my $title = $1 || '無題';
+    $2 =~ s/^0+//;
+    my $volume = $2 || 100;
+    if($set::src_url_limit) {
+      my $hit = 0;
+      foreach my $domain (@set::src_url_list){
+        next if !$domain;
+        if($url =~ "^https?://$domain"){ $hit = 1; last; }
+      }
+      if(!$hit){ error('許可されていないURLです'); }
+    }
+    bgmEdit($url,$title,$volume);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "BGMを変更 by $::in{'player'}";
+    $::in{'info'} = "$title";
+    $::in{'system'} = 'bgm:'.$volume.':'.$url;
+    delete $::in{'color'};
+  }
   # 背景変更処理
   elsif($::in{'comm'} =~ s</bgreset><>i){
     bgEdit('','');
@@ -364,6 +392,32 @@ sub bgEdit {
   
   if($url){
     $data{'bg-history'}{$url} = $title;
+  }
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
+sub bgmEdit {
+  my $url = shift;
+  my $title = shift;
+  my $volume = shift;
+  
+  my %data;
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  if($url){
+    $data{'bgm'}{'url'} = $url;
+    $data{'bgm'}{'title'} = $title;
+    $data{'bgm'}{'vol'} = $volume;
+  
+    $data{'bgm-history'}{$url} = [ $title,$volume ];
+  }
+  else {
+    delete $data{'bgm'};
   }
   
   print $FH decode('utf8', encode_json \%data);

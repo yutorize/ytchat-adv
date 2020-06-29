@@ -823,10 +823,12 @@ body {
   max-height: 80vh;
   margin-top: .1rem;
 }
-#bg-set {
+#bg-set,
+#bgm-set {
   width: 30em;
 }
-#bg-set input {
+#bg-set input,
+#bgm-set  input {
   width: 100%;
 }
 #bg-set .bg-set-preview-area {

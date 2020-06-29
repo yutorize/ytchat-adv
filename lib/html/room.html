@@ -28,7 +28,9 @@
     const gameSystemName = '<TMPL_VAR gameSystemName>';
     const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
     const checkTimeRom = 10000; // 更新チェック周期・見学者
-    const maxLinage = 300; // 現行ログ表示行数（保存行数とは別）
+    let   bgMusic = new Audio(''); 
+          bgMusic.loop = true;
+          currentBgmVol = 1;
     const chatSE  = new Audio('./lib/sound/cursor1.mp3');
     const markSE  = new Audio('./lib/sound/warning1.mp3');
     const readySE = new Audio('./lib/sound/flash-of-light-1.mp3');
@@ -50,6 +52,7 @@
     <ul>
       <li id="menu-button-logs"><a href="?mode=logs&id=<TMPL_VAR roomId>" target="_blank">ログ</a></li>
       <li id="menu-button-back"><a onclick="boxOpen('bg-set');">背景</a></li>
+      <li id="menu-button-bgms"><a onclick="boxOpen('bgm-set');">BGM</a></li>
       <li id="menu-button-user"><a onclick="boxOpen('config-user');">個人設定</a></li>
       <li id="menu-button-room"><a onclick="boxOpen('config-room');">ルーム設定</a></li>
       <li id="menu-button-help"><a onclick="boxOpen('help-window');">ヘルプ</a></li>
@@ -167,7 +170,7 @@
       </dl>
       <dl>
         <dt>背景</dt><dd id="bg-title">－</dd>
-        <dt>BGM</dt><dd>－</dd>
+        <dt>BGM</dt><dd id="bgm-title">－</dd>
       </dl>
     </div>
     <!-- / FOOTER -->
@@ -258,16 +261,72 @@
     </div>
   </div>
   
+  <div class="float-box" id="bgm-confirm" style="top:30vh;left:0;right:0;max-width:100%;">
+    <h2>BGM再生確認</h2>
+    <p style="padding:2em 0 1em;">
+      BGMが設定されています。再生しますか？<br>
+    </p>
+    <p style="padding:0 0 2em;text-align:center;">
+      <button onclick="bgMusic.play();boxClose('bgm-confirm');" style="width:5.5em;">はい</button>
+      <button onclick="bgMusic.pause();boxClose('bgm-confirm');" style="width:5.5em;">いいえ</button>
+    </p>
+  </div>
+  <div class="float-box" id="bgm-set">
+    <h2>BGM変更</h2>
+    <div>
+      <audio id="bgm-set-preview" loop></audio>
+      <div id="bgm-set-preview-area">
+        <div id="bgm-set-preview-time">
+          <span id="bgm-set-preview-current">00:00</span> / 
+          <span id="bgm-set-preview-duration">00:00</span>
+        </div>
+        <span id="bgm-set-preview-play"></span>
+        <div id="bgm-set-preview-seekbar"></div>
+      </div>
+      <p>
+        タイトル・権利表記等：<br>
+        <input type="text" id="bgm-set-title" placeholder="XXX／(c)YYY..."><br>
+        ＵＲＬ：<br>
+        <input type="text" id="bgm-set-url" oninput="bgmPreview();" placeholder="http://..."><br>
+        音量：(<span id="bgm-set-volume-text">100</span>%)<br>
+        <input type="range" id="bgm-set-volume" oninput="bgmPreviewVol(this.value);" min="1" max="100" value="100" style="width: 80%;margin-left:10%">
+      </p>
+      <p class="center" style="margin-top:1em;">
+        <button onclick="bgmSubmit();">変更する</button>
+      </p>
+    </div>
+    <div>
+      <h4><i class="far fa-images"></i>プリセット</h4>
+      <ul class="bg-list" id="bgm-preset"><TMPL_LOOP bgmPreset>
+        <li onclick="bgmInputSet('<TMPL_VAR URL>', this.innerHTML,<TMPL_VAR VOL>)" data-vol="<TMPL_VAR VOL>"><TMPL_VAR TITLE></li></TMPL_LOOP>
+      </ul>
+      <h4><i class="fas fa-history"></i>履歴</h4>
+      <ul class="bg-list" id="bgm-history"></ul>
+      <TMPL_IF srcURL>
+      <h4><i class="fas fa-check-circle"></i>使用可能URL</h4>
+      <p>下記のドメインから始まるURL以外は使用できません。</p>
+      <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
+      </TMPL_IF>
+      <h3><i class="fas fa-trash-alt"></i>BGM削除</h3>
+      <p>現在のBGMを削除し、無音状態に戻します。</p>
+      <p class="center">
+        <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
+      </p>
+    <span class="close button" onclick="boxClose('bgm-set');bgmPreviewEnd();">×</span>
+    </div>
+  </div>
+  
   <div class="float-box" id="config-user">
     <h2>ユーザー個人設定</h2>
     <p>　ゲームルームを跨いで、あなただけに適用される設定です。</p>
     <details id="config-sound">
       <summary><i class="fas fa-volume-up"></i>音量設定</summary>
       <table>
-        <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
-        <tr><th>チャット着信</th><td><input type="range" id="volume-chat" min="0" max="100" step="1" value="80"></td><td id="volume-chat-view">80%</td></tr>
-        <tr><th>強調ワード着信</th><td><input type="range" id="volume-mark" min="0" max="100" step="1" value="80"></td><td id="volume-mark-view">80%</td></tr>
-        <tr><th>レディチェック開始</th><td><input type="range" id="volume-ready" min="0" max="100" step="1" value="80"></td><td id="volume-ready-view">80%</td></tr>
+        <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" data-type="master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
+        <tr><th>ＢＧＭ            </th><td><input type="range" id="volume-bgm"    data-type="bgm"    min="0" max="100" step="1" value="80"></td><td id="volume-bgm-view"   >80%</td></tr>
+        <tr><th>チャット着信      </th><td><input type="range" id="volume-chat"   data-type="chat"   min="0" max="100" step="1" value="80"></td><td id="volume-chat-view"  >80%</td></tr>
+        <tr><th>強調ワード着信    </th><td><input type="range" id="volume-mark"   data-type="mark"   min="0" max="100" step="1" value="80"></td><td id="volume-mark-view"  >80%</td></tr>
+        <tr><th>レディチェック開始</th><td><input type="range" id="volume-ready"  data-type="ready"  min="0" max="100" step="1" value="80"></td><td id="volume-ready-view" >80%</td></tr>
       </table>
       <p>
         強調ワード音量・レディチェック音量は0にするとチャット着信音に統一されます。<br>

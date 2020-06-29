@@ -139,10 +139,17 @@ $ROOM->param(RandomTable => \@random_table);
 
 my @bg_list;
 foreach (@set::bg_preset){
-  next if !$_;
+  next if !$_ || !@$_[0];
   push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1] });
 }
 $ROOM->param(bgPreset => \@bg_list);
+
+my @bgm_list;
+foreach (@set::bgm_preset){
+  next if !$_ || !@$_[0];
+  push(@bgm_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VOL' => @$_[2] || 100,  });
+}
+$ROOM->param(bgmPreset => \@bgm_list);
 
 my @src_url;
 if($set::src_url_limit){

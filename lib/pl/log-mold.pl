@@ -69,6 +69,8 @@ my $before_tab;
 my $before_name;
 my $before_color;
 my $before_user;
+my @bgms; my %bgms;
+my @bgis; my %bgis;
 foreach (<$FH>){
   chomp;
   if($_ =~ s/^>//) {
@@ -97,7 +99,14 @@ foreach (<$FH>){
     }
   }
   
-  if($system =~ /^bg:(.+)$/){
+  if($system =~ /^bgm:([0-9]+):(.+)$/){
+    $comm = '<span class="bgm-border" data-url="'.$2.'" data-title="'.$info.'" data-vol="'.$1.'"></span>'.$comm;
+    $info .= "<small>$1％</small>";
+  }
+  elsif($system =~ /^bgm$/){
+    $comm = '<span class="bgm-border"></span>'.$comm;
+  }
+  elsif($system =~ /^bg:(.+)$/){
     $comm = '<span class="bg-border" data-url="'.$1.'" data-title="'.$info.'"></span>'.$comm;
   }
   elsif($system =~ /^bg$/){
@@ -143,6 +152,8 @@ foreach (<$FH>){
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
      $class .= ($system =~ /^(topic|memo|bg|ready|round|enter|exit)/) ? "$1 " : '';
      $class .= ($system =~ /^bg/)   ? 'important ' : '';
+     $class .= ($system =~ /^(topic|memo|bgm?|ready|round|enter|exit)/) ? "$1 " : '';
+     $class .= ($system =~ /^bgm?/)   ? 'important ' : '';
      $class .= $address   ? 'secret '    : '';
      $class .= $openlater ? 'openlater ' : '';
      $class .= $tab == 1 ? 'main ' : '';

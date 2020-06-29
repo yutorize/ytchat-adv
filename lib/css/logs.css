@@ -306,6 +306,72 @@ article#contents {
   font-size: 1.1rem;
 }
 
+/* ミュートボタン -------------------------------------------------- */
+.mute-button {
+  display: inline-block;
+  min-width: 10em;
+  margin: .5em 0;
+  padding: 1.2em 0;
+  border-radius: .5em;
+  background: linear-gradient(#3e5,#082);
+  background-color: #b90;
+  text-shadow: none;
+  text-align: center;
+  font-size: 80%;
+}
+.mute-button:hover {
+  cursor: pointer;
+  background-blend-mode: hard-light;
+}
+.mute-button::before {
+  display: inline-block;
+  content: "\f028";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  transform: scale(2) translate(.2em);
+}
+.mute-button::after {
+  display: inline-block;
+  content: "SOUND ON";
+  font-weight: bold;
+  margin-left: 1.3em;
+  transform: scale(1,1.25);
+}
+.mute-button.muted {
+  background: linear-gradient(#f55,#b00);
+  background-color: #fd0;
+}
+.mute-button.muted::before {
+  content: "\f6a9";
+}
+.mute-button.muted::after {
+  content: "SOUND OFF";
+}
+
+/* // サウンドON/OFF確認
+---------------------------------------------------------------------------------------------------- */
+#sound-confirm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+#sound-confirm p {
+  max-width: max-content;
+  margin: auto;
+  padding: 1em 2em;
+  text-align: center;
+  line-height: 1.8;
+  background: rgba(0,0,0,0.8);
+  border: 3px double #568;
+  border-radius: .5em;
+}
+#sound-confirm p .mute-button {
+  margin: 1em .5em;
+}
 /* // 背景
 ---------------------------------------------------------------------------------------------------- */
 .bg-image {
