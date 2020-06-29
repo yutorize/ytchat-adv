@@ -19,6 +19,7 @@ body {
   line-height: 1.8;
   border-radius: 0;
   overflow: visible;
+  background: linear-gradient(to top, transparent 80vh, var(--box-bg-color) 100vh, var(--box-bg-color));
 }
 #right {
   grid-column: 3;
@@ -46,6 +47,9 @@ body {
   font-size: 1em !important;
 }
 article#contents {
+  margin-bottom: 60vh;
+  padding-bottom: 3em;
+  border-bottom: 1px solid var(--border-color);
 }
 /* ログ */
 .logs {
@@ -53,6 +57,9 @@ article#contents {
 }
 .logs dl {
   position: relative;
+}
+.logs dl:last-child {
+  border-bottom-width: .1rem;
 }
 .logs dl:not(.main) {
   padding-left: 2.5em;
@@ -176,6 +183,7 @@ article#contents {
 }
 #menu dl#options dd {
   margin-left: 1rem;
+  text-align: center;
 }
 #menu dl#options input {
   width: 15rem;
@@ -239,6 +247,9 @@ article#contents {
     position: fixed;
     right: 0;
     border: .1rem solid var(--border-color-pale);
+    font-size: 120%;
+    line-height: 1.4;
+    grid-template-rows: auto max-content 1fr;
   }
   #menu h2 {
     position: relative;
@@ -249,6 +260,10 @@ article#contents {
   }
   #menu-toggle:checked + #menu > :not(h2) {
     display: block;
+    width: 80vw;
+  }
+  #menu #options {
+    display: none !important;
   }
   label[for="menu-toggle"] {
     display: block;
@@ -372,7 +387,7 @@ aside.credit li {
   padding: 1rem 1rem 3rem;
   text-align: center;
   font-size: 1.4rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  background: linear-gradient(to top, rgba(0,0,0,1), transparent);
 }
 
 /* ボトムバー -------------------------------------------------- */
