@@ -148,12 +148,12 @@
           <span class="button" onclick="roundSubmit('+1');" style="width:auto;font-size:88%;">次へ</span>
         </div>
       </div>
-      <div class="box" id="status">
+      <div class="box" id="status" data-num="0">
         <div id="status-body"></div>
         <span class="add button" onclick="sheetSelect('default');sheetOpen();">+</span>
         <span class="edit button" onclick="statusScale();">⇔</span>
       </div>
-      <div class="box memo">
+      <div class="box memo" id="memo" data-num="0">
         <ul id="memo-list" class="bold"></ul>
         <span class="add button" onclick="memoSelect('')">+</span>
       </div>

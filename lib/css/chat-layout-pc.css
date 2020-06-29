@@ -96,6 +96,9 @@ body {
   margin: 0 !important;
   padding: .5em 0 !important;
 }
+#sidebar:not([data-layout="row"]).close > * {
+  flex-direction: column;
+}
 #sidebar > .button.toggle {
   display: flex;
   justify-content: center;
@@ -120,13 +123,15 @@ body {
   font-weight: bold;
 }
 #sidebar.close #status::before { content:"\f0c0"; }
-#sidebar.close .memo::before   { content:"\f249"; }
+#sidebar.close #memo::before   { content:"\f249"; }
+#sidebar.close #status::after { content:attr(data-num); font-weight:bold; }
+#sidebar.close #memo::after   { content:attr(data-num); font-weight:bold; }
 
 #sidebar .button.toggle::before { content:"\f422"; }
 #sidebar.close .button.toggle::before { content:"\f424"; }
 
 #sidebar:not([data-layout="row"]).close #round { overflow: hidden; }
-#sidebar[data-layout="row"].close #round { flex-basis: 4em; white-space: nowrap; overflow: hidden; }
+#sidebar[data-layout="row"].close > .box { flex-basis: 4em; white-space: nowrap; overflow: hidden; }
 #sidebar.close #round #round-value { display: inline-block !important; }
 #sidebar:not([data-layout="row"]).close #round #round-value { width: 1em; }
 
@@ -596,34 +601,34 @@ body {
 
 /* // 共有メモ
 ---------------------------------------------------------------------------------------------------- */
-.memo {
+#memo {
   position: relative;
   padding-bottom: 1.2em;
   overflow: auto;
   flex-shrink: 0;
 }
-.memo #memo-list {
+#memo #memo-list {
 }
-.memo ul#memo-list {
+#memo ul#memo-list {
 }
-.memo ul#memo-list li {
+#memo ul#memo-list li {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: .3em 0;
   border-bottom: .1rem solid var(--border-color-pale);
 }
-[data-layout="row"] .memo {
+[data-layout="row"] #memo {
   overflow: hidden;
   flex-basis: 15em;
 }
-[data-layout="row"] .memo ul#memo-list {
+[data-layout="row"] #memo ul#memo-list {
   position: absolute;
   width: auto;
   height: 100%;
   overflow: auto;
 }
-[data-layout="row"] .memo ul#memo-list li {
+[data-layout="row"] #memo ul#memo-list li {
   display: inline-block;
   max-width: 8em;
   margin-right: .3rem;
