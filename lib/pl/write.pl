@@ -486,10 +486,14 @@ sub unitEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  $data{'unit'}{$set_name}{'color'} = $::in{'color'};
+  my $updateflag;
   foreach (keys %$set_data) {
-    $data{'unit'}{$set_name}{'status'}{$_} = $$set_data{$_};
+    unless ($_ eq 'check' && !exists $data{'unit'}{$set_name}) {
+      $data{'unit'}{$set_name}{'status'}{$_} = $$set_data{$_};
+      $updateflag = 1;
+    }
   }
+  $data{'unit'}{$set_name}{'color'} = $::in{'color'} if $updateflag;
   
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));

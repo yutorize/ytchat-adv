@@ -811,6 +811,19 @@ body.rom .input-form { display: none !important; }
 .chat .logs dl dd.info[data-code]::after {
   content: "" attr(data-code) " --- " attr(data-date);
 }
+/* レディチェック */
+.chat .logs dl.ready dd.info button {
+  padding: .5em 1em;
+  font-size: 90%;
+}
+.chat .logs dl.ready dd.info button:first-of-type {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.chat .logs dl.ready dd.info button:last-of-type {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 
 /* // 各フロートボックス
 ---------------------------------------------------------------------------------------------------- */
