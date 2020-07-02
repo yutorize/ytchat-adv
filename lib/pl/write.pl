@@ -513,7 +513,7 @@ sub unitEdit {
       $updateflag = 1;
     }
   }
-  $data{'unit'}{$set_name}{'color'} = $::in{'color'} if $updateflag;
+  $data{'unit'}{$set_name}{'color'} = $::in{'color'} if $updateflag || $::in{'unitAdd'};
   
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
