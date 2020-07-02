@@ -132,7 +132,17 @@ else {
     my $title = $1 || '無題';
     $2 =~ s/^0+//;
     my $volume = $2 || 100;
-    if($set::src_url_limit) {
+    #Youtube
+    if($url =~ "https?://((www\.)?youtube\.com|youtu\.be)/"){
+      if($url =~ /youtube\.com\/watch\?(?:.*?)v=(.+?)(?:&|$)/){
+        $url = 'https://youtu.be/'.$1;
+      }
+      elsif($url =~ /youtu\.be\/(.+)$/){
+      }
+      else { error('動画IDを取得できませんでした'); }
+    }
+    #指定URL
+    elsif($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
         next if !$domain;

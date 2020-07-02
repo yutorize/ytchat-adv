@@ -71,6 +71,16 @@ a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,18
 a[href]:visited { color: #77ccff; }
 .link:hover,
 a[href]:hover   { color: #ffffff; }
+.link-yt::before {
+  content: "\f167" !important;
+  display: inline-block;
+  font-family: "Font Awesome 5 Brands" !important;
+  font-weight: normal !important;
+  color: #f00 !important;
+}
+.link-yt:hover::before {
+  color: #fff !important;
+}
 
 /* 他 */
 input, textarea, select, button, .button, .dice-button {
@@ -246,14 +256,15 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
 }
 .logs dl.system.enter  dd.comm::before { color: #fd9; content: "\f52b"; }
 .logs dl.system.exit   dd.comm::before { color: #89a; content: "\f52a"; }
-.logs dl.system.bgm    dd.comm::before { color: #f8c; content: "\f001"; }
-.logs dl.system.bg     dd.comm::before { color: #c8f; content: "\f03e"; }
 .logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f044"; }
+.logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f249"; }
 .logs dl.system.ready  dd.comm::before { color: #f77; content: "\f0ae"; }
 .logs dl.system.round  dd.comm::before { color: #f90; content: "\f562"; }
-.logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f249"; }
 .logs dl.system.change dd.comm::before { color: #f55; content: "\f085"; }
+.logs dl.system.bgm    dd.comm::before { color: #f8c; content: "\f001"; }
+.logs dl.system.bg     dd.comm::before { color: #c8f; content: "\f03e"; }
 
+.logs dl.system  dd.info { color: #cdf; }
 .logs dl.system.round  dd.info { color: #f90; font-weight: bold; }
 .logs dl.system.topic  dd.info { color: #afa; font-weight: bold; }
 .logs dl.system.memo   dd.info { color: #afa; }
@@ -266,7 +277,14 @@ dd[id*="-侵蝕-"] .gauge[data-signal="monster"] i::before { background: none; }
   font-weight: bold;
   margin: auto .2em auto .5em;
 }
-
+.logs dl.bgm dd.info a.link-yt {
+  background: none;
+}
+.logs dl.bgm dd.info a.link-yt::before {
+  margin-left: .5em;
+  transform: scale(1.5);
+  text-shadow: none;
+}
 /* チャットログ：ユニット操作 */
 .logs dl dd.info.unit::before {
   color: #07d;

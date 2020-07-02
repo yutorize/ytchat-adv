@@ -481,6 +481,28 @@ aside.credit li {
 #sound-confirm p .mute-button {
   margin: 1em .5em;
 }
+
+/* // Youtubeプレイヤー
+---------------------------------------------------------------------------------------------------- */
+#yt-player-area {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  right: 0;
+  bottom: 1.8em;
+  z-index: 1;
+  opacity: 0.2;
+  transition-property: opacity, width, height;
+  transition-duration: 0.2s;
+  display: none;
+}
+dd.bgm-title:hover + #yt-player-area,
+#yt-player-area:hover {
+  width: 360px;
+  height: 180px;
+  opacity: 1;
+
+}
 /* // ローディング
 ---------------------------------------------------------------------------------------------------- */
 #loading {

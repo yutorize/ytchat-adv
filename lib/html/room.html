@@ -28,9 +28,6 @@
     const gameSystemName = '<TMPL_VAR gameSystemName>';
     const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
     const checkTimeRom = 10000; // 更新チェック周期・見学者
-    let   bgMusic = new Audio(''); 
-          bgMusic.loop = true;
-          currentBgmVol = 1;
     const chatSE  = new Audio('./lib/sound/cursor1.mp3');
     const markSE  = new Audio('./lib/sound/warning1.mp3');
     const readySE = new Audio('./lib/sound/decision4.mp3');
@@ -264,19 +261,23 @@
   
   <div class="float-box" id="bgm-confirm" style="top:30vh;left:0;right:0;max-width:100%;">
     <h2>BGM再生確認</h2>
+    <div id="bgm-youtube-area"><div id="bgm-yt-player"></div></div>
     <p style="padding:2em 0 1em;">
-      BGMが設定されています。再生しますか？<br>
+      BGMが設定されています<br>
+      ［<span id="bgm-title-view"></span>］<br>
+      （音量:<span id="bgm-volume-view"></span>％）
     </p>
     <p style="padding:0 0 2em;text-align:center;">
-      <button onclick="bgMusic.play();boxClose('bgm-confirm');" style="width:5.5em;">はい</button>
-      <button onclick="bgMusic.pause();boxClose('bgm-confirm');" style="width:5.5em;">いいえ</button>
+      <button onclick="bgmPlay();boxClose('bgm-confirm');" style="width:5.5em;">再生</button>
+      <button onclick="bgmPause();boxClose('bgm-confirm');" style="width:5.5em;">停止</button>
     </p>
+    <span class="close button" onclick="boxClose('bgm-confirm');">×</span>
   </div>
   <div class="float-box" id="bgm-set">
     <h2>BGM変更</h2>
     <div>
-      <audio id="bgm-set-preview" loop></audio>
       <div id="bgm-set-preview-area">
+        <audio id="bgm-set-preview" loop></audio>
         <div id="bgm-set-preview-time">
           <span id="bgm-set-preview-current">00:00</span> / 
           <span id="bgm-set-preview-duration">00:00</span>
@@ -284,10 +285,11 @@
         <span id="bgm-set-preview-play"></span>
         <div id="bgm-set-preview-seekbar"></div>
       </div>
+      <div id="bgm-yt-preview-area" style="display:none"><div id="bgm-yt-preview"></div></div>
       <p>
         タイトル・権利表記等：<br>
         <input type="text" id="bgm-set-title" placeholder="XXX／(c)YYY..."><br>
-        ＵＲＬ：<br>
+        ＵＲＬ：<small>※オーディオファイル、またはYoutubeのURL</small><br>
         <input type="text" id="bgm-set-url" oninput="bgmPreview();" placeholder="http://..."><br>
         音量：(<span id="bgm-set-volume-text">100</span>%)<br>
         <input type="range" id="bgm-set-volume" oninput="bgmPreviewVol(this.value);" min="1" max="100" value="100" style="width: 80%;margin-left:10%">

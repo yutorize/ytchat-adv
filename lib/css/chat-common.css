@@ -988,7 +988,8 @@ body.rom .input-form { display: none !important; }
 }
 #bgm-set-preview-area {
   display: block;
-  margin: .5em 1em;
+  height: 60px;
+  margin: 30px 1em 29px;
   padding: 1em .5em;
   border-radius: 2em;
   background: #567;
@@ -1022,6 +1023,9 @@ body.rom .input-form { display: none !important; }
   margin: 0 .2em;
   border-radius: 5px;
   background: linear-gradient(to right, #aaa, #789) no-repeat #eee;
+}
+#bgm-yt-preview-area {
+  text-align: center;
 }
 .bg-list li[data-vol] {
   position: relative;

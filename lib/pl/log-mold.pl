@@ -104,10 +104,12 @@ foreach (<$FH>){
   }
   
   if($system =~ /^bgm:([0-9]+):(.+)$/){
-    $comm = '<span class="bgm-border" data-url="'.$2.'" data-title="'.$info.'" data-vol="'.$1.'"></span>'.$comm;
-    if(!$bgms{$2}){ push(@bgms, $2) }
-    $bgms{$2} = $info;
-    $info .= "<small>$1％</small>";
+    my ($url, $vol) = ($2, $1);
+    $comm = '<span class="bgm-border" data-url="'.$url.'" data-title="'.$info.'" data-vol="'.$vol.'"></span>'.$comm;
+    if(!$bgms{$url}){ push(@bgms, $url) }
+    $bgms{$url} = ' <a class="link-yt" href="'.$url.'" target="_blank">'.$info.'</a>';
+    $info .= "<small>${vol}％</small>";
+    if($url =~ /^https:\/\/youtu\.be\/.+$/){ $info .= ' <a class="link-yt" href="'.$url.'" target="_blank"></a>' }
   }
   elsif($system =~ /^bgm$/){
     $comm = '<span class="bgm-border"></span>'.$comm;
