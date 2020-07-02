@@ -5,6 +5,7 @@ body {
   background-attachment: fixed;
   display: grid;
   grid-template-columns: 1fr minmax(auto, 80rem) 1fr;
+  grid-template-rows: auto minmax(40vh,auto);
   min-height: 100vh;
   height 100%;
 }
@@ -12,18 +13,24 @@ body {
   grid-column: 2 / 3;
   grid-row: 1;
   position: relative;
-  margin: auto;
   width: 100%;
-  min-height: 100vh;
   font-size: 1.4rem;
   line-height: 1.8;
   border-radius: 0;
   overflow: visible;
-  background: linear-gradient(to top, transparent 80vh, var(--box-bg-color) 100vh, var(--box-bg-color));
+  background: linear-gradient(to top, transparent 0%, var(--box-bg-color) 20vh, var(--box-bg-color));
+  box-shadow: none;
+}
+#foot-area {
+  grid-column: 2 / 3;
+  grid-row: 2;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  align-self: end;
 }
 #right {
   grid-column: 3;
-  grid-row: 1;
+  grid-row: 1 / 3;
   position: relative;
   margin-right: auto;
   padding-left: .2rem;
@@ -47,9 +54,7 @@ body {
   font-size: 1em !important;
 }
 article#contents {
-  margin-bottom: 60vh;
-  padding-bottom: 3em;
-  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20vh;
 }
 /* ログ */
 .logs {
@@ -73,15 +78,6 @@ article#contents {
 .logs dl.system dt {
   display: none;
 }
-.logs dt {
-  position: relative;
-}
-.logs dd {
-  position: relative;
-  margin-left: .5rem;
-  padding-left: .5rem;
-  border-radius: .5rem;
-}
 .logs dl::before {
   content: '[' attr(data-tab-name) '] ' attr(data-user);
   position: absolute;
@@ -97,6 +93,15 @@ article#contents {
 .logs dl:hover::after {
   opacity: 0.5;
 }
+.logs dl dt {
+  position: relative;
+}
+.logs dl dd {
+  position: relative;
+  margin-left: .5rem;
+  padding-left: .5rem;
+  border-radius: .5rem;
+}
 .logs dl dd::after {
   content: attr(data-date);
   position: absolute;
@@ -109,8 +114,15 @@ article#contents {
 .logs dl dd:hover::after {
   opacity: 0.7;
 }
+.logs dl dt:empty + dd {
+  margin-top: .5rem;
+}
 .logs dl dd.info {
   font-size: 90%;
+  padding-left: .9em;
+}
+.logs dl dd.info::before {
+  left: 0;
 }
 .logs dl dd.info strong {
   display: inline-block;
@@ -121,11 +133,11 @@ article#contents {
 #menu {
   display: grid;
   grid-template-columns: max-content;
-  grid-template-rows: auto auto max-content 1fr;
+  grid-template-rows: auto auto auto max-content 1fr;
   overflow: hidden;
   position: sticky;
   top: 0;
-  max-height: calc(100vh - 2.6rem);
+  max-height: calc(100vh - 2.6rem - 50px);
   margin-right: auto;
   padding: 0 .8rem;
   z-index: 999;
@@ -177,19 +189,19 @@ article#contents {
     #711 -.1rem  0rem, #711  .1rem   0rem;
 }
 /* オプション */
-#menu dl#options dt {
+#menu dl.options dt {
   margin: .5rem 0 .1rem;
   font-size: 1.2rem;
 }
-#menu dl#options dd {
+#menu dl.options dd {
   margin-left: 1rem;
   text-align: center;
 }
-#menu dl#options input {
+#menu dl.options input {
   width: 15rem;
   height: 1.2rem;
 }
-#menu dl#options select {
+#menu dl.options select {
   width: 15rem;
   padding: .4rem .2rem;
   font-size: 80%;
@@ -197,8 +209,12 @@ article#contents {
 
 /* ログリスト */
 #menu #loglist-area {
+  grid-row: -2;
   margin-right: -.7rem;
   overflow: auto;
+}
+#menu #loglist-area + ul {
+  grid-row: -1;
 }
 #menu ul li a,
 #menu ul li b {
@@ -262,7 +278,7 @@ article#contents {
     display: block;
     width: 80vw;
   }
-  #menu #options {
+  #menu .options + .options {
     display: none !important;
   }
   label[for="menu-toggle"] {
@@ -281,10 +297,10 @@ article#contents {
 }
 /* クレジット表記 -------------------------------------------------- */
 aside.credit {
-  margin: 1em;
+  margin: 2em 1em;
   border: 1px solid var(--border-color);
   border-radius: 5px;
-  background: rgba(10,20,40,0.6);
+  background: rgba(10,20,40,0.8);
 }
 aside.credit h3 {
   margin: .1em .4em;
@@ -300,12 +316,13 @@ aside.credit li {
   margin: 0 1em 1em;
   border-collapse: collapse;
   border: .1rem double  var(--border-color);
+  background: rgba(10,20,40,0.8);
 }
 .stat-dice thead th,
 .stat-dice tfoot th {
   width: 2.5em;
   border: .1rem solid var(--border-color-pale);
-  background: rgba(70,70,90,0.6);
+  background: rgba(70,70,90,0.8);
 }
 .stat-dice thead th:first-child,
 .stat-dice tfoot th:first-child,
@@ -319,6 +336,7 @@ aside.credit li {
 .stat-dice tbody th {
   padding: .5em;
   border: .1rem solid var(--border-color-pale);
+  text-shadow: var(--box-text-shadow);
 }
 .stat-dice tbody td {
   border-width: .1rem;
@@ -375,16 +393,8 @@ aside.credit li {
 }
 
 /* フッタ -------------------------------------------------- */
-#base {
-  padding-bottom: calc(4.1rem + 1em + 1rem);
-}
-#base footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-top: .1rem solid var(--border-color-pale);
-  padding: 1rem 1rem 3rem;
+#foot-area footer {
+  padding: 1rem 1rem 5rem;
   text-align: center;
   font-size: 1.4rem;
   background: linear-gradient(to top, rgba(0,0,0,1), transparent);

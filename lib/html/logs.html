@@ -33,9 +33,11 @@
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
-    <dl id="options">
+    <dl class="options" id="options-sound">
       <dt>サウンド音量 <span id="option-sound-view">100</span> %</dd><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"><br>
       <span class="mute-button muted" id="option-mute-button"></span></dd>
+    </dl>
+    <dl class="options">
       <dt>背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
       <dt>文字の輝度 <span id="option-font-lightness-view">100</span> %</dd><dd><input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"></dd>
       <dt>文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
@@ -75,6 +77,8 @@
     </dl></TMPL_LOOP>
   </div>
   </article>
+</div>
+<div id="foot-area">
   <TMPL_IF statDice><aside class="credit">
     <h3>出目統計</h3>
     <TMPL_VAR statDice>
