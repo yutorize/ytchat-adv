@@ -190,7 +190,16 @@ else {
     $::in{'system'} = 'dice';
   }
   # ダイス処理
-  elsif($::in{'comm'} =~ /^(?:
+  elsif(diceCodeCheck()){
+    #なんもないよ
+  }
+}
+error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
+
+# ダイスコード確認
+sub diceCodeCheck {
+  # ダイス処理
+  if($::in{'comm'} =~ /^(?:
         [\@＠\$＄]
       | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
       | 威力[0-9]|成長
@@ -200,10 +209,11 @@ else {
     if($::in{'info'}){
       $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
       $::in{'info'} .= '<<'.$1;
+      return $::in{'info'};
     }
   }
   # ダイス末尾マッチ
-  elsif($::in{'comm'} =~ /\s((?:
+  if($::in{'comm'} =~ /\s((?:
       [\@＠\$＄]
     | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
     | 威力|成長
@@ -213,10 +223,10 @@ else {
     if($::in{'info'}){
       $::in{'comm'} =~ s/\s((?!.*\s).*)$//;
       $::in{'info'} .= '<<'.$1;
+      return $::in{'info'};
     }
   }
 }
-error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
 
 # 秘話
 if($::in{'address'}){
