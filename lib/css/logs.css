@@ -297,10 +297,12 @@ article#contents {
 }
 /* クレジット表記 -------------------------------------------------- */
 aside.credit {
+  max-width: calc(100vw - 2em);
   margin: 2em 1em;
   border: 1px solid var(--border-color);
   border-radius: 5px;
   background: rgba(10,20,40,0.8);
+  overflow-x: auto;
 }
 aside.credit h3 {
   margin: .1em .4em;
@@ -317,6 +319,12 @@ aside.credit li {
   border-collapse: collapse;
   border: .1rem double  var(--border-color);
   background: rgba(10,20,40,0.8);
+}
+.stat-dice {}
+@media (max-width: 600px) {
+  .stat-dice {
+    font-size: 80%;
+  }
 }
 .stat-dice thead th,
 .stat-dice tfoot th {
