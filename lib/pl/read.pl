@@ -10,16 +10,25 @@ use Fcntl;
 
 my $dir = "./room/$::in{'room'}/";
 
-my $logfile = 'log-pre.dat';
+my %tablog;
+my $logfile = $::in{'loadedLog'} ? 'log-pre.dat' : 'log-all.dat';
 open(my $FH, '<', $dir.$logfile) or error "${logfile}が開けません";
 my @lines;
-foreach(<$FH>) {
+foreach($::in{'loadedLog'} ? <$FH> : (reverse <$FH>)) {
   chomp;
   $_ =~ s/\\/\\\\/g;
   $_ =~ s/"/\\"/g;
   $_ =~ s/\t/\\t/g;
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
-  last if $::in{'num'} > $num - 1;
+  # 初回読込時は各タブ最大100件まで読み込む
+  if(!$::in{'loadedLog'}){
+    next if $tablog{$tab} > 100;
+  }
+  # 以後差分まで
+  else {
+    last if ($::in{'num'} > $num - 1);
+  }
+  #
   my (undef, $time) = split(/ /, $date);
   my ($username, $userid) = $user =~ /^(.*)<([0-9a-zA-Z]+?)>$/;
   my $game;
@@ -44,7 +53,7 @@ foreach(<$FH>) {
       #
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
-    if($system =~ /^unit/){
+    elsif($system =~ /^unit/){
       $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
   }
@@ -69,6 +78,7 @@ foreach(<$FH>) {
     . ($openlater? ',"openlater":"'.$openlater.'"' : '')
     . '}';
   unshift(@lines, $line);
+  $tablog{$tab}++;
 }
 close($FH);
 
