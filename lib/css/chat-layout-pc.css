@@ -84,7 +84,7 @@ body {
   overflow: auto;
   position: relative;
 }
-#sidebar:not([data-layout="row"]) { width: 11em; }
+#sidebar:not([data-layout="row"]) { width: 14em; }
 
 #sidebar:not([data-layout="row"]).close { width: 2em; }
 #sidebar[data-layout="row"].close { height: 2em; }
@@ -581,11 +581,11 @@ body {
   grid-template-columns: repeat(6, 1fr);
 }
 [data-layout="row"] #status #status-body > dl {
+  display: block;
   margin-right: 1em;
   border: 0;
 }
 [data-layout="row"] #status #status-body > dl dt {
-  white-space: normal;
   height: 1.1em;
 }
 [data-layout="row"] #status #status-body > dl dt:hover {
@@ -781,6 +781,9 @@ body {
 }
 .float-box h2 {
   cursor: move;
+}
+.float-box table th {
+  white-space: nowrap;
 }
 /* 入室 */
 #enter-form {

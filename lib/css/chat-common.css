@@ -161,6 +161,8 @@ html,body {
   flex-direction: column;
 }
 #status #status-body > dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   padding: .3rem 0;
   border-width: 0 0 .1rem;
@@ -193,6 +195,7 @@ html,body {
   transform: scaleY(1.2);
 }
 #status #status-body > dl > dt {
+  grid-column: span 2;
   padding: 0 0 .1em .5em;
   overflow: hidden;
   white-space: nowrap;
@@ -203,36 +206,48 @@ html,body {
   white-space: normal;
 }
 #status #status-body > dl > dd {
-  padding: 0 0 .1em .6em;
+  padding: 0 0 .2em .2em;
+}
+#status #status-body > dl > dd[id*="stt-memo"]{
+  grid-column: span 2;
+  border-width: .1rem 0 0;
+  border-style: dotted;
+  border-color: var(--border-color-pale);
+  font-size: 90%;
+  line-height: 1.1;
 }
 #status #status-body > dl > dd > dl {
-  display: grid;
-  grid-template-columns: minmax(2em,auto) 1fr;
+  display: flex;
+  position: relative;
 } 
 #status #status-body > dl > dd > dl dt {
   position: relative;
+  flex-basis: 2em;
   font-size: 85%;
   line-height: calc(1 / 0.85);
   padding-right: .1em;
-}
-#status #status-body > dl > dd > dl dt::after {
-  content: ":";
-  position: absolute;
-  right: -.15em;
-  opacity: 0.5;
+  z-index: 3;
+  white-space: nowrap;
 }
 #status #status-body > dl > dd > dl dd {
-  padding-left: .2em;
+  flex-grow: 1;
+  padding-left: .1em;
 }
 #status #status-body > dl > dd > dl dd span {
   display: inline-block;
   position: relative;
   z-index: 3;
+  font-size: 93%;
+}
+#status #status-body > dl > dd > dl dd span span {
+  font-size: 100%;
 }
 #status #status-body > dl > dd > dl dd .gauge {
   display: block;
-  position: relative;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(100% - .1rem);
   height: .5rem;
   margin-top: -.4rem;
   margin-bottom: -.1rem;
@@ -348,14 +363,17 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body .status-remocon-area ul {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .sheet-body .status-remocon-area ul li.dice-button {
   grid-column: span 3;
   margin-right: .3em
 }
+.sheet-body .status-remocon-area ul li.dice-button.big {
+  grid-column: span 6;
+}
 .sheet-body .status-remocon-area ul li.dice-button.mini {
-  grid-column: span 1;
+  grid-column: span 2;
 }
 .sheet-body .status-remocon-area ul li.dice-button.mini button {
   padding: .3rem;

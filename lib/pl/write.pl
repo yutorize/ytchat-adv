@@ -92,7 +92,7 @@ else {
     delete $::in{'address'};
   }
   #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
@@ -545,27 +545,41 @@ sub unitCalcEdit {
   my $result_info; my $result_system;
   $set_text =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
   while($set_text =~ s/^
-    ($stt_commands)
+    ($stt_commands|メモ|memo)
     ([+\-\/=\:])
     (?: "(.*?)" | (.*?) )
     (?:\s|$)
   //xs){
     my ($type, $op, $text, $num) = ($1,$2,$3,$4);
-    if($num eq '' && $text){ $num = $text; }
-    if($op =~ /^[+\-\/=]$/){
-      my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
-      $data{'unit'}{$set_name}{'status'}{$type} = $result;
-      $diff .= "(over${over})" if $over;
-      $result_info .= ($result_info ? ' ' : '') . "$type:$result";
-      $result_info .= " [$diff]" if ($diff ne '');
+    # メモ
+    if($type =~ /^(メモ|memo)$/){
+      if($text eq '' && $num){ $text = $num; }
+      if($op ne ":"){ $text = $op . $text; }
+      my $result = tagConvert($text);
+      $result =~ s/\n/<br>/g;
+      $result =~ s/ /&nbsp;/g;
+      $data{'unit'}{$set_name}{'memo'} = $result;
+      $result_info = "メモ:" . $result;
       $result_system = "unit";
     }
-    elsif($op =~ /^:$/){
-      my $result = $num;
-      $result =~ s/ /&nbsp;/g;
-      $data{'unit'}{$set_name}{'status'}{$type} = $result;
-      $result_info .= ($result_info ? ' ' : '') . "$type:$result";
-      $result_system = "unit";
+    # 通常
+    else {
+      if($num eq '' && $text){ $num = $text; }
+      if($op =~ /^[+\-\/=]$/){
+        my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
+        $data{'unit'}{$set_name}{'status'}{$type} = $result;
+        $diff .= "(over${over})" if $over;
+        $result_info .= ($result_info ? ' ' : '') . "$type:$result";
+        $result_info .= " [$diff]" if ($diff ne '');
+        $result_system = "unit";
+      }
+      elsif($op =~ /^:$/){
+        my $result = $num;
+        $result =~ s/ /&nbsp;/g;
+        $data{'unit'}{$set_name}{'status'}{$type} = $result;
+        $result_info .= ($result_info ? ' ' : '') . "$type:$result";
+        $result_system = "unit";
+      }
     }
   }
   
