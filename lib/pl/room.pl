@@ -126,6 +126,13 @@ foreach (@set::replace_help){
 }
 $ROOM->param(TextReplace => \@text_replace);
 
+my @chat_se_list;
+my @ready_se_list;
+push(@chat_se_list,  { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], }) foreach (@set::chat_se_list );
+push(@ready_se_list, { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], }) foreach (@set::ready_se_list);
+$ROOM->param(chatSEList  => \@chat_se_list);
+$ROOM->param(readySEList => \@ready_se_list);
+
 my @random_table;
 foreach my $key (sort keys %set::random_table){
   next if !$set::random_table{$key}{'help'};

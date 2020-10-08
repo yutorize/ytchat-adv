@@ -28,9 +28,11 @@
     const gameSystemName = '<TMPL_VAR gameSystemName>';
     const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
     const checkTimeRom = 10000; // 更新チェック周期・見学者
-    const chatSE  = new Audio('./lib/sound/cursor1.mp3');
-    const markSE  = new Audio('./lib/sound/warning1.mp3');
-    const readySE = new Audio('./lib/sound/decision4.mp3');
+    let seType = {
+      'chat' : './lib/sound/se-lab/cursor1.mp3',
+      'mark' : './lib/sound/se-lab/warning1.mp3',
+      'ready' : './lib/sound/se-lab/decision4.mp3',
+    }
     const bcdiceAPI = '<TMPL_VAR bcdiceAPI>';
     let bcdiceSystem = '<TMPL_VAR bcdiceSystem>';
   </script>
@@ -339,7 +341,8 @@
     <h2>ユーザー個人設定</h2>
     <p>　ゲームルームを跨いで、あなただけに適用される設定です。</p>
     <details id="config-sound">
-      <summary><i class="fas fa-volume-up"></i>音量設定</summary>
+      <summary><i class="fas fa-volume-up"></i>サウンド設定</summary>
+      <h4>■音量</h4>
       <table>
         <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" data-type="master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
         <tr><th>ＢＧＭ            </th><td><input type="range" id="volume-bgm"    data-type="bgm"    min="0" max="100" step="1" value="80"></td><td id="volume-bgm-view"   >80%</td></tr>
@@ -350,6 +353,26 @@
       <p>
         強調ワード音量・レディチェック音量は0にするとチャット着信音に統一されます。<br>
       </p>
+      <h4>■着信SE</h4>
+      <table>
+        <tbody id="option-se-tabs"></tbody>
+        <script>
+          const chatTypeOptions = `<TMPL_LOOP chatSEList><option value="<TMPL_VAR URL>"><TMPL_VAR NAME></option></TMPL_LOOP>`;
+        </script>
+        <tbody>
+          <tr>
+            <th>強調ワード着信</th>
+            <td><select id="option-se-mark" oninput="seTypeChange(this,'mark')">
+              <TMPL_LOOP chatSEList><option value="<TMPL_VAR URL>"><TMPL_VAR NAME></option></TMPL_LOOP>
+            </select></td></tr>
+          <tr>
+            <th>レディチェック開始</th>
+            <td><select id="option-se-ready" oninput="seTypeChange(this,'ready')">
+              <TMPL_LOOP readySEList><option value="<TMPL_VAR URL>"><TMPL_VAR NAME></option></TMPL_LOOP>
+            </select></td>
+          </tr>
+        </tbody>
+      </table>
     </details>
     <details>
       <summary><i class="fas fa-exclamation-circle"></i>通知設定</summary>

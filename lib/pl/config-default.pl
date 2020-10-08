@@ -45,4 +45,33 @@ our @replace_help = (
   ['----',  '<hr>','四つ以上のハイフンで水平線'],
 );
 
+our @chat_se_list = (
+  ['./lib/sound/se-lab/cursor1.mp3',        'カーソル移動1／効果音ラボ'],
+  ['./lib/sound/se-lab/warning1.mp3',       '警告1／効果音ラボ'],
+  ['./lib/sound/kurage-kosho/button01.mp3', 'ボタン01／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button02.mp3', 'ボタン02／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button07.mp3', 'ボタン07／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button08.mp3', 'ボタン08／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button16.mp3', 'ボタン16／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button19.mp3', 'ボタン19／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button20.mp3', 'ボタン20／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button21.mp3', 'ボタン21／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button31.mp3', 'ボタン31／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button32.mp3', 'ボタン32／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button40.mp3', 'ボタン40／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button41.mp3', 'ボタン41／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button45.mp3', 'ボタン45／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button46.mp3', 'ボタン46／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button50.mp3', 'ボタン50／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button57.mp3', 'ボタン57／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button58.mp3', 'ボタン58／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/button63.mp3', 'ボタン63／くらげ工匠'],
+);
+
+our @ready_se_list = (
+  ['./lib/sound/se-lab/decision4.mp3',   '決定4／効果音ラボ'],
+  ['./lib/sound/kurage-kosho/one01.mp3', 'フレーズ001／くらげ工匠'],
+  ['./lib/sound/kurage-kosho/one04.mp3', 'フレーズ004／くらげ工匠'],
+);
+
 1;
