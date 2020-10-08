@@ -124,6 +124,7 @@
             
             <span class="button start end insert-image" title="挿絵" onclick="boxOpen('image-insert');"></span>
           </div>
+          
           <div class="check-buttons">
             <button onclick="unitCommandSubmit('check')">✔</button><button onclick="unitCommandSubmit('uncheck')">×</button>
           </div>
@@ -224,8 +225,8 @@
   <div class="float-box" id="edit-topic">
     <h2>トピック編集</h2>
     <div class="comm-area">
-    <textarea class="bold autosize" id="edit-topic-value" data-comm-pre="/topic "></textarea>
-    <button onclick="formSubmit('edit-topic-value');boxClose('edit-topic');">送信</button>
+      <textarea class="bold autosize" id="edit-topic-value" data-comm-pre="/topic "></textarea>
+      <button onclick="formSubmit('edit-topic-value');boxClose('edit-topic');">送信</button>
     </div>
     <span class="close button" onclick="boxClose('edit-topic');">×</span>
   </div>
@@ -233,8 +234,8 @@
   <div class="float-box" id="edit-npc">
     <h2>名前欄一括編集</h2>
     <div class="comm-area">
-    <textarea class="autosize" id="edit-npc-value"></textarea>
-    <button onclick="npcSave('edit-npc-value');boxClose('edit-npc');">決定</button>
+      <textarea class="autosize" id="edit-npc-value"></textarea>
+      <button onclick="npcSave('edit-npc-value');boxClose('edit-npc');">決定</button>
     </div>
     ※改行で区切ります。<br>
     ※色は名前末尾に6桁のカラーコードで指定。<br>

@@ -794,6 +794,7 @@ body.rom .input-form { display: none !important; }
   from { background-color: rgba(255,200,0,0.1); }
   to   {  }
 }
+
 /* 投稿ユーザー表示 */
 .chat .logs dl::before {
   content: attr(data-user);
