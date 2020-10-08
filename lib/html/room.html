@@ -366,6 +366,70 @@
       </p>
     </details>
     <details>
+      <summary><i class="fas fa-palette"></i>入力フォーム・チャットパレット設定</summary>
+      <h3>■チャットパレット挙動</h3>
+      <p>
+        クリック時の転記先：
+        <select id="option-palette-destinate">
+          <option value="fall">パレット直下の発言欄
+          <option value="main">メイン発言欄
+        </select>
+      </p>
+      <h3>■サブ入力欄Enter・⏎ボタン挙動</h3>
+      <table>
+        <tr>
+          <th><span class="fas fa-lock"></span></th>
+          <td>
+            <select id="option-subform-full-behavior">
+              <option value="plain">そのまま送信
+              <option value="copy" >メイン発言欄に転記
+              <option value="add"  >メイン発言の入力も同時に送信
+            </select>
+          </td>
+          <td>欄に全文残す</td>
+        </tr>
+        <tr>
+          <th><span class="fas fa-dice-d6"></span></th>
+          <td>
+            <select id="option-subform-dice-behavior">
+              <option value="plain">そのまま送信
+              <option value="copy" >メイン発言欄に転記
+              <option value="add"  >メイン発言の入力も同時に送信
+            </select>
+          </td>
+          <td>欄にコマンドを残す</td>
+        </tr>
+        <tr>
+          <th><span class="fas fa-user"></span></th>
+          <td>
+            <select id="option-subform-name-behavior">
+              <option value="plain">そのまま送信
+              <option value="copy" >メイン発言欄に転記
+              <option value="add"  >メイン発言の入力も同時に送信
+            </select>
+          </td>
+          <td>欄に発言名を残す</td>
+        </tr>
+        <tr>
+          <th><span class="fas fa-comment"></span></th>
+          <td>
+            <select id="option-subform-off-behavior">
+              <option value="plain">そのまま送信
+              <option value="copy" >メイン発言欄に転記
+              <option value="add"  >メイン発言の入力も同時に送信
+            </select>
+          </td>
+          <td>欄を空にする</td>
+        </tr>
+        <tr>
+          <th><span class="fas fa-sticky-note"></span></th>
+          <td>送信しない</td>
+          <td>メモ欄</td>
+        </tr>
+      </table>
+      </p>
+    </details>
+    <details>
       <summary><i class="fas fa-font"></i>ログフォント設定</summary>
       <p>文字の明るさ　： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
       <div id="font-sample" class="logs-font">
