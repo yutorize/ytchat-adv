@@ -129,6 +129,23 @@ article#contents {
   font-size: calc(1em / 0.9);
   line-height: calc(1.8 * 0.9);
 }
+
+/* 挿絵 */
+.logs dl dd.image {
+  margin: none;
+  padding: 0;
+}
+.logs dl dd.image::before {
+  display: none;
+}
+.logs dl dd.image img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 5em);
+  object-fit: scale-down;
+}
+
 /* メニュー -------------------------------------------------- */
 #menu {
   display: grid;

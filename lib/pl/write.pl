@@ -119,6 +119,13 @@ else {
     $::in{'comm'} = "共有メモ".($num+1).'を'. ($new ? '追加' : ($::in{'info'} ? '更新' : "削除")) ." by $::in{'player'}";
     delete $::in{'address'};
   }
+  # 挿絵
+  elsif($::in{'comm'} =~ s</insert\s+(https?://.+)><>i){
+    my $url = $1;
+    $::in{'system'} = 'image';
+    $::in{'comm'} = '';
+    $::in{'info'} = $url;
+  }
   # BGM変更処理
   elsif($::in{'comm'} =~ s</bgmreset><>i){
     bgmEdit('','');

@@ -104,21 +104,23 @@
           <button onclick="formSubmit('form-comm-main');">送信</button>
           </div>
           <div class="decoration-buttons">
-            <span class="button insert-ruby"></span>
+            <span class="button start insert-ruby"></span>
             <span class="button insert-em"></span>
             <span class="button insert-serif"></span>
-            <span class="button insert-bold"    title="太字"></span>
-            <span class="button insert-oblique" title="斜体"></span>
-            <span class="button insert-under"   title="下線"></span>
-            <span class="button insert-strike"  title="打消線"></span>
-            <span class="button insert-big"     title="大きい字"></span>
-            <span class="button insert-small"   title="小さい字"></span>
-            <span class="button insert-color"   title="色変え"></span>
-            <span class="button insert-hide"    title="透明な字"></span>
-            <span class="button insert-horizon" title="水平線"></span>
-            <span class="button insert-left"    title="左揃え"></span>
-            <span class="button insert-center"  title="中央揃え"></span>
-            <span class="button insert-right"   title="右揃え"></span>
+            <span class="button insert-bold"      title="太字"></span>
+            <span class="button insert-oblique"   title="斜体"></span>
+            <span class="button insert-under"     title="下線"></span>
+            <span class="button insert-strike"    title="打消線"></span>
+            <span class="button insert-big"       title="大きい字"></span>
+            <span class="button insert-small"     title="小さい字"></span>
+            <span class="button insert-color"     title="色変え"></span>
+            <span class="button insert-hide"      title="透明な字"></span>
+            <span class="button insert-horizon"   title="水平線"></span>
+            <span class="button insert-left"      title="左揃え"></span>
+            <span class="button insert-center"    title="中央揃え"></span>
+            <span class="button end insert-right" title="右揃え"></span>
+            
+            <span class="button start end insert-image" title="挿絵" onclick="boxOpen('image-insert');"></span>
           </div>
           <div class="check-buttons">
             <button onclick="unitCommandSubmit('check')">✔</button><button onclick="unitCommandSubmit('uncheck')">×</button>
@@ -203,6 +205,20 @@
   </div><!-- / BASE -->
   
   <!-- FLOAT-BOXES -->
+  <div class="float-box" id="image-insert">
+    <h2>挿絵（画像挿入）</h2>
+    <div>
+      <div class="image-preview-area"><img id="image-insert-preview" style="max-width:100%;max-height:200px;"></div>
+      <p>
+        <input type="url" id="image-insert-url" oninput="imgPreview();" placeholder="http://..." data-comm-pre="/insert " style="width:100%">
+      </p>
+      <p class="center">
+        <button onclick="formSubmit('image-insert-url');boxClose('image-insert');document.getElementById('image-insert-preview').src='';">送信</button>
+      </p>
+    </div>
+    <span class="close button" onclick="boxClose('image-insert');">×</span>
+  </div>
+  
   <div class="float-box" id="edit-topic">
     <h2>トピック編集</h2>
     <div class="comm-area">
@@ -228,7 +244,7 @@
   <div class="float-box" id="bg-set">
     <h2>背景画像変更</h2>
     <div>
-      <div class="bg-set-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
+      <div class="image-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
       <p>
         タイトル・権利表記等：<br>
         <input type="text" id="bg-set-title" placeholder="XXX／(c)YYY..."><br>
@@ -583,6 +599,8 @@
     </div>
     <span class="close button" onclick="boxClose('help-window');">×</span>
   </div>
+  
+  <div id="image-box" style="display:none"><img src="" id="image-box-image"></div>
   
   <div id="dark-back"></div>
   <!-- / FLOAT-BOXES -->

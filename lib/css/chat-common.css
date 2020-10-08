@@ -640,11 +640,14 @@ body.rom .input-form { display: none !important; }
   border-radius: 0;
   overflow: visible;
 }
-.decoration-buttons .button:first-child {
+.decoration-buttons .button.start {
   border-left-width: .1rem;
   border-bottom-left-radius: .6rem;
 }
-.decoration-buttons .button:last-child {
+.decoration-buttons .button.end + .button.start {
+  margin-left: 1em;
+}
+.decoration-buttons .button.end {
   border-bottom-right-radius: .5rem;
 }
 .decoration-buttons .button::before,
@@ -680,6 +683,8 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .insert-left::before    { content:"\f036"; }
 .decoration-buttons .insert-center::before  { content:"\f037"; }
 .decoration-buttons .insert-right::before   { content:"\f038"; }
+
+.decoration-buttons .insert-image::before   { content:"\f03e"; color:#8fd; }
 
 /* ダイスボタン */
 .dice-button {
@@ -843,6 +848,16 @@ body.rom .input-form { display: none !important; }
   border-bottom-left-radius: 0;
 }
 
+/* 挿絵 */
+.logs dl dd img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 40vh;
+  object-fit: scale-down;
+  cursor: zoom-in;
+}
+
 /* // 各フロートボックス
 ---------------------------------------------------------------------------------------------------- */
 .float-box {
@@ -949,7 +964,8 @@ body.rom .input-form { display: none !important; }
   top: 0.2em;
   right: 0.2em;
 }
-#dark-back {
+#dark-back,
+#image-box {
   position: fixed;
   top: 0;
   left: 0;
@@ -957,6 +973,21 @@ body.rom .input-form { display: none !important; }
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
   z-index: 98;
+}
+#image-box {
+  background-color: rgba(0,0,0,0.8);
+  animation-duration: .25s;
+  animation-name: imageIn;
+  z-index: 100;
+}
+@keyframes imageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+#image-box-image {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
 }
 /* z-index */
 #enter-form   { z-index: 100; }

@@ -103,7 +103,10 @@ foreach (<$FH>){
     }
   }
   
-  if($system =~ /^bgm:([0-9]+):(.+)$/){
+  if($system =~ /^image$/){
+    $info = '<img src="' . $info . '">';
+  }
+  elsif($system =~ /^bgm:([0-9]+):(.+)$/){
     my ($url, $vol) = ($2, $1);
     $comm = '<span class="bgm-border" data-url="'.$url.'" data-title="'.$info.'" data-vol="'.$vol.'"></span>'.$comm;
     if(!$bgms{$url}){ push(@bgms, $url) }

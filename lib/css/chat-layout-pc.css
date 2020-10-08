@@ -826,6 +826,13 @@ body {
   max-height: 80vh;
   margin-top: .1rem;
 }
+#image-insert {
+  top:auto;
+  left:20em;
+  right: auto;
+  bottom:10em;
+  width:30em;
+}
 #bg-set,
 #bgm-set {
   width: 30em;
@@ -834,14 +841,12 @@ body {
 #bgm-set  input {
   width: 100%;
 }
-#bg-set .bg-set-preview-area {
+.float-box .image-preview-area {
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #000;
-}
-#bg-set .bg-set-preview-area {
 }
 #member-list {
   top: auto;
