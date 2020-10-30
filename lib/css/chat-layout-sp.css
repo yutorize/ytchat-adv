@@ -75,7 +75,7 @@
 body.rom .closed .sheet#sheet-unit-memo {
   display: none !important;
 }
-.sheet .close-area {
+#sheet-area #close-area {
   display: none !important;
 }
 /*  */
