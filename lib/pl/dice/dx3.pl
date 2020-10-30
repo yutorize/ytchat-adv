@@ -66,8 +66,9 @@ sub encroachRoll {
     $number += $n;
     push(@numbers, $n);
   }
-  my $result = ( unitCalcEdit($::in{'name'}, '侵蝕+'.$number) )[0];
-  return "${rolls}D10→".join(',',@numbers)." $result";
+  my ($result, $system) = ( unitCalcEdit($::in{'name'}, '侵蝕+'.$number) );
+  $result = "${rolls}D10 → ".join(',',@numbers)."　$result";
+  return ($result, $system);
 }
 
 sub resurrectRoll {
@@ -78,9 +79,10 @@ sub resurrectRoll {
   my $result_hp = ( unitCalcEdit($::in{'name'}, 'HP+'.$number) )[0];
   my $over = 0;
   if($result_hp =~ /over([0-9]+)/){ $over = $1; }
-  my $result_en = ( unitCalcEdit($::in{'name'}, '侵蝕+'.($number-$over)) )[0];
   
-  return "${rolls}D10→${number} $result_hp $result_en";
+  my ($result_en, $system) = ( unitCalcEdit($::in{'name'}, '侵蝕+'.($number-$over)) );
+  my$result = "${rolls}D10 → ${number}　$result_hp　$result_en";
+  return ($result, $system);
 }
 
 sub emotionRoll {

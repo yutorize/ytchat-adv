@@ -29,10 +29,11 @@ foreach (%::in) {
   $::in{$_} =~ s/\\/&#92;/g;
 }
 
-my @status = $::in{'status'} ? (split(' ', $::in{'status'}))
+my @status = $::in{'status'} ? (split(' \| ', $::in{'status'}))
           # : $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
           # : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
-           : ('HP','MP','他');
+          # : ('HP','MP','他')
+           : ();
 my $stt_commands = join('|', @status);
 
 $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
@@ -65,11 +66,10 @@ else {
   # ユニット処理
   #チェック
   elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
-    my %stts;
-    $stts{'check'} = $1 eq 'check' ? 1 : 0;
-    $::in{'info'} = 'チェック：'.($stts{'check'} ? '✔' : '×');
-    $::in{'system'} = "check:".$stts{'check'};
-    unitEdit($::in{'name'}, \%stts);
+    my $check = $1 eq 'check' ? 1 : 0;
+    $::in{'info'} = 'チェック：'.($check ? '✔' : '×');
+    $::in{'system'} = "check:".$check;
+    unitCheck($::in{'name'}, $check);
     delete $::in{'address'};
   }
   #レディチェック
@@ -478,7 +478,7 @@ sub checkReset {
   seek($FH, 0, 0);
   
   foreach my $name (keys %{$data{'unit'}}) {
-    delete $data{'unit'}{$name}{'status'}{'check'};
+    delete $data{'unit'}{$name}{'check'};
   }
   
   print $FH decode('utf8', encode_json \%data);
@@ -504,27 +504,44 @@ sub roundChange {
   checkReset;
   return $data{'round'};
 }
-sub unitEdit {
   my $set_name = shift;
   my $set_data = shift;
   
-  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
-  flock($FH, 2);
-  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
-  seek($FH, 0, 0);
-  
-  my $updateflag;
-  foreach (keys %$set_data) {
-    unless ($_ eq 'check' && !exists $data{'unit'}{$set_name}) {
-      $data{'unit'}{$set_name}{'status'}{$_} = $$set_data{$_};
-      $updateflag = 1;
-    }
+  my %new;
+  my $result;;
+    while ($set_data =~ s/(.+?) [:：] (?: "(.*?)" | (.*?) ) (?:\s|$)//xs){
+      my $label  = $1;
+      my $value = $2 || $3;
+      if($label =~ /^(?:メモ|memo)$/){
+        $new{'memo'} = $value;
+      }
+      else {
+        $new{'status'}{$label} = $value;
+        $result .= ($result ? '　' : '') . "<b>$label</b>:$value";
+        push(@{$new{'sttnames'}}, $label);
+      }
+    if($new{'url'}) { $result  = "<b>参照先</b>:<a href=\"$new{'url'}\" target=\"_blank\">$new{'url'}</a><br>".$result; }
+    if($new{'memo'}){ $result .= ($result ? '　' : '') . "<b>メモ</b>:$new{'memo'}"; }
   }
-  $data{'unit'}{$set_name}{'color'} = $::in{'color'} if $updateflag || $::in{'unitAdd'};
+  my $result_system;
+  $result_system .= ($result_system ? ' | ' : '') . "$_>$new{'status'}{$_}" foreach (@{$new{'sttnames'}});
+  if($new{'memo'}){ $result_system .= " | memo>$new{'memo'}"; }
+  $result_system = 'unit:('.$result_system.')';
   
-  print $FH decode('utf8', encode_json \%data);
-  truncate($FH, tell($FH));
+  $new{'color'} = $::in{'color'};
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+    flock($FH, 2);
+    my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+    seek($FH, 0, 0);
+    
+    $data{'unit'}{$set_name} = \%new;
+    
+    print $FH decode('utf8', encode_json \%data);
+    truncate($FH, tell($FH));
   close($FH);
+  
+  return ($result, $result_system);
 }
 sub unitDelete {
   my $set_name = shift;
@@ -540,6 +557,26 @@ sub unitDelete {
   truncate($FH, tell($FH));
   close($FH);
 }
+sub unitCheck {
+  my $set_name = shift;
+  my $set_check = shift;
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  my $updateflag;
+  if (exists $data{'unit'}{$set_name}) {
+    $data{'unit'}{$set_name}{'check'} = $set_check;
+    $updateflag = 1;
+  }
+  $data{'unit'}{$set_name}{'color'} = $::in{'color'} if $updateflag || $::in{'unitAdd'};
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
 sub unitCalcEdit {
   my $set_name = shift;
   my $set_text = shift;
@@ -549,14 +586,9 @@ sub unitCalcEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  my $result_info; my $result_system;
-  $set_text =~ tr/０-９＋－／＊＝：！/0-9\+\-\/\*=:!/;
-  while($set_text =~ s/^
-    ($stt_commands|メモ|memo)
-    ([+\-\/=\:])
-    (?: "(.*?)" | (.*?) )
-    (?:\s|$)
-  //xs){
+  my $result_info; my $result_system; my $memo_flag;
+  $set_text =~ tr/０-９＋－÷＊＝：！/0-9\+\-\/\*=:!/;
+  while($set_text =~ s/^($stt_commands|メモ|memo)([+\-\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
     my ($type, $op, $text, $num) = ($1,$2,$3,$4);
     # メモ
     if($type =~ /^(メモ|memo)$/){
@@ -564,10 +596,9 @@ sub unitCalcEdit {
       if($op ne ":"){ $text = $op . $text; }
       my $result = tagConvert($text);
       $result =~ s/\n/<br>/g;
-      $result =~ s/ /&nbsp;/g;
       $data{'unit'}{$set_name}{'memo'} = $result;
-      $result_info = "メモ:" . $result;
-      $result_system = "unit";
+      $result_info .= "<b>メモ</b>:" . $result;
+      $memo_flag = 1;
     }
     # 通常
     else {
@@ -576,20 +607,28 @@ sub unitCalcEdit {
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
         $diff .= "(over${over})" if $over;
-        $result_info .= ($result_info ? ' ' : '') . "$type:$result";
+        $result_info .= ($result_info ? '　' : '') . "<b>$type</b>:$result";
         $result_info .= " [$diff]" if ($diff ne '');
-        $result_system = "unit";
       }
       elsif($op =~ /^:$/){
         my $result = $num;
-        $result =~ s/ /&nbsp;/g;
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
-        $result_info .= ($result_info ? ' ' : '') . "$type:$result";
-        $result_system = "unit";
+        $result_info .= ($result_info ? '　' : '') . "<b>$type</b>:$result";
       }
     }
   }
-  
+  if($result_info){
+    my %new;
+    @status = do { my %c; grep {!$c{$_}++} @status }; # 重複削除
+    foreach my $type (@status){
+      $new{$type} = $data{'unit'}{$set_name}{'status'}{$type};
+      $result_system .= ($result_system ? ' | ' : '')."$type>$new{$type}";
+    }
+    $result_system .= " | memo>$data{'unit'}{$set_name}{'memo'}" if $memo_flag;
+    $result_system = 'unit:('.$result_system.')';
+    $data{'unit'}{$set_name}{'status'} = \%new;
+    $data{'unit'}{$set_name}{'sttnames'} = \@status;
+  }
   $data{'unit'}{$set_name}{'color'} = $::in{'color'};
   
   print $FH decode('utf8', encode_json \%data);

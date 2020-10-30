@@ -574,6 +574,36 @@ body {
 }
 /* // ステータス
 ---------------------------------------------------------------------------------------------------- */
+#status {
+  padding-right: 0;
+}
+#status #status-body {
+  padding-right: .3rem;
+}
+#status #status-body::-webkit-scrollbar {
+  width: .4rem;
+  height: .4rem;
+}
+#status #status-body > dl > dd[id*="stt-url"] {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0,0,0, var(--box-bg-opacity));
+}
+#status #status-body > dl:hover > dd[id*="stt-url"] {
+  display: block;
+}
+#status #status-body > dl > dd[id*="stt-url"] a::before {
+  content: "\f35d";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1;
+}
 [data-layout="row"] #status {
   flex-grow: 5;
   padding-bottom: 0;

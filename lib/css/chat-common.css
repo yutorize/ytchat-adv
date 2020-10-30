@@ -208,30 +208,35 @@ html,body {
 #status #status-body > dl > dd {
   padding: 0 0 .2em .2em;
 }
-#status #status-body > dl > dd[id*="stt-memo"]{
+#status #status-body > dl > dd[id*="stt-memo"] {
   grid-column: span 2;
-  border-width: .1rem 0 0;
-  border-style: dotted;
-  border-color: var(--border-color-pale);
-  font-size: 90%;
+  margin-top: .1rem;
+  font-size: 86%;
   line-height: 1.1;
+}
+#status #status-body > dl > dd[id*="stt-memo"]:empty {
+  display: none;
 }
 #status #status-body > dl > dd > dl {
   display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
   position: relative;
 } 
 #status #status-body > dl > dd > dl dt {
   position: relative;
   flex-basis: 2em;
-  font-size: 85%;
-  line-height: calc(1 / 0.85);
+  margin: .1rem 0 -.1rem;
   padding-right: .1em;
-  z-index: 3;
+  font-size: 85%;
   white-space: nowrap;
+  z-index: 3;
 }
 #status #status-body > dl > dd > dl dd {
   flex-grow: 1;
-  padding-left: .1em;
+  align-self: flex-end;
+  padding-right: .1em;
+  text-align: right;
 }
 #status #status-body > dl > dd > dl dd span {
   display: inline-block;
@@ -274,6 +279,9 @@ html,body {
   right: 0;
   bottom: 0;
   opacity: 0.4;
+}
+#status #status-body > dl > dd > dl dd .gauge.none i {
+  display: none;
 }
 
 #status .add.button {
@@ -366,11 +374,30 @@ body.rom .sheet { display: none !important; }
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .sheet-body .status-remocon-area ul li.dice-button {
-  grid-column: span 3;
-  margin-right: .3em
-}
-.sheet-body .status-remocon-area ul li.dice-button.big {
   grid-column: span 6;
+  margin: .1rem 0 0 0;
+  grid-template-columns: 1fr 2fr auto;
+}
+.sheet-body .status-remocon-area ul li.dice-button input:first-child {
+  padding: .1rem .3rem;
+  border-right-width: .1rem;
+  border-right-style: solid;
+  border-right-color: inherit;
+  font-size: 85%;
+  font-family: 'Lato',var(--logs-font-family-jp),"BIZ UDGothic","Meiryo","YuKyokasho Yoko";
+}
+.sheet-body .status-remocon-area ul li.dice-button button {
+  border-width: 0;
+}
+.sheet-body .status-remocon-area ul li.dice-button * + button {
+  border-left-width: .1rem;
+  border-left-style: solid;
+}
+.sheet-body .status-remocon-area ul li.dice-button button:empty::before {
+  content: "⏎";
+}
+.sheet-body .status-remocon-area ul li.dice-button.memo {
+  grid-template-columns: 1fr auto;
 }
 .sheet-body .status-remocon-area ul li.dice-button.mini {
   grid-column: span 2;
@@ -378,7 +405,22 @@ body.rom .sheet { display: none !important; }
 .sheet-body .status-remocon-area ul li.dice-button.mini button {
   padding: .3rem;
 }
-.sheet-body .status-remocon-area ul li.dice-button:last-child {
+.sheet-body .status-remocon-area ul li.dice-button.checks {
+  grid-column: span 3;
+  grid-template-columns: 2fr 1fr;
+  height: 1.5em;
+}
+.sheet-body .status-remocon-area ul.status-remocon-others {
+  margin-bottom: .2rem;
+}
+.sheet-body .status-remocon-area ul.status-remocon-others li {
+  margin-top: .4rem;
+}
+.sheet-body .status-remocon-area ul li.dice-button.checks :not(:first-child) {
+  border-left-width: .1rem;
+}
+.sheet-body .status-remocon-area ul.status-remocon-others li.dice-button.delete {
+  grid-column: span 3;
   width: max-content;
   margin-left: auto;
 }
