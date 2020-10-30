@@ -73,7 +73,7 @@ else {
     delete $::in{'address'};
   }
   #レディチェック
-  elsif($::in{'comm'} =~ s<^\/ready(?:\s|$)><>i){
+  elsif($::in{'comm'} =~ s<^/ready(?:\s|$)><>i){
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
     $::in{'system'} = "ready";
@@ -97,7 +97,7 @@ else {
     delete $::in{'address'};
   }
   # トピック処理
-  elsif($::in{'comm'} =~ s</topic(\s|$)><>i){
+  elsif($::in{'comm'} =~ s<^/topic(\s|$)><>i){
     topicEdit($::in{'comm'});
     $::in{'tab'} = '1';
     $::in{'system'} = 'topic';
@@ -108,7 +108,7 @@ else {
     delete $::in{'address'};
   }
   # メモ処理
-  elsif($::in{'comm'} =~ s</memo([0-9]*)(\s|$)><>i){
+  elsif($::in{'comm'} =~ s<^/memo([0-9]*)(\s|$)><>i){
     my $new = $1 eq '' ? 1 : 0;
     error('メモの内容がありません。') if ($new && !$::in{'comm'});
     my $num = memoEdit($1, $::in{'comm'});
@@ -120,21 +120,21 @@ else {
     delete $::in{'address'};
   }
   # 挿絵
-  elsif($::in{'comm'} =~ s</insert\s+(https?://.+)><>i){
+  elsif($::in{'comm'} =~ s<^/insert\s+(https?://.+)><>i){
     my $url = $1;
     $::in{'system'} = 'image';
     $::in{'comm'} = '';
     $::in{'info'} = $url;
   }
   # BGM変更処理
-  elsif($::in{'comm'} =~ s</bgmreset><>i){
+  elsif($::in{'comm'} =~ s<^/bgmreset><>i){
     bgmEdit('','');
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "BGMを削除 by $::in{'player'}";
     $::in{'system'} = 'bgm';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s</bgm(?:\s(.*?))?(?:\s([0-9]{1,3}))?\s+(https?://.+)><>i){
+  elsif($::in{'comm'} =~ s<^/bgm(?:\s(.*?))?(?:\s([0-9]{1,3}))?\s+(https?://.+)><>i){
     my $url = $3;
     my $title = $1 || '無題';
     $2 =~ s/^0+//;
@@ -165,14 +165,14 @@ else {
     delete $::in{'color'};
   }
   # 背景変更処理
-  elsif($::in{'comm'} =~ s</bgreset><>i){
+  elsif($::in{'comm'} =~ s<^/bgreset><>i){
     bgEdit('','');
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "背景を削除 by $::in{'player'}";
     $::in{'system'} = 'bg';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s</bg(?:\s(.*?))?\s+(https?://.+)><>i){
+  elsif($::in{'comm'} =~ s<^/bg(?:\s(.*?))?\s+(https?://.+)><>i){
     my $url = $2;
     my $title = $1 || '無題';
     if($set::src_url_limit) {
