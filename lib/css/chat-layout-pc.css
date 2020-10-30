@@ -208,6 +208,9 @@ body {
 #menubar ul + ul li {
   border: 0;
 }
+#menubar ul + ul li + li {
+  margin-left: .3rem;
+}
 #menubar ul + ul input {
   width: 100%;
 }
