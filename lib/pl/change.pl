@@ -40,6 +40,11 @@ $counter++;
 ## 新規データ
 my $line = "$counter<>$date<>1<>!SYSTEM<><>ゲームルームの設定が変更されました<>$info_message<>change<>ゆとチャadv.<000><><>\n";
 
+# 過去ログに追加
+sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND) or error "log-all.datが開けません";
+print $LOG $line;
+close($LOG);
+
 # 現在ログに追加
 sysopen(my $FH, $dir.'log-pre.dat', O_RDWR) or error "log-pre.datが開けません";
 flock($FH, 2);

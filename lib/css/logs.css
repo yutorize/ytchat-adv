@@ -61,6 +61,7 @@ article#contents {
   margin: 1rem;
 }
 .logs dl {
+  display: grid;
   position: relative;
 }
 .logs dl:last-child {
@@ -144,6 +145,16 @@ article#contents {
   max-width: 100%;
   max-height: calc(100vh - 5em);
   object-fit: scale-down;
+}
+.logs dl dd .chara-image {
+  float: left;
+  width: 15rem;
+  height: 18rem;
+  margin-right: .5em;
+  max-width: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  cursor: zoom-in;
 }
 
 /* メニュー -------------------------------------------------- */

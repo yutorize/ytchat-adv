@@ -14,11 +14,23 @@ our %games = (
   'sw2' => {
     'name' => 'ソードワールド2.x',
     'status' => ['HP','MP','防護'],
+    'convert' => {
+      'HP'   => ['hpTotal', 'hpTotal'],
+      'MP'   => ['mpTotal', 'mpTotal'],
+      '防護' => ['defenseTotalAllDef'],
+    },
     'bcdice' => 'SwordWorld2.5',
   },
   'dx3' => {
     'name' => 'ダブルクロス3rd',
-    'status' => ['HP','侵蝕','行動'],
+    'status' => ['HP','侵蝕','ロイス','財産','行動'],
+    'convert' => {
+      'HP'     => ['maxHpTotal', 'maxHpTotal'],
+      '侵蝕'   => ['baseEncroach'],
+      'ロイス' => ['loisHave','loisMax'],
+      '財産'   => ['savingTotal'],
+      '行動'   => ['initiativeTotal'],
+    },
     'bcdice' => 'DoubleCross',
   },
 );

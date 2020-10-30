@@ -187,9 +187,13 @@
         <dl>
           <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
           <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="selectcolor-unit" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
+          <dt>参照URL</dt><dd><input id="new-unit-url-value" type="url" placeholder="キャラシなどのURL"></dd>
           <dt>ステータス</dt><dd><textarea class="autosize" id="new-unit-stt-value"><TMPL_VAR newUnitSttDefault></textarea></dd>
-          <dt><label><input type="checkbox" id="new-unit-addname"><b>名前欄にも追加する</b></label></dt>
         </dl>
+        <ul>
+          <li><label><input type="checkbox" id="new-unit-urlload"><b>URLからステータスを自動入力</b></label><br><span>（※ゆとシートⅡのみ）</span></li>
+          <li><label><input type="checkbox" id="new-unit-addname"><b>名前欄にも追加する</b></label></li>
+        </ul>
         <button onclick="newUnitSubmit();">作成</button>
       </div>
       <span class="close button" onclick="sheetClose();">×</span>
@@ -649,8 +653,6 @@
       <br>
       名前色<br>
       <input type="color" id="in-color" class="selectcolor-in" list="color-list" value="#FFFFFF"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list" value="#FFFFFF"><br>
-      <br>
-      <input type="checkbox" id="in-unitadd">入室時にユニットを作成<br>
       <br>
       <button onclick="enterRoom();">入室</button>
     </p>

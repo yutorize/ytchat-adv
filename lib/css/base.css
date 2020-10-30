@@ -44,6 +44,9 @@ input:focus,textarea:focus,select:focus,button:focus {
 [readonly]{
   cursor: default;
 }
+[disabled]{
+  opacity: 0.5;
+}
 textarea {
   resize: none;
 }

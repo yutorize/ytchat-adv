@@ -42,7 +42,6 @@ $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 if($::in{'system'} eq 'enter'){
   $::in{'name'} = "!SYSTEM";
   $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました";
-  if($::in{'unitAdd'}){ $::in{'system'} .= ' unit'; unitEdit($::in{'player'}); }
   delete $::in{'color'};
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
 }
@@ -79,6 +78,12 @@ else {
     $::in{'system'} = "ready";
     delete $::in{'color'};
     checkReset();
+    delete $::in{'address'};
+  }
+  #新規
+  elsif($::in{'comm'} =~ s/^(.*?) [@＠] new \s ( (?:http|$stt_commands|メモ|memo) .*? )$//ixs){
+    $::in{'name'} = $1 || $::in{'name'};
+    ($::in{'info'}, $::in{'system'}) = unitMake($::in{'name'}, $2);
     delete $::in{'address'};
   }
   #削除
@@ -325,7 +330,7 @@ sub tagConvert{
   1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
   
   # 自動リンク
-  $comm =~ s#(https?://[^\s\<]+)#<a href="$1" target="_blank">$1</a>#gi;
+  $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#gi;
   
   $comm =~ s#&lt;br&gt;?#<br>#gi;
   
@@ -504,27 +509,39 @@ sub roundChange {
   checkReset;
   return $data{'round'};
 }
+sub unitMake {
   my $set_name = shift;
   my $set_data = shift;
   
   my %new;
   my $result;;
+  if($set_data =~ /^http/){
+    require './lib/pl/convert.pl';
+    (my $new_data, $result) = dataConvert($set_data);
+    %new = %{$new_data}
+  }
+  else {
     while ($set_data =~ s/(.+?) [:：] (?: "(.*?)" | (.*?) ) (?:\s|$)//xs){
       my $label  = $1;
       my $value = $2 || $3;
       if($label =~ /^(?:メモ|memo)$/){
         $new{'memo'} = $value;
       }
+      elsif($label =~ /^(?:url)$/){
+        $new{'url'} = $value;
+      }
       else {
         $new{'status'}{$label} = $value;
         $result .= ($result ? '　' : '') . "<b>$label</b>:$value";
         push(@{$new{'sttnames'}}, $label);
       }
+    }
     if($new{'url'}) { $result  = "<b>参照先</b>:<a href=\"$new{'url'}\" target=\"_blank\">$new{'url'}</a><br>".$result; }
     if($new{'memo'}){ $result .= ($result ? '　' : '') . "<b>メモ</b>:$new{'memo'}"; }
   }
   my $result_system;
   $result_system .= ($result_system ? ' | ' : '') . "$_>$new{'status'}{$_}" foreach (@{$new{'sttnames'}});
+  if($new{'url'}) { $result_system .= " | url>$new{'url'}"; }
   if($new{'memo'}){ $result_system .= " | memo>$new{'memo'}"; }
   $result_system = 'unit:('.$result_system.')';
   

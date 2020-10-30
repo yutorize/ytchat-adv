@@ -207,6 +207,7 @@ html,body {
 }
 #status #status-body > dl > dd {
   padding: 0 0 .2em .2em;
+  display: grid;
 }
 #status #status-body > dl > dd[id*="stt-memo"] {
   grid-column: span 2;
@@ -216,6 +217,18 @@ html,body {
 }
 #status #status-body > dl > dd[id*="stt-memo"]:empty {
   display: none;
+}
+#status #status-body > dl > dd[id*="stt-url"] {
+  grid-column: span 2;
+  display: block;
+}
+#status #status-body > dl > dd[id*="stt-url"]:empty {
+  display: none !important;
+}
+#status #status-body > dl > dd[id*="stt-url"] a::before {
+  content: "参照URL";
+  font-weight: bold;
+  line-height: 1;
 }
 #status #status-body > dl > dd > dl {
   display: flex;
@@ -524,6 +537,13 @@ body.rom .sheet { display: none !important; }
 .sheet-body-default dd input[list] {
   flex-shrink: 1;
 }
+
+.sheet-body-default ul {
+}
+.sheet-body-default ul li {
+  padding: .5em 0;
+}
+
 .sheet-body-default button {
   display: block;
   margin: 1em auto;
@@ -904,6 +924,16 @@ body.rom .input-form { display: none !important; }
   width: 100%;
   max-height: 10vh;
   object-fit: cover;
+}
+.logs dl dd .chara-image {
+  float: left;
+  width: 15rem;
+  height: 18rem;
+  margin-right: .5em;
+  max-width: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  cursor: zoom-in;
 }
 
 /* // 各フロートボックス
