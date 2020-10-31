@@ -218,9 +218,9 @@ error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'
 sub diceCodeCheck {
   # ダイス処理
   if($::in{'comm'} =~ /^(?:
-        [\@＠\$＄]
-      | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
-      | 威力[0-9]|成長
+      [\@＠\$＄]
+    | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
+    | 威力[0-9]|成長
   )/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
@@ -256,8 +256,18 @@ if($::in{'address'}){
 $::in{'comm'} = tagConvert($::in{'comm'});
 
 # 最終安全装置
-$::in{'comm'} =~ s/<>/&lt;&gt;/g; $::in{'comm'} =~ s/\r\n?|\n/<br>/g;
-$::in{'info'} =~ s/<>/&lt;&gt;/g; $::in{'info'} =~ s/\r\n?|\n/<br>/g;
+$::in{$_} = finalSafetyMain($::in{$_}) foreach ('comm','info');
+$::in{$_} = finalSafetySub($::in{$_})  foreach ('tab','name','color','system','player','userId','address');
+sub finalSafetyMain {
+  my $text = shift;
+  $text =~ s/<>/&lt;&gt;/g; $text =~ s/\r\n?|\n/<br>/g;
+  return $text;
+}
+sub finalSafetySub {
+  my $text = shift;
+  $text =~ s/<>/&lt;&gt;/g; $text =~ s/\r\n?|\n/ /g;
+  return $text;
+}
 
 # 時間取得
 my @time = localtime(time);
