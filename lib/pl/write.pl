@@ -28,6 +28,7 @@ foreach (%::in) {
   $::in{$_} =~ s/>/&gt;/g;
   $::in{$_} =~ s/\\/&#92;/g;
 }
+my @adds;
 
 my @status = $::in{'status'} ? (split(' \| ', $::in{'status'}))
           # : $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
@@ -195,6 +196,11 @@ else {
     $::in{'system'} = 'bg:'.$url;
     delete $::in{'color'};
   }
+  # チャットパレット更新
+  elsif($::in{'comm'} =~ s<^/paletteupdate\s(.*)$><>is){
+    paletteUpdate($::in{'name'}, $1);
+    $::in{'system'} = 'palette';
+  }
   # BCDice処理
   elsif($::in{'bcdice'}){
     $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
@@ -206,7 +212,7 @@ else {
     #なんもないよ
   }
 }
-error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '');
+error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '' && $::in{'system'} eq '');
 
 # ダイスコード確認
 sub diceCodeCheck {
@@ -266,21 +272,28 @@ seek($NUM, 0, 0);
 
 $counter++;
 
-## 新規データ
-my $line = "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'info'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>$::in{'address'}<>\n";
+# 新規データ
+my @posts;
+push(@posts, "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'info'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>$::in{'address'}<>\n");
+# 追加データ
+foreach my $add (@adds){
+  $counter++;
+  push(@posts, "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$add->{'comm'}<>$add->{'info'}<>$add->{'system'}<>$::in{'player'}<$::in{'userId'}><>$::in{'address'}<>\n");
+}
 
 # 過去ログに追加
 sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND) or error "log-all.datが開けません";
-print $LOG $line;
+print $LOG join("", @posts);
 close($LOG);
 
+@posts = reverse @posts;
 
 # 現在ログに追加
 sysopen(my $FH, $dir.'log-pre.dat', O_RDWR) or error "log-pre.datが開けません";
 flock($FH, 2);
 my @lines = <$FH>;
 seek($FH, 0, 0);
-unshift (@lines, $line);
+unshift (@lines, @posts);
 for (0 .. $log_pre_max-1) {
   print $FH $lines[$_];
 }
@@ -543,6 +556,7 @@ sub unitMake {
   $result_system .= ($result_system ? ' | ' : '') . "$_>$new{'status'}{$_}" foreach (@{$new{'sttnames'}});
   if($new{'url'}) { $result_system .= " | url>$new{'url'}"; }
   if($new{'memo'}){ $result_system .= " | memo>$new{'memo'}"; }
+  if($new{'palette'}){ push(@adds, {'system'=>'palette'}); }
   $result_system = 'unit:('.$result_system.')';
   
   $new{'color'} = $::in{'color'};
@@ -691,6 +705,22 @@ sub sttCalc {
   foreach my $i (0..1){ $diff[$i] = ($diff[$i] >= 0 ? '+' : '') . $diff[$i] if ($diff[$i] ne ''); }
   
   return (join('/', @base), join('/', @diff)), $over[0];
+}
+
+sub paletteUpdate {
+  my $set_name = shift;
+  my $set_text = shift;
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+  
+  $data{'unit'}{$set_name}{'palette'} = $set_text;
+  
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
 }
 
 1;

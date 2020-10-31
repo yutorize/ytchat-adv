@@ -109,12 +109,14 @@ sub dataConvert {
             . ($profile ? $profile.'<br>':'')
             . $result;
     # チャットパレット取得
+    my $palette = get($set_url.'&mode=palette') || '';
     # 最終
     my %data = (
       'url' => $set_url,
       'status' => \%stt,
       'sttnames' => \@stt_name,
       'memo' => ($memo || ''),
+      'palette' => $palette,
     );
     return (\%data, $result);
   }

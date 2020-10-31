@@ -59,6 +59,10 @@ foreach($::in{'loadedLog'} ? <$FH> : (reverse <$FH>)) {
   }
   $info = join('<br>', @infos);
   
+  if($system eq 'palette'){
+    $palette{$name} = 1;
+  }
+  
   my $openlater;
   if($address =~ s/\#$//){ $openlater = 1; }
   
@@ -82,9 +86,22 @@ foreach($::in{'loadedLog'} ? <$FH> : (reverse <$FH>)) {
 }
 close($FH);
 
+my $outs;
+if(%palette && $::in{'loadedLog'}){
+  open(my $FH, '<', $dir.'room.dat') or error "room.datが開けません";
+  my %load = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  close($FH);
+  my %pdata;
+  foreach my $n (keys %palette){ $pdata{$n} = $load{'unit'}{$n}{'palette'} }
+  $outs = decode('utf8', encode_json (\%pdata))
+}
+
 $" = ",";
 print "Content-type:application/json; charset=UTF-8\n\n";
-print "[@lines]";
+print '{';
+print "\"logs\":[@lines]";
+print ",\"palette\":$outs" if $outs;
+print '}';
 
 exit;
 
