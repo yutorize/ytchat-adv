@@ -3,7 +3,8 @@ use strict;
 use utf8;
 use open ":utf8";
 use open ":std";
-use Fcntl;
+use Encode qw/encode decode/;
+use JSON::PP;
 
 ###################
 ### 読み込み処理
@@ -11,10 +12,16 @@ use Fcntl;
 my $dir = "./room/$::in{'room'}/";
 
 my %tablog;
-my $logfile = $::in{'loadedLog'} ? 'log-pre.dat' : 'log-all.dat';
+my $logfile = 'log-pre.dat';
+my $reverseOn = 0;
+if(!$::in{'loadedLog'}){
+  my $presize = -s $dir.'log-pre.dat';
+  my $allsize = -s $dir.'log-all.dat';
+  if($allsize > $presize){ $logfile = 'log-all.dat'; $reverseOn = 1; }
+}
+my @lines; my %palette;
 open(my $FH, '<', $dir.$logfile) or error "${logfile}が開けません";
-my @lines;
-foreach($::in{'loadedLog'} ? <$FH> : (reverse <$FH>)) {
+foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   chomp;
   $_ =~ s/\\/\\\\/g;
   $_ =~ s/"/\\"/g;
