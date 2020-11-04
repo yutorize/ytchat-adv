@@ -919,6 +919,9 @@ body.rom .input-form { display: none !important; }
   max-height: 40vh;
   object-fit: scale-down;
   cursor: zoom-in;
+  animation-name: imgfadein;
+  animation-duration: .5s;
+  animation-timing-function: linear;
 }
 .logs dl dd img.insert.bg {
   width: 100%;
@@ -934,6 +937,13 @@ body.rom .input-form { display: none !important; }
   overflow: hidden;
   background-repeat: no-repeat;
   cursor: zoom-in;
+  animation-name: imgfadein;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+}
+@keyframes imgfadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* // 各フロートボックス
