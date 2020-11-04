@@ -97,6 +97,11 @@ else {
     unitDelete($name);
     delete $::in{'address'};
   }
+  #更新
+  elsif($::in{'comm'} =~ s/^[@＠]statusupdate//s){
+    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, '');
+    delete $::in{'address'};
+  }
   #変更
   elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
@@ -622,6 +627,7 @@ sub unitCalcEdit {
   my $set_name = shift;
   my $set_text = shift;
   
+  my $update = $set_text ? 0 : 1;
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
@@ -658,7 +664,7 @@ sub unitCalcEdit {
       }
     }
   }
-  if($result_info){
+  if($result_info || $update){
     my %new;
     @status = do { my %c; grep {!$c{$_}++} @status }; # 重複削除
     foreach my $type (@status){
