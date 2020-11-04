@@ -59,7 +59,6 @@ html,body {
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
 }
-.edit.button:empty { border: 0; }
 .edit.button:empty::before { content: "\f044" }
 
 /* // メニュー
@@ -156,15 +155,12 @@ html,body {
 }
 #status #status-body {
   overflow: auto;
-  padding-left: .5em;
   display: flex;
   flex-direction: column;
 }
 #status #status-body > dl {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   position: relative;
-  padding: .3rem 0;
+  padding: .3rem .3rem 0 .5em;
   border-width: 0 0 .1rem;
   border-style: solid;
   border-color: var(--border-color-pale);
@@ -182,12 +178,15 @@ html,body {
     transform: scaleY(1);
   }
 }
+#status #status-body > dl.selected {
+  background-color: rgba(0,150,255, 0.2);
+}
 #status #status-body > dl.check::before {
   content: "\f00c";
   display: inline-block;
   position: absolute;
   top: .3rem;
-  left: -.5em;
+  left: .1rem;
   font-family: "Font Awesome 5 Free";
   font-size: 1em;
   font-weight: bold;
@@ -195,8 +194,9 @@ html,body {
   transform: scaleY(1.2);
 }
 #status #status-body > dl > dt {
-  grid-column: span 2;
-  padding: 0 0 .1em .5em;
+  grid-column: 1 / -1;
+  margin-left: -.5em;
+  padding: 0 0 .1em 1em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -210,8 +210,8 @@ html,body {
   display: grid;
 }
 #status #status-body > dl > dd[id*="stt-memo"] {
-  grid-column: span 2;
-  margin-top: .1rem;
+  grid-column: 1 / -1;
+  margin-top: .2rem;
   font-size: 86%;
   line-height: 1.1;
 }
@@ -364,6 +364,7 @@ body.rom .sheet { display: none !important; }
 .sheet h2 {
   padding-bottom: .1em;
   border-bottom: .1rem solid var(--border-color);
+  font-size: 1.2em;
 }
 .sheet-body {
   display: grid;
@@ -376,10 +377,20 @@ body.rom .sheet { display: none !important; }
 
 /* リモコン */
 .sheet-body .status-remocon-area {
+  position: relative;
   overflow-x: hidden;
   overflow-y: auto;
 }
+.sheet-body .status-remocon-area > .button {
+  position: absolute;
+  top: .25em;
+}
+.sheet-body .status-remocon-area > .button.add { right: 3rem; }
+.sheet-body .status-remocon-area > .button.del { right: .5rem; }
 .sheet-body .status-remocon-area select {
+  width: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   font-size: 0.9em;
 }
 .sheet-body .status-remocon-area ul {
@@ -388,13 +399,13 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body .status-remocon-area ul li.dice-button {
   grid-column: span 6;
-  margin: .1rem 0 0 0;
+  margin: 0;
   grid-template-columns: 1fr 2fr auto;
 }
 .sheet-body .status-remocon-area ul li.dice-button input:first-child {
   padding: .1rem .3rem;
   border-right-width: .1rem;
-  border-right-style: solid;
+  border-right-style: dotted;
   border-right-color: inherit;
   font-size: 85%;
   font-family: 'Lato',var(--logs-font-family-jp),"BIZ UDGothic","Meiryo","YuKyokasho Yoko";
@@ -408,6 +419,20 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body .status-remocon-area ul li.dice-button button:empty::before {
   content: "⏎";
+}
+.sheet-body .status-remocon-area ul.status-remocon-list {
+}
+.sheet-body .status-remocon-area ul.status-remocon-list li {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.sheet-body .status-remocon-area ul.status-remocon-list li:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.sheet-body .status-remocon-area ul.status-remocon-list li:hover {
+  border-bottom: .1rem solid #d90;
 }
 .sheet-body .status-remocon-area ul li.dice-button.memo {
   grid-template-columns: 1fr auto;
@@ -481,28 +506,52 @@ body.rom .sheet { display: none !important; }
   margin-top: 0.5rem;
   border-top: .1rem solid var(--border-color);
 }
-.sheet-body .chat-palette-palette-area {
+.sheet-body .chat-palette-frame {
   position: relative;
-  display: grid;
 }
-.sheet-body .chat-palette-palette-area select,
-.sheet-body .chat-palette-palette-area textarea {
+.sheet-body .chat-palette-frame .chat-palette {
+  position: absolute;
+  overflow-y: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   font-size: 1.2rem;
-  border-top-right-radius: 0;
+  border-radius: 0.8rem 0 0 0;
   z-index: 2;
 }
-.sheet-body .chat-palette-palette-area select{
-  padding: 0;
+.sheet-body .chat-palette-frame .chat-palette.lines {
+  border: .1rem solid var(--border-color-pale);
 }
-.sheet-body select.chat-palette option {
+.sheet-body .chat-palette-frame .chat-palette.lines > span {
+  display: block;
   padding: .4rem .5rem;
   border-bottom: .1rem solid var(--border-color-pale);
+  cursor: pointer;
 }
-.sheet-body .chat-palette-palette-area textarea {
+.sheet-body .chat-palette-frame .chat-palette.lines > span:focus {
+  outline: none;
+  background-color: rgba(0,150,255, 0.2);
+}
+.sheet-body .chat-palette-frame .chat-palette.lines > span:hover {
+  background-color: rgba(255,150,0, 0.2);
+}
+.sheet-body .chat-palette-frame  .chat-palette.texts {
   line-height: calc(1em + .9rem);
   padding: 0 .5rem;
 }
-.sheet-body .chat-palette-palette-area .edit.button {
+.sheet-body .chat-palette-area .comm-area {
+  margin: 0;
+}
+.sheet-body .chat-palette-area .comm-area textarea {
+  border-top: 0;
+  border-top-left-radius: 0;
+}
+.sheet-body .chat-palette-area .comm-area button {
+  border-top: 0;
+  border-top-right-radius: 0;
+}
+.sheet-body .chat-palette-frame .button {
   position: absolute;
   width: 4.5em;
   height: 2rem;
@@ -510,12 +559,39 @@ body.rom .sheet { display: none !important; }
   right: 0;
   padding: .25rem 0;
   border-bottom-width: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-radius: 0.8rem 0.8rem 0 0;
   font-family: inherit;
   font-size: 1.4rem;
   z-index: 1;
 }
+.sheet-body .chat-palette-frame.editing::before {
+  content:'チャットパレット編集中';
+  display: block;
+  padding: .2em;
+  border-radius: 0.8rem 0 0 0;
+  border-width: .1rem .1rem 0;
+  border-style: solid;
+  border-color: var(--border-color-pale);
+  background-color: rgba(255,150,0, 0.2);
+  text-align: center;
+}
+.sheet-body .chat-palette-frame.editing .chat-palette {
+  top: calc(1.4em + .2rem);
+  border-top-left-radius: 0;
+}
+.sheet-body .chat-palette-frame .button.edit::before  { content:'編集' }
+.sheet-body .chat-palette-frame .button.save::before  { content:'確定' }
+.sheet-body .chat-palette-frame:not(.editing) .chat-palette.texts { display: none; }
+.sheet-body .chat-palette-frame.editing       .chat-palette.lines { display: none; }
+.sheet-body .chat-palette-frame:not(.editing) .button.save { display: none; }
+.sheet-body .chat-palette-frame.editing       .button.edit { display: none; }
+#sheet-area.destinate-main .chat-palette-area .chat-palette {
+  border-radius: 0.8rem;
+}
+#sheet-area.destinate-main .chat-palette-area .comm-area {
+  display: none;
+}
+
 /* デフォルトシート */
 .sheet-body-default {
   padding: .5em;
@@ -645,6 +721,7 @@ body.rom .input-form { display: none !important; }
   display: inline-flex;
   position: relative;
   margin-left: auto;
+  margin-right: 2rem;
   border: .1rem solid var(--border-color);
   border-radius: .8rem;
 }

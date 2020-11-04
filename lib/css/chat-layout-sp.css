@@ -436,6 +436,12 @@ input[type=range]::-moz-range-thumb {
 .form-dice {
   display: none;
 }
+/* // ステータス
+---------------------------------------------------------------------------------------------------- */
+:not([data-layout="row"]) #status #status-body > dl {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
 
 /* // 各フロートボックス
 ---------------------------------------------------------------------------------------------------- */

@@ -8,7 +8,7 @@ body {
   padding: 0 2rem;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 11em max-content;
+  grid-template-columns: 1fr max-content max-content;
   grid-template-rows: max-content max-content max-content 1fr max-content max-content;
   grid-template-areas: 
     " menu  menu sheet"
@@ -578,7 +578,6 @@ body {
   padding-right: 0;
 }
 #status #status-body {
-  padding-right: .3rem;
 }
 #status #status-body::-webkit-scrollbar {
   width: .4rem;
@@ -604,18 +603,21 @@ body {
   font-size: 1.2em;
   line-height: 1;
 }
+#sidebar:not([data-layout="row"]) #status #status-body > dl {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
 [data-layout="row"] #status {
   flex-grow: 5;
   padding-bottom: 0;
-  padding-right: 1rem;
+  padding-right: 2em;
 }
 [data-layout="row"] #status #status-body {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(8, 1fr);
 }
 [data-layout="row"] #status #status-body > dl {
-  display: block;
-  margin-right: 1em;
+  align-content: start;
   border: 0;
 }
 [data-layout="row"] #status #status-body > dl dt {
@@ -626,10 +628,22 @@ body {
 }
 [data-layout="row"] #status .edit.button {
   position: absolute;
+  display: block;
+  height: 1.4em;
+}
+[data-layout="row"] #status .shrink.button {
+  right: .1em;
+  bottom: 3.4em;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  z-index: 10;
+}
+[data-layout="row"] #status .expand.button {
   right: .1em;
   bottom: 2em;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   z-index: 10;
-  display: block;
 }
 
 /* // 共有メモ

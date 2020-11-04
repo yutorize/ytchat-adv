@@ -158,7 +158,8 @@
       <div class="box" id="status" data-num="0">
         <div id="status-body"></div>
         <span class="add button" onclick="sheetSelect('default');sheetOpen();">+</span>
-        <span class="edit button" onclick="statusScale();">⇔</span>
+        <span class="shrink edit button" onclick="statusScale('shrink');" title="狭める">⇐</span>
+        <span class="expand edit button" onclick="statusScale('expand');" title="拡げる">⇒</span>
       </div>
       <div class="box memo" id="memo" data-num="0">
         <ul id="memo-list" class="bold"></ul>
