@@ -494,14 +494,28 @@ body {
 }
 .form-dice .edit.button {
   position: absolute;
-  bottom: 0;
   right: -.4rem;
+  height: 2.3rem;
 }
-.form-dice .edit.button + .edit.button {
-  bottom: 2.4rem;
+.form-dice .del.button {
+  bottom: 0rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
-.form-dice .edit.button + .edit.button + .edit.button {
+.form-dice .add.button {
+  bottom: 2.2rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-dice .expand.button {
   bottom: 4.8rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-dice .shrink.button {
+  bottom: calc(4.8rem + 2.2rem);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 .form-dice .dice-button {
   grid-template-columns: auto 1fr auto;
