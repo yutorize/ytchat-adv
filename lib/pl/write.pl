@@ -28,6 +28,7 @@ foreach (%::in) {
   $::in{$_} =~ s/>/&gt;/g;
   $::in{$_} =~ s/\\/&#92;/g;
 }
+
 my @adds;
 
 my @status = $::in{'status'} ? (split(' \| ', $::in{'status'}))
@@ -473,7 +474,7 @@ sub bgmEdit {
     $data{'bgm'}{'url'} = $url;
     $data{'bgm'}{'title'} = $title;
     $data{'bgm'}{'vol'} = $volume;
-  
+    
     $data{'bgm-history'}{$url} = [ $title,$volume ];
   }
   else {
@@ -626,8 +627,8 @@ sub unitCheck {
 sub unitCalcEdit {
   my $set_name = shift;
   my $set_text = shift;
-  
   my $update = $set_text ? 0 : 1;
+  
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
@@ -715,7 +716,7 @@ sub sttCalc {
     $over[0] = $base[0] - $base[1];
     if($over[0] > 0){
       $diff[0] -= $over[0];
-    } 
+    }
     $base[0] = $base[1];
   }
   foreach my $i (0..1){ $diff[$i] = ($diff[$i] >= 0 ? '+' : '') . $diff[$i] if ($diff[$i] ne ''); }
