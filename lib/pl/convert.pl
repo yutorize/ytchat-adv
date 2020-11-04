@@ -52,27 +52,36 @@ sub dataConvert {
         foreach my $i (1 .. $pc{'statusNum'}){
           if($multiple{ $pc{"part${i}"} } > 1){
             $count{ $pc{"part${i}"} }++;
-            $pc{"part${i}"} .= $n2a[$i];
+            $pc{"part${i}"} .= $n2a[ $count{ $pc{"part${i}"} } ];
           }
         }
       }
-      #
+      # HPMP
+      my %label2dataname = ( 'HP'=>'Hp', 'MP'=>'Mp' );
+      foreach my $label ('HP','MP'){
+        my $dataname = $label2dataname{$label};
+        foreach my $i (1 .. $pc{'statusNum'}){
+          my $part = ($pc{'statusNum'} > 1) ? $pc{"part${i}"}.':' : '';
+          $stt{ $part.$label } = numConvert($pc{"status${i}${dataname}"});
+          push(@stt_name, $part.$label) if $stt{ $part.$label };
+          $result .= "<b>${part}${label}</b>:$stt{ $part.$label }　";
+        }
+        if($pc{'statusNum'} > 1) {
+          $result .= "<br>";
+        }
+      }
+      # 防護
       foreach my $i (1 .. $pc{'statusNum'}){
         my $part = ($pc{'statusNum'} > 1) ? $pc{"part${i}"}.':' : '';
-        $stt{ $part.'HP' } = numConvert($pc{"status${i}Hp"});
-        $stt{ $part.'MP' } = numConvert($pc{"status${i}Mp"});
-        push(@stt_name, $part.'HP') if $stt{ $part.'HP' };
-        push(@stt_name, $part.'MP') if $stt{ $part.'MP' };
-        $result .= "<b>${part}HP</b>:$stt{ $part.'HP' }　<b>${part}MP</b>:$stt{ $part.'MP' }";
         if($pc{'statusNum'} == 1) {
           $stt{'防護'} .= $pc{"status${i}Defense"};
           push(@stt_name, '防護') if $stt{ '防護' };
-          $result .= "　<b>防護</b>:$stt{ $part.'HP' }";
+          $result .= "　<b>防護</b>:$stt{ $part.'防護' }";
+          $result .= '<br>';
         }
         else {
           $memo .= ($memo?'／':'').$part.$pc{"status${i}Defense"};
         }
-        $result .= '<br>';
       }
       if($memo){
         $memo = '防護:'.$memo;
