@@ -39,8 +39,8 @@ sub diceCheck {
   }
   # SW2
   elsif($::in{'game'} eq 'sw2'){
-    if   ($comm =~ /^([rk]|威力)[0-9()]/i){ require './lib/pl/dice/sw2.pl'; return rateRoll($comm), 'dice:sw'; }
-    elsif($comm =~ /^(?:gr|成長ダイス)/i) { require './lib/pl/dice/sw2.pl'; return growRoll($comm), 'dice:sw'; }
+    if   ($comm =~ /^([rk]|威力)[0-9()a-zァ-ヴ]/i){ require './lib/pl/dice/sw2.pl'; return rateRoll($comm), 'dice:sw'; }
+    elsif($comm =~ /^(gr|成長ダイス)/i)           { require './lib/pl/dice/sw2.pl'; return growRoll($comm), 'dice:sw'; }
   }
   # DX3
   elsif($::in{'game'} eq 'dx3'){

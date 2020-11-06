@@ -226,7 +226,7 @@ sub diceCodeCheck {
   if($::in{'comm'} =~ /^(?:
       [\@＠\$＄]
     | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
-    | 威力[0-9]|成長
+    | 威力[0-9] | [rk][ァ-ヴ] | 成長
   )/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
@@ -240,7 +240,7 @@ sub diceCodeCheck {
   if($::in{'comm'} =~ /\s((?:
       [\@＠\$＄]
     | [a-zａ-ｚA-ZＡ-Ｚ0-9０-９\+＋\-－\*＊\/／\^＾\@＠\$＄#＃()（）]{2,}
-    | 威力|成長
+    | 威力 | [rk][ァ-ヴ] | 成長
   )(?!.*\s).*)$/ix){
     require './lib/pl/dice.pl';
     ($::in{'info'}, $::in{'system'}) = diceCheck($1);
