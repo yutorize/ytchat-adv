@@ -64,50 +64,6 @@ else {
     $::in{'system'} = "round:".$num;
     delete $::in{'address'};
   }
-  # ユニット処理
-  #チェック
-  elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
-    my $check = $1 eq 'check' ? 1 : 0;
-    $::in{'info'} = 'チェック：'.($check ? '✔' : '×');
-    $::in{'system'} = "check:".$check;
-    unitCheck($::in{'name'}, $check);
-    delete $::in{'address'};
-  }
-  #レディチェック
-  elsif($::in{'comm'} =~ s<^/ready(?:\s|$)><>i){
-    $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
-    $::in{'system'} = "ready";
-    delete $::in{'color'};
-    checkReset();
-    delete $::in{'address'};
-  }
-  #新規
-  elsif($::in{'comm'} =~ s/^(.*?) [@＠] new \s ( (?:http|$stt_commands|メモ|memo) .*? )$//ixs){
-    $::in{'name'} = $1 || $::in{'name'};
-    ($::in{'info'}, $::in{'system'}) = unitMake($::in{'name'}, $2);
-    delete $::in{'address'};
-  }
-  #削除
-  elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
-    my $name = $1 ? $1 : $::in{'name'};
-    $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "ユニット「${name}」を削除 by $::in{'player'}";
-    $::in{'system'} = "unit-delete:${name}";
-    delete $::in{'color'};
-    unitDelete($name);
-    delete $::in{'address'};
-  }
-  #更新
-  elsif($::in{'comm'} =~ s/^[@＠]statusupdate//s){
-    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, '');
-    delete $::in{'address'};
-  }
-  #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
-    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
-    delete $::in{'address'};
-  }
   # トピック処理
   elsif($::in{'comm'} =~ s<^/topic(\s|$)><>i){
     topicEdit($::in{'comm'});
@@ -206,6 +162,50 @@ else {
   elsif($::in{'comm'} =~ s<^/paletteupdate\s(.*)$><>is){
     paletteUpdate($::in{'name'}, $1);
     $::in{'system'} = 'palette';
+  }
+  # ユニット処理
+  #チェック
+  elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
+    my $check = $1 eq 'check' ? 1 : 0;
+    $::in{'info'} = 'チェック：'.($check ? '✔' : '×');
+    $::in{'system'} = "check:".$check;
+    unitCheck($::in{'name'}, $check);
+    delete $::in{'address'};
+  }
+  #レディチェック
+  elsif($::in{'comm'} =~ s<^/ready(?:\s|$)><>i){
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
+    $::in{'system'} = "ready";
+    delete $::in{'color'};
+    checkReset();
+    delete $::in{'address'};
+  }
+  #新規
+  elsif($::in{'comm'} =~ s/^(.*?) [@＠] new \s ( .*? )$//ixs){
+    $::in{'name'} = $1 || $::in{'name'};
+    ($::in{'info'}, $::in{'system'}) = unitMake($::in{'name'}, $2);
+    delete $::in{'address'};
+  }
+  #削除
+  elsif($::in{'comm'} =~ s/^(.*?)[@＠]delete$//i){
+    my $name = $1 ? $1 : $::in{'name'};
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ユニット「${name}」を削除 by $::in{'player'}";
+    $::in{'system'} = "unit-delete:${name}";
+    delete $::in{'color'};
+    unitDelete($name);
+    delete $::in{'address'};
+  }
+  #更新
+  elsif($::in{'comm'} =~ s/^[@＠]statusupdate//s){
+    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, '');
+    delete $::in{'address'};
+  }
+  #変更
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
+    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
+    delete $::in{'address'};
   }
   # BCDice処理
   elsif($::in{'bcdice'}){
