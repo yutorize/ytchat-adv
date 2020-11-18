@@ -17,7 +17,7 @@ sub diceCheck {
   $comm =~ s/&lt;/</;
   $comm =~ s/<br>/ /;
   $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＾＠＄＃（）＜＞、＝！：/a-zA-Z0-9\+\-\*\/\^@\$#\(\)<>,=!:/;
-  if   ($comm =~ /^[0-9\+\-\*]*[0-9]+D([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
+  if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+D([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
   elsif($comm =~ /^[0-9]*@/){ return shuffleRoll($comm), 'choice'; }
   elsif($comm =~ /^[0-9]*\$/){ return choiceRoll($comm), 'choice'; }
   # 四則演算
@@ -44,29 +44,62 @@ sub diceCheck {
   }
   # DX3
   elsif($::in{'game'} eq 'dx3'){
-    if   ($comm =~ /^[0-9\+\-\*\/]+(r|dx)/i){ require './lib/pl/dice/dx3.pl'; return   dxRoll($comm), 'dice:dx'; }
-    elsif($comm =~ /^ET(P|N)?(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
-    elsif($comm =~ /^HC(?:\s|$)/i)          { require './lib/pl/dice/dx3.pl'; return        hcRoll(), 'dice:dx'; }
-    elsif($comm =~ /^ER([0-9]*)(?:\s|$)/i)  { require './lib/pl/dice/dx3.pl'; return  encroachRoll($1); }
-    elsif($comm =~ /^RE([0-9]*)(?:\s|$)/i)  { require './lib/pl/dice/dx3.pl'; return resurrectRoll($1); }
+    if   ($comm =~ /^[0-9\+\-\*\/()]+(r|dx)/i){ require './lib/pl/dice/dx3.pl'; return   dxRoll($comm), 'dice:dx'; }
+    elsif($comm =~ /^ET(P|N)?(?:\s|$)/i)      { require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
+    elsif($comm =~ /^HC(?:\s|$)/i)            { require './lib/pl/dice/dx3.pl'; return        hcRoll(), 'dice:dx'; }
+    elsif($comm =~ /^ER([0-9]*)(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return  encroachRoll($1); }
+    elsif($comm =~ /^RE([0-9]*)(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return resurrectRoll($1); }
   }
+}
+
+sub diceParenthesisCalc {
+  my $text = shift;
+  while($text =~ s/\(([0-9\+\-\*\/]+?)\)/<calc>/i){
+    my $calc = $1;
+    if($calc eq ''){ return "" }
+    if($calc !~ /[0-9]/i){ return "" }
+    $calc = int(calc($calc));
+    $text =~ s/<calc>/$calc/;
+  }
+  if($text =~ /\(.*?\)/){
+    if($1 eq ''){ return "" }
+    if($1 =~ /[^0-9]/){ return "" }
+  }
+  if($text =~ /\(|\)/){ return "" }
+  return $text;
 }
 
 sub diceRoll {
   my $comm = shift;
   if($comm !~ /^
-    ( [0-9\+\-\*]*[0-9]+ D [0-9]*[0-9\+\-\*D@]*?)
-    (?:(\/\/|\*\*)([0-9]*)([+-][0-9][0-9\+\-\*]*)?)?
+    ( 
+      \(?
+      [0-9\+\-\*\/()]*
+      [0-9]+
+      \)?
+      D
+      [0-9(]*
+      [0-9\+\-\*\/()D@]*?
+    )
+    (?:(\/\/|\*\*)([0-9]*)([+-][0-9()][0-9\+\-\*()]*)?)?
     (?:\:([0-9]+))?
     (?:\s|$)
   /ix){
     return "";
   }
+  
   my $base = $1;
   my $half_type = $2;
   my $half_num  = $3;
   my $add  = $4;
   my $repeat = $5;
+  
+  $base = diceParenthesisCalc($base);
+  if($base eq ''){ return ''; }
+  if($add){
+    $add = diceParenthesisCalc($add);
+    if($add eq ''){ return ''; }
+  }
   
   $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
   my @result;
@@ -115,7 +148,7 @@ sub diceCalc {
   
   if($result =~ /[\+\-\*\,]/){ $result .= ' = '; }
   else { $result = ''; }
-  return join('+',@code) .' → '. $result . $total;
+  return join('+',@code) .' → '. $result . int($total);
 }
 sub dice {
   my $rolls = $_[0];

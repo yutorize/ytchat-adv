@@ -50,13 +50,13 @@ sub rateRoll {
   my $fixed;
   my $curse;
   my $gf;
-  while($form =~ s/gf//gi)                           { $gf = ' GF'; }                      #Gフォーチュン
-  while($form =~ s/(?:\@|C値)([0-9][0-9\+\-]*)//gi)  { $crit     = $1 if !$crit; }         #C値
-  while($form =~ s/(?:[rck]|首切)([0-9]*)//gi)       { $rate_up  = $1?$1:5 if !$rate_up; } #首切効果
-  while($form =~ s/(?:[#b!]|必殺)([\+\-]?[0-9]*)//gi){ $crit_atk = $1?$1:1 if !$crit_atk; }#必殺効果
-  while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)      { $fixed    = $1 if !$fixed; }        #出目固定
-  while($form =~ s/(?:[\$]|出目)([\+\-][0-9]+)//gi)  { $crit_ray = $1 if !$crit_ray; }     #出目修正
-  while($form =~ s/(?:[<]|難)([0-9]+)//gi)           { $curse    = $1 if !$curse; }        #Aカース「難しい」
+  while($form =~ s/gf//gi)                            { $gf = ' GF'; }                      #Gフォーチュン
+  while($form =~ s/(?:\@|C値)([0-9][0-9\+\-]*)//gi)   { $crit     = $1 if !$crit; }         #C値
+  while($form =~ s/(?:[rck]|首切)(\-?[0-9]*)//gi)     { $rate_up  = $1 ne ''?$1:5 if !$rate_up; } #首切効果
+  while($form =~ s/(?:[#b!]|必殺)([\+\-]?[0-9]*)//gi) { $crit_atk = $1 ne ''?$1:1 if !$crit_atk; }#必殺効果
+  while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)       { $fixed    = $1 if !$fixed; }        #出目固定
+  while($form =~ s/(?:[\$]|出目)\+?([\+\-][0-9]+)//gi){ $crit_ray = $1 if !$crit_ray; }     #出目修正
+  while($form =~ s/(?:[<]|難)([0-9]+)//gi)            { $curse    = $1 if !$curse; }        #Aカース「難しい」
   
   $rate = $unique || calc($rate);
   $crit = calc($crit);
@@ -152,7 +152,7 @@ sub rateCalc {
       $number_result .=">$number";
     }
     # クリティカルレイ
-    if($crit_ray && ($repeat == 1 || $unique)){
+    if($crit_ray != 0 && ($repeat == 1 || $unique)){
       $number += $crit_ray;
       $number = 12 if $number > 12;
       $number =  2 if $number <  2;
@@ -183,6 +183,7 @@ sub rateCalc {
       if($rate_up){
         $rate += $rate_up;
         $rate = 100 if $rate > 100; #威力100以上にはしない
+        $rate = 0 if $rate < 0;   #威力0未満にはしない
         $code .= ">$rate";
       }
       # 〆
@@ -202,16 +203,24 @@ sub rateCalc {
   my $half_type = $1;
   my $half_num = $2;
   my ($pre_add, $post_add) = split('<//>', $form);
+  if($pre_add){
+    $pre_add = diceParenthesisCalc($pre_add);
+    if($pre_add eq ''){ return ''; }
+  }
   $result .= $pre_add;
-  $total += calc($pre_add);
+  $total += int(calc($pre_add));
   
   ## 半減,倍化処理
   if(!$half_num){ $half_num = 2 }
   if($half_type =~ /^\/\//){ $result = "{ $result = $total } /$half_num "; $total = ceil($total / $half_num); }
   elsif($half_type =~ /^\*\*/){ $result = "{ $result = $total } *$half_num "; $total = $total * $half_num; }
   ## 半減後追加
+  if($post_add){
+    $post_add = diceParenthesisCalc($post_add);
+    if($post_add eq ''){ return ''; }
+  }
   $result .= $post_add;
-  $total += calc($post_add);
+  $total += int(calc($post_add));
   
   $result .= ' = ';
   $code .= " C値${crit}" if $crit;

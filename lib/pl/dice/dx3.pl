@@ -10,20 +10,28 @@ use open ":std";
 sub dxRoll {
   my $comm = shift;
   if($comm !~ /^
-        ( [0-9\+\-\*\/]+ ) (?:r|dx)
-    (?: ([0-9]+) )?
-    (?: ([\+\-][0-9\+\-]+) )?
-    (?: @([0-9\+\-]+) | \[([0-9\+\-]+)\] )?
+        ( [0-9\+\-\*\/]+ | \([0-9\+\-\*\/]+\) ) #ダイス数
+        (?:r|dx)
+    (?: ( [0-9]+ | \([0-9\+\-\*\/]+\) ) )?      #C値（疾風怒濤式）
+    (?: ([\+\-][0-9\+\-\*\/()]+) )?                 #修正値
+    (?: @([0-9\+\-\*\/]+) | @\(([0-9\+\-\*\/]+)\) | \[([0-9\+\-\*\/]+)\] )? #C値 @／@()／[]
     (?:\s|$)
   /ix){
     return "";
   }
   my $quant = $1;
-  my $crit  = ($2 ? $2 : ($4 ? $4 : $5));
+  my $crit  = $2 ? $2
+            : $4 ? $4
+            : $5 ? $5
+            : $6;
   my $form  = $3;
   
-  $quant = calc($quant);
-  $crit  = calc($crit);
+  $quant = int(calc($quant));
+  $crit  = int(calc($crit));
+  if($form){
+    $form = diceParenthesisCalc($form);
+    if($form eq ''){ return ''; }
+  }
   
   $quant = $quant > 200 ? 200 : $quant; # 振る数は200まで
   $crit = $crit ? $crit : 10;
@@ -51,7 +59,7 @@ sub dxRoll {
     elsif($crit < 2){ return "${code} → $results[0] ... = ∞"; }
   }
   my $result = join('+', @results);
-  $total  += calc($form);
+  $total  += int(calc($form));
   $result .= "${form} = ${total}";
 
   return $code .' → '. $result;
