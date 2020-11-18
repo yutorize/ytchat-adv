@@ -117,6 +117,17 @@ label input:checked+b {
 label:hover input+b {
   color: inherit !important;
 }
+.chat-palette b {
+  color: #ee9999;
+}
+.chat-palette i {
+  color: #99ccee;
+  font-style: normal;
+}
+.chat-palette em {
+  color: #cc99ee;
+  font-style: normal;
+}
 
 /* // カラー設定：チャット
 ---------------------------------------------------------------------------------------------------- */

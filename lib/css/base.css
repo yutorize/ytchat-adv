@@ -103,7 +103,7 @@ button {
 }
 .serif { font-style: inherit; font-family: 'Libre Baskerville',var(--logs-font-family-min),"Hiragino Mincho ProN","Yu Mincho",serif !important; }
 h1,h2,h3,h4,h5,h6,dt,th,b,strong,label,
-#menubar, #topic, .topic .info, .float-box summary,
+#menubar, #topic, .topic .info, .float-box summary, .chat-palette summary,
 .bold {
   font-family: 'Lato',"Yu Gothic","YuGothic","Meiryo";
   font-weight: 700;

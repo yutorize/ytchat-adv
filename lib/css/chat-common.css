@@ -511,7 +511,7 @@ body.rom .sheet { display: none !important; }
 }
 .sheet-body .chat-palette-frame .chat-palette {
   position: absolute;
-  overflow-y: auto;
+  overflow-y: scroll;
   top: 0;
   left: 0;
   right: 0;
@@ -523,19 +523,79 @@ body.rom .sheet { display: none !important; }
 .sheet-body .chat-palette-frame .chat-palette.lines {
   border: .1rem solid var(--border-color-pale);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines > span {
-  display: block;
-  padding: .4rem .5rem;
-  border-bottom: .1rem solid var(--border-color-pale);
-  cursor: pointer;
+.sheet-body .chat-palette-frame .chat-palette.lines details {
 }
-.sheet-body .chat-palette-frame .chat-palette.lines > span:focus {
+.sheet-body .chat-palette-frame .chat-palette.lines summary {
+  padding: .4rem .3rem;
+  border-bottom: .1rem solid var(--border-color-pale);
+  background-color: rgba(175,175,175, 0.2);
+  user-select: none;
+  font-weight: bold;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines summary:focus {
   outline: none;
   background-color: rgba(0,150,255, 0.2);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines > span:hover {
+.sheet-body .chat-palette-frame .chat-palette.lines span {
+  display: block;
+  padding: .4rem .1rem .4rem .5rem;
+  border-bottom: .1rem solid var(--border-color-pale);
+  cursor: pointer;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines details span {
+  border-left: .4rem solid var(--border-color-faint);
+  padding-left: .2rem;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines details[open] span {
+  animation: paletteFade 0.25s ease;
+}
+@keyframes paletteFade {
+  0%   { opacity: 0; transform: translateY(-1rem); }
+  100% { opacity: 1; transform: none; }
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span:focus {
+  outline: none;
+  background-color: rgba(0,150,255, 0.2);
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span:hover {
   background-color: rgba(255,150,0, 0.2);
 }
+.sheet-body .chat-palette-frame .chat-palette.lines span.param {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  cursor: inherit;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span.param b {
+  display: block;
+  max-width: 62%;
+  flex-basis: auto;
+  flex-shrink: 1;
+  position: relative;
+  padding: .4rem 1rem .4rem .2rem;
+  text-align: right;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span.param b::after {
+  content: '=';
+  position: absolute;
+  right: .1rem;
+  color: var(--base-font-color);
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span.param div {
+  flex-basis: 38%;
+  flex-grow: 1;
+  margin-left: auto;
+}
+.sheet-body .chat-palette-frame .chat-palette.lines span.param input {
+  width: 100%;
+  height: 100%;
+}
+.chat-palette span i,
+.chat-palette span em {
+  pointer-events: none;
+  font-size: 1.1rem;
+}
+
 .sheet-body .chat-palette-frame  .chat-palette.texts {
   line-height: calc(1em + .9rem);
   padding: 0 .5rem;
@@ -591,7 +651,6 @@ body.rom .sheet { display: none !important; }
 #sheet-area.destinate-main .chat-palette-area .comm-area {
   display: none;
 }
-
 /* デフォルトシート */
 .sheet-body-default {
   padding: .5em;
