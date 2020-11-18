@@ -35,6 +35,8 @@ our %games = (
   },
 );
 
+our $default_game = 'sw2';
+
 our @replace_regex = (
   { '[|｜](.+?)《(.*?)》' => '<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>' }, #なろうルビ
   { '《《(.+?)》》' => '<em>$1</em>' }, #カクヨム傍点

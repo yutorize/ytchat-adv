@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
+  const games = <TMPL_VAR gamesList>;
+  window.onload = function() {
+    document.getElementById('set-game').value = `<TMPL_VAR defaultGame>`;
+    gameChange(`<TMPL_VAR defaultGame>`);
+  };
   $.ajax({
     url: 'https://yutorize.2-d.jp/version/ytchat-adv.txt',
     type: 'GET',
@@ -26,9 +31,10 @@
   function gameChange(game){
     document.getElementById('bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
     const status = document.getElementById('set-status');
-    if     (game == 'sw2'){ status.placeholder = 'HP　MP　防護'; }
-    else if(game == 'dx3'){ status.placeholder = 'HP　侵蝕　行動'; }
-    else                  { status.placeholder = 'HP　MP　他'; }
+    if(games[game]){
+      status.placeholder = games[game]['status'].join('　');
+    }
+    else { status.placeholder = 'HP　MP'; }
   }
   function BCDiceGet(apiUrl){
     const select = document.getElementById('set-bcdice-game');
@@ -96,8 +102,8 @@
           APIのURL: <input type="url" name="bcdice-url" id="set-bcdice-url" placeholder="https//..." onchange="BCDiceGet(this.value);" style="width:20em;"><br>
           ダイスボット: <select name="bcdice-game" id="set-bcdice-game"></select>
         </div>
-        チャットタブ: <input type="text" name="tab" id="set-tab" placeholder="メイン　サブ"><br>
-        ステータス　: <input type="text" name="status" id="set-status" placeholder="HP　MP　防護"><br>
+        チャットタブ: <input type="text" name="tab" id="set-tab" placeholder="メイン　サブ" ><br>
+        ステータス　: <input type="text" name="status" id="set-status" style="width:calc(100% - 9em);"><br>
         ※タブ、ステータスともにスペースで区切る。<br>
         　空の場合はデフォルトを適用。
         <div class="center"><button>作成</button></div>

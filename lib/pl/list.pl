@@ -65,6 +65,10 @@ push @list, @addlist;
 
 $ROOM->param(List => \@list);
 
+$ROOM->param(gamesList => decode('utf8', encode_json \%games));
+$ROOM->param(defaultGame => $set::default_game||'');
+
+
 my $userroom_on = $set::userroom_on;
 if($userroom_on && $set::userroom_max && $userroom_num >= $set::userroom_max){ $userroom_on = 0; }
 $ROOM->param(userRoomOn => $userroom_on);
