@@ -543,7 +543,7 @@ body.rom .sheet { display: none !important; }
   cursor: pointer;
 }
 .sheet-body .chat-palette-frame .chat-palette.lines details span {
-  border-left: .4rem solid var(--border-color-faint);
+  border-left: .4rem solid var(--border-color-pale);
   padding-left: .2rem;
 }
 .sheet-body .chat-palette-frame .chat-palette.lines details[open] span {
