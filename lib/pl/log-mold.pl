@@ -58,6 +58,8 @@ $ROOM = HTML::Template->new(
 ###################
 ### ログ本体
 
+$ROOM->param(ver => $::ver);
+
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');

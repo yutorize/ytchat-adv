@@ -34,7 +34,10 @@ $ROOM = HTML::Template->new(
 );
 
 ###################
-### 読み込み処理
+### 出力内容代入
+
+$ROOM->param(ver => $::ver);
+
 my @list; my @addlist;
 foreach my $id (sort keys %rooms){
   next if !$id;
@@ -75,8 +78,6 @@ $ROOM->param(userRoomOn => $userroom_on);
 $ROOM->param(userRoomFormOpen => $::in{'form'} ? 'open' : '');
 
 $ROOM->param(home => $set::home_url);
-
-$ROOM->param(ver => $::ver);
 
 ###################
 ### 出力

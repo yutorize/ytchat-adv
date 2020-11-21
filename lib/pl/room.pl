@@ -90,7 +90,9 @@ $ROOM = HTML::Template->new(
 );
 
 ###################
-### 読み込み処理
+### 出力内容代入
+
+$ROOM->param(ver => $::ver);
 
 $ROOM->param(roomId => $id);
 $ROOM->param(title => $room{'name'});
