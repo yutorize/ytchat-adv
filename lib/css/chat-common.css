@@ -243,7 +243,7 @@ html,body {
   padding-right: .1em;
   font-size: 85%;
   white-space: nowrap;
-  z-index: 3;
+  z-index: 2;
 }
 #status #status-body > dl > dd > dl dd {
   flex-grow: 1;
@@ -254,7 +254,7 @@ html,body {
 #status #status-body > dl > dd > dl dd span {
   display: inline-block;
   position: relative;
-  z-index: 3;
+  z-index: 2;
   font-size: 93%;
 }
 #status #status-body > dl > dd > dl dd span span {
@@ -301,7 +301,7 @@ html,body {
   position: absolute;
   bottom: .1em;
   right: .1em;
-  z-index: 10;
+  z-index: 3;
 }
 #status .edit.button {
   display: none;
@@ -518,7 +518,7 @@ body.rom .sheet { display: none !important; }
   bottom: 0;
   font-size: 1.2rem;
   border-radius: 0.8rem 0 0 0;
-  z-index: 2;
+  z-index: 1;
 }
 .sheet-body .chat-palette-frame .chat-palette.lines {
   border: .1rem solid var(--border-color-pale);
@@ -936,7 +936,7 @@ body.rom .input-form { display: none !important; }
   right: 0;
   bottom: 0;
   padding: .5rem;
-  z-index: 10;
+  z-index: 1;
 }
 .chat .notice-unread:hover {
   background: rgba(150,150,150,0.8);
@@ -1088,7 +1088,7 @@ body.rom .input-form { display: none !important; }
   transition-property: transform, opacity;
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
-  z-index: 99;
+  z-index: 10;
 }
 .float-box details {
   transition: .5s;
@@ -1196,13 +1196,12 @@ body.rom .input-form { display: none !important; }
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  z-index: 98;
+  z-index: 20;
 }
 #image-box {
   background-color: rgba(0,0,0,0.8);
   animation-duration: .25s;
   animation-name: imageIn;
-  z-index: 100;
 }
 @keyframes imageIn {
   from { opacity: 0; }
@@ -1214,10 +1213,10 @@ body.rom .input-form { display: none !important; }
   object-fit: scale-down;
 }
 /* z-index */
-#enter-form   { z-index: 100; }
-#exit-form    { z-index: 100; }
-#config-user  { z-index: 200; }
-#config-room  { z-index: 200; }
+#enter-form   { z-index: 21; }
+#exit-form    { z-index: 21; }
+#config-user  { z-index: 22; }
+#config-room  { z-index: 22; }
 /* 入室 */
 #enter-form p {
   padding: 3em 5em;

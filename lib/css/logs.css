@@ -42,7 +42,7 @@ body {
   margin: -.5rem;
   padding: 0 .5rem;
   background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.8), transparent);
-  z-index: 98;
+  z-index: 1;
 }
 #base header h1 {
   display: inline-block;
@@ -143,8 +143,9 @@ article#contents {
   display: block;
   margin: auto;
   max-width: 100%;
-  max-height: calc(100vh - 5em);
+  max-height: calc(100vh - 10em);
   object-fit: scale-down;
+  cursor: zoom-in;
 }
 .logs dl dd .chara-image {
   float: left;
@@ -168,7 +169,7 @@ article#contents {
   max-height: calc(100vh - 2.6rem - 50px);
   margin-right: auto;
   padding: 0 .8rem;
-  z-index: 999;
+  z-index: 2;
 }
 #menu h2 {
   font-size: 100%;
@@ -445,7 +446,7 @@ aside.credit li {
   background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.6));
   padding: .7rem 1rem .5rem;
   font-size: 1.2rem;
-  z-index: 1000;
+  z-index: 2;
 }
 #bottom-bar dl {
   display: flex;
@@ -512,7 +513,7 @@ aside.credit li {
   right: 0;
   bottom: 0;
   background: rgba(0,0,0,0.6);
-  z-index: 1000;
+  z-index: 10;
 }
 #sound-confirm p {
   max-width: max-content;
@@ -559,7 +560,7 @@ dd.bgm-title:hover + #yt-player-area,
   right: 0;
   bottom: 0;
   background: rgba(0,0,0,0.8);
-  z-index: 1001;
+  z-index: 11;
   transition: all 1s;
 }
 #loading::before {
