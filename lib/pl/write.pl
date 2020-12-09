@@ -751,6 +751,8 @@ sub paletteUpdate {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
+  $set_text =~ s/&lt;/</g;
+  $set_text =~ s/&gt;/>/g;
   $data{'unit'}{$set_name}{'palette'} = $set_text;
   
   print $FH decode('utf8', encode_json \%data);
