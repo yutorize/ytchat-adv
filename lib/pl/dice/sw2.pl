@@ -204,7 +204,7 @@ sub rateCalc {
   my $half_num = $2;
   my ($pre_add, $post_add) = split('<//>', $form);
   if($pre_add){
-    $pre_add = diceParenthesisCalc($pre_add);
+    $pre_add = parenthesisCalc($pre_add);
     if($pre_add eq ''){ return ''; }
   }
   $result .= $pre_add;
@@ -216,7 +216,7 @@ sub rateCalc {
   elsif($half_type =~ /^\*\*/){ $result = "{ $result = $total } *$half_num "; $total = $total * $half_num; }
   ## 半減後追加
   if($post_add){
-    $post_add = diceParenthesisCalc($post_add);
+    $post_add = parenthesisCalc($post_add);
     if($post_add eq ''){ return ''; }
   }
   $result .= $post_add;

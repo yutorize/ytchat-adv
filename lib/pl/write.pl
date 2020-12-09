@@ -652,6 +652,7 @@ sub unitCalcEdit {
     else {
       if($num eq '' && $text){ $num = $text; }
       if($op =~ /^[+\-\/=]$/){
+        $num = sttParenthesisCalc($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
         $diff .= "(over${over})" if $over;
@@ -722,6 +723,23 @@ sub sttCalc {
   foreach my $i (0..1){ $diff[$i] = ($diff[$i] >= 0 ? '+' : '') . $diff[$i] if ($diff[$i] ne ''); }
   
   return (join('/', @base), join('/', @diff)), $over[0];
+}
+
+sub parenthesisCalc {
+  my $text = shift;
+  while($text =~ s/\(([0-9\+\-\*\/]+?)\)/<calc>/i){
+    my $calc = $1;
+    if($calc eq ''){ return "" }
+    if($calc !~ /[0-9]/i){ return "" }
+    $calc = int(calc($calc));
+    $text =~ s/<calc>/$calc/;
+  }
+  if($text =~ /\(.*?\)/){
+    if($1 eq ''){ return "" }
+    if($1 =~ /[^0-9]/){ return "" }
+  }
+  if($text =~ /\(|\)/){ return "" }
+  return $text;
 }
 
 sub paletteUpdate {
