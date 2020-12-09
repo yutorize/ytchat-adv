@@ -27,8 +27,8 @@ our %games = (
     'convert' => {
       'HP'     => ['maxHpTotal', 'maxHpTotal'],
       '侵蝕'   => ['baseEncroach'],
-      'ロイス' => ['loisHave','loisMax'],
-      '財産'   => ['savingTotal'],
+      'ロイス' => ['loisHave',   'loisMax'],
+      '財産'   => ['savingTotal','savingTotal'],
       '行動'   => ['initiativeTotal'],
     },
     'bcdice' => 'DoubleCross',
