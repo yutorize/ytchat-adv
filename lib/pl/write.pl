@@ -652,7 +652,7 @@ sub unitCalcEdit {
     else {
       if($num eq '' && $text){ $num = $text; }
       if($op =~ /^[+\-\/=]$/){
-        $num = sttParenthesisCalc($num);
+        $num = parenthesisCalc($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
         $diff .= "(over${over})" if $over;
