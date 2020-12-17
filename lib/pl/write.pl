@@ -125,6 +125,10 @@ else {
       }
       if(!$hit){ error('許可されていないURLです'); }
     }
+    #Google
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=sharing$/){
+      $url = 'https://drive.google.com/uc?id=' . $1;
+    }
     bgmEdit($url,$title,$volume);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "BGMを変更 by $::in{'player'}";
