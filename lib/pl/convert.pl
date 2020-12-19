@@ -3,8 +3,20 @@ use strict;
 #use warnings;
 use utf8;
 use open ":utf8";
-use LWP::Simple;
+use LWP::UserAgent;
 use JSON::PP;
+
+sub dataGet {
+  my $url = shift;
+  my $ua  = LWP::UserAgent->new;
+  my $res = $ua->get($url);
+  if ($res->is_success) {
+    return $res->decoded_content;
+  }
+  else {
+    return undef;
+  }
+}
 
 sub dataConvert {
   my $set_url = shift;
@@ -26,7 +38,7 @@ sub dataConvert {
   #}
   ## ゆとシートⅡ
   {
-    my $data = get($set_url.'&mode=json') or error 'URLを開けませんでした';
+    my $data = dataGet($set_url.'&mode=json') or error 'URLを開けませんでした';
     my $json;
     eval { $json = decode_json(join '', $data); };
     if ($@) { error('ステータスの取得できる参照先ではありません'); }
@@ -118,7 +130,7 @@ sub dataConvert {
             . ($profile ? $profile.'<br>':'')
             . $result;
     # チャットパレット取得
-    my $palette = get($set_url.'&mode=palette') || '';
+    my $palette = dataGet($set_url.'&mode=palette') || '';
     # 最終
     my %data = (
       'url' => $set_url,
