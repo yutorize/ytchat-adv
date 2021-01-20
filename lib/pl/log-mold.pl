@@ -106,7 +106,7 @@ foreach (<$FH>){
   }
   
   if($system =~ /^image$/){
-    $info = '<img src="' . $info . '">';
+    $info = '<img loading="lazy" src="' . $info . '">';
   }
   elsif($system =~ /^bgm:([0-9]+):(.+)$/){
     my ($url, $vol) = ($2, $1);
