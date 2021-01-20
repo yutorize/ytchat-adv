@@ -554,8 +554,11 @@ sub unitMake {
   my $set_name = shift;
   my $set_data = shift;
   
+  
+  if($set_name eq ''){ return 'error ユニットの名前が指定されていません。' }
+  
   my %new;
-  my $result;;
+  my $result;
   if($set_data =~ /^http/){
     require './lib/pl/convert.pl';
     (my $new_data, $result) = dataConvert($set_data);
