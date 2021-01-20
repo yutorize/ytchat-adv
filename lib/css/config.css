@@ -366,7 +366,8 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   color: #e90;
   font-weight: bold;
 }
-.logs dl dd.info.dice em.fail {
+.logs dl dd.info.dice em.fail,
+.logs dl dd.info.dice strong.fail {
   color: #888;
   font-weight: bold;
 }

@@ -10,11 +10,12 @@ use open ":std";
 sub dxRoll {
   my $comm = shift;
   if($comm !~ /^
-        ( [0-9\+\-\*\/()]+ | \([0-9\+\-\*\/()]+\) )                              #ダイス数
+        ( [0-9\+\-\*\/()]+ | \([0-9\+\-\*\/()]+\) )                                #ダイス数
         (?:r|dx)
-    (?: ( [0-9]+ | \([0-9\+\-\*\/()]+\) ) )?                                   #C値（疾風怒濤式）
-    (?: ([\+\-][0-9\+\-\*\/()]+) )?                                          #修正値
+    (?: ( [0-9]+ | \([0-9\+\-\*\/()]+\) ) )?                                       #C値（疾風怒濤式）
+    (?: ([\+\-][0-9\+\-\*\/()]+) )?                                                #修正値
     (?: @([0-9\+\-\*\/()]+) | @\(([0-9\+\-\*\/()]+)\) | \[([0-9\+\-\*\/()]+)\] )?  #C値 @／@()／[]
+    (?: (>=) ([0-9\+\-\*()]*) )?                                                   #目標値
     (?:\s|$)
   /ix){
     return "";
@@ -25,6 +26,8 @@ sub dxRoll {
             : $5 ? $5
             : $6;
   my $form  = $3;
+  my $rel    = $7;
+  my $target = $8;
   
   $quant = int(calc($quant));
   $crit  = int(calc($crit));
@@ -55,12 +58,19 @@ sub dxRoll {
     if($quant){ push(@results, " ${max}\[".join(',',@numbers).":クリティカル!\] "); }
     else      { push(@results, " ${max}\[".join(',',@numbers)."\] "); }
     
-    if($total == 1){ return "${code} → $results[0] ファンブル.. = 0"; }
-    elsif($crit < 2){ return "${code} → $results[0] ... = ∞"; }
+    if($total == 1){ return "${code} → $results[0] ファンブル.. = 0".($rel?' → 失敗':''); }
+    elsif($crit < 2){ return "${code} → $results[0] ... = ∞".($rel?' → 成功':''); }
   }
   my $result = join('+', @results);
   $total  += int(calc($form));
   $result .= "${form} = ${total}";
+  if($rel){
+    if($rel eq '>=' && $total >= $target){
+      $result .= ' → 成功';
+    }
+    else { $result .= ' → 失敗'; }
+    $code .= ' '.$rel.$target;
+  }
 
   return $code .' → '. $result;
 }

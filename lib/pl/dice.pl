@@ -65,23 +65,30 @@ sub diceRoll {
       [0-9\+\-\*\/()D@]*?
     )
     (?:(\/\/|\*\*) ([0-9]*) ([+-][0-9()][0-9\+\-\*()]*)? )?
+    (?:(>=?|<=?|=) ([0-9\+\-\*()]*) )?
     (?:\:([0-9]+))?
     (?:\s|$)
   /ix){
     return "";
   }
   
-  my $base = $1;
+  my $base      = $1;
   my $half_type = $2;
   my $half_num  = $3;
-  my $add  = $4;
-  my $repeat = $5;
+  my $add       = $4;
+  my $rel       = $5;
+  my $target    = $6;
+  my $repeat    = $7;
   
   $base = parenthesisCalc($base);
   if($base eq ''){ return ''; }
   if($add){
     $add = parenthesisCalc($add);
     if($add eq ''){ return ''; }
+  }
+  if($target){
+    $target = parenthesisCalc($target);
+    if($target eq ''){ return ''; }
   }
   
   $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
@@ -93,16 +100,21 @@ sub diceRoll {
         $half_type ,
         $half_num  ,
         $add       ,
+        $rel       ,
+        $target    ,
       )
     );
   }
   return join('<br>',@result);
 }
+
 sub diceCalc {
   my $base      = shift;
   my $half_type = shift;
   my $half_num  = shift;
   my $add       = shift;
+  my $rel       = shift;
+  my $target    = shift;
   
   my $total = 0;
   my @code;
@@ -130,10 +142,30 @@ sub diceCalc {
   $result .= $add;
   $total += calc($add);
   
-  if($result =~ /[\+\-\*\,]/){ $result .= ' = '; }
-  else { $result = ''; }
-  return join('+',@code) .' → '. $result . int($total);
+  $total = int($total);
+  
+  if($result =~ /[\+\-\*\,]/){ $result .= ' = ' . $total; }
+  else { $result = $total; }
+  
+  my $code = join('+',@code);
+  
+  if($rel){
+    if(
+      ($rel eq '>'  && $total >  $target) ||
+      ($rel eq '>=' && $total >= $target) ||
+      ($rel eq '<'  && $total <  $target) ||
+      ($rel eq '<=' && $total <= $target) ||
+      ($rel eq '='  && $total == $target)
+    ){
+      $result .= ' → 成功';
+    }
+    else { $result .= ' → 失敗'; }
+    $code .= $rel.$target;
+  }
+  
+  return $code .' → '. $result;
 }
+
 sub dice {
   my $rolls = $_[0];
   my $faces = $_[1];
