@@ -91,10 +91,11 @@ sub encroachRoll {
 
 sub resurrectRoll {
   my $rolls = shift;
+  my $plus  = shift;
   $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
   my $number = 0;
   foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
-  my $result_hp = ( unitCalcEdit($::in{'name'}, 'HP+'.$number) )[0];
+  my $result_hp = ( unitCalcEdit($::in{'name'}, 'HP'.($plus?'+':'=').$number) )[0];
   my $over = 0;
   if($result_hp =~ /over([0-9]+)/){ $over = $1; }
   
