@@ -17,7 +17,7 @@ sub diceCheck {
   $comm =~ s/&lt;/</;
   $comm =~ s/<br>/ /;
   $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＾＠＄＃（）＜＞、＝！：/a-zA-Z0-9\+\-\*\/\^@\$#\(\)<>,=!:/;
-  if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+D([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
+  if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+\)?D\(?([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
   elsif($comm =~ /^[0-9]*@/){ return shuffleRoll($comm), 'choice'; }
   elsif($comm =~ /^[0-9]*\$/){ return choiceRoll($comm), 'choice'; }
   # 四則演算
@@ -64,7 +64,7 @@ sub diceRoll {
       [0-9(]*
       [0-9\+\-\*\/()D@]*?
     )
-    (?:(\/\/|\*\*)([0-9]*)([+-][0-9()][0-9\+\-\*()]*)?)?
+    (?:(\/\/|\*\*) ([0-9]*) ([+-][0-9()][0-9\+\-\*()]*)? )?
     (?:\:([0-9]+))?
     (?:\s|$)
   /ix){
@@ -109,7 +109,7 @@ sub diceCalc {
   # xDyを処理
   while ($base =~ s/([0-9]+)D([0-9]*)(@[0-9]+)?/<dice>/i){
     my ($code, $num, $text) = dice($1, $2, $3);
-    return "$code → error\[$text\]" if !$num;
+    return "$code → error\[$text\]" if $num eq '';
     return "$code → ∞" if $num eq '∞';
     push(@code, $code);
     $base =~ s/<dice>/ $num\[$text\] /;
@@ -119,6 +119,7 @@ sub diceCalc {
   ## 基本合計値計算
   my $result = $base;
   $base =~ s/\[.+?\]//g; # []とその中は消す
+  if($base =~ /@/){ return '' }
   my $total = calc($base);
   
   ## 半減,倍化処理
@@ -138,8 +139,8 @@ sub dice {
   my $faces = $_[1];
   my $crit  = $_[2]; $crit =~ s/^@//;
   if($faces eq ''){ $faces = 6 }
-  if   ($rolls < 1 || $rolls > 200) { return ("${rolls}D${faces}", 0, 'ダイスの個数は200が最大です'); }
-  elsif($faces < 2 || $faces > 1000){ return ("${rolls}D${faces}", 0, 'ダイスの面数は1000が最大です'); }
+  if   ($rolls > 200) { return ("${rolls}D${faces}", '', 'ダイスの個数は200が最大です'); }
+  elsif($faces > 1000){ return ("${rolls}D${faces}", '', 'ダイスの面数は1000が最大です'); }
   elsif($crit ne '' && $crit  <= $rolls){ return ("${rolls}D${faces}\@${crit}", '∞'); }
   
   my $num_total;
@@ -155,7 +156,7 @@ sub dice {
     $num_total += $num;
     
     my $result = join(',', @results);
-    if($::in{'game'} =~ /sw2/i){
+    if($rolls && $::in{'game'} =~ /sw2/i){
       $result .= ($rolls*$faces == $num) ? '!!' : ($rolls == $num) ? '...' : '';
     }
     
