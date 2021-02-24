@@ -156,7 +156,7 @@ $ROOM->param(bgPreset => \@bg_list);
 my @bgm_list;
 foreach (@set::bgm_preset){
   next if !$_ || !@$_[0];
-  push(@bgm_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VOL' => @$_[2] || 100,  });
+  push(@bgm_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VOL' => @$_[2] || 100, 'brand' => @$_[3], 'album' => @$_[4], 'disk' => @$_[5], 'trackIndex' => @$_[6], 'artists' => @$_[7], 'tags' => @$_[8]});
 }
 $ROOM->param(bgmPreset => \@bgm_list);
 

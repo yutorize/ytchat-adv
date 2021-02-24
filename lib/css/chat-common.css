@@ -1318,6 +1318,127 @@ body.rom .input-form { display: none !important; }
   font-size: 90%;
   margin-left: .5em;
 }
+
+.bgm-list, .bgm-list ul{
+  padding: 0 0 0 1em;
+  margin: 0;
+}
+.bgm-list li{
+  list-style-type: none;
+  margin-right: 0;
+}
+.bgm-list details[open]{
+  background-color: transparent;
+}
+.bgm-list details > summary{
+  display: block;
+}
+.bgm-list details > summary::-webkit-details-marker{
+  display: none;
+}
+.bgm-list details > summary:before{
+  content: "[+]";
+  font-family: monospace;
+  font-weight: normal;
+  opacity: 0.55;
+  margin-left: 0.3em;
+  margin-right: 0.2em;
+  background-color: rgba(248, 232, 212, 0.35);
+}
+.bgm-list details[open] > summary:before{
+  content: "[-]";
+  background-color: transparent;
+}
+.bgm-list details > summary[data-number-of-tracks]:after{
+  content: "(" attr(data-number-of-tracks) " tracks)";
+  font-size: 80%;
+  font-weight: normal;
+  margin-left: 0.4em;
+  opacity: 0.7;
+}
+.bgm-list details > summary[data-number-of-tracks="1"]:after{
+  content: "(" attr(data-number-of-tracks) " track)";
+}
+.bgm-list details[open] > summary[data-number-of-tracks]:after{
+  display: none;
+}
+.bgm-list .group > .headline{
+  display: block;
+  width: 100%;
+  padding-left: 0.3em;
+  box-sizing: border-box;
+}
+.bgm-list > .group{
+  border-left: 3px double rgba(255,255,255,0.32);
+  margin: 0.8em 0;
+}
+.bgm-list > .group > ul > .group{
+  border-left: 2px solid rgba(255,255,255,0.21);
+  margin: 0.62em 0;
+}
+.bgm-list > .group > ul > .group > ul > .group{
+  border-left: 1px solid rgba(255,255,255,0.10);
+  margin: 0.46em 0;
+}
+.bgm-list .track{
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.2);
+  border: 1px dotted rgba(255,255,255,0.0);
+  border-radius: 0.4em;
+  margin: 0.25em 0;
+  padding: 0.3em;
+}
+.bgm-list .track:hover{
+  background-color: rgba(240, 212, 176, 0.2);
+  border-color:  rgba(255,255,255,0.7);
+}
+.bgm-list .track::before {
+  content:'\f04b';
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  font-size: 80%;
+  margin-right: 0.3em;
+}
+.bgm-list .track .track-index{
+  font-size: 80%;
+  opacity: 0.8;
+  margin-right: 0.2em;
+  text-shadow: none;
+}
+.bgm-list .track .track-index:before{
+  content: "#";
+}
+.bgm-list .track .artists{
+  font-size: 90%;
+  margin-left: .5em;
+}
+.bgm-list .track .artists:before{
+  content: "( by ";
+}
+.bgm-list .track .artists:after{
+  content: ")";
+}
+.bgm-list .track .volume{
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+  color: #ed9;
+  font-size: 90%;
+}
+.bgm-list .track .volume::before{
+  content: "\f028";
+  margin-left: .5em;
+}
+.bgm-list .track .volume::after{
+  content: "%";
+}
+.bgm-list .track .tag{
+  font-size: 80%;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 0.3em;
+  padding: 0.2em;
+  margin-left: .5em;
+}
+
 /* 設定 */
 #config-user #font-sample {
   max-width: 30em;
