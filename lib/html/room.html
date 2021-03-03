@@ -336,7 +336,7 @@
         </label>
         <span class="to-clear">×</span>
       </div>
-      <ul class="asset-list bgm-list" id="bgm-preset">
+      <ul class="asset-list bgm-list" id="bgm-preset" data-preset-source="<TMPL_VAR bgmPreset>">
       </ul>
       <p class="notice" id="notice_on_present_not_found">該当するプリセットなし</p>
       <h4><i class="fas fa-history"></i>履歴</h4>
@@ -353,11 +353,6 @@
       </p>
     <span class="close button" onclick="boxClose('bgm-set');bgmPreviewEnd();">×</span>
     </div>
-    <datalist id="bgm-preset-source">
-      <TMPL_LOOP bgmPreset>
-        <option data-brand="<TMPL_VAR brand>" data-album="<TMPL_VAR album>" data-disk="<TMPL_VAR disk>" data-track-index="<TMPL_VAR trackIndex>" data-title="<TMPL_VAR TITLE>" data-artists="<TMPL_VAR artists>" data-tags="<TMPL_VAR tags>" data-url="<TMPL_VAR URL>" data-default-volume="<TMPL_VAR VOL>" />
-      </TMPL_LOOP>
-    </datalist>
     <script src="./lib/js/bgm_preset.js?<TMPL_VAR ver>" defer></script>
   </div>
   

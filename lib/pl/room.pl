@@ -7,6 +7,7 @@ use Fcntl;
 use HTML::Template;
 use Encode qw/encode decode/;
 use JSON::PP;
+use URI::Escape;
 
 my $id = $::in{'id'}; #部屋ID
 
@@ -153,12 +154,8 @@ foreach (@set::bg_preset){
 }
 $ROOM->param(bgPreset => \@bg_list);
 
-my @bgm_list;
-foreach (@set::bgm_preset){
-  next if !$_ || !@$_[0];
-  push(@bgm_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VOL' => @$_[2] || 100, 'brand' => @$_[3], 'album' => @$_[4], 'disk' => @$_[5], 'trackIndex' => @$_[6], 'artists' => @$_[7], 'tags' => @$_[8]});
-}
-$ROOM->param(bgmPreset => \@bgm_list);
+my @encoded_bgm_preset = encode_json \@set::bgm_preset;
+$ROOM->param(bgmPreset => decode('utf8', uri_escape(@encoded_bgm_preset)));
 
 my @src_url;
 if($set::src_url_limit){
