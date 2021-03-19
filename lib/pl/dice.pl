@@ -145,7 +145,7 @@ sub diceCalc {
   
   $total = int($total);
   
-  if($result =~ /[\+\-\*\,]/){ $result .= ' = ' . $total; }
+  if($result =~ /[\+\-\*\/\,]/){ $result .= ' = ' . $total; }
   else { $result = $total; }
   
   my $code = join('+',@code);
