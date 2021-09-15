@@ -958,6 +958,7 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .insert-left::before    { content:"\e236"; }
 .decoration-buttons .insert-center::before  { content:"\e234"; }
 .decoration-buttons .insert-right::before   { content:"\e237"; }
+.decoration-buttons .insert-add-line-spacing::before { content:"\ea16"; }
 .decoration-buttons .insert-headline::before{ content:"\f019"; transform: scale(1.55); }
 
 .decoration-buttons .insert-image::before   { content:"\e3f4"; color:#8fd; }
