@@ -1357,6 +1357,39 @@ body.rom .input-form { display: none !important; }
 #help-window table.help-rate-table th:nth-child(2) {
   white-space: nowrap;
 }
+#help-window .search-form {
+  margin: 0.5em 0 1em 0;
+}
+#help-window .search-form label {
+  margin-right: 0.5em;
+}
+#help-window .search-form label input[type="text"] {
+  width: min(50%, 20em);
+}
+#help-window.search-mode {
+  --markup-color-r: 255;
+  --markup-color-g: 165;
+  --markup-color-b: 0;
+}
+#help-window.search-mode .contains-search-matched {
+  --markup-color: rgba(var(--markup-color-r), var(--markup-color-g), var(--markup-color-b), 0.10);
+  --markup-offset: 1px;
+  --markup-blur: 1em;
+  --markup-spread: 8px;
+  box-shadow: inset var(--markup-offset) var(--markup-offset) var(--markup-blur) var(--markup-spread) var(--markup-color),
+  inset var(--markup-offset) calc(var(--markup-offset) * -1) var(--markup-blur) var(--markup-spread) var(--markup-color),
+  inset calc(var(--markup-offset) * -1) var(--markup-offset) var(--markup-blur) var(--markup-spread) var(--markup-color),
+  inset calc(var(--markup-offset) * -1) calc(var(--markup-offset) * -1) var(--markup-blur) var(--markup-spread) var(--markup-color);
+}
+#help-window.search-mode .search-matched {
+  background-color: rgba(var(--markup-color-r), var(--markup-color-g), var(--markup-color-b), 0.65);
+}
+#help-window.search-mode details {
+  display: none;
+}
+#help-window.search-mode details.search-matched, #help-window.search-mode details.contains-search-matched {
+  display: block;
+}
 
 .mem-signal::before {
   display: inline-block;
