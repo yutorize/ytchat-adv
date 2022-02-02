@@ -46,7 +46,8 @@ sub diceCheck {
   elsif($::in{'game'} eq 'dx3'){
     if   ($comm =~ /^ET(P|N)?(?:\s|$)/i)      { require './lib/pl/dice/dx3.pl'; return emotionRoll($1), 'dice:dx'; }
     elsif($comm =~ /^HC(?:\s|$)/i)            { require './lib/pl/dice/dx3.pl'; return hcRoll(), 'dice:dx'; }
-    elsif($comm =~ /^ER([0-9]*)(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return encroachRoll($1); }
+    elsif($comm =~ /^\+?ER([0-9]*)(?:\s|$)/i) { require './lib/pl/dice/dx3.pl'; return encroachRoll($1); }
+    elsif($comm =~ /^-ER([0-9]*)(?:\s|$)/i)   { require './lib/pl/dice/dx3.pl'; return encroachRoll($1,1); }
     elsif($comm =~ /^RE([0-9]*)(?:\s|$)/i)    { require './lib/pl/dice/dx3.pl'; return resurrectRoll($1); }
     elsif($comm =~ /^\+RE([0-9]*)(?:\s|$)/i)  { require './lib/pl/dice/dx3.pl'; return resurrectRoll($1,1); }
     elsif($comm =~ /^[0-9\+\-\*\/()]+(r|dx)/i){ require './lib/pl/dice/dx3.pl'; return dxRoll($comm), 'dice:dx'; }
@@ -145,7 +146,7 @@ sub diceCalc {
   
   $total = int($total);
   
-  if($result =~ /[\+\-\*\,]/){ $result .= ' = ' . $total; }
+  if($result =~ /[\+\-\*\/\,]/){ $result .= ' = ' . $total; }
   else { $result = $total; }
   
   my $code = join('+',@code);

@@ -77,6 +77,7 @@ sub dxRoll {
 
 sub encroachRoll {
   my $rolls = shift;
+  my $minus = shift;
   $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
   my $number = 0; my @numbers;
   foreach(1 .. $rolls){
@@ -84,7 +85,7 @@ sub encroachRoll {
     $number += $n;
     push(@numbers, $n);
   }
-  my ($result, $system) = ( unitCalcEdit($::in{'name'}, '侵蝕+'.$number) );
+  my ($result, $system) = ( unitCalcEdit($::in{'name'}, '侵蝕'.($minus?'-':'+').$number) );
   $result = "${rolls}D10 → ".join(',',@numbers)."　$result";
   return ($result, $system);
 }
