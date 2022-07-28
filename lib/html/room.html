@@ -559,48 +559,6 @@
       </p>
       </TMPL_IF>
     </details>
-    <script>
-    function gameChange(game){
-      document.getElementById('config-room-bcdice-options').style.display = (game == 'bcdice') ? 'block' : 'none';
-      const status = document.getElementById('config-room-status');
-      if     (game == 'sw2'){ status.value = 'HP　MP　防護'; }
-      else if(game == 'dx3'){ status.value = 'HP　侵蝕　行動'; }
-      else                  { status.value = 'HP　MP　他'; }
-    }
-    function BCDiceGet(apiUrl, set){
-      console.log('BCDiceGet >> API: '+apiUrl);
-      const select = document.getElementById('config-room-bcdice-game');
-      $.ajax({
-        url: apiUrl+'/v1/names',
-        type: 'GET',
-        cache: false,
-        timeout: 10000,
-        dataType: 'json',
-      })
-      .done( (data) => {
-        data['names'].sort(function(a,b){
-          if(a.name < b.name) return -1;
-          if(a.name > b.name) return 1;
-          return 0;
-        });
-        while (0 < select.childNodes.length) {
-          select.removeChild(select.childNodes[0]);
-        }
-        for(let key in data['names']){
-          let op = document.createElement("option");
-          op.text = data['names'][key]['name'];
-          op.value = data['names'][key]['system'];
-          if(bcdiceSystem === data['names'][key]['system']){
-            op.selected = true;
-          }
-          select.appendChild(op);
-        }
-      })
-      .fail( (data) => {
-        alert('APIサーバー（'+apiUrl+'）にアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
-      });
-    }
-    </script>
     <details>
       <summary onclick="getFileName();"><i class="fas fa-file-export"></i>ログ初期化／保存／ルーム削除</summary>
       <form onsubmit="resetRoom();return false;">
