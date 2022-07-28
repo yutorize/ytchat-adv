@@ -672,6 +672,13 @@ body.rom .sheet { display: none !important; }
 .sheet-body-default dd input[list] {
   flex-shrink: 1;
 }
+.sheet-body-default dd .pickr {
+  border-radius: .8rem 0 0 .8rem;
+}
+.sheet-body-default dd .pickr + input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 
 .sheet-body-default ul {
 }
@@ -775,6 +782,9 @@ body.rom .input-form { display: none !important; }
   display: inline-block;
   width: 12em;
   text-align: center;
+}
+#main-form .name-area .pickr {
+  border-width: .1rem 0 .1rem .1rem;
 }
 #main-form .address-area {
   display: inline-flex;
@@ -1223,6 +1233,15 @@ body.rom .input-form { display: none !important; }
   text-align: center;
   border-bottom: .1rem solid var(--border-color);
 }
+#enter-form #enter-color-area {
+  display: inline-flex;
+}
+#enter-form #enter-color-area .pickr {
+  border-radius: .8rem 0 0 .8rem;
+}
+#enter-form #enter-color-area .pickr + input{
+  border-radius: 0 .8rem .8rem 0;
+}
 /* 退室 */
 #exit-form {
   padding: 4em;
@@ -1406,32 +1425,32 @@ body.rom .input-form { display: none !important; }
 /* // その他
 ---------------------------------------------------------------------------------------------------- */
 /* カラーピッカー */
-body .sp-replacer {
-  height: 2.2rem;
-  padding: .3rem;
-  background: transparent;
-  border: .1rem solid var(--border-color);
-  border-radius: .8rem;
+body .pickr {
+  display: inline-grid;
+  width: 2em;
+  border-width: .1rem;
+  border-style: solid;
+  border-color: var(--border-color-input);
+  overflow: hidden;
 }
-body .sp-replacer .sp-preview {
-  height: 1.4rem;
+body .pickr:hover {
+  outline: .1rem solid #7af;
 }
-body .sp-replacer .sp-dd {
-  line-height: 1rem;
-  color: white;
+body .pickr .pcr-button {
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: .5rem solid transparent;
+  border-radius: 0;
 }
-.sp-container {
-  background-color: #111 !important;
+body .pcr-app {
 }
-.sp-container .sp-palette-container {
-  max-height: 300px;
+body .pcr-app .pcr-swatches {
+  height: 200px;
+  max-height: 50vh;
   overflow: auto;
-  padding-bottom: 0px;
-  margin-bottom: -0px;
 }
-.sp-container .sp-palette {
-  max-width: 280px;
-}
-.sp-container .sp-thumb-el {
-  border-color: #000 !important;
+body .pcr-app .pcr-interaction {
+  flex-direction: row-reverse;
 }

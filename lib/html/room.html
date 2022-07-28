@@ -9,17 +9,14 @@
   <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?<TMPL_VAR ver>">
   <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?<TMPL_VAR ver>">
   <link rel="stylesheet" media="all" href="./lib/css/config.css?<TMPL_VAR ver>">
-  <link rel='stylesheet' media="all" href='./lib/js/lib/spectrum.css'>
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="./lib/js/lib/jquery.selection.js" defer></script>
-  <script src='./lib/js/lib/spectrum.js' defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   <script src="./lib/js/ui.js?<TMPL_VAR ver>" defer></script>
   <script src="./lib/js/ui-sp.js?<TMPL_VAR ver>" defer></script>
   <script src="./lib/js/chat.js?<TMPL_VAR ver>" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <script>
     const roomId = '<TMPL_VAR roomId>';
     const tabArray = ['<TMPL_VAR tabArray>'];
@@ -96,8 +93,8 @@
           <div class="comm-config-area">
             <div class="name-area">
               <input type="text" id="main-name1" class="main-name bold" style="background:transparent" title="現在の名前" placeholder="名前が空欄です" readonly>
-              <input type="color" id="form-color" class="selectcolor-main" list="color-list" value="#FFFFFF" title="名前色">
-              <input type="text" id="form-color-text" class="selectcolor-main" list="color-list" value="#FFFFFF" title="名前のカラーコード">
+              <span id="form-color-pickr" class="color-pickr" data-pickr="form-color"></span>
+              <input type="text" id="form-color" class="" list="color-list" value="#FFFFFF" title="名前色">
             </div>
             <div class="address-area">
               <select id="form-address" title="発言送信先"><option value="">全員</option></select>
@@ -191,7 +188,7 @@
       <div class="sheet-body-default">
         <dl>
           <dt>名前      </dt><dd><input id="new-unit-name-value"  type="text"></dd>
-          <dt>名前色    </dt><dd><input id="new-unit-color-value" type="color" class="selectcolor-unit" list="color-list" value="#ffffff"><input id="new-unit-color-value-text" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
+          <dt>名前色    </dt><dd><span class="color-pickr" data-pickr="new-unit-color-value"></span><input id="new-unit-color-value" type="text" class="selectcolor-unit" list="color-list" value="#ffffff"></dd>
           <dt>参照URL</dt><dd><input id="new-unit-url-value" type="url" placeholder="キャラシなどのURL"></dd>
           <dt>ステータス</dt><dd><textarea class="autosize" id="new-unit-stt-value"><TMPL_VAR newUnitSttDefault></textarea></dd>
         </dl>
@@ -667,7 +664,9 @@
       <input type="text" id="in-name"><br>
       <br>
       名前色<br>
-      <input type="color" id="in-color" class="selectcolor-in" list="color-list" value="#FFFFFF"><input type="text" id="in-color-text" class="selectcolor-in" list="color-list" value="#FFFFFF"><br>
+      <span id="enter-color-area">
+        <span class="color-pickr" data-pickr="in-color"></span><input type="text" id="in-color" class="selectcolor-in" list="color-list" value="#FFFFFF">
+      </span><br>
       <br>
       <button onclick="enterRoom();">入室</button>
     </p>
