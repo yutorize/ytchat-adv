@@ -1358,6 +1358,39 @@ body.rom .input-form { display: none !important; }
   white-space: nowrap;
 }
 
+/* レディチェック */
+#ready-check h2::before { content: "\f0ae"; }
+#ready-list {
+  width: max-content;
+  margin: auto;
+  list-style-type: none;
+  font-size: 120%;
+}
+#ready-list li {
+  position: relative;
+  padding: 0 1.5em;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--border-color-pale);
+}
+#ready-list li::before {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  width: 1.5em;
+  text-align: center;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+#ready-list li.ok::before {
+  content: "\f00c";
+  color: #0f0;
+}
+#ready-list li.no::before {
+  content: "\f00d";
+  color: #f20;
+}
+
 .mem-signal::before {
   display: inline-block;
   width: 1.5em;

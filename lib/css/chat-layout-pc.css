@@ -935,4 +935,14 @@ body {
   overflow: auto;
   padding-bottom: 2em;
 }
+#ready-check {
+  min-width: 20em;
+  min-height: 20em;
+  inset: 0;
+  padding-bottom: 1em;
+}
+#ready-check button {
+  margin: 1em 0;
+  font-size: 1em;
+}
 

@@ -650,6 +650,16 @@
     <span class="close button" onclick="boxClose('member-list');">×</span>
   </div>
   
+  <div class="float-box" id="ready-check">
+    <h2>レディチェック（準備確認）</h2>
+    <p class="center">
+      <button onclick="readyCheckSubmit(1)">✔準備ＯＫ！</button>
+      <button onclick="readyCheckSubmit(0)">×まだ待って</button>
+    </p>
+    <ul id="ready-list"></ul>
+    <span class="close button" onclick="boxClose('ready-check');">×</span>
+  </div>
+  
   <div class="float-box" id="enter-form">
     <h2>ルーム：<TMPL_VAR title></h2>
     <p>

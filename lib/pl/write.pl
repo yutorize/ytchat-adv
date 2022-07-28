@@ -191,7 +191,12 @@ else {
     $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
     $::in{'system'} = "ready";
     delete $::in{'color'};
-    checkReset();
+    delete $::in{'address'};
+  }
+  elsif($::in{'comm'} =~ s<^/ready-(yes|ok|no)(?:\s|$)><>i){
+    my $ready = $1 eq 'no' ? 'no' : 'ok';
+    $::in{'system'} = "ready-${ready}";
+    delete $::in{'comm'};
     delete $::in{'address'};
   }
   #新規
