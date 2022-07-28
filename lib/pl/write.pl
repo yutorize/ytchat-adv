@@ -31,12 +31,13 @@ foreach (%::in) {
 
 my @adds;
 
-my @status = $::in{'status'} ? (split(' \| ', $::in{'status'}))
+my @status = $::in{'status'} ? (split(' &lt;&gt; ', $::in{'status'}))
           # : $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
           # : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
           # : ('HP','MP','他')
            : ();
-my $stt_commands = join('|', @status);
+my @stt_commands = map { quotemeta $_; } @status;
+my $stt_commands = join('|', @stt_commands);
 
 $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 
@@ -190,7 +191,12 @@ else {
     $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
     $::in{'system'} = "ready";
     delete $::in{'color'};
-    checkReset();
+    delete $::in{'address'};
+  }
+  elsif($::in{'comm'} =~ s<^/ready-(yes|ok|no)(?:\s|$)><>i){
+    my $ready = $1 eq 'no' ? 'no' : 'ok';
+    $::in{'system'} = "ready-${ready}";
+    delete $::in{'comm'};
     delete $::in{'address'};
   }
   #新規
@@ -230,6 +236,7 @@ else {
     #なんもないよ
   }
 }
+
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '' && $::in{'system'} eq '');
 
 # ダイスコード確認

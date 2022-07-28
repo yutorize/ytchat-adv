@@ -434,6 +434,9 @@ body {
   padding: 0 .5rem;
   border-bottom: .1rem solid var(--border-color);
 }
+#main-form .namelist-area select.form-name option:checked {
+  background-color: rgba(0,150,255, 0.2);
+}
 #main-form input[type="color"] {
   width: 5em;
 }
@@ -931,5 +934,15 @@ body {
 #help-window .box-body {
   overflow: auto;
   padding-bottom: 2em;
+}
+#ready-check {
+  min-width: 20em;
+  min-height: 20em;
+  inset: 0;
+  padding-bottom: 1em;
+}
+#ready-check button {
+  margin: 1em 0;
+  font-size: 1em;
 }
 

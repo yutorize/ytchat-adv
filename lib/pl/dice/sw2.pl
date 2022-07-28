@@ -139,7 +139,7 @@ sub rateCalc {
     
     # 1ゾロ
     if(!$crits && $number <= 2 && !$unique){
-      return $code." → \[${inside_code}=${number}:ファンブル..\] = 0";
+      return $code." → \[${inside_code}=${number}:1ゾロ..\] = 0";
       last;
     }
     $inside_code .= $inside_code ? '=' : '';

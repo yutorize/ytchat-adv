@@ -105,7 +105,10 @@ foreach (<$FH>){
     }
   }
   
-  if($system =~ /^image$/){
+  if($system =~ /^palette$/){
+    next;
+  }
+  elsif($system =~ /^image$/){
     $info = '<img loading="lazy" src="' . $info . '">';
   }
   elsif($system =~ /^bgm:([0-9]+):(.+)$/){
