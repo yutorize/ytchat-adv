@@ -258,7 +258,6 @@ foreach (<$FH>){
   ){
     push(@logs, {
       "NUM"    => $num,
-      "DATE"   => $date,
       "TAB"    => $tab,
       "TABNAME"=> $tabs[$tab-1],
       "USER"   => $user,
@@ -270,6 +269,7 @@ foreach (<$FH>){
   }
   
   push(@{$logs[$#logs]{'LogsDD'}},{
+    "DATE"  => $date,
     "COMM"  => $comm,
     "TYPE"  => $type,
     "INFO"  => $info,
