@@ -375,6 +375,7 @@ input[type=range]::-moz-range-thumb {
 }
 #main-form .comm-config-area {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 #main-form .comm-config-area > * > * {
@@ -387,6 +388,7 @@ input[type=range]::-moz-range-thumb {
   border-radius: 0;
 }
 #main-form #form-color {
+  width: 6em;
   border-right-width: .1rem;
   border-radius: 0  .8rem .8rem 0;
 }
@@ -395,6 +397,7 @@ input[type=range]::-moz-range-thumb {
 }
 #main-form .address-area {
   text-align: right;
+  margin-right: 0;
 }
 #main-form .comm-area {
   margin: .2rem 0 0;
