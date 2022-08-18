@@ -713,3 +713,17 @@ dd.bgm-title:hover + #yt-player-area,
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+
+/* // シンプル
+---------------------------------------------------------------------------------------------------- */
+body.simple {
+  background: #303344;
+}
+body.simple .box {
+  background: #000 !important;
+  text-shadow: none;
+}
+body.simple .bg-image,
+body.simple #options-sound,
+body.simple #opt-opacity,
+body.simple #opt-opacity + dd { display: none; }
