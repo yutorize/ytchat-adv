@@ -30,7 +30,7 @@
 </details>
 
 <details>
-  <summary>テキスト装飾</summary>
+  <summary>テキスト装飾・整形</summary>
   <table>
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
     <tr><th>&lt;ruby&gt;テキスト&lt;rt&gt;てきすと&lt;/ruby&gt;</th><td><ruby>テキスト<rt>てきすと</rt></ruby></td><td>ルビ（ふりがな）を振る</td></tr>
@@ -44,6 +44,8 @@
     <tr><th>&lt;big&gt;テキスト&lt;/big&gt;</th><td><span class="large">テキスト</span></td><td>文字を大きくする。（150%）<br>３重の入れ子まで可。（150%→225%→337.5%）</td></tr>
     <tr><th>&lt;small&gt;テキスト&lt;/small&gt;</th><td><span class="small">テキスト</span></td><td>文字を小さくする。（80%）</td></tr>
     <tr><th>&lt;hide&gt;テキスト&lt;/hide&gt;</th><td><span class="hide">テキスト</span></td><td>文字を透明にする。<br>（ドラッグで選択状態にすると見える）</td></tr>
+    <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
+    <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
   </table>
   <table>
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
@@ -80,7 +82,8 @@
       　このさい、２つ目以降のステータス名の前に@は不要です。<br>
       例: <code>@HP:25/25 MP:10/10 防護:4</code>、<code>@HP-12 MP-12</code>
     </td></tr>
-    <tr><th>@new ステータス名:文字列  </th><td>ユニット、ステータスを新規に設定します。<br>既に同名のものがある場合は上書きされます。<br>例外的に、名前欄・ユニット欄に存在しない名前でも指定できます。<br>例: <code>大蜥蜴@new 頭部HP:30/30 胴体:40/40</code>、<code>ゴブリンの群れ@new ＡHP:16/16 ＢHP:16/16 ＣHP:16/16 防護:2</code></td></tr>
+    <tr><th>@new ステータス名:文字列  </th><td>ユニット、ステータスを新規に設定します。<br>既に同名のものがある場合は上書きされます。<br>例外的に、名前欄・ユニット欄に存在しない名前でも指定できます。<br>例: <code>大蜥蜴@new 頭部HP:30/30 胴体HP:40/40</code>、<code>ゴブリンの群れ@new ＡHP:16/16 ＢHP:16/16 ＣHP:16/16 防護:2</code></td></tr>
+    <tr><th>@add ステータス名:文字列  </th><td>ステータスを追加で設定します。<br>既に同名のものがある場合は上書きされます。<br>例: <code>@add 使い魔MP:7/7</code>、</td></tr>
     <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
     <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
     <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
@@ -90,7 +93,7 @@
     <tr><th>/roundreset  </th><td>ラウンド数を「0」にする。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
     <tr><th>/memo 文字列 </th><td>「文字列」の内容のメモを追加する。</td></tr>
-    <tr><th>/bg 文字列 URL</th><td>「URL」の画像を背景に設定する。<br>「文字列」をタイトルに設定される。。</td></tr>
+    <tr><th>/bg 文字列 URL</th><td>「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。</td></tr>
     <tr><th>/bgreset</th><td>背景画像を初期状態に戻す。</td></tr>
     <tr><th>/bgm 文字列 数値 URL</th><td>「URL」の音声をBGMに設定する。<br>「文字列」をタイトル、「数値」%の音量で設定される（省略時は100）。</td></tr>
     <tr><th>/bgmreset</th><td>BGMを無音状態に戻す。</td></tr>
