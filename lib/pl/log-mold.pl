@@ -230,7 +230,7 @@ foreach (<$FH>){
       #
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
-    if($system =~ /^unit/){
+    elsif($system =~ /^unit/){
       if(1){
         my $dices = $_;
         if($dices =~ /^[0-9]+D10→([0-9,]+)\s/){

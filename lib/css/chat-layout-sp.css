@@ -386,8 +386,7 @@ input[type=range]::-moz-range-thumb {
   border-left-width: 0;
   border-radius: 0;
 }
-#main-form #form-color,
-#main-form .sp-replacer {
+#main-form #form-color {
   border-right-width: .1rem;
   border-radius: 0  .8rem .8rem 0;
 }

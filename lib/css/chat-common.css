@@ -1024,15 +1024,6 @@ body.rom .input-form { display: none !important; }
 .chat .notice-unread::after {
   content: "(" attr(data-unread) ")";
 }
-.chat.close .tab-name {
-  color: #ffcc00;
-}
-.chat.close .tab-name::after {
-  content: "(" attr(data-unread) ")";
-}
-.chat.close .tab-name[data-unread="0"] {
-  color: inherit;
-}
 /* ログ */
 .chat .logs {
   position: relative;
