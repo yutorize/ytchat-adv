@@ -210,16 +210,16 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="grave"] i::before { background: linea
 dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: none; }
 
 /* チャットログ */
-.chat {
+.tab-group {
   background-image: linear-gradient(to right, rgba(0,0,0, 0.4), transparent);
+}
+.tab-group .option:hover {
+  background-color: rgba(0,0,0, 0.5);
 }
 @media (max-width: 600px) {
   .chat {
     background-color: rgba(0,0,0, 0.3);
   }
-}
-.chat h2 {
-  background: linear-gradient(to right, rgba(80,85,90, 0.8), transparent);
 }
 .logs-font {
   color: var(--logs-font-color);

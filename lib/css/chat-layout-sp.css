@@ -36,7 +36,6 @@
     " head "
     "topic "
     " chat "
-    " tabs"
     " form " !important;
 }
 #sp-header {
@@ -47,9 +46,6 @@
 }
 #chat-area {
   grid-area: chat;
-}
-#tablist-area {
-  grid-area: tabs;
 }
 #main-form {
   grid-area: form;
@@ -269,7 +265,16 @@ input[type=range]::-moz-range-thumb {
 }
 /* // チャットログ
 ---------------------------------------------------------------------------------------------------- */
+.tab-group {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+}
 .chat {
+  display: none;
   width: 100%;
   height: 100%;
   /* position: absolute; */
@@ -277,18 +282,18 @@ input[type=range]::-moz-range-thumb {
   /* bottom: 0; */
   overflow: hidden;
 }
-.chat h2 label {
-  display: none;
+.chat.view {
+  display: grid;
 }
 .chat .input-form {
-  display: none;
-}
-.chat .close.button {
   display: none;
 }
 .chat .logs {
   width: auto;
   height: 100%;
+}
+.chat .notice-unread {
+  display: none;
 }
 
 .chat  {
@@ -306,47 +311,20 @@ input[type=range]::-moz-range-thumb {
   padding-left: .5em;
   min-height: calc((1em * 1.6) - .1rem);
 }
-.chat .logs dl dd::before
-.chat .logs dl dd::after, {
+.chat .logs dl dd::before,
+.chat .logs dl dd::after {
   font-size: 1rem;
   top: -1rem;
   opacity: 0.5;
 }
 
-.chat.sub {
-  display: none;
-}
-
 /* フォントサイズ調整バー */
-.chat .option {
+.tab-group .option {
   display: none;
 }
-
-/* // タブリスト
----------------------------------------------------------------------------------------------------- */
-#tablist-area {
-}
-#tablist {
-}
-#tablist li {
-  display: inline-block;
-  margin: -.5rem 0;
-  padding: .5rem 0 .3rem 1rem;
-  border-width: 0 0 .2rem;
-  border-style: solid;
-  border-color: transparent;
-  cursor: pointer;
-}
-#tablist li.bold {
-  border-color: var(--border-color);
-  color: #ffcc00;
-}
-#tablist li::after {
-  content: "(" attr(data-unread) ")";
-  font-size: 80%;
-}
-#tablist li[data-unread="0"]::after {
-  opacity: 0.2;
+/* タブリスト */
+#tab-add-area {
+  display: none;
 }
 
 /* // フォーム

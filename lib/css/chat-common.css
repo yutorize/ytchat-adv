@@ -1092,6 +1092,67 @@ body.rom .input-form { display: none !important; }
   to   { opacity: 1; }
 }
 
+/* タブリスト */
+.tablist {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 1.5em;
+  border-top: 1px solid var(--border-color-pale);
+  line-height: 1;
+  font-size: 92%;
+}
+.tablist li {
+  display: inline-block;
+  margin: 0 0 -.5em;
+  padding: .2em 0 .3em 1rem;
+  border-width: .2em 0 0;
+  border-style: solid;
+  border-color: transparent;
+  cursor: pointer;
+}
+.tablist li.bold {
+  border-color: var(--border-color);
+  color: #ffcc00;
+  font-family: inherit;
+}
+.tablist li::after {
+  content: "(" attr(data-unread) ")";
+  font-size: 80%;
+}
+.tablist li[data-unread="0"]::after {
+  opacity: 0.2;
+}
+.tablist ~ .button.delete {
+  display: none;
+}
+.tablist:empty ~ .button.delete {
+  display: block;
+}
+
+#tab-add-area {
+  position: absolute;
+  top: 2em;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 3em;
+  padding: 1em;
+  writing-mode: vertical-rl;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--border-color);
+  border-radius: 8px;
+  background-color: var(--box-bg-color);
+  display: grid;
+  place-items: center;
+}
+#tab-add-area:not(.view) {
+  display: none;
+}
+#tab-add-area::before {
+  content: "新しいタブグループ";
+}
+
 /* // 各フロートボックス
 ---------------------------------------------------------------------------------------------------- */
 .float-box {
