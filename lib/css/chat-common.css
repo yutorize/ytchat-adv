@@ -1525,8 +1525,8 @@ body.rom .input-form { display: none !important; }
   width: min(50%, 20em);
 }
 #help-window.search-mode {
-  --markup-color-r: 255;
-  --markup-color-g: 165;
+  --markup-color-r: 200;
+  --markup-color-g: 120;
   --markup-color-b: 0;
 }
 #help-window.search-mode .contains-search-matched {
@@ -1540,7 +1540,7 @@ body.rom .input-form { display: none !important; }
   inset calc(var(--markup-offset) * -1) calc(var(--markup-offset) * -1) var(--markup-blur) var(--markup-spread) var(--markup-color);
 }
 #help-window.search-mode .search-matched {
-  background-color: rgba(var(--markup-color-r), var(--markup-color-g), var(--markup-color-b), 0.65);
+  background-color: rgba(var(--markup-color-r), var(--markup-color-g), var(--markup-color-b), 0.25);
 }
 #help-window.search-mode details {
   display: none;
