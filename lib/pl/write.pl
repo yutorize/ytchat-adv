@@ -43,6 +43,7 @@ $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 
 # 入退室処理
 if($::in{'system'} eq 'enter'){
+  if($::in{'player'} eq ''){ error('名前を入力してください') }
   $::in{'name'} = "!SYSTEM";
   $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました";
   delete $::in{'color'};
