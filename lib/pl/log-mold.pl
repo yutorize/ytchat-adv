@@ -236,6 +236,9 @@ foreach (<$FH>){
     }
   }
   $info = join('<br>', @infos);
+
+  $info = tagConvert($info) if $tagconvert_on && $system =~ /^topic/; #文字装飾
+
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;

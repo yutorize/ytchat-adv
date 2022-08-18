@@ -161,7 +161,7 @@ label:hover input+b {
 
 /* トピック */
 #topic-value {
-  color: #afa;
+  color: #bfc;
 }
 /* ラウンド */
 #round-value {
@@ -301,8 +301,8 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 
 .logs dl.system  dd.info { color: #cdf; }
 .logs dl.system.round  dd.info { color: #f90; font-weight: bold; }
-.logs dl.system.topic  dd.info { color: #afa; font-weight: bold; }
 .logs dl.system.memo   dd.info { color: #afa; }
+.logs dl.system.topic  dd.info { color: #bfc; font-weight: bold; }
 .logs dl.system.change dd.info { color: #f99; }
 
 .logs dl.system.bgm dd.info small { color: #b9a; }
