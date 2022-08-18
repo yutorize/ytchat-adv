@@ -49,65 +49,22 @@ sub dataConvert {
     my $memo;
     my $result;
     my $game = $::in{'game'};
-    # SW魔物データ
-    if($pc{'monsterName'}){
-      # 部位名チェック
-      my @n2a = ('','A' .. 'Z');
-      if($pc{'statusNum'} > 1){
-        my %multiple;
-        foreach my $i (1 .. $pc{'statusNum'}){
-          $pc{"part${i}"} = $pc{"status${i}Style"};
-          $pc{"part${i}"} =~ s/^.+[(（)](.+?)[)）]$/$1/;
-          $multiple{ $pc{"part${i}"} }++;
-        }
-        my %count;
-        foreach my $i (1 .. $pc{'statusNum'}){
-          if($multiple{ $pc{"part${i}"} } > 1){
-            $count{ $pc{"part${i}"} }++;
-            $pc{"part${i}"} .= $n2a[ $count{ $pc{"part${i}"} } ];
-          }
-        }
-      }
-      # HPMP
-      my %label2dataname = ( 'HP'=>'Hp', 'MP'=>'Mp' );
-      foreach my $label ('HP','MP'){
-        my $dataname = $label2dataname{$label};
-        foreach my $i (1 .. $pc{'statusNum'}){
-          my $part = ($pc{'statusNum'} > 1) ? $pc{"part${i}"}.':' : '';
-          $stt{ $part.$label } = numConvert($pc{"status${i}${dataname}"});
-          push(@stt_name, $part.$label) if $stt{ $part.$label };
-          $result .= "<b>${part}${label}</b>:$stt{ $part.$label }　";
-        }
-        if($pc{'statusNum'} > 1) {
-          $result .= "<br>";
-        }
-      }
-      # 防護
-      foreach my $i (1 .. $pc{'statusNum'}){
-        my $part = ($pc{'statusNum'} > 1) ? $pc{"part${i}"}.':' : '';
-        if($pc{'statusNum'} == 1) {
-          $stt{'防護'} .= $pc{"status${i}Defense"};
-          push(@stt_name, '防護') if $stt{ '防護' };
-          $result .= "　<b>防護</b>:$stt{ $part.'防護' }";
+    if($pc{'unitStatus'}){
+      foreach my $data (@{$pc{'unitStatus'}}){
+        if($data eq '|'){
           $result .= '<br>';
         }
         else {
-          $memo .= ($memo?'／':'').$part.$pc{"status${i}Defense"};
+          my $key = (keys %{$data})[0];
+          if($key =~ /^(memo|メモ)$/){
+            $memo = $data->{$key};
+          }
+          else {
+            push(@stt_name, $key);
+            $stt{$key} = $data->{$key};
+          }
+          $result .= "<b>$key</b>:$data->{$key}　";
         }
-      }
-      if($memo){
-        $memo = '防護:'.$memo;
-        $result .= "<b>メモ</b>:$memo";
-      }
-    }
-    # 他
-    else {
-      @stt_name = @{$set::games{$game}{'status'}};
-      foreach my $label (@stt_name){
-        my @value;
-        push(@value, $pc{$_}) foreach @{ $set::games{$game}{'convert'}{$label} };
-        $stt{$label} = join("/", @value);
-        $result .= ($result ? '　' : '') . "<b>$label</b>:$stt{$label}";
       }
     }
     # 名前
