@@ -39,7 +39,6 @@
       <span class="mute-button muted" id="option-mute-button"></span></dd>
     </dl>
     <dl class="options">
-      <dt>背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
       <dt>文字の輝度 <span id="option-font-lightness-view">100</span> %</dd><dd><input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"></dd>
       <dt>文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
       <dt>日本語フォント</dd><dd><select id="option-font-family-jp"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
@@ -65,6 +64,14 @@
     <ul><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></ul>
   </aside>
 </div>
+<div id="left">
+  <aside class="box table-of-contents">
+    <h2>目次</h2>
+    <ul id="toc-headline"><TMPL_LOOP Headlines>
+      <li class="lv<TMPL_VAR LV>"><a href="#headline-<TMPL_VAR NUM>"><TMPL_VAR NAME></a></li>
+    </TMPL_LOOP></ul>
+  </aside>
+</div>
 <div id="base" class="box">
   <header>
     <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
@@ -81,15 +88,15 @@
 </div>
 <div id="foot-area">
   <TMPL_IF statDice><aside class="credit">
-    <h3>出目統計</h3>
+    <h3 data-headline="1">出目統計</h3>
     <TMPL_VAR statDice>
   </aside></TMPL_IF>
   <TMPL_IF BgmList><aside class="credit">
-    <h3>BGMリスト</h3>
+    <h3 data-headline="1">BGMリスト</h3>
     <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
   </aside></TMPL_IF>
   <TMPL_IF BgiList><aside class="credit">
-    <h3>背景リスト</h3>
+    <h3 data-headline="1">背景リスト</h3>
     <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
   </aside></TMPL_IF>
   <footer>

@@ -155,6 +155,14 @@ foreach (<$FH>){
   elsif($system =~ /^bg$/){
     $comm = '<span class="bg-border"></span>'.$comm;
   }
+  elsif($system =~ /^round:(.+?)$/){
+    if($1){
+      $comm = '<span data-headline="4">ラウンド: '.$1.'</span>';
+      $info = '';
+    }
+  }
+
+  $comm =~ s#<h([1-6])>(.+?)</h\1>#<h$1 data-headline="$1">$2</h$1>#ig;
   
   my $type = ($system =~ /^(check|dice)/) ? 'dice' : $system;
      $type =~ s/:.*?$//;

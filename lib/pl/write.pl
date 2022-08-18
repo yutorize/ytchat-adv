@@ -61,8 +61,7 @@ else {
   if($::in{'comm'} =~ s<^/round([+\-][0-9]|reset)(?:\s|$)><>i){
     my $num = roundChange($1);
     $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "ラウンドを".($num ? "変更（$1）" : 'リセット')." by $::in{'player'}";
-    $::in{'info'} = "ラウンド: ${num}";
+    $::in{'comm'} = "ラウンド".($num?" $num" : 'をリセット');
     $::in{'system'} = "round:".$num;
     delete $::in{'address'};
   }
