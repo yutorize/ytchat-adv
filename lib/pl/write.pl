@@ -172,6 +172,10 @@ else {
     $::in{'system'} = 'bg:'.$url;
     delete $::in{'color'};
   }
+  # 発言修正
+  elsif($::in{'comm'} =~ s<^/rewrite:([0-9]+)\s?><>i){
+    $::in{'system'} = "rewrite:$1";
+  }
   # チャットパレット更新
   elsif($::in{'comm'} =~ s<^/paletteupdate\s(.*)$><>is){
     paletteUpdate($::in{'name'}, $1);

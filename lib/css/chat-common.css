@@ -1022,7 +1022,7 @@ body.rom .input-form { display: none !important; }
   position: absolute;
   font-size: 1.2rem;
   top: -1.2rem;
-  right: 0;
+  right: 20px;
   opacity: 0;
   font-family: 'Arial';
   font-weight: normal;
@@ -1031,6 +1031,26 @@ body.rom .input-form { display: none !important; }
 }
 .chat .logs dl dd:hover::after {
   opacity: 0.7;
+}
+/* 編集ボタン／編集済みマーク */
+.chat .logs dl dd.comm button.rewrite {
+  position: absolute;
+  display: none;
+  z-index: 1;
+  width: 2.4rem;
+  height: 2.4rem;
+  top: -1.8rem;
+  right: -5px;
+}
+.chat .logs dl dd.comm span.rewrited {
+}
+.chat .logs dl dd.comm button.rewrite::before {
+  content: "\f304";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
+.chat .logs dl dd.comm:hover button.rewrite {
+  display: inline-block;
 }
 /* システムメッセージ */
 /* ダイス・システムメッセージ補足表示部 */

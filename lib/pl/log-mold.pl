@@ -241,6 +241,16 @@ foreach (<$FH>){
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;
   $info =~ s#(―+)#<span class="dash">$1</span>#g;
   
+  if($system =~ /^rewrite:([0-9]+)$/){
+    my $target = $1;
+    foreach my $data (@logs){
+      foreach my $line (@{ $data->{'LogsDD'} }){
+        if($line->{'NUM'} eq $target){ $line->{'COMM'} = $comm.'<span class="rewrited"></span>'; }
+      }
+    }
+    next;
+  }
+
   if($system =~ /^memo/ && $info){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
   
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
@@ -269,6 +279,7 @@ foreach (<$FH>){
   }
   
   push(@{$logs[$#logs]{'LogsDD'}},{
+    "NUM"   => $num,
     "DATE"  => $date,
     "COMM"  => $comm,
     "TYPE"  => $type,

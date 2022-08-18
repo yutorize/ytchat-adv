@@ -860,6 +860,18 @@ body {
   right: 0;
 }
 /* 各種 */
+#rewrite-form {
+  top: auto;
+  left: 5em;
+  right: auto;
+  bottom: 8em;
+}
+#rewrite-form textarea {
+  width: 40vw;
+  max-width: 90vw;
+  max-height: 80vh;
+  margin-top: .1rem;
+}
 #edit-topic {
   top: 5em;
   left: 1.5em;

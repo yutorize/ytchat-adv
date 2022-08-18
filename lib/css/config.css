@@ -408,6 +408,24 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   letter-spacing: 0rem;
   text-shadow: none;
 }
+/* チャットログ：編集済 */
+.logs dl dd span.rewrited {
+  position: absolute;
+  top: auto;
+  right: -.5rem;
+  bottom: 0;
+  color: var( --base-font-color);
+  border-bottom: 1px dashed var( --base-font-color);
+  font-size: 80%;
+  line-height: 1;
+  text-shadow: none;
+  opacity: 0.2;
+}
+.logs dl dd span.rewrited::before {
+  content: "\f304";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+}
 /* チャットログ：水平線 */
 .logs dl dd hr {
   margin: .75em 0;
