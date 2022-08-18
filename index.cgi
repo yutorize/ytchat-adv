@@ -100,10 +100,65 @@ sub getFileNameDate {
   my $filename = $date;
   $filename .= $::in{'room'} if $set::logname_id_add && $roomexists;
   my $num = 0;
-  while (-f "${logs_dir}/${filename}_${num}.dat"){
+  while (-f "${logs_dir}/${filename}_${num}.dat" || -d "${logs_dir}/_${filename}_${num}"){
     $num++;
   }
   return "${filename}_${num}";
+}
+
+## 文字装飾変換
+sub tagConvert {
+  my $comm = shift;
+  $comm =~ s/<br>/\n/g;
+  # ユーザー定義
+  foreach my $hash (@set::replace_regex){
+    foreach my $key (keys %{$hash}){
+      my $value = ${$hash}{$key};
+         $value =~ s/"/\\"/g;
+      $key =~ s/&lt;/</; $key =~ s/&gt;/>/;
+      $comm =~ s/${key}/"\"${value}\""/gee;
+    }
+  }
+  foreach my $key (keys %set::replace_rule){
+    my $qkey = quotemeta $key;
+    $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
+  }
+  
+  $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
+  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
+
+  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
+  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
+  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
+  1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gis;
+  1 while $comm =~ s#&lt;i&gt;(.*?)&lt;/i&gt;#<i>$1</i>#gis;
+  1 while $comm =~ s#&lt;s&gt;(.*?)&lt;/s&gt;#<s>$1</s>#gis;
+  1 while $comm =~ s#&lt;u&gt;(.*?)&lt;/u&gt;#<u>$1</u>#gis;
+  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gis;
+  1 while $comm =~ s#&lt;big&gt;(.*?)&lt;/big&gt;#<span class="large">$1</span>#gis;
+  1 while $comm =~ s#&lt;small&gt;(.*?)&lt;/small&gt;#<span class="small">$1</span>#gis;
+  
+  1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;\n?#<div class="left">$1</div>#gis;
+  1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
+  1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
+  
+  
+  # 自動リンク
+  $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#gi;
+  
+  $comm =~ s#\n#<br>#gi;
+  
+  return $comm;
+}
+
+## タグ削除
+sub tagDelete {
+  my $text = $_[0];
+  $text =~ s/<img alt="&#91;(.)&#93;"/[$1]<img /g;
+  $text =~ s/<br>/ /g;
+  $text =~ s/<.+?>//g;
+  $text =~ s/"/&quot;/g;
+  return $text;
 }
 
 ## メッセージ・データ

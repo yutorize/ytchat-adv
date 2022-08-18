@@ -173,6 +173,9 @@ $ROOM->param(customCSS => $set::custom_css);
 
 $ROOM->param(userRoomFlag => exists($set::rooms{$id}) ? 0 : 1);
 
+$ROOM->param(replaceRule => decode('utf-8', encode_json( \%set::replace_rule )) );
+$ROOM->param(replaceRegex => decode('utf-8', encode_json( \@set::replace_regex )) );
+
 ###################
 ### 出力
 print "Content-Type: text/html\n\n";

@@ -17,22 +17,7 @@
   <script src="./lib/js/ui-sp.js?<TMPL_VAR ver>" defer></script>
   <script src="./lib/js/chat.js?<TMPL_VAR ver>" defer></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
-  <script>
-    const roomId = '<TMPL_VAR roomId>';
-    const tabArray = ['<TMPL_VAR tabArray>'];
-    const setStatus = ['<TMPL_VAR sttNameList>'];
-    const gameSystem = '<TMPL_VAR gameSystem>';
-    const gameSystemName = '<TMPL_VAR gameSystemName>';
-    const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
-    const checkTimeRom = 10000; // 更新チェック周期・見学者
-    let seType = {
-      'chat' : './lib/sound/se-lab/cursor1.mp3',
-      'mark' : './lib/sound/se-lab/warning1.mp3',
-      'ready' : './lib/sound/se-lab/decision4.mp3',
-    }
-    const bcdiceAPI = '<TMPL_VAR bcdiceAPI>';
-    let bcdiceSystem = '<TMPL_VAR bcdiceSystem>';
-  </script>
+  <TMPL_INCLUDE NAME="script.html">
 </head>
 <body>
   <div class="bg-image bg-front"></div>

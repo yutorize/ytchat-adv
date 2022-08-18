@@ -49,11 +49,11 @@ if(-s $dir.'log-all.dat'){
   my $filepath;
   if($filename){
     if($filename !~ /^[-0-9a-zA-Z_.]+$/){ error('ファイル名に使えない文字があります'); }
-    $filepath = "${logs_dir}/$filename.dat" if $::in{'filename'};
+    $filepath = "${logs_dir}/_$filename" if $::in{'filename'};
   }
   else {
     $filename = getFileNameDate();
-    $filepath = "${logs_dir}/".$filename.".dat";
+    $filepath = "${logs_dir}/_".$filename;
   }
 
   ## ディレクトリチェック／作成
@@ -63,14 +63,14 @@ if(-s $dir.'log-all.dat'){
   ## アクセス制限ファイルチェック／作成
   if(!-f "${logs_dir}/.htaccess"){
     sysopen (my $FH, "${logs_dir}/.htaccess", O_WRONLY | O_TRUNC | O_CREAT, 0666);
-      print $FH '<Files ~ "\.dat$">',"\n";
+      print $FH '<Files ~ "\.dat$|config">',"\n";
       print $FH 'deny from all',"\n";
       print $FH '</Files>',"\n";
     close($FH);
   }
 
   ## 上書き回避
-  error('同名のファイルが存在します') if (-f $filepath); 
+  error('同名のログが存在します') if (-d $filepath); 
 
 ## ログ生成
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
@@ -110,22 +110,38 @@ if(-s $dir.'log-all.dat'){
   $title =~ s/</&lt;/g; $title =~ s/>/&gt;/g; $title =~ s/\r\n?|\n//g;
   my @tab;
   foreach (sort {$a <=> $b} keys %{$roomdata{'tab'}}){ push(@tab, $roomdata{'tab'}{$_}); }
-  sysopen(my $FH, $dir.'log-all.dat', O_RDWR) or error "log-all.datが開けません";
-  flock($FH, 2);
-  my @lines = <$FH>;
-  unshift(@lines, ">${title}<>".join(',',@tab)."\n");
-  seek($FH, 0, 0);
-  print $FH @lines;
-  truncate($FH, tell($FH));
-  close($FH);
+  
+  my %log_config = (
+    'title' => $title,
+    'tabs' => [ @tab ],
+    'pass' => $userrooms{$id}{'pass'} || '',
+    'replaceRule' => { %set::replace_rule },
+    'replaceRegex' => [ @set::replace_regex ],
+    'replaceHelp' => [ @set::replace_help ],
+  );
+
+  #sysopen(my $FH, $dir.'log-all.dat', O_RDWR) or error "log-all.datが開けません";
+  #flock($FH, 2);
+  #my @lines = <$FH>;
+  #unshift(@lines, ">${title}<>".join(',',@tab)."<>${replace_json}\n");
+  #seek($FH, 0, 0);
+  #print $FH @lines;
+  #truncate($FH, tell($FH));
+  #close($FH);
+
+  mkdir $filepath;
 
   use File::Copy 'move';
   use File::Path 'rmtree';
-  if(move($dir.'log-all.dat', $filepath)){
+  if(move($dir.'log-all.dat', "$filepath/log.dat")){
     if($::in{'allReset'}){
       rmtree $dir;
     }
   }
+  open(my $FH, '>',  "$filepath/config.pl");
+  print $FH decode('utf-8', encode_json( \%log_config ));
+  close($FH);
+
   $jumpurl .= '?mode=logs'.($set::rooms{$id}{'logs-dir'} ? "&id=${id}":'')."&log=${filename}";
 }
 ## ログがない場合

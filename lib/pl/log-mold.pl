@@ -64,7 +64,29 @@ $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');
 
-my $logfile = ($opt{'old'}) ? "${logs_dir}/$::in{'log'}.dat" : "./room/${id}/log-all.dat";
+$ROOM->param(simpleMode => ($::in{'type'} eq 'simple') ? 1 : 0);
+
+my $logfile; my %logconfig;
+if($::in{"log"}){ #過去ログ
+  if(-d "${logs_dir}/_$::in{'log'}/"){
+    $logfile = "${logs_dir}/_$::in{'log'}/log.dat";
+    open(my $FH, "${logs_dir}/_$::in{'log'}/config.pl");
+    my $json;
+    $json .= $_ while <$FH>;
+    close($FH);
+    if($json){
+      %logconfig = %{ decode_json( encode('utf-8', $json) ) };
+      $ROOM->param(title => $logconfig{'title'});
+      @tabs = $logconfig{'tabs'} ? @{ $logconfig{'tabs'} } : @tabs;
+    }
+  }
+  else {
+    $logfile = "${logs_dir}/$::in{'log'}.dat";
+  }
+}
+else { #現行ログ
+  $logfile = "./room/${id}/log-all.dat";
+}
 sysopen (my $FH, $logfile, O_RDONLY) or $error_flag = 1;
 my @logs;
 my $before_tab;
@@ -76,6 +98,7 @@ my @bgis; my %bgis;
 my %stat;
 my %stat_count;
 my %user_color;
+my $tagconvert_on = %logconfig ? 1 : $::in{"log"} ? 0 : 1;
 foreach (<$FH>){
   chomp;
   if($_ =~ s/^>//) {
@@ -94,7 +117,7 @@ foreach (<$FH>){
   if($address){
     if($address =~ s/\#$//){ $openlater = 1; } #青秘話=1
     # 過去ログ
-    if($opt{'old'}){
+    if($::in{"log"}){
       #赤秘話なら非表示（青は通す）
       if(!$openlater){ next; }
     }
@@ -104,6 +127,8 @@ foreach (<$FH>){
       if($cookie_id ne $userid && $cookie_id ne $address){ next; }
     }
   }
+  
+  $comm = tagConvert($comm) if $tagconvert_on; #文字装飾
   
   if($system =~ /^palette$/){
     next;
@@ -257,6 +282,7 @@ foreach (<$FH>){
   $before_user  = $user;
 }
 close($FH);
+
 $ROOM->param(Logs => \@logs);
 
 my @bgm_list;
@@ -342,6 +368,13 @@ if($opt{'logList'}){
       my $byte = int( (stat("$dir/$_"))[7] / 1024 + 0.5);
       my $name = $_;
          $name =~ s/\..+?$//;
+      my $current = ($name eq $::in{'log'}) ? 1 : 0;
+      push(@loglist, {'NAME' => $name, 'PATH' => $name, 'BYTE' => $byte, 'CURRENT' => $current,});
+    }
+    elsif ($_ =~ /^_.+?(?!.dat)$/) {
+      my $byte = int( (stat("$dir/$_/log.dat"))[7] / 1024 + 0.5);
+      my $name = $_;
+         $name =~ s/^_//;
       my $current = ($name eq $::in{'log'}) ? 1 : 0;
       push(@loglist, {'NAME' => $name, 'PATH' => $name, 'BYTE' => $byte, 'CURRENT' => $current,});
     }

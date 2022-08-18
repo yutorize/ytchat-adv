@@ -278,7 +278,7 @@ if($::in{'address'}){
 }
 
 # タグ変換
-$::in{'comm'} = tagConvert($::in{'comm'});
+#$::in{'comm'} = tagConvert($::in{'comm'});
 
 # 最終安全装置
 $::in{$_} = finalSafetyMain($::in{$_}) foreach ('comm','info');
@@ -343,47 +343,6 @@ print "Content-type:application/json; charset=UTF-8\n\n";
   print '{"status":"ok","text":"書き込み完了"}';
 
 exit;
-
-sub tagConvert{
-  my $comm = shift;
-  # ユーザー定義
-  foreach my $hash (@set::replace_regex){
-    foreach my $key (keys %{$hash}){
-      my $value = ${$hash}{$key};
-         $value =~ s/"/\\"/g;
-      $key =~ s/&lt;/</; $key =~ s/&gt;/>/;
-      $comm =~ s/${key}/"\"${value}\""/gee;
-    }
-  }
-  foreach my $key (keys %set::replace_rule){
-    my $qkey = quotemeta $key;
-    $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
-  }
-  
-  $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
-  $comm =~ s#&lt;ruby&gt;(.+?)\((.*?)\)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
-  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
-  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
-  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
-  1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gis;
-  1 while $comm =~ s#&lt;i&gt;(.*?)&lt;/i&gt;#<i>$1</i>#gis;
-  1 while $comm =~ s#&lt;s&gt;(.*?)&lt;/s&gt;#<s>$1</s>#gis;
-  1 while $comm =~ s#&lt;u&gt;(.*?)&lt;/u&gt;#<u>$1</u>#gis;
-  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gis;
-  1 while $comm =~ s#&lt;big&gt;(.*?)&lt;/big&gt;#<span class="large">$1</span>#gis;
-  1 while $comm =~ s#&lt;small&gt;(.*?)&lt;/small&gt;#<span class="small">$1</span>#gis;
-  
-  1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;\n?#<div class="left">$1</div>#gis;
-  1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
-  1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
-  
-  # 自動リンク
-  $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#gi;
-  
-  $comm =~ s#&lt;br&gt;?#<br>#gi;
-  
-  return $comm;
-}
 
 sub memberEdit {
   my $type = shift;
@@ -664,7 +623,8 @@ sub unitCalcEdit {
     if($type =~ /^(メモ|memo)$/){
       if($text eq '' && $num){ $text = $num; }
       if($op ne ":"){ $text = $op . $text; }
-      my $result = tagConvert($text);
+      #my $result = tagConvert($text);
+      my $result = $text;
       $result =~ s/\n/<br>/g;
       $data{'unit'}{$set_name}{'memo'} = $result;
       $result_info .= "<b>メモ</b>:" . $result;
