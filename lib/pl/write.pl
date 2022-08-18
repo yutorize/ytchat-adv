@@ -215,6 +215,13 @@ else {
     unitDelete($name);
     delete $::in{'address'};
   }
+  #追加
+  elsif($::in{'comm'} =~ s/^(.*?) [@＠] add \s ( .+?  [=＝:：] .*)$//ixs){
+    $::in{'name'} = $1 || $::in{'name'};
+    $stt_commands = '.+?';
+    ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $2);
+    delete $::in{'address'};
+  }
   #更新
   elsif($::in{'comm'} =~ s/^[@＠]statusupdate//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, '');
@@ -646,6 +653,7 @@ sub unitCalcEdit {
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
         $result_info .= ($result_info ? '　' : '') . "<b>$type</b>:$result";
       }
+      push(@status, $type);
     }
   }
   if($result_info || $update){
