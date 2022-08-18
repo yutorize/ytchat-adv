@@ -678,7 +678,7 @@ body {
 }
 [data-layout="row"] #memo {
   overflow: hidden;
-  flex-basis: 15em;
+  flex-basis: 16em;
 }
 [data-layout="row"] #memo ul#memo-list {
   position: absolute;

@@ -412,6 +412,8 @@ sub memoEdit {
   my $num  = shift;
   my $memo = shift;
   $memo =~ s/<br>/\n/g;
+
+  if($num eq '0'){ error('0番のメモは指定できません。') }
   
   my %data;
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
@@ -420,7 +422,7 @@ sub memoEdit {
   seek($FH, 0, 0);
   
   if($num eq ''){ push(@{$data{'memo'}}, $memo); $num = $#{$data{'memo'}}; }
-  else{ $data{'memo'}[$num] = $memo; }
+  else{ $num--; $data{'memo'}[$num] = $memo; }
   
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
