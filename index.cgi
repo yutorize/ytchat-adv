@@ -127,6 +127,9 @@ sub tagConvert {
   $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
   $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
 
+  $comm =~ s/(^・(?!・).+(\n|$))+/&listCreate($&)/egim;
+  $comm =~ s/(?:^(?:\|(?:.*?))+\|[hc]?(?:\n|$))+/&tableCreate($&)/egim;
+
   1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
   1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
   1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
@@ -142,6 +145,7 @@ sub tagConvert {
   1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
   1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
   
+  1 while $comm =~ s#&lt;h([1-6])&gt;(.*?)&lt;/h\1&gt;\n?#<h$1>$2</h$1>#gis;
   
   # 自動リンク
   $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#gi;
@@ -149,6 +153,84 @@ sub tagConvert {
   $comm =~ s#\n#<br>#gi;
   
   return $comm;
+}
+sub listCreate {
+  my $text = shift;
+  $text =~ s/^・/<li>/gm;
+  $text =~ s/\n//g;
+  return "<ul>$text</ul>";
+}
+#テーブル
+sub tableCreate {
+  my $text = shift;
+  my $output;
+  my @data;
+  foreach my $line (split("\n", $text)){
+    if   ($line =~ /c$/){ $output .= tableColCreate($line); next; }
+    elsif($line =~ /h$/){ $output .= tableHeaderCreate($line); next; }
+    $line =~ s/^\|//;
+    my @row = split('\|', $line);
+    push(@data, [ @row ]);
+  }
+  my $row_num = 0;
+  foreach my $row (@data){
+    next if !@{$row};
+    $output .= "<tr data-test=@{$row}>";
+    my $col_num = 0;
+    my $colspan = 1;
+    foreach my $col (@{$row}){
+      my $rowspan = 1;
+      my $td = 'td';
+      while($data[$row_num+$rowspan][$col_num] eq '~'){ $rowspan++; }
+      $col_num++;
+      if   ($col eq '&gt;'){ $colspan++; next; }
+      elsif($col eq '~')   { next; }
+      elsif($col =~ s/^~//){ $td = 'th' }
+      $output .= "<$td";
+      if($colspan > 1){ $output .= ' colspan="'.$colspan.'"'; }
+      if($rowspan > 1){ $output .= ' rowspan="'.$rowspan.'"'; }
+      $output .= ">$col";
+    }
+    $output .= "</tr>";
+    $row_num++;
+  }
+  return "<table>$output</table>";
+}
+sub tableColCreate {
+  my @out;
+  my @col = split(/\|/, $_[0]);
+  foreach(@col){
+    push (@out, &tableStyleCreate($_));
+  }
+  return '<colgroup>'.(join '', @out).'</colgroup>';
+}
+sub tableStyleCreate {
+  if($_[0] =~ /([0-9]+)(px|em|\%)/){
+    my $num = $1; my $type = $2;
+    if   ($type eq 'px' && $num > 300){ $num = 300 }
+    elsif($type eq 'em' && $num >  20){ $num =  20 }
+    elsif($type eq  '%' && $num > 100){ $num = 100 }
+    return "<col style=\"width:calc(${num}${type} + 1em)\">";
+  }
+  else { return '<col>' }
+}
+sub tableHeaderCreate {
+  my $line = shift;
+  my $output;
+  $line =~ s/^\|//;
+  $line =~ s/h$//;
+  $output .= "<thead><tr>";
+  my $colspan = 1;
+  foreach my $col (split('\|', $line)){
+    my $td = 'td';
+    if   ($col eq '&gt;'){ $colspan++; next; }
+    elsif($col =~ s/^~//){ $td = 'th' }
+    $output .= "<$td";
+    if($colspan > 1){ $output .= ' colspan="'.$colspan.'"'; }
+    $output .= ">$col";
+  }
+  $output .= "</tr></thead>";
+  return $output;
 }
 
 ## タグ削除

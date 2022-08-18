@@ -416,6 +416,168 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-color: var(--border-color-deep);
   box-shadow: var(--box-text-shadow);
 }
+/* チャットログ：見出し */
+.logs h1 {
+  position: relative;
+  margin: 2em 0;
+  padding: 1em 0;
+  border-width: 3px 0;
+  border-style: solid;
+  border-color: var(--base-font-color);
+  text-align: center;
+  font-size: 200%;
+  font-family: "游明朝","Yu Mincho","游明朝体","YuMincho" !important;
+  line-height: 1;
+}
+.logs h1 span {
+  line-height: 1 !important;
+}
+.logs h1::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 calc(-.7em + 3px);
+  height: .7em;
+  border-width: 1px 0 0;
+  border-style: solid;
+  border-color: var(--border-color-deep);
+  background-image: linear-gradient(to bottom, var(--border-color), transparent);
+  pointer-events: none;
+}
+.logs h1::after {
+  content: "";
+  position: absolute;
+  inset: calc(-.7em + 3px) 0 auto;
+  height: .7em;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: var(--border-color-deep);
+  background-image: linear-gradient(to top, var(--border-color), transparent);
+  pointer-events: none;
+}
+.logs h2 {
+  position: relative;
+  margin: 1.5em 0 .5em;
+  padding: .6em;
+  border-width: 3px 0 3px 0px;
+  border-style: solid;
+  border-image: linear-gradient(to right, var(--base-font-color), transparent);
+  border-image-slice: 1;
+  background-color: #fff1;
+  font-size: 150%;
+  line-height: 1;
+}
+.logs h2::before {
+  content: "";
+  position: absolute;
+  inset: 2px 0 2px;
+  border-width: 1px 0 1px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #fff7, transparent);
+  border-image-slice: 1;
+  pointer-events: none;
+}
+.logs h3 {
+  position: relative;
+  margin: 1em 0 .5em;
+  padding: .6em;
+  border-width: 0 0 2px;
+  border-style: solid;
+  border-image: linear-gradient(to right, var(--base-font-color), transparent);
+  border-image-slice: 1;
+  background-image: linear-gradient(15deg, #fff1, transparent);
+  font-size: 130%;
+  line-height: 1;
+}
+.logs h3::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-width: 2px 0 0;
+  border-style: solid;
+  border-image: linear-gradient(to right, var(--base-font-color),  transparent 70%);
+  border-image-slice: 1;
+  pointer-events: none;
+}
+.logs h4 {
+  margin: 1em 0 .5em;
+  padding: .6em;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-image: linear-gradient(to right, var(--base-font-color), transparent);
+  border-image-slice: 1;
+  background-image: linear-gradient(15deg, #fff1, transparent);
+  font-size: 110%;
+  line-height: 1;
+}
+/* .logs h4::before {
+  content: "❖";
+  display: inline-block;
+  margin-right: .4em;
+  color: #fff7;
+  text-shadow: none;
+  transform: scale(1.4);
+} */
+.logs h5 {
+  margin: 1em 0 .5em;
+  padding: .4em;
+  background-image: linear-gradient(to right, #fff1, transparent);
+  font-size: 100%;
+  line-height: 1;
+}
+.logs h6 {
+  width: max-content;
+  margin: 1em 0 .5em;
+  padding: .2em 1.7em .2em .2em;
+  border-width: 0 0 2px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #fff5, #fff4, #fff3, transparent);
+  border-image-slice: 1;
+  font-size: 100%;
+  line-height: 1;
+}
+/* チャットログ：テーブル */
+.logs table,
+#topic table {
+  margin: .5em 0;
+  border-collapse: collapse;
+  border-style: hidden;
+  outline-width: 1px;
+  outline-style: solid;
+  outline-color: var(--border-color-deep);
+}
+#topic table {
+  margin: 0 0;
+}
+.logs table thead th,
+.logs table thead td,
+#topic table thead th,
+#topic table thead td {
+  padding: 0 .5em;
+  border-width: 0;
+  font-size: 90%;
+}
+.logs table thead tr,
+#topic table thead tr {
+  background: rgba(100,127,200,0.3);
+}
+.logs table tbody th,
+.logs table tbody td,
+#topic table tbody th,
+#topic table tbody td {
+  padding: 0 .5em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--border-color-pale);
+}
+.logs table tbody tr:nth-child(even) {
+  background: rgba(127,127,127,0.15);
+}
+/* チャットログ：リスト */
+.logs ul,
+#topic ul {
+  padding-left: 1.5em;
+  list-style-type: square;
+}
 
 /* // カラー設定：サイドバー
 ---------------------------------------------------------------------------------------------------- */
