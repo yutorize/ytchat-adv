@@ -174,7 +174,7 @@ sub dice {
   my $rolls = $_[0];
   my $faces = $_[1];
   my $crit  = $_[2]; $crit =~ s/^@//;
-  if($faces eq ''){ $faces = 6 }
+  if($faces eq ''){ $faces = $set::games{$::in{'game'}}{'faces'} || 6 }
   if   ($rolls > 200) { return ("${rolls}D${faces}", '', 'ダイスの個数は200が最大です'); }
   elsif($faces > 1000){ return ("${rolls}D${faces}", '', 'ダイスの面数は1000が最大です'); }
   elsif($crit ne '' && $crit  <= $rolls){ return ("${rolls}D${faces}\@${crit}", '∞'); }
