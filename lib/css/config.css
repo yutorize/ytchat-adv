@@ -249,11 +249,9 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   box-shadow: 0 0 0 .1rem rgba(100,200,255,0.2) inset !important;
 }
 /* チャットログ：リンク */
-.logs a[href]::before {
+.logs a[href]::before, 
+#topic a[href]::before {
   content: "\f35d";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
   margin-right: .2rem;
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
