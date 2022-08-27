@@ -459,16 +459,25 @@ body {
   text-align: right;
 }
 .check-buttons button {
+  width: max-content;
   border-top: 0;
+  border-radius: 0 0 .8rem .8rem;
 }
-.check-buttons button:first-child {
-  width: 4rem;
-  border-radius: 0 0 0 .8rem;
+.check-buttons button::before {
+  content: '✔';
+  opacity: 0.3;
 }
-.check-buttons button:last-child {
-  width: 2.5rem;
-  border-left: 0;
-  border-radius: 0 0 .8rem 0;
+.check-buttons button:hover::before {
+  opacity: 1;
+}
+.check-buttons button.checked::before {
+  opacity: 1;
+}
+.check-buttons button.checked:hover::before {
+  opacity: 0.3;
+}
+.check-buttons button .small {
+  font-weight: normal;
 }
 
 .input-form .add-button {

@@ -511,8 +511,8 @@ body.rom .sheet { display: none !important; }
   padding: .3rem;
 }
 .sheet-body .status-remocon-area ul li.dice-button.checks {
-  grid-column: span 3;
-  grid-template-columns: 2fr 1fr;
+  grid-column: span 2;
+  grid-template-columns: 1fr;
   height: 1.5em;
 }
 .sheet-body .status-remocon-area ul.status-remocon-others {
@@ -521,49 +521,23 @@ body.rom .sheet { display: none !important; }
 .sheet-body .status-remocon-area ul.status-remocon-others li {
   margin-top: .4rem;
 }
-.sheet-body .status-remocon-area ul li.dice-button.checks :not(:first-child) {
-  border-left-width: .1rem;
+.sheet-body .status-remocon-area ul li.dice-button.checks button::before {
+  content: '✔';
+  opacity: 0.3;
+}
+.sheet-body .status-remocon-area ul li.dice-button.checks button:hover::before {
+  opacity: 1;
+}
+.sheet-body .status-remocon-area ul li.dice-button.checks.checked button::before {
+  opacity: 1;
+}
+.sheet-body .status-remocon-area ul li.dice-button.checks.checked button:hover::before {
+  opacity: 0.3;
 }
 .sheet-body .status-remocon-area ul.status-remocon-others li.dice-button.delete {
-  grid-column: span 3;
+  grid-column: span 4;
   width: max-content;
   margin-left: auto;
-}
-.sheet-body .status-remocon-sub ul {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin-bottom: .3rem;
-  padding: .2rem 0 0 .3rem;
-  border-width: .1rem 0 0 .3rem;
-  border-style: solid;
-  border-color: var(--border-color);
-}
-.sheet-body .status-remocon-sub ul li:first-child {
-  grid-column: span 4;
-  margin: 0 1rem .3rem 0;
-}
-.sheet-body .status-remocon-sub ul li:first-child input {
-  width: calc(100% - 3em);
-  margin-left: .3rem;
-  padding: .3rem;
-}
-.sheet-body .status-remocon-sub ul li.dice-button {
-  grid-column: span 2;
-}
-.sheet-body .status-remocon-sub ul li.dice-button button {
-  max-width: 3em;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.sheet-body .status-remocon-sub ul li.dice-button:last-child {
-  width: auto;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-.sheet-body .status-remocon-sub ul i {
-  font-style: normal;
-}
-.sheet-body .status-remocon-sub ul.close li.dice-button {
-  display: none;
 }
 /* パレット */
 .sheet-body .chat-palette-area {
