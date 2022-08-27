@@ -125,6 +125,14 @@ button, .button {
   font-family: "Meiryo","Noto Sans JP";
   font-weight: normal;
 }
+.trump {
+  font-family: "Yu Gothic","YuGothic","Noto Sans JP","Meiryo";
+}
+.choice .trump,
+.deck .trump {
+  font-size: 120%;
+  line-height: 1;
+}
 .logs em,
 .float-box em {
   -webkit-text-emphasis: dot filled;

@@ -43,10 +43,7 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   my @infos = split(/<br>/,$info);
   foreach (@infos){
     { $_ =~ s/\<\<(.*)$/$code = $1; ''/e; }
-    if($system =~ /^choice/){
-      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
-    }
-    elsif($system =~ /^dice/){
+    if($system =~ /^dice/){
       $_ =~ s#(\[.*?\])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
       $_ =~ s# = ([0-9a-z.∞]+)# = <b>$1</b>#gi;
@@ -68,12 +65,39 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   }
   $info = join('<br>', @infos);
   
+  if($system =~ /^(choice:list|deck)/){
+    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<i>$1</i>#g;
+  }
+  elsif($system =~ /^(choice:table)/){
+    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<i>$1</i>#g;
+  }
+  
   if($system eq 'palette'){
     $palette{$name} = 1;
   }
   
   my $openlater;
   if($address =~ s/\#$//){ $openlater = 1; }
+  if($address && $address ne $::in{'userId'}){
+    if($system =~ /^deck/){
+      if($info =~ /([0-9]+)[#＃](.+?) →/){
+        $info = "＃$2 から $1 枚ドローしました。"
+      }
+      else { $info = ''; }
+      $address = '';
+      $comm = '';
+      $name = $username;
+    }
+    else {
+      $name = $username;
+      $comm = $info = '';
+    }
+  }
+  if($address && $address eq $::in{'userId'}){
+    if($system =~ /^deck/){
+      $info .= '<span class=small><br>(※引いた枚数は全員に通知されます)</span>';
+    }
+  }
   
   my $line  = '{'
     . '"num":'       .$num

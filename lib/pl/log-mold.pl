@@ -165,16 +165,14 @@ foreach (<$FH>){
   $comm =~ s#<h([1-6])>(.+?)</h\1>#<h$1 data-headline="$1">$2</h$1>#ig;
   
   my $type = ($system =~ /^(check|dice)/) ? 'dice' : $system;
+     $type .= ' choice' if ($system =~ /^deck/);
      $type =~ s/:.*?$//;
   my $game = ($system =~ /^dice:(.*)$/) ? $1 : '';
   my $code;
   my @infos = split(/<br>/,$info);
   foreach (@infos){
     { $_ =~ s/\<\<(.*)$//; $code = $1; }
-    if($system =~ /^choice/){
-      $_ =~ s#(\[.*?\])#<i>$1</i>#g;
-    }
-    elsif($system =~ /^dice/){
+    if($system =~ /^dice/){
       #出目統計
       if(1){
         my $dices = $_;
@@ -245,7 +243,14 @@ foreach (<$FH>){
   }
   $info = join('<br>', @infos);
 
-  $info = tagConvert($info) if $tagconvert_on && $system =~ /^(topic|memo)/; #文字装飾
+  if($system =~ /^(choice:list|deck)/){
+    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<i>$1</i>#g;
+  }
+  elsif($system =~ /^(choice:table)/){
+    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<i>$1</i>#g;
+  }
+
+  $info = tagConvert($info) if $tagconvert_on && $system =~ /^(topic|memo|choice|deck)/; #文字装飾
 
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
   

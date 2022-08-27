@@ -1115,9 +1115,6 @@ body.rom .input-form { display: none !important; }
 .chat .logs dl dd.info {
   margin-left: 1em;
 }
-.chat .logs dl dd.info i {
-  margin-left: .2rem;
-}
 .chat .logs dl dd.info[data-code]::after {
   content: "" attr(data-code) " --- " attr(data-date);
 }

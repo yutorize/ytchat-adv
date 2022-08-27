@@ -20,6 +20,8 @@ sub diceCheck {
   if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+\)?D\(?([0-9\+\-]|\s|$)/i){ return diceRoll($comm), 'dice'; }
   elsif($comm =~ /^[0-9]*\@/){ return shuffleRoll($comm); }
   elsif($comm =~ /^[0-9]*\$/){ return  choiceRoll($comm); }
+  elsif($comm =~ /^[0-9]*\#/){ return drawDeck($comm), 'deck'; }
+  elsif($comm =~ /^set\#/   ){ return setDeck($comm), 'deck'; }
   # 四則演算
   elsif($comm =~ /^
     ( \(? \-? [0-9]+ [\+\-\/*\^]
@@ -324,8 +326,74 @@ sub randomDiceTableRoll {
   }
   return $results;
 }
+
+sub setDeck {
+  my $comm = shift;
+  if($comm !~ /^
+    set \# (?<deckName>.*?) [=＝] (?<list>.+?)
+    (?:\s|$)
+  /ix){
+    return;
+  }
+  if($set::random_table{$+{list}}) {
+    open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$+{list}}{'data'}") or error($set::random_table{$+{list}}{'data'}.'が開けません');
+    my @list = <$FH>;
+    close($FH);
+    if($list[0] =~ /^[0-9]+D[0-9]+$/i){ error("$+{deckName}は山札にできない表です"); }
+    
+    foreach (@list){ chomp $_; $_=~ s/\\n/<br>/g; }
+    my %deck;
+    sysopen(my $FH, "./room/$::in{'room'}/deck.pl", O_RDWR | O_CREAT) or error "deck.plが開けません";
+    flock($FH, 2);
+    my @lines = <$FH>;
+    %deck = %{ decode_json(encode('utf8', (join '', @lines))) } if @lines;
+    seek($FH, 0, 0);
+    
+    $deck{$+{deckName}} = { 'cards' => [ @list ], 'faces' => $set::random_table{$+{list}}{'faces'} };
+    
+    print $FH decode('utf8', encode_json \%deck);
+    truncate($FH, tell($FH));
+    close($FH);
+    return "山札＃$+{deckName} に［$+{list}］をセットしました。";
   }
   return "";
+}
+
+sub drawDeck {
+  my $comm = shift;
+  if($comm !~ /^
+    ([0-9]+)? \# (?<deckName>.*?)
+    (?:\s|$)
+  /ix){
+    return "";
+  }
+  my $draw = $1 || 1;
+
+  my %deck;
+  sysopen(my $FH, "./room/$::in{'room'}/deck.pl", O_RDWR | O_CREAT) or return "";
+  flock($FH, 2);
+  my @lines = <$FH>;
+  %deck = %{ decode_json(encode('utf8', (join '', @lines))) } if @lines;
+  seek($FH, 0, 0);
+  
+  my @draws; my $finish;
+
+  if($deck{$+{deckName}} && $deck{$+{deckName}}{'cards'}){
+    if(!@{ $deck{$+{deckName}}{'cards'} }){ return "${draw}＃$+{deckName} → 山札が空です。" }
+    foreach(1 .. $draw){
+      push (@draws,
+        splice(@{ $deck{$+{deckName}}{'cards'} }, int rand @{ $deck{$+{deckName}}{'cards'} }, 1)
+          . ($deck{$+{deckName}}{'faces'} ? ' ('.$deck{$+{deckName}}{'faces'}[rand @{ $deck{$+{deckName}}{'faces'} }].')' : '')
+      );
+      if(@{ $deck{$+{deckName}}{'cards'} } <= 0){ $finish = 1; $draw = $_; last; }
+    }
+  }
+  else { return '' }
+  
+  print $FH decode('utf8', encode_json \%deck);
+  truncate($FH, tell($FH));
+  close($FH);
+  return "${draw}＃$+{deckName} → [".join('][',@draws)."]".($finish ? '<br>山札がなくなりました。':'');
 }
 
 1;

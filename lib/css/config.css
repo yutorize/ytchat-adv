@@ -242,14 +242,6 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   color: #acd;
   background: rgba(0,0,0,0.2);
 }
-.logs dl dd.info i {
-  font-size: 90%;
-  font-style: normal;
-}
-.logs dl dd.info em {
-  -webkit-text-emphasis: none;
-          text-emphasis: none;
-}
 .logs dl:hover {
   background-image: linear-gradient(rgba(0,0,0, 0.3), rgba(0,0,0, 0.3));
 }
@@ -335,12 +327,25 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   color: #fe0;
 }
 .logs dl dd.info.choice {
-  color: #ec0;
+  color: #db5;
 }
-.logs dl dd.info.choice i,
-.logs dl dd.info.choice b,
-.logs dl dd.info.choice s {
+.logs dl dd.info.choice > i,
+.logs dl dd.info.choice > b,
+.logs dl dd.info.choice > s {
   display: inline-block;
+}
+.logs dl dd.info.choice > i {
+  margin: 1px .25em;
+  padding: 0 .25em;
+  border-width: 0px 1px;
+  border-style: solid;
+  border-color: #eda7;
+  border-radius: .5em;
+  font-size: 94%;
+  font-style: normal;
+  vertical-align: top;
+  background-color: #fe01;
+  color: #eda;
 }
 .logs dl dd.info.choice s {
   color: #888;
@@ -355,6 +360,8 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   letter-spacing: 0.1rem;
 }
 .logs dl dd.info.dice i {
+  margin-left: .2rem;
+  font-size: 90%;
   opacity: 0.85;
 }
 .logs dl dd.info.dice b,
@@ -364,6 +371,8 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dd.info.dice em {
   color: #e90;
   font-weight: bold;
+  -webkit-text-emphasis: none;
+          text-emphasis: none;
 }
 .logs dl dd.info.dice em.fail,
 .logs dl dd.info.dice strong.fail {
