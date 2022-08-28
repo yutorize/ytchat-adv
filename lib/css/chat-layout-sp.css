@@ -315,7 +315,6 @@ input[type=range]::-moz-range-thumb {
 .chat .logs dl dd::after {
   font-size: 1rem;
   top: -1rem;
-  opacity: 0.5;
 }
 
 /* フォントサイズ調整バー */
