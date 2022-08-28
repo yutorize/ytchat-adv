@@ -53,7 +53,7 @@ if(-s $dir.'log-all.dat'){
   }
   else {
     $filename = getFileNameDate();
-    $filepath = "${logs_dir}/_".$filename;
+    $filepath = "${logs_dir}/_$filename";
   }
 
   ## ディレクトリチェック／作成
@@ -70,7 +70,7 @@ if(-s $dir.'log-all.dat'){
   }
 
   ## 上書き回避
-  error('同名のログが存在します') if (-d $filepath); 
+  error('同名のログが存在します') if (-d $filepath || -f "${logs_dir}/$filename.dat"); 
 
 ## ログ生成
 #sysopen (my $RD, $dir.'log-all.dat', O_RDONLY);
