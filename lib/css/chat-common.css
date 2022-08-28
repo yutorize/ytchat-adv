@@ -914,6 +914,21 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .insert-ruby    { width: 3rem; }
 .decoration-buttons .insert-em      { width: 3rem; }
 .decoration-buttons .insert-serif   { width: 3rem; }
+.decoration-buttons .insert-headline{ position: relative; }
+.decoration-buttons .insert-headline select {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+}
+.decoration-buttons .insert-headline select option {
+  background-color: #000;
+  color: #fff;
+}
+.decoration-buttons .help::before           { content: "\f059"; }
 .decoration-buttons .insert-ruby::before    { content:"ルビ"; }
 .decoration-buttons .insert-em::before      { content:"傍点"; }
 .decoration-buttons .insert-serif::before   { content:"明朝"; }
@@ -932,6 +947,7 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .insert-left::before    { content:"\f036"; }
 .decoration-buttons .insert-center::before  { content:"\f037"; }
 .decoration-buttons .insert-right::before   { content:"\f038"; }
+.decoration-buttons .insert-headline::before{ content:"\f1dc"; }
 
 .decoration-buttons .insert-image::before   { content:"\f03e"; color:#8fd; }
 

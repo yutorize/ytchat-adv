@@ -141,7 +141,9 @@ button, .button {
 }
 .oblique { font-style: oblique; }
 .strike  { text-decoration: line-through; }
-.under  { text-decoration: underline; }
+.under   { border-width: 0 0 1px; border-style: solid; }
+.over    { border-width: 1px 0 0; border-style: solid; }
+
 .large { font-size: 150%; line-height: calc(1 + (1/1.5)*0.8); }
 .large .large { line-height: calc(1 + (1/1.5/1.5)*0.8); }
 .large .large .large { line-height: calc(1 + (1/1.5/1.5/1.5)*0.8); }

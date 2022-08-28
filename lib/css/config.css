@@ -501,6 +501,14 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image-slice: 1;
   pointer-events: none;
 }
+.logs .center h2 {
+  border-image: linear-gradient(to right, transparent, var(--base-font-color), transparent);
+  border-image-slice: 1;
+}
+.logs .center h2::before {
+  border-image: linear-gradient(to right, transparent, #fff7, transparent);
+  border-image-slice: 1;
+}
 .logs h3 {
   position: relative;
   margin: 1em 0 .5em;
@@ -523,6 +531,15 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image-slice: 1;
   pointer-events: none;
 }
+.logs .center h3 {
+  border-image: linear-gradient(to right, transparent, var(--base-font-color), transparent);
+  border-image-slice: 1;
+  background-image: linear-gradient(to right, transparent, #fff1, transparent);
+}
+.logs .center h3::before {
+  border-image: linear-gradient(to right, transparent, var(--base-font-color), transparent);
+  border-image-slice: 1;
+}
 .logs h4 {
   margin: 1em 0 .5em;
   padding: .6em;
@@ -533,6 +550,11 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   background-image: linear-gradient(15deg, #fff1, transparent);
   font-size: 110%;
   line-height: 1;
+}
+.logs .center h4 {
+  border-image: linear-gradient(to right, transparent, var(--base-font-color), transparent);
+  border-image-slice: 1;
+  background-image: linear-gradient(to right, transparent, #fff1, transparent);
 }
 /* .logs h4::before {
   content: "❖";
@@ -549,6 +571,9 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   font-size: 100%;
   line-height: 1;
 }
+.logs .center h5 {
+  background-image: linear-gradient(to right, transparent, #fff1, transparent);
+}
 .logs h6 {
   width: max-content;
   margin: 1em 0 .5em;
@@ -559,6 +584,13 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image-slice: 1;
   font-size: 100%;
   line-height: 1;
+}
+.logs .center h6 {
+  margin-left: auto;
+  margin-right: auto;
+  padding: .2em 1.7em .2em;
+  border-image: linear-gradient(to right, transparent, #fff3, #fff5, #fff3, transparent);
+  border-image-slice: 1;
 }
 /* チャットログ：テーブル */
 .logs table,
