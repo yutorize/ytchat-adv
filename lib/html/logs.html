@@ -10,9 +10,9 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
   <script src="./lib/js/logs.js?<TMPL_VAR ver>" defer></script>
-  <TMPL_IF simpleMode><script>var simpleMode = 1;</script></TMPL_IF>
+  <TMPL_IF liteMode><script>var liteMode = 1;</script></TMPL_IF>
 </head>
-<body id="logviewer" <TMPL_IF simpleMode>class="simple"</TMPL_IF>>
+<body id="logviewer" <TMPL_IF liteMode>class="lite"</TMPL_IF>>
   <div class="bg-image bg-front"></div>
   <div class="bg-image bg-back"></div>
   <div id="loading"><div id="loading-animation"></div></div>
@@ -43,7 +43,7 @@
       <dt id="opt-viewmode">閲覧モード</dd><dd>
         <select id="option-view-mode">
           <option value="normal">通常
-          <option value="simple" <TMPL_IF simpleMode>selected</TMPL_IF>>簡易（背景/BGMなし）
+          <option value="lite" <TMPL_IF liteMode>selected</TMPL_IF>>簡易（背景/BGMなし）
         </select>
       </dd>
       <dt id="opt-opacity">背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>

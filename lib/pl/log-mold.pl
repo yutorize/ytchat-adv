@@ -64,7 +64,7 @@ $ROOM->param(roomId => $id);
 $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');
 
-$ROOM->param(simpleMode => ($::in{'type'} eq 'simple') ? 1 : 0);
+$ROOM->param(liteMode => ($::in{'type'} eq 'lite') ? 1 : 0);
 
 my $logfile; my %logconfig;
 if($::in{"log"}){ #過去ログ

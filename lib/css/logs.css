@@ -716,14 +716,14 @@ dd.bgm-title:hover + #yt-player-area,
 
 /* // シンプル
 ---------------------------------------------------------------------------------------------------- */
-body.simple {
-  background: #303344;
+body.lite {
+  background: #202233;
 }
-body.simple .box {
+body.lite .box {
   background: #000 !important;
   text-shadow: none;
 }
-body.simple .bg-image,
-body.simple #options-sound,
-body.simple #opt-opacity,
-body.simple #opt-opacity + dd { display: none; }
+body.lite .bg-image,
+body.lite #options-sound,
+body.lite #opt-opacity,
+body.lite #opt-opacity + dd { display: none; }
