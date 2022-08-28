@@ -130,8 +130,16 @@ $ROOM->param(TextReplace => \@text_replace);
 
 my @chat_se_list;
 my @ready_se_list;
-push(@chat_se_list,  { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], }) foreach (@set::chat_se_list );
-push(@ready_se_list, { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], }) foreach (@set::ready_se_list);
+foreach (@set::chat_se_list){
+  push(@chat_se_list,  { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], });
+  $ROOM->param(defaultChatSE  => @{$_}[0]) if @{$_}[2] eq 'chat';
+  $ROOM->param(defaultMarkSE  => @{$_}[0]) if @{$_}[2] eq 'mark';
+}
+foreach (@set::ready_se_list){
+  push(@ready_se_list, { 'URL' => @{$_}[0], 'NAME' => @{$_}[1], });
+  $ROOM->param(defaultReadySE  => @{$_}[0]) if @{$_}[2] eq 'ready';
+}
+
 $ROOM->param(chatSEList  => \@chat_se_list);
 $ROOM->param(readySEList => \@ready_se_list);
 
