@@ -16,9 +16,13 @@
   </table>
 </details>
 
-<details>
-  <summary>ダイス欄のタイプ</summary>
-  <p>アイコンをクリックすると<i class="fas fa-dice-d6"></i>→<i class="fas fa-user"></i>→<i class="fas fa-comment"></i>→<i class="fas fa-sticky-note"></i>→<span class="fas fa-lock"></span>の順で変わります。</p>
+<details id="help-sub-form">
+  <summary>サブ発言欄（ダイス欄）</summary>
+  <div class="form-dice" style="display:block;width:18em;margin:0;padding:1em;"><div class="dice-button"><textarea data-lock="dice" style="height:1.7em;" disabled></textarea><i></i><button></button></div></div>
+  <p>
+    　よく使うダイスコマンドを置いておいたり、複数のNPCを扱う時に発言欄が追加で欲しいとき、単純にメモ欄として……などに利用できます。<br>
+    　アイコンをクリックすると<i class="fas fa-dice-d6"></i>→<i class="fas fa-user"></i>→<i class="fas fa-comment"></i>→<i class="fas fa-sticky-note"></i>→<span class="fas fa-lock"></span>の順でアイコンと挙動が変わります。
+  </p>
   <table>
     <tr><th>アイコン</th><th>説明</th></tr>
     <tr><th><span class="fas fa-lock"></span></th><td>内容を送信しても欄に内容が残る。</td></tr>
@@ -27,11 +31,12 @@
     <tr><th><span class="fas fa-comment"></span></th><td>内容を送信すると欄が空になる。</td></tr>
     <tr><th><span class="fas fa-sticky-note"></span></th><td>内容を送信できない。メモ欄。</td></tr>
   </table>
+  <p>　また、<button onclick="boxOpen('config-user','config-palette')">個人設定</button>から、Enterおよび⏎ボタンの挙動は変更できます。</p>
 </details>
 
-<details>
+<details id="help-text-rule">
   <summary>テキスト装飾・整形</summary>
-  <table>
+  <table class="help-text-rule-table">
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
     <tr><th>&lt;ruby&gt;テキスト&lt;rt&gt;てきすと&lt;/ruby&gt;</th><td><ruby>テキスト<rt>てきすと</rt></ruby></td><td>ルビ（ふりがな）を振る</td></tr>
     <tr><th>&lt;em&gt;テキスト&lt;/em&gt;</th><td><em>テキスト</em></td><td>傍点を振る</td></tr>
@@ -39,15 +44,22 @@
     <tr><th>&lt;b&gt;テキスト&lt;/b&gt;</th><td><b>テキスト</b></td><td>太字にする</td></tr>
     <tr><th>&lt;i&gt;テキスト&lt;/i&gt;</th><td><i style="color:inherit;">テキスト</i></td><td>斜体にする</td></tr>
     <tr><th>&lt;s&gt;テキスト&lt;/s&gt;</th><td><s>テキスト</s></td><td>打消線を引く</td></tr>
-    <tr><th>&lt;u&gt;テキスト&lt;/u&gt;</th><td><u>テキスト</u></td><td>下線を引く</td></tr>
+    <tr><th>&lt;u&gt;テキスト&lt;/u&gt;</th><td><span class="under">テキスト</span></td><td>下線を引く</td></tr>
+    <tr><th>&lt;o&gt;テキスト&lt;/o&gt;</th><td><span class="over">テキスト</span></td><td>上線を引く</td></tr>
     <tr><th>&lt;c:#ee9900&gt;テキスト&lt;/c&gt;</th><td><span style="color:#ee9900">テキスト</span></td><td>文字色を変える。<br>カラーコードは任意に変えてよい。</td></tr>
     <tr><th>&lt;big&gt;テキスト&lt;/big&gt;</th><td><span class="large">テキスト</span></td><td>文字を大きくする。（150%）<br>３重の入れ子まで可。（150%→225%→337.5%）</td></tr>
     <tr><th>&lt;small&gt;テキスト&lt;/small&gt;</th><td><span class="small">テキスト</span></td><td>文字を小さくする。（80%）</td></tr>
     <tr><th>&lt;hide&gt;テキスト&lt;/hide&gt;</th><td><span class="hide">テキスト</span></td><td>文字を透明にする。<br>（ドラッグで選択状態にすると見える）</td></tr>
-    <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
+    <tr><th>&lt;h1&gt;テキスト&lt;/h1&gt;</th><td class="logs"><h1>テキスト</h1></td><td>見出しレベル1</td></tr>
+    <tr><th>&lt;h2&gt;テキスト&lt;/h2&gt;</th><td class="logs"><h2>テキスト</h2></td><td>見出しレベル2</td></tr>
+    <tr><th>&lt;h3&gt;テキスト&lt;/h3&gt;</th><td class="logs"><h3>テキスト</h3></td><td>見出しレベル3</td></tr>
+    <tr><th>&lt;h4&gt;テキスト&lt;/h4&gt;</th><td class="logs"><h4>テキスト</h4></td><td>見出しレベル4</td></tr>
+    <tr><th>&lt;h5&gt;テキスト&lt;/h5&gt;</th><td class="logs"><h5>テキスト</h5></td><td>見出しレベル5</td></tr>
+    <tr><th>&lt;h6&gt;テキスト&lt;/h6&gt;</th><td class="logs"><h6>テキスト</h6></td><td>見出しレベル6</td></tr>
+    <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td class="logs"><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
     <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
   </table>
-  <table>
+  <table class="help-text-rule-table">
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
     <TMPL_LOOP TextReplace><tr><th><TMPL_VAR BEFORE></th><td><TMPL_VAR AFTER></td><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
   </table>
@@ -150,15 +162,31 @@
   </details>
   <details>
     <summary>ランダム表</summary>
-    <p>　設定済みのランダム表を振ります。</p>
+    <p>　設定済みのランダム表を振ります。<br>「xDy」を振るタイプのランダム表は、重複なしにできません（重複ありと同じ結果になります）。</p>
     <h5>重複あり</h5>
-    <p><span style="color:#ee7777;">選ぶ回数</span><b>$</b><span style="color:#eebb77;">コマンド</span></p>
+    <p><span style="color:#ee7777;">選ぶ回数</span><b>$</b><span style="color:#eebb77;">表の名前</span></p>
     <h5>重複なし</h5>
-    <p><span style="color:#ee7777;">選ぶ個数</span><b>@</b><span style="color:#eebb77;">コマンド</span></p>
+    <p><span style="color:#ee7777;">選ぶ個数</span><b>@</b><span style="color:#eebb77;">表の名前</span></p>
+    <p>
+      　選ぶ回数（個数）の指定は省略できます。<br>
+      　また、回数の指定が無い時に自動的に設定される回数と、指定できる最大の回数は、ランダム表により異なります。それぞれ、下記の表を参照してください。
+    </p>
     <table>
-      <tr><th>コマンド</th><th>説明</th></tr>
-      <TMPL_LOOP RandomTable><tr><th><TMPL_VAR COMMAND></th><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
+      <tr><th>表の名前</th><th>省略</th><th>最大</th><th>説明</th></tr>
+      <TMPL_LOOP RandomTable><tr><th><TMPL_VAR COMMAND></th><td class="right" style="white-space:nowrap"><TMPL_VAR DEF>回</td><td class="right" style="white-space:nowrap"><TMPL_VAR MAX>回</td><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
     </table>
+    <p>　こちらの表は、山札機能（下記）においても使用します。</p>
+  </details>
+  <details>
+    <summary>山札機能</summary>
+    <p>
+      　ランダム表（上記）のリストを使った山札を作り、そこからドローします。<br>
+      　xDyを振るタイプのランダム表は、山札にセットできません。
+    </p>
+    <h5>山札セット</h5>
+    <p>set<b>#</b><span style="color:#77ee77;">作成する山札の名前（任意）</span>=<spa style="color:#eebb77;">表の名前</span></p>
+    <h5>山札からドロー</h5>
+    <p><span style="color:#ee7777;">引く枚数</span><b>＃</b><span style="color:#77ee77;">山札名前</span></p>
   </details>
 
   <TMPL_IF helpOnSW2>
@@ -353,3 +381,30 @@
   </p>
 </details>
 
+<details>
+  <summary>各種設定逆引き</summary>
+  <p>各種設定（コンフィグ）項目の逆引きリストです。</p>
+  <table class="help-config-table">
+    <tr>
+      <th>音量
+      <td><button onclick="boxOpen('config-user','config-sound');">個人設定</button> ⇒ サウンド設定 ⇒ 音量<br>
+        <span class="small">着信SEやBGMなどの、各音量を変更できます。</span>
+    <tr>
+      <th>着信音／着信SE
+      <td><button onclick="boxOpen('config-user','config-sound');">個人設定</button> ⇒ サウンド設定 ⇒ 着信SE<br><span class="small">各着信SEを変更できます。</span>
+    <tr>
+      <th>通知／名前強調／ワード強調／強調ワード
+      <td><button onclick="boxOpen('config-user','config-mark');">個人設定</button> ⇒ 通知設定
+    <tr>
+      <th>入力フォーム／ダイス欄／チャットパレット
+      <td><button onclick="boxOpen('config-user','config-palette');">個人設定</button> ⇒ 入力フォーム・チャットパレット設定
+    <tr>
+      <th>フォント／文字
+      <td><button onclick="boxOpen('config-user','config-font');">個人設定</button> ⇒ ログフォント設定<br>
+        <span class="small">チャットログのフォント種類、及び明るさを変更できます。</span>
+    <tr>
+      <th>UIレイアウト／タブバー
+      <td><button onclick="boxOpen('config-user','config-layout');">個人設定</button> ⇒ ＵＩ配置<br>
+        <span class="small">各UIの配置パターンを選択できます。</span>
+  </table>
+</details>

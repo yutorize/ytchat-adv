@@ -149,6 +149,8 @@ foreach my $key (sort keys %set::random_table){
   next if ($set::random_table{$key}{'game'} && $set::random_table{$key}{'game'} ne $game);
   push(@random_table, {
     'COMMAND'  => $key,
+    'DEF' => $set::random_table{$key}{'def'} || 1,
+    'MAX' => $set::random_table{$key}{'max'} || 10,
     'HELP' => $set::random_table{$key}{'help'},
   });
 }

@@ -87,7 +87,8 @@
           <button onclick="formSubmit('form-comm-main');">送信</button>
           </div>
           <div class="decoration-buttons">
-            <span data-target="form-comm-main" class="button start insert-ruby"></span>
+            <span data-target="form-comm-main" class="button start help" onclick="boxOpen('help-window','help-text-rule')"></span>
+            <span data-target="form-comm-main" class="button insert-ruby"></span>
             <span data-target="form-comm-main" class="button insert-em"></span>
             <span data-target="form-comm-main" class="button insert-serif"></span>
             <span data-target="form-comm-main" class="button insert-bold"    title="太字"></span>
@@ -135,6 +136,7 @@
           <span class="expand edit button" onclick="diceScale(1,'expand');" title="ダイス欄を拡げる">⇒</span>
         </div>
       </div>
+      <span class="help button" onclick="boxOpen('help-window','help-sub-form');" title="サブ発言欄のヘルプ"></span>
     </div>
     <!-- / FORM-AREA -->
     
@@ -420,7 +422,7 @@
         </tbody>
       </table>
     </details>
-    <details>
+    <details id="config-mark">
       <summary><i class="fas fa-exclamation-circle"></i>通知設定</summary>
       <p>
         <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
@@ -434,8 +436,8 @@
         　改行で区切って複数設定することができます。<br>
       </p>
     </details>
-    <details>
-      <summary><i class="fas fa-palette"></i>入力フォーム・チャットパレット設定</summary>
+    <details id="config-palette">
+      <summary><i class="fas fa-palette"></i>発言欄・チャットパレット設定</summary>
       <h3>■チャットパレット挙動</h3>
       <p>
         クリック時の転記先：
@@ -444,7 +446,7 @@
           <option value="main">メイン発言欄
         </select>
       </p>
-      <h3>■サブ入力欄Enter・⏎ボタン挙動</h3>
+      <h3>■サブ発言欄Enter・⏎ボタン挙動</h3>
       <table>
         <tr>
           <th><span class="fas fa-lock"></span></th>
@@ -498,7 +500,7 @@
       </table>
       </p>
     </details>
-    <details>
+    <details id="config-font">
       <summary><i class="fas fa-font"></i>ログフォント設定</summary>
       <p>文字の明るさ　： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
       <div id="font-sample" class="logs-font">
@@ -529,7 +531,7 @@
         </select>
       </p>
     </details>
-    <details>
+    <details id="config-layout">
       <summary><i class="far fa-window-maximize"></i>ＵＩ配置</summary>
       <p>
         ステータス・メモ一覧の配置：

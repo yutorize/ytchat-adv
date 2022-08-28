@@ -418,6 +418,9 @@ input[type=range]::-moz-range-thumb {
 .form-dice {
   display: none;
 }
+#main-form > .help.button {
+  display: none;
+}
 /* // ステータス
 ---------------------------------------------------------------------------------------------------- */
 :not([data-layout="row"]) #status #status-body > dl {

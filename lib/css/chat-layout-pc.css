@@ -267,7 +267,7 @@ body {
   opacity: 0.7;
 }
 .tab-group .option:hover {
-  padding: .3em .5rem .5em;
+  padding: 1em .5rem .5em;
   border-radius: .8rem;
   opacity: 1;
 }
@@ -296,6 +296,12 @@ body {
 .tab-group .option input[type="range"] {
   width: 15rem;
   height: 1rem;
+}
+.tab-group .option hr {
+  margin: 1em 0;
+  border-width: 1px 0 0;
+  border-style: dotted;
+  opacity: 0.3;
 }
 /* メイン */
 .main .chat {
@@ -376,6 +382,7 @@ body {
 #main-form {
   z-index: 1;
   max-height: 50vh;
+  position: relative;
 }
 #main-form .input-form {
   display: grid;
@@ -578,6 +585,16 @@ body {
 .form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
 .form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
 
+
+/* ヘルプボタン */
+#main-form > .help.button {
+  position: absolute;
+  inset: 2px 2px auto auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 1.6rem;
+}
 
 /* // ラウンド
 ---------------------------------------------------------------------------------------------------- */
@@ -947,6 +964,7 @@ body {
   line-height: 1.6;
 }
 #help-window {
+  inset: 3rem 5% auto auto;
   width: 50em;
   height: 80%;
 }

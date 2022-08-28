@@ -55,11 +55,13 @@ html,body {
 .add.button::before,
 .del.button::before,
 .edit.button::before,
+.help.button::before,
 .close.button::before {
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
 }
 .edit.button:empty::before { content: "\f044" }
+.help.button:empty::before { content: "\f059" }
 
 /* // メニュー
 ---------------------------------------------------------------------------------------------------- */
@@ -873,7 +875,7 @@ body.rom .input-form { display: none !important; }
 /* 装飾ボタン */
 .decoration-buttons {
   display: flex;
-  padding-left: .5em;
+  padding-left: .2em;
   padding-right: 7em;
   border-top: .1rem solid var(--border-color-input);
 }
@@ -911,6 +913,7 @@ body.rom .input-form { display: none !important; }
   bottom: .3rem;
   white-space: nowrap;
 }
+.decoration-buttons .help           { width: 2.2rem; }
 .decoration-buttons .insert-ruby    { width: 3rem; }
 .decoration-buttons .insert-em      { width: 3rem; }
 .decoration-buttons .insert-serif   { width: 3rem; }
@@ -1261,14 +1264,14 @@ body.rom .input-form { display: none !important; }
   margin-right: .5rem;
   color: #fb0;
 }
-.float-box h2 {
+.float-box > h2 {
   margin: -.2rem -.2rem 0;
   padding: .8rem;
   border-radius: .5rem;
   font-size: 1em;
   background: linear-gradient(to right, rgba(100,127,150,0.5), transparent);
 }
-.float-box h2::before {
+.float-box > h2::before {
   display: inline-block;
   margin-right: .25em;
   transform: scale(1.2);
@@ -1335,6 +1338,14 @@ body.rom .input-form { display: none !important; }
   position: absolute;
   top: 0.2em;
   right: 0.2em;
+}
+.float-box table h1,
+.float-box table h2,
+.float-box table h3,
+.float-box table h4,
+.float-box table h5,
+.float-box table h6 {
+  margin: 0;
 }
 #dark-back,
 #image-box {
@@ -1506,13 +1517,18 @@ body.rom .input-form { display: none !important; }
 #help-window table th b {
   color: #eeaa00;
 }
-#help-window table i {
+#help-window table.help-text-rule-table tbody th {
+  font-size: 90%;
+}
+#help-window table.help-rate-table i {
   margin: 0 .1em;
   color: #99aacc;
   font-weight: normal;
 }
 #help-window table.help-rate-table th:nth-child(2) {
   white-space: nowrap;
+}
+#help-window table.help-config-table button {
 }
 #help-window .search-form {
   margin: 0.5em 0 1em 0;
@@ -1547,6 +1563,11 @@ body.rom .input-form { display: none !important; }
 #help-window.search-mode details.search-matched, #help-window.search-mode details.contains-search-matched {
   display: block;
 }
+.float-box .fa-lock        { color: #fe8; }
+.float-box .fa-dice-d6     { color: #f88; }
+.float-box .fa-user        { color: #b8f; }
+.float-box .fa-comment     { color: #8ff; }
+.float-box .fa-sticky-note { color: #9f8; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\f0ae"; }
