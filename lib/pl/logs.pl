@@ -11,13 +11,22 @@ require './lib/pl/log-mold.pl';
 
 ###################
 ### 出力
-my $logs = logOutput(
-  "old" => $::in{"log"}?1:0,
-  "roomList" => 1,
-  "logList" => 1,
-);
-print "Content-Type: text/html\n\n";
-print $logs;
+if($::in{'type'} eq 'text') {
+  print "Content-Type: text/plain\n\n";
+  print logOutput();
+}
+else {
+  print "Content-Type: text/html\n\n";
+  if($::in{'type'} eq 'download'){
+    print logOutput();
+  }
+  else {
+    print logOutput(
+      "roomList" => 1,
+      "logList" => 1,
+    );
+  }
+}
 
 exit;
 

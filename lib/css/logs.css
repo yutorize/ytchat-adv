@@ -182,7 +182,7 @@ article#contents {
 #menu {
   display: grid;
   grid-template-columns: max-content;
-  grid-template-rows: auto auto auto max-content 1fr;
+  grid-template-rows: auto auto auto auto max-content 1fr;
   overflow: hidden;
   position: sticky;
   top: 0;
@@ -255,6 +255,10 @@ article#contents {
   padding: .4rem .2rem;
   font-size: 80%;
 }
+#menu dl#log-download {
+  border-top: 0;
+  text-align: center;
+}
 
 /* ログリスト */
 #menu #loglist-area {
@@ -262,6 +266,9 @@ article#contents {
   min-height: 5em;
   margin-right: -.7rem;
   overflow: auto;
+}
+#menu #loglist-area:empty {
+  min-height: 0;
 }
 #menu #loglist-area + ul {
   grid-row: -1;

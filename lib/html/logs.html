@@ -9,6 +9,10 @@
   <link rel="stylesheet" media="all" href="./lib/css/logs.css?<TMPL_VAR ver>">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
+  <TMPL_UNLESS dlMode>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip-utils@0.1.0/dist/jszip-utils.min.js"></script>
+  </TMPL_UNLESS>
   <script src="./lib/js/logs.js?<TMPL_VAR ver>" defer></script>
   <TMPL_IF liteMode><script>var liteMode = 1;</script></TMPL_IF>
 </head>
@@ -35,12 +39,16 @@
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
+    <dl class="options" id="log-download">
+      <TMPL_UNLESS dlMode><button onclick="downloadAllLogs()">ログを保存</button></TMPL_UNLESS>
+    </dl>
     <dl class="options" id="options-sound">
-      <dt>サウンド音量 <span id="option-sound-view">100</span> %</dd><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"><br>
+      <dt>サウンド音量 <span id="option-sound-view">100</span> %</dt><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"><br>
       <span class="mute-button muted" id="option-mute-button"></span></dd>
     </dl>
     <dl class="options">
-      <dt id="opt-viewmode">閲覧モード</dd><dd>
+      <dt id="opt-viewmode">閲覧モード</dd>
+      <dd>
         <select id="option-view-mode">
           <option value="normal">通常
           <option value="lite" <TMPL_IF liteMode>selected</TMPL_IF>>簡易（背景/BGMなし）
@@ -51,25 +59,23 @@
       <dt id="opt-fontsize">文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
       <dt id="opt-fontfamily">日本語フォント</dd><dd><select id="option-font-family-jp"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
     </dl>
-    <div id="loglist-area">
-    <TMPL_IF RoomList>
+    <div id="loglist-area"><TMPL_IF RoomList>
     <details <TMPL_VAR roomListOpen>>
       <summary class="bold">現行ログ</summary>
       <ul id="roomlist"><TMPL_LOOP RoomList>
         <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
       </ul>
       </details>
-    </TMPL_IF>
-    <TMPL_IF LogList>
+    </TMPL_IF><TMPL_IF LogList>
     <details <TMPL_VAR logListOpen>>
-    <summary class="bold">過去ログ</summary>
-      <ul id="loglist"><TMPL_LOOP LogList>
-        <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
-      </ul>
+      <summary class="bold">過去ログ</summary>
+        <ul id="loglist"><TMPL_LOOP LogList>
+          <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
+        </ul>
     </details>
-    </TMPL_IF>
-    </div>
-    <ul><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></ul>
+    </TMPL_IF></div>
+
+    <ul><TMPL_UNLESS dlMode><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></TMPL_UNLESS></ul>
   </aside>
 </div>
 <div id="left">
@@ -86,11 +92,13 @@
   </header>
   <article id="contents">
   <div class="logs logs-font">
-    <TMPL_LOOP Logs><dl id="line-<TMPL_VAR NUM>" class="<TMPL_VAR CLASS>" data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
+    <TMPL_LOOP Logs>
+    <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
       <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
-      <TMPL_LOOP LogsDD><TMPL_IF COMM><dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd></TMPL_IF>
-      <TMPL_IF INFO><dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>
-    </dl></TMPL_LOOP>
+<TMPL_LOOP LogsDD><TMPL_IF COMM>      <dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd>
+</TMPL_IF><TMPL_IF INFO>      <dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>"<TMPL_IF GAME> data-game="<TMPL_VAR GAME>"</TMPL_IF>><TMPL_VAR INFO></dd>
+</TMPL_IF></TMPL_LOOP>    </dl>
+    </TMPL_LOOP>
   </div>
   </article>
 </div>
