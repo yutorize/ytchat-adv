@@ -107,7 +107,7 @@ else {
     $::in{'system'} = 'bgm';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bgm(?:\s(.*?))?(?:\s([0-9]{1,3}))?\s+(https?://.+)><>i){
+  elsif($::in{'comm'} =~ s<^/bgm(?:\s+(.*?))?(?:\s+([0-9]{1,3}))?\s+(https?://.+)><>i){
     my $url = $3;
     my $title = $1 || '無題';
     $2 =~ s/^0+//;
@@ -149,7 +149,7 @@ else {
     $::in{'system'} = 'bg';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bg(?:\s(.*?))?\s+(https?://.+)><>i){
+  elsif($::in{'comm'} =~ s<^/bg(?:\s+(.*?))?\s+(https?://.+)><>i){
     my $url = $2;
     my $title = $1 || '無題';
     if($set::src_url_limit) {
@@ -204,7 +204,7 @@ else {
     delete $::in{'address'};
   }
   #新規
-  elsif($::in{'comm'} =~ s/^(.*?) [@＠] new \s ( .*? )$//ixs){
+  elsif($::in{'comm'} =~ s/^(.*?) [@＠] new \s+ ( .*? )$//ixs){
     $::in{'name'} = $1 || $::in{'name'};
     ($::in{'info'}, $::in{'system'}) = unitMake($::in{'name'}, $2);
     delete $::in{'address'};
@@ -220,7 +220,7 @@ else {
     delete $::in{'address'};
   }
   #追加
-  elsif($::in{'comm'} =~ s/^(.*?) [@＠] add \s ( .+?  [=＝:：] .*)$//ixs){
+  elsif($::in{'comm'} =~ s/^(.*?) [@＠] add \s+ ( .+?  [=＝:：] .*)$//ixs){
     $::in{'name'} = $1 || $::in{'name'};
     $stt_commands = '.+?';
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $2);
