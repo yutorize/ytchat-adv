@@ -217,7 +217,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   background-color: rgba(0,0,0, 0.8);
 }
 @media (max-width: 600px) {
-  .chat {
+  .tab-group {
     background-color: rgba(0,0,0, 0.3);
   }
 }
