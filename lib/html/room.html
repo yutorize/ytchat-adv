@@ -59,9 +59,6 @@
     <div id="chat-area"><ul id="tab-add-area"></ul></div>
     <!-- / CHAT-AREA -->
     
-    <div class="box" id="tablist-area">
-      <ul id="tablist"></ul>
-    </div>
     <!-- FORM-AREA -->
     <div class="box" id="main-form">
       <div class="input-form">
@@ -533,7 +530,7 @@
       </p>
     </details>
     <details>
-      <summary><i class="far fa-window-maximize"></i>ウィンドウ配置</summary>
+      <summary><i class="far fa-window-maximize"></i>ＵＩ配置</summary>
       <p>
         ステータス・メモ一覧の配置：
         <select id="window-layout-sidebar" onchange="layoutChange()">
@@ -553,6 +550,12 @@
         <select id="window-layout-sheet" onchange="layoutChange()">
           <option value="R">→ 右端</option>
           <option value="L">← 左端</option>
+        </select><br>
+        <br>
+        チャットタブバーの位置：
+        <select id="layout-tab-bar" onchange="layoutTabBarChange()">
+          <option value="top">上</option>
+          <option value="bottom" selected>下</option>
         </select><br>
       </p>
     </details>

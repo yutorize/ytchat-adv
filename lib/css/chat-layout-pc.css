@@ -42,9 +42,6 @@ body {
 #sheet-area {
   grid-area: sheet;
 }
-#tablist-area {
-  display: none;
-}
 /* チャットエリア */
 #chat-area {
   display: grid;
@@ -59,9 +56,6 @@ body {
 }
 #chat-area .tab-group {
   flex: 1;
-  display: flex;
-  flex-direction: column-reverse;
-  position: relative;
 }
 #chat-area .tab-group.main {
   grid-column: 1;
@@ -235,10 +229,19 @@ body {
 /* // チャットログ
 ---------------------------------------------------------------------------------------------------- */
 .tab-group {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
   padding-top: .1rem;
   padding-right: .1rem;
   position: relative;
   overflow: hidden;
+}
+#chat-area[data-layout-tab-bar="top"] .tab-group {
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: .5rem;
+  padding-bottom: .1rem;
 }
 .chat {
   display: none;

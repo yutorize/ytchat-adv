@@ -1162,9 +1162,15 @@ body.rom .input-form { display: none !important; }
   display: flex;
   flex-wrap: wrap;
   min-height: 1.5em;
+  margin-left: -.5rem;
+  padding-left: .5em;
   border-top: 1px solid var(--border-color-pale);
   line-height: 1;
   font-size: 92%;
+}
+#chat-area[data-layout-tab-bar="top"] .tablist {
+  border-top: 0;
+  border-bottom: 1px solid var(--border-color-pale);
 }
 .tablist li {
   display: inline-block;
@@ -1175,6 +1181,11 @@ body.rom .input-form { display: none !important; }
   border-color: transparent;
   cursor: pointer;
 }
+#chat-area[data-layout-tab-bar="top"] .tablist li {
+  margin: 0;
+  padding: .1em 0 .1em 1rem;
+  border-width: 0 0 .2em;
+}
 .tablist li.bold {
   border-color: var(--border-color);
   color: #ffcc00;
@@ -1183,6 +1194,7 @@ body.rom .input-form { display: none !important; }
 .tablist li::after {
   content: "(" attr(data-unread) ")";
   font-size: 80%;
+  font-weight: bold;
 }
 .tablist li[data-unread="0"]::after {
   opacity: 0.2;
