@@ -83,4 +83,6 @@ our @ready_se_list = (
   ['./lib/sound/se-lab/decision4.mp3',   '決定4／効果音ラボ'],
 );
 
+our $list_log_name_view = 1;
+
 1;

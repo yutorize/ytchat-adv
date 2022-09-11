@@ -46,7 +46,7 @@ my @tabs = $id ? ($rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サ
 ### テンプレート読み込み
 my $ROOM;
 $ROOM = HTML::Template->new(
-  filename => './lib/html/logs.html',
+  filename => './lib/html/logs'.($::in{'type'} eq 'simple' ? '-simple' : '').'.html',
   utf8 => 1,
   loop_context_vars => 1,
   die_on_bad_params => 0,
@@ -383,28 +383,39 @@ if($opt{'roomList'}){
 if($opt{'logList'}){
   my $dir = $logs_dir;
      $dir =~ s|/$||;
+  # ログ名前一覧
+  my %log_name;
+  if(!-f "${dir}/_log-names.dat"){ logNameFileCreate($dir); }
+  open(my $FH, '<',  "${dir}/_log-names.dat");
+  foreach(<$FH>){
+    chomp;
+    my ($file, $name) = split('<>', $_);
+    $log_name{$file} = $name;
+  }
+  close($FH);
+
+  # ログ一覧
   opendir(my $DIR, $dir);
   my @filelist = readdir($DIR);
   closedir($DIR);
   my @loglist;
-  #foreach(reverse sort @filelist) {
-  #  if ($_ !~ /\./) {
-  #  }
-  #}
   foreach(reverse sort @filelist) {
-    if ($_ =~ /\.dat$/) {
+    if ($_ =~ /^_log-names\.dat$/) {}
+    elsif ($_ =~ /\.dat$/) {
       my $byte = int( (stat("$dir/$_"))[7] / 1024 + 0.5);
-      my $name = $_;
-         $name =~ s/\..+?$//;
-      my $current = ($name eq $::in{'log'}) ? 1 : 0;
-      push(@loglist, {'NAME' => $name, 'PATH' => $name, 'BYTE' => $byte, 'CURRENT' => $current,});
+      my $file = $_;
+         $file =~ s/\..+?$//;
+      my $name = $set::list_log_name_view ? $log_name{$file} : '';
+      my $current = ($file eq $::in{'log'}) ? 1 : 0;
+      push(@loglist, {'NAME' => $name, 'FILE' => $file, 'BYTE' => $byte, 'CURRENT' => $current,});
     }
     elsif ($_ =~ /^_.+?(?!.dat)$/) {
       my $byte = int( (stat("$dir/$_/log.dat"))[7] / 1024 + 0.5);
-      my $name = $_;
-         $name =~ s/^_//;
-      my $current = ($name eq $::in{'log'}) ? 1 : 0;
-      push(@loglist, {'NAME' => $name, 'PATH' => $name, 'BYTE' => $byte, 'CURRENT' => $current,});
+      my $file = $_;
+         $file =~ s/^_//;
+      my $name = $set::list_log_name_view ? $log_name{$file} : '';
+      my $current = ($file eq $::in{'log'}) ? 1 : 0;
+      push(@loglist, {'NAME' => $name, 'FILE' => $file, 'BYTE' => $byte, 'CURRENT' => $current,});
     }
   }
   $ROOM->param(LogList => \@loglist);

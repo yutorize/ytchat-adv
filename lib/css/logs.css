@@ -282,17 +282,29 @@ article#contents {
 #menu ul li a[onclick]:hover {
   opacity: 0.5;
 }
+#menu #loglist-area details:not([open]) ul {
+  display: none;
+}
 #menu #loglist-area ul li .bold {
   color: #ffbb00;
 }
 #menu #loglist-area ul li a {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  gap: 0 .5rem;
+  align-items: end;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: #fff3;
+}
+#menu #loglist-area ul li a:hover {
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: inherit;
 }
 #menu #loglist-area ul li a[data-byte]::after {
   content: attr(data-byte) ' kb';
-  margin-left: .5rem;
+  margin-left: auto;
   float: right;
   color: #aaa;
   font-size: 70%;
@@ -300,6 +312,14 @@ article#contents {
   font-weight: normal;
   text-align: right;
   white-space: nowrap;
+}
+#menu #loglist-area ul li a .name {
+  grid-column: 1 / span 2;
+  max-width: 20em;
+}
+#menu #loglist-area ul li a .name + .file {
+  font-size: 80%;
+  opacity: 0.6;
 }
 #menu-toggle {
   display: none;

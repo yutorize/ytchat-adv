@@ -142,6 +142,11 @@ if(-s $dir.'log-all.dat'){
   print $FH decode('utf-8', encode_json( \%log_config ));
   close($FH);
 
+  open(my $FH, '>>',  "${logs_dir}/_log-names.dat");
+  print $FH "$filename<>$title\n";
+  close($FH);
+
+
   $jumpurl .= '?mode=logs'.($set::rooms{$id}{'logs-dir'} ? "&id=${id}":'')."&log=${filename}";
 }
 ## ログがない場合

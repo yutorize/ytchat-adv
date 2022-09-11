@@ -245,6 +245,41 @@ sub tagDelete {
   return $text;
 }
 
+##
+sub logNameFileCreate {
+  my $dir = shift;
+  opendir(my $DIR, $dir);
+  my @filelist = readdir($DIR);
+  closedir($DIR);
+  my $names;
+  foreach my $file (reverse sort @filelist) {
+    if ($_ =~ /^_log-names\.dat$/) {}
+    elsif ($file =~ /\.dat$/) {
+      open(my $FH, '<',  "$dir/$file");
+      my $line = <$FH>;
+      close($FH);
+      chomp $line;
+      my $title = $1 if($line =~ /^>(.+?)<>.+$/);
+      $file =~ s/\..+?$//;
+      $names .= "$file<>$title\n";
+    }
+    elsif ($file =~ /^_.+?(?!.dat)$/) {
+      open(my $FH, '<',  "$dir/$file/config.pl");
+      my $json;
+      $json .= $_ while <$FH>;
+      close($FH);
+      if($json){
+        my %logconfig = %{ decode_json( encode('utf-8', $json) ) };
+        $file =~ s/^_//;
+        $names .= "$file<>$logconfig{'title'}\n";
+      }
+    }
+  }
+  open(my $FH, '>',  "${dir}/_log-names.dat");
+  print $FH $names;
+  close($FH);
+}
+
 ## メッセージ・データ
 sub message {
   print "Content-type:application/json; charset=UTF-8\n\n";

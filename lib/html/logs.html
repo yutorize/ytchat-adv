@@ -63,14 +63,15 @@
     <details <TMPL_VAR roomListOpen>>
       <summary class="bold">現行ログ</summary>
       <ul id="roomlist"><TMPL_LOOP RoomList>
-        <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
+        <li><a href="./?mode=logs&id=<TMPL_VAR ID>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></TMPL_LOOP>
       </ul>
       </details>
     </TMPL_IF><TMPL_IF LogList>
     <details <TMPL_VAR logListOpen>>
       <summary class="bold">過去ログ</summary>
-        <ul id="loglist"><TMPL_LOOP LogList>
-          <li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR PATH>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_VAR NAME></a></li></TMPL_LOOP>
+        <ul id="loglist">
+<TMPL_LOOP LogList><li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR FILE>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_IF NAME><span class="name"><TMPL_VAR NAME></span></TMPL_IF><TMPL_IF FILE><span class="file"><TMPL_VAR FILE></span></TMPL_IF></a>
+</TMPL_LOOP>
         </ul>
     </details>
     </TMPL_IF></div>
