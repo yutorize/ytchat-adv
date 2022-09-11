@@ -134,6 +134,9 @@ foreach (<$FH>){
   if($system =~ /^palette$/){
     next;
   }
+  elsif($system =~ /^ready-/){
+    next;
+  }
   elsif($system =~ /^image$/){
     $info = '<img loading="lazy" src="' . $info . '">';
   }
