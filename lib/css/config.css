@@ -232,6 +232,15 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dt,
 .logs dl dd {
 }
+.logs dl::before,
+.logs dl::after {
+  color: hsla(
+    var(--base-font-color-hue),
+    var(--base-font-color-saturation),
+    var(--base-font-color-lightness),
+    0.5
+    );
+}
 .logs dl dd.comm mark {
   color: #ff9900;
   font-weight: bold;
@@ -411,7 +420,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 
 /* チャットログ：タイムスタンプ */
 .logs dl dd:after {
-  color: #5af;
+  color: #5afa;
   letter-spacing: 0rem;
   text-shadow: none;
 }

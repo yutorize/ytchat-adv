@@ -1065,7 +1065,7 @@ body.rom .input-form { display: none !important; }
 }
 .chat .logs dl:hover::before,
 .chat .logs dl:hover::after {
-  opacity: 0.5;
+  opacity: 1;
 }
 /* タイムスタンプ表示 */
 .chat .logs dl dd::after {
@@ -1081,7 +1081,7 @@ body.rom .input-form { display: none !important; }
   overflow-x: hidden;
 }
 .chat .logs dl dd:hover::after {
-  opacity: 0.7;
+  opacity: 1;
 }
 /* 編集ボタン／編集済みマーク */
 .chat .logs dl dd.comm button.rewrite {
