@@ -199,6 +199,7 @@ article#contents {
   z-index: 2;
 }
 #menu h2            { grid-row: 1; }
+#menu .pagination   { grid-row: 2; }
 #menu #tablist      { grid-row: 3; }
 #menu #log-download { grid-row: 4; }
 #menu #options-sound{ grid-row: 5; }
@@ -222,6 +223,10 @@ article#contents {
 #menu summary {
   padding: .3rem 0;
   user-select: none;
+}
+/*  */
+#menu .pagination {
+  padding: 0 .2em .5em;
 }
 /* タブリスト */
 #menu ul#tablist li label {

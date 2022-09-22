@@ -15,6 +15,7 @@
   </TMPL_UNLESS>
   <script src="./lib/js/logs.js?<TMPL_VAR ver>" defer></script>
   <TMPL_IF liteMode><script>var liteMode = 1;</script></TMPL_IF>
+  <TMPL_UNLESS dlMode><script>var pageMax = "<TMPL_VAR pageMax>";</script></TMPL_UNLESS>
 </head>
 <body id="logviewer" <TMPL_IF liteMode>class="lite"</TMPL_IF>>
   <div class="bg-image bg-front"></div>
@@ -35,23 +36,24 @@
   <input type="checkbox" id="menu-toggle">
   <aside id="menu" class="box">
     <h2>メニュー<label for="menu-toggle"></label></h2>
+    <TMPL_IF pagination><div class="pagination"><TMPL_VAR pagination></div></TMPL_IF>
     <ul id="tablist"><TMPL_LOOP TabList>
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
     </ul>
     <dl class="options" id="log-download">
-      <TMPL_UNLESS dlMode><button onclick="downloadAllLogs()">ログを保存</button></TMPL_UNLESS>
+      <TMPL_UNLESS dlMode><button id="dl-button" onclick="downloadAllLogs()">ログを保存</button></TMPL_UNLESS>
     </dl>
     <dl class="options" id="options-sound">
       <dt>サウンド音量 <span id="option-sound-view">100</span> %</dt><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"><br>
       <span class="mute-button muted" id="option-mute-button"></span></dd>
     </dl>
-    <dl class="options">
+    <dl class="options" id="options-logs">
       <dt id="opt-viewmode">閲覧モード</dd>
       <dd>
         <select id="option-view-mode">
           <option value="normal">通常
-          <option value="lite" <TMPL_IF liteMode>selected</TMPL_IF>>簡易（背景/BGMなし）
+          <option value="lite" <TMPL_IF liteMode>selected</TMPL_IF>>軽量（背景/BGMなし）
         </select>
       </dd>
       <dt id="opt-opacity">背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
@@ -76,7 +78,7 @@
     </details>
     </TMPL_IF></div>
 
-    <ul><TMPL_UNLESS dlMode><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></TMPL_UNLESS></ul>
+    <ul id="return-link"><TMPL_UNLESS dlMode><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></TMPL_UNLESS></ul>
   </aside>
 </div>
 <div id="left">
@@ -101,6 +103,7 @@
 </TMPL_IF></TMPL_LOOP>    </dl>
     </TMPL_LOOP>
   </div>
+  <TMPL_IF nextPage><div class="center"><TMPL_VAR nextPage></TMPL_IF></div>
   </article>
 </div>
 <div id="foot-area">
