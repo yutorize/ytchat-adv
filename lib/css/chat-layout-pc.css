@@ -901,6 +901,16 @@ body {
   max-height: 80vh;
   margin-top: .1rem;
 }
+#rewrite-name-form {
+  top: auto;
+  left: 5em;
+  right: auto;
+  bottom: 8em;
+}
+#rewrite-name-form select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 #edit-topic {
   top: 5em;
   left: 1.5em;

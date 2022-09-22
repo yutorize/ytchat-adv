@@ -175,6 +175,9 @@ else {
   elsif($::in{'comm'} =~ s<^/rewrite:([0-9]+)\s?><>i){
     $::in{'system'} = "rewrite:$1";
   }
+  elsif($::in{'comm'} =~ s<^/rewritename:([0-9]+)$><>i){
+    $::in{'system'} = "rewritename:$1";
+  }
   # チャットパレット更新
   elsif($::in{'comm'} =~ s<^/paletteupdate\s(.*)$><>is){
     paletteUpdate($::in{'name'}, $1);

@@ -270,6 +270,13 @@ foreach (<$FH>){
     }
     next;
   }
+  elsif($system =~ /^rewritename:([0-9]+)$/){
+    my $target = $1;
+    foreach my $data (@logs){
+      if($data->{'NUM'} eq $target){ $data->{'NAME'} = $name; $data->{'COLOR'} = $color; }
+    }
+    next;
+  }
 
   if($system =~ /^memo/ && $info){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
   
