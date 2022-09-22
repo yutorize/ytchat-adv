@@ -8,22 +8,21 @@
   <link rel="stylesheet" media="all" href="lib/css/list.css?<TMPL_VAR ver>">
   <link rel="stylesheet" media="all" href="lib/css/config.css?<TMPL_VAR ver>">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
   const games = <TMPL_VAR gamesList>;
   window.onload = function() {
-    document.getElementById('set-game').value = `<TMPL_VAR defaultGame>`;
-    gameChange(`<TMPL_VAR defaultGame>`);
+    if(document.getElementById('set-game')){
+      document.getElementById('set-game').value = `<TMPL_VAR defaultGame>`;
+      gameChange(`<TMPL_VAR defaultGame>`);
+    }
   };
-  $.ajax({
-    url: 'https://yutorize.2-d.jp/version/ytchat-adv.txt',
-    type: 'GET',
-    cache: false,
-    timeout: 10000,
-    dataType: 'text',
+
+  fetch('https://yutorize.2-d.jp/version/ytchat-adv.txt', {
+    method: "GET",
+    cache: 'no-cache',
   })
-  .done( (data) => {
+  .then(response => response.text())
+  .then(data => {
     if("<TMPL_VAR ver>" != data){
       document.getElementById('update-info').innerHTML = '<a href="https://yutorize.2-d.jp/?ytchat-adv">新しいバージョン'+data+'があります</a>'
     }
