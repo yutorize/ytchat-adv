@@ -64,6 +64,7 @@ foreach my $id (sort keys %rooms){
     });
   }
 }
+@addlist = sort { $a->{'NAME'} cmp $b->{'NAME'}; } @addlist;
 push @list, @addlist;
 
 $ROOM->param(List => \@list);
