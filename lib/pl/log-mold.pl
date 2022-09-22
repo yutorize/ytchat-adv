@@ -205,6 +205,11 @@ foreach (<$FH>){
       $info = '';
     }
   }
+  elsif($system =~ /^tab:([0-9]+)=(.*?)$/){
+    if($2){ $tabs[$1-1] = "$2"; }
+  }
+
+  if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
 
   $comm =~ s#<h([1-6])>(.+?)</h\1>#<h$1 data-headline="$1">$2</h$1>#ig;
   
@@ -259,8 +264,6 @@ foreach (<$FH>){
 
   $info = tagConvert($info) if $tagconvert_on && $system =~ /^(topic|memo|choice|deck)/; #文字装飾
 
-  if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
-  
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;
   $info =~ s#(―+)#<span class="dash">$1</span>#g;
   

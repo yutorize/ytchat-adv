@@ -183,6 +183,31 @@ else {
     paletteUpdate($::in{'name'}, $1);
     $::in{'system'} = 'palette';
   }
+  # タブ追加
+  elsif($::in{'comm'} =~ s<^/tab-add\s+(.+?)(?:\s|$)><>i){
+    my $num = tabAdd($1);
+    if($num){ $::in{'system'} = "tab:$num=$1"; }
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "タブ「$1」を追加しました。by $::in{'player'}";
+    $::in{'tab'} = $num;
+  }
+  # タブ削除
+  elsif($::in{'comm'} =~ s<^/tab-delete\s+(.+?)(?:\s|$)><>i){
+    my $num = tabDelete($1);
+    if($num){ $::in{'system'} = "tab:$num="; }
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "タブ「$1」を削除しました。by $::in{'player'}";
+    $::in{'tab'} = 1;
+  }
+  # タブ変更
+  elsif($::in{'comm'} =~ s<^/tab-rename\s+(.+?)-&gt;(.+)(?:\s|$)><>i){
+    my $num = tabRename($1,$2);
+    if($num){ $::in{'system'} = "tab:$num=$2"; }
+    else{ error("タブ「$1」は存在しません。") }
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "タブ「$1」を「$2」に変更しました。by $::in{'player'}";
+    $::in{'tab'} = $num;
+  }
   # ユニット処理
   #チェック
   elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
@@ -480,23 +505,75 @@ sub bgmEdit {
   close($FH);
 }
 
-sub tabEdit {
-  my $num = shift;
+sub tabAdd {
   my $name = shift;
+  if(!$name){ error('タブの名前が入力されていません'); }
   
-  my %data;
-  sysopen(my $FH, $dir.'tab.dat', O_RDWR) or error "tab.datが開けません";
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
-  s/(.*?)<>(.*)/$data{$1} = $2;''/eg while <$FH>;
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
-  
-  $data{$num} = $name;
-  foreach (keys %data) {
-    print $FH $_,'<>',$data{$_},"\n";
+
+  my $num = 0;
+  foreach (keys %{$data{'tab'}}){
+    if($_ > $num){ $num = $_ }
   }
+  $num++;
+  if(keys %{$data{'tab'}} < 10){ $data{'tab'}{$num} = $name; }
+  else { error('これ以上タブを追加できません'); }
+  
+  print $FH decode('utf8', encode_json \%data);
   
   truncate($FH, tell($FH));
   close($FH);
+
+  return $num;
+}
+
+sub tabDelete {
+  my $name = shift;
+  if(!$name){ error('タブの名前が入力されていません'); }
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  my $num;
+  foreach (keys %{$data{'tab'}}){
+    if($data{'tab'}{$_} eq $name){ delete $data{'tab'}{$_}; $num = $_; last; }
+  }
+  
+  print $FH decode('utf8', encode_json \%data);
+  
+  truncate($FH, tell($FH));
+  close($FH);
+
+  return $num;
+}
+
+sub tabRename {
+  my $before = shift;
+  my $after  = shift;
+  if(!$before){ error('タブの名前が入力されていません'); }
+  if(!$after ){ error('変更後の名前が入力されていません'); }
+  
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  my $num;
+  foreach (keys %{$data{'tab'}}){
+    if($data{'tab'}{$_} eq $before){ $data{'tab'}{$_} = $after; $num = $_; last; }
+  }
+  
+  print $FH decode('utf8', encode_json \%data);
+  
+  truncate($FH, tell($FH));
+  close($FH);
+
+  return $num;
 }
 
 sub checkReset {
