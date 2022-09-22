@@ -260,7 +260,7 @@ else {
     delete $::in{'address'};
   }
   #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo|url)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
@@ -708,9 +708,9 @@ sub unitCalcEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  my $result_info; my $result_system; my $memo_flag;
+  my $result_info; my $result_system; my $memo_flag; my $url_flag;
   $set_text =~ tr/０-９＋－÷＊＝：！/0-9\+\-\/\*=:!/;
-  while($set_text =~ s/^($stt_commands|メモ|memo)([+\-\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
+  while($set_text =~ s/^($stt_commands|メモ|memo|url)([+\-\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
     my ($type, $op, $text, $num) = ($1,$2,$3,$4);
     # メモ
     if($type =~ /^(メモ|memo)$/){
@@ -722,6 +722,16 @@ sub unitCalcEdit {
       $data{'unit'}{$set_name}{'memo'} = $result;
       $result_info .= "<b>メモ</b>:" . $result;
       $memo_flag = 1;
+    }
+    # URL
+    elsif($type =~ /^(url)$/i){
+      if($text eq '' && $num){ $text = $num; }
+      if($op ne ":"){ $text = $op . $text; }
+      my $result = $text;
+      $result =~ s/\n//g;
+      $data{'unit'}{$set_name}{'url'} = $result;
+      $result_info .= "<b>参照先</b>:<a href=\"$result\" target=\"_blank\">$result</a><br>".$result_info;
+      $url_flag = 1;
     }
     # 通常
     else {
@@ -750,6 +760,7 @@ sub unitCalcEdit {
       $result_system .= ($result_system ? ' | ' : '')."$type>$new{$type}";
     }
     $result_system .= " | memo>$data{'unit'}{$set_name}{'memo'}" if $memo_flag;
+    $result_system .= " | url>$data{'unit'}{$set_name}{'url'}" if $url_flag;
     $result_system = 'unit:('.$result_system.')';
     $data{'unit'}{$set_name}{'status'} = \%new;
     $data{'unit'}{$set_name}{'sttnames'} = \@status;
