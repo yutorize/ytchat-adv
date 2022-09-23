@@ -434,7 +434,7 @@
     <details id="config-mark">
       <summary><i class="fas fa-exclamation-circle"></i>通知設定</summary>
       <p>
-        <input type="checkbox" id="mark-name-check" onchange="markNameToggle();">入室名を強調する<br>
+        入室名を強調する：<input id="mark-name-check" class="toggle-button" type="checkbox" onchange="markNameToggle();"><label for="mark-name-check"></label><br>
         強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
         　指定したワードが発言された際、強調表示します。<br>
         　改行で区切って複数設定することができます。<br>
@@ -622,7 +622,7 @@
         <br>
         <b>パスワード</b>：<input type="password" id="room-reset-password"><br>
         <br>
-        <label><input type="checkbox" id="room-reset-all" checked><b>最新ログ・トピック・ユニットも初期化する</b></label><br>
+        <b>最新ログ・トピック・ユニットも初期化する</b>：<input type="checkbox" id="room-reset-all" class="toggle-button" checked><label for="room-reset-all"></label><br>
         （全員が強制退室になります）<br>
         <TMPL_IF userRoomFlag>
         <br>

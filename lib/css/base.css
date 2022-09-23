@@ -33,7 +33,7 @@ button, .button {
   cursor: pointer;
   user-select: none;
 }
-input:hover, textarea:hover, select:hover, button:hover, .button:hover {
+input:hover, textarea:hover, select:hover, button:hover, .button:hover, label:hover {
   box-shadow: inset 0 0 .5rem #7af;
   color: var(--base-font-color);
 }
@@ -89,6 +89,56 @@ input[type=range]::-moz-range-thumb {
 }
 input[type=range]::-moz-range-track {
   height:0;
+}
+/* トグルボタン */
+input.toggle-button {
+  display: none;
+}
+input.toggle-button + label {
+  display: inline-block;
+  position: relative;
+  width: 4.5em;
+  padding: 2px 1em;
+  border: 1px solid var(--border-color-input);
+  border-radius: 2em;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+}
+input.toggle-button:checked + label {
+  padding-left: 0;
+}
+input.toggle-button:not(:checked) + label {
+  padding-right: 0;
+}
+input.toggle-button + label::before {
+  font-size: 85%;
+  font-weight: bold;
+  white-space: nowrap;
+}
+input.toggle-button:checked + label::before {
+  content: 'ON';
+}
+input.toggle-button:not(:checked) + label::before {
+  content: 'OFF';
+  color: #777;
+}
+input.toggle-button + label::after {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  transition: .2s;
+}
+input.toggle-button:checked + label::after {
+  right: 2px;
+  background-color: #FFF;
+}
+input.toggle-button:not(:checked) + label::after {
+  right: calc(3.5em - 4px);
+  background-color: #777;
 }
 
 /* フォント */
