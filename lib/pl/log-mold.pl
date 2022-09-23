@@ -287,7 +287,7 @@ foreach (<$FH>){
   if($system =~ /^memo/ && $info){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
 
   
-  if($line_count <= 5000 * ($::in{'page'}-1)){
+  if($line_count <= 2500 * ($::in{'page'}-1)){
     if   ($system =~ /^bgm:/){ @logs = grep $_->{'CLASS'} !~ "bgm ", @logs; }
     elsif($system =~ /^bg:/ ){ @logs = grep $_->{'CLASS'} !~ "bg " , @logs; }
   }
