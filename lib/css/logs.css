@@ -10,7 +10,6 @@ body {
   grid-template-columns: 1fr minmax(auto, 80rem) 1fr;
   grid-template-rows: auto minmax(40vh,auto);
   min-height: 100vh;
-  height 100%;
 }
 #base {
   grid-column: 2 / 3;
