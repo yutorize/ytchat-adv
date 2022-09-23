@@ -30,14 +30,10 @@
   /* テキスト縁取り */
   --box-text-shadow-color: #000;
   --box-text-shadow:
-    var(--box-text-shadow-color)  .1rem .1rem .1rem, var(--box-text-shadow-color) -.1rem -.1rem .1rem,
-    var(--box-text-shadow-color) -.1rem .1rem .1rem, var(--box-text-shadow-color)  .1rem -.1rem .1rem,
-    var(--box-text-shadow-color)   0rem .1rem .1rem, var(--box-text-shadow-color)   0rem -.1rem .1rem,
-    var(--box-text-shadow-color) -.1rem  0rem .1rem, var(--box-text-shadow-color)  .1rem   0rem .1rem,
-    var(--box-text-shadow-color)  .1rem .1rem .1rem, var(--box-text-shadow-color) -.1rem -.1rem .1rem,
-    var(--box-text-shadow-color) -.1rem .1rem .1rem, var(--box-text-shadow-color)  .1rem -.1rem .1rem,
-    var(--box-text-shadow-color)   0rem .1rem .1rem, var(--box-text-shadow-color)   0rem -.1rem .1rem,
-    var(--box-text-shadow-color) -.1rem  0rem .1rem, var(--box-text-shadow-color)  .1rem   0rem .1rem ;
+    var(--box-text-shadow-color) 0 0 .2rem, var(--box-text-shadow-color) 0 0 .3rem,
+    var(--box-text-shadow-color) 0 0 .2rem, var(--box-text-shadow-color) 0 0 .3rem,
+    var(--box-text-shadow-color) 0 0 .2rem, var(--box-text-shadow-color) 0 0 .3rem,
+    var(--box-text-shadow-color) 0 0 .2rem, var(--box-text-shadow-color) 0 0 .3rem ;
   
   /* ボーダー */
   --border-color      : rgba(255,255,255,0.3); /* ボーダー色 */
