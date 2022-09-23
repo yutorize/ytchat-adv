@@ -431,7 +431,8 @@ body.rom .sheet { display: none !important; }
   overflow: hidden;
 }
 .sheet h2 {
-  padding-bottom: .1em;
+  margin-top: -.1em;
+  padding: .1em;
   border-bottom: .1rem solid var(--border-color);
   font-size: 1.2em;
 }
@@ -829,6 +830,9 @@ body.rom .input-form { display: none !important; }
 #main-form .name-area .pickr {
   border-width: .1rem 0 .1rem .1rem;
 }
+#main-form .name-area #form-color {
+  width: 7em;
+}
 #main-form .address-area {
   display: inline-flex;
   position: relative;
@@ -1040,6 +1044,12 @@ body.rom .input-form { display: none !important; }
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
 }
+.chat .logs dl dt {
+  max-width: max-content;
+  height: max-content;
+  padding-left: .1em;
+  padding-right: .1em;
+}
 .chat .logs dl dd {
   animation-name: newfade;
   animation-duration: 10s;
@@ -1062,6 +1072,7 @@ body.rom .input-form { display: none !important; }
   top: -1rem;
   left: 0;
   opacity: 0;
+  z-index: 1;
 }
 .chat .logs dl:hover::before,
 .chat .logs dl:hover::after {

@@ -95,6 +95,7 @@ article#contents {
   top: -1rem;
   left: 0;
   opacity: 0;
+  z-index: 1;
 }
 .logs dl:not(.main)::before {
   left: 3em;
@@ -105,6 +106,9 @@ article#contents {
 }
 .logs dl dt {
   position: relative;
+  max-width: max-content;
+  margin-left: -.3em;
+  padding: 0 .3em;
 }
 .logs dl dd {
   position: relative;
@@ -761,6 +765,10 @@ body.lite {
 body.lite .box {
   background: #000 !important;
   text-shadow: none;
+}
+body.lite .box .logs dl dt {
+  background: none;
+  border-radius: none;
 }
 body.lite .bg-image,
 body.lite #options-sound,

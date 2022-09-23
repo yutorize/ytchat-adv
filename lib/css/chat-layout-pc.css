@@ -323,9 +323,9 @@ body {
   min-height: calc((1em * 1.8) - .1rem);
 }
 .main .chat .logs dl dt {
-  padding-right: .6em;
+  margin: .1em .6em .1em 0;
   font-size: 90%;
-  line-height: 2;
+  line-height: 1.8;
   text-align: right;
 }
 .main .chat .logs dl dt::after {
@@ -337,6 +337,9 @@ body {
   font-weight: 100;
   text-align: center;
   opacity: 0.5;
+}
+.main .chat .logs dl dt:empty {
+  margin-right: 0;
 }
 .main .chat .logs dl dt:empty::after {
   display: none;
@@ -365,7 +368,7 @@ body {
   line-height: 1.6;
 }
 .sub .chat dl dd {
-  padding-left: .5em;
+  padding-left: .6em;
   min-height: calc((1em * 1.6) - .1rem);
 }
 .sub .chat .logs dl:after {

@@ -74,13 +74,27 @@ body {
 .box.sheet {
   background-image: linear-gradient(to bottom, rgba(0,0,0, 0.7), transparent 5em);
 }
+.logs dl dt,
+.box:not(#status):not(.sheet) .chara-name {
+  background-color: #0005;
+}
+.logs dl dt {
+  border-radius: .5em;
+}
 .no-text-shadow .box {
   text-shadow: none;
+}
+.no-text-shadow .logs dl dt,
+.no-text-shadow .box:not(#status):not(.sheet) .chara-name {
+  background-color: #0007;
 }
 .no-text-shadow .system.enter b,
 .no-text-shadow .system.exit b,
 .no-text-shadow #status #status-body > dl > dt {
   text-shadow: var(--box-text-shadow);
+}
+.no-text-shadow .logs dl dt:empty {
+  background: none;
 }
 /* リンク */
 a { text-decoration: none; }
@@ -289,7 +303,6 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   content: '';
   display: inline-block;
   width: 1.6em;
-  margin-left: -.5em;
   font-size: 1em;
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
