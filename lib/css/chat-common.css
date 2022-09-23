@@ -1646,3 +1646,14 @@ body .pcr-app .pcr-swatches {
 body .pcr-app .pcr-interaction {
   flex-direction: row-reverse;
 }
+body .pcr-app .pcr-interaction .color-name {
+  order: 1;
+  display: block;
+  max-width: max-content;
+  margin-right: auto;
+  padding: .2em 1em;
+  background-color: #000;
+  border: 1px solid #666;
+  border-radius: 5px;
+  font-weight: bold;
+}
