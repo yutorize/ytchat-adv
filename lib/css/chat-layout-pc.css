@@ -423,7 +423,7 @@ body {
   border-bottom-left-radius: 0;
   border-left-width: 0;
 }
-#main-form .namelist-area select.form-name {
+#main-form .namelist-area .form-name {
   grid-column: span 3;
   min-width: 8em;
   max-width: 13em;
@@ -434,13 +434,16 @@ body {
   border-top-right-radius: 0;
   border-top-width: 0;
 }
-#main-form .namelist-area select.form-name option {
+#main-form .namelist-area .form-name option {
   font-weight: bold;
   padding: 0 .5rem;
   border-bottom: .1rem solid var(--border-color);
 }
 #main-form .namelist-area select.form-name option:checked {
   background-color: rgba(0,150,255, 0.2);
+}
+.no-text-shadow #main-form .namelist-area .form-name option:checked {
+  background-color: rgba(0,0,0, 0.6);
 }
 #main-form input[type="color"] {
   width: 5em;

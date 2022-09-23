@@ -66,14 +66,14 @@
           <span id="npc-del-button" class="button" onclick="npcDel()" title="一番下の名前を削除します">－</span>
           <span id="npc-edit-button" class="button" onclick="npcOpen()" title="名前一覧を一括編集します">編集</span>
           <span id="npc-add-button" class="button" onclick="npcAdd()" title="空の名前を追加します">＋</span>
-          <select class="form-name bold" id="form-name" size="4" style="background:transparent;">
+          <select id="form-name" class="form-name bold chara-name" size="4">
             <option value="0" selected></option>
           </select>
         </div>
         <div>
           <div class="comm-config-area">
             <div class="name-area">
-              <input type="text" id="main-name1" class="main-name bold" style="background:transparent" title="現在の名前" placeholder="名前が空欄です" readonly>
+              <input type="text" id="main-name1" class="main-name bold chara-name" title="現在の名前" placeholder="名前が空欄です" readonly>
               <span id="form-color-pickr" class="color-pickr" data-pickr="form-color"></span>
               <input type="text" id="form-color" class="" list="color-list" value="#FFFFFF" title="名前色">
             </div>
@@ -511,8 +511,9 @@
     </details>
     <details id="config-font">
       <summary><i class="fas fa-font"></i>ログフォント設定</summary>
-      <p>文字の明るさ　： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
-      <div id="font-sample" class="logs-font">
+      <p>文字の明るさ： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
+      <p>文字の縁取り： <input id="option-font-shadow" class="toggle-button" type="checkbox" checked><label for="option-font-shadow"></label></p>
+      <div class="font-sample logs-font">
         <TMPL_IF helpOnSW2>
         <span class="dash">――</span>『ソード・ワールド２．５』は、３本の剣が生み出した世界《ラクシア》を仲間と共に冒険するゲームだ。“冒険者”となり、自分たちだけの<ruby>物語<rt>セッション</rt></ruby>を体験しよう！
         <TMPL_ELSE>
@@ -530,7 +531,7 @@
         <TMPL_INCLUDE NAME="option-fonts.html">
         </select>
       </p>
-      <div id="font-sample" class="logs-font serif">
+      <div class="font-sample logs-font serif">
         『ノームやノーム、足をとれ！　固めて縛って釘付けろ！』
       </div>
       <p style="margin-top:0;">

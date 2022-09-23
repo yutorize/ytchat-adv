@@ -1487,13 +1487,17 @@ body.rom .input-form { display: none !important; }
   margin-left: .5em;
 }
 /* 設定 */
-#config-user #font-sample {
+#config-user .font-sample {
   max-width: 30em;
   margin: 0 .5rem;
   padding: .5em 1em;
-  background-color: #111;
+  background-image: linear-gradient(45deg, #112, #346);
+  text-shadow: var(--box-text-shadow);
   font-size: 1.6rem;
   line-height: 1.8;
+}
+.no-text-shadow #config-user .font-sample {
+  text-shadow: none;
 }
 
 /* ヘルプ */

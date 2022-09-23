@@ -65,9 +65,21 @@ body {
 .bg-image {
   filter: brightness(var(--bg-opacity));
 }
+/* ボックスとテキストシャドウ */
 .box {
   background-color: var(--box-bg-color);
   box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
+  text-shadow: var(--box-text-shadow);
+}
+.box.sheet {
+  background-image: linear-gradient(to bottom, rgba(0,0,0, 0.7), transparent 5em);
+}
+.no-text-shadow .box {
+  text-shadow: none;
+}
+.no-text-shadow .system.enter b,
+.no-text-shadow .system.exit b,
+.no-text-shadow #status #status-body > dl > dt {
   text-shadow: var(--box-text-shadow);
 }
 /* リンク */
@@ -89,7 +101,7 @@ a[href]:hover   { color: #ffffff; }
 }
 
 /* 他 */
-input, textarea, select, button, .button, .dice-button {
+input, textarea, select, button, .button, .dice-button, .toggle-button+label {
   background: rgba(30,35,50,0.8);
   color: #fff;
 }
@@ -228,9 +240,6 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-width: .1rem 0 0;
   border-style: solid;
   border-color: var(--border-color-faint);
-}
-.logs dl dt,
-.logs dl dd {
 }
 .logs dl::before,
 .logs dl::after {
@@ -449,6 +458,9 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-style: solid;
   border-color: var(--border-color-deep);
   box-shadow: var(--box-text-shadow);
+}
+.no-text-shadow .logs hr {
+  text-shadow: none;
 }
 /* チャットログ：見出し */
 .logs h1 {
