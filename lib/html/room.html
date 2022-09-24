@@ -699,12 +699,17 @@
   </div>
   
   <div class="float-box" id="exit-form">
-    このルームから退室しますか？<br>
-    退室すると、以下の情報がリセットされます。<br>
-    ［ダイス欄の入力値］<br>
-    ［個人メモ］<br>
-    <br>
-    <button onclick="exitRoom();boxClose('exit-form');">退室</button>
+    <h2>退室</h2>
+    <p>
+      退室すると、以下の情報がリセットされます。<br>
+      ［ダイス欄の入力値］<br>
+      ［個人メモ］<br>
+      ［ユニット一覧のソート］<br>
+      <br>
+      このルームから退室しますか？<br>
+      <br>
+      <button onclick="exitRoom();boxClose('exit-form');">はい</button>
+    </p>
     <div class="right" style="position:absolute;right:.5em;bottom:.5em;">
       <a href="./">退室せず部屋一覧へ移動</a>
     </div>

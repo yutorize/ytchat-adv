@@ -1408,7 +1408,9 @@ body.rom .input-form { display: none !important; }
 }
 /* 退室 */
 #exit-form {
-  padding: 4em;
+}
+#exit-form p {
+  padding: 2em 2em 3em;
   text-align: center;
 }
 /* 背景/BGM */

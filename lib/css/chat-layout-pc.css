@@ -905,7 +905,6 @@ body {
 }
 /* 退室 */
 #exit-form {
-  max-height: 16em;
   top: 3rem;
   left: 0;
   right: 0;
