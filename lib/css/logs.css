@@ -594,7 +594,7 @@ aside.credit li {
 }
 .mute-button::before {
   display: inline-block;
-  content: "\0f7";
+  content: "\e050";
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
   transform: scale(2) translate(.2em);
