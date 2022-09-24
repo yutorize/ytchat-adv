@@ -57,11 +57,11 @@ html,body {
 .edit.button::before,
 .help.button::before,
 .close.button::before {
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
 }
-.edit.button:empty::before { content: "\f044" }
-.help.button:empty::before { content: "\f059" }
+.edit.button:empty::before { content: "\e3c9" }
+.help.button:empty::before { content: "\e887"; font-variation-settings: 'FILL' 0; }
 
 /* // メニュー
 ---------------------------------------------------------------------------------------------------- */
@@ -70,31 +70,32 @@ html,body {
 }
 .float-box > h2::before,
 #menubar ul li > a::before {
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
 }
-#menu-button-logs > a::before { content: "\f036"; }
+#menu-button-logs > a::before { content: "\e8d2"; }
 #bg-set > h2::before,
-#menu-button-back > a::before { content: "\f03e"; }
+#menu-button-back > a::before { content: "\e1bc"; }
 #bgm-set > h2::before,
-#menu-button-bgms > a::before { content: "\f001"; }
+#menu-button-bgms > a::before { content: "\e405"; }
 #config-user > h2::before,
-#menu-button-user > a::before { content: "\f4fe"; }
+#menu-button-user > a::before { content: "\e8b8"; }
 #config-room > h2::before,
-#menu-button-room > a::before { content: "\f013"; }
+#menu-button-room > a::before { content: "\f1b8"; }
 #help-window > h2::before,
-#menu-button-help > a::before { content: "\f059"; }
+#menu-button-help > a::before { content: "\e887"; font-variation-settings: 'FILL' 0 !important; }
 #exit-room > h2::before,
-#menu-button-exit > a::before { content: "\f52a"; }
-#menu-button-exit:hover > a::before { content: "\f52b"; }
+#menu-button-exit > a::before { content: "\effd"; }
+#menu-button-exit:hover > a::before { content: "\e77c"; }
 .mute-button::before {
-  content: "\f028";
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: "\e050";
+  display: inline-block;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   color: #0f7;
 }
 .mute-button.mute-on::before {
-  content: "\f6a9";
+  content: "\e04f";
   color: #f00;
 }
 
@@ -184,16 +185,18 @@ html,body {
   background-color: rgba(0,150,255, 0.2);
 }
 #status #status-body > dl.check::before {
-  content: "\f00c";
+  content: "\e5ca";
   display: inline-block;
   position: absolute;
   top: .3rem;
   left: .1rem;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-size: 1em;
-  font-weight: bold;
   color: #f20;
-  transform: scaleY(1.2);
+  text-shadow: 
+    var(--box-text-shadow-color) 0 0 .1rem, var(--box-text-shadow-color) 0 0 .1rem ;
+  transform: scale(1.6);
 }
 #status #status-body > dl > dt {
   grid-column: 1 / -1;
@@ -908,16 +911,16 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .button::before,
 .decoration-buttons .button::after {
   position: absolute;
-  display: block;
-  font-family: "Font Awesome 5 Free";
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-weight: bold;
-  top: auto;
-  left: 0;
-  right: 0;
-  bottom: .3rem;
   white-space: nowrap;
+  transform: scale(1.45);
 }
-.decoration-buttons .help           { width: 2.2rem; }
+.decoration-buttons .help           { width: 2.2rem; border: none; }
 .decoration-buttons .insert-ruby    { width: 3rem; }
 .decoration-buttons .insert-em      { width: 3rem; }
 .decoration-buttons .insert-serif   { width: 3rem; }
@@ -935,28 +938,26 @@ body.rom .input-form { display: none !important; }
   background-color: #000;
   color: #fff;
 }
-.decoration-buttons .help::before           { content: "\f059"; }
-.decoration-buttons .insert-ruby::before    { content:"ルビ"; }
-.decoration-buttons .insert-em::before      { content:"傍点"; }
-.decoration-buttons .insert-serif::before   { content:"明朝"; }
+.decoration-buttons .help::before           { content: "\e887"; font-variation-settings: 'FILL' 0; }
+.decoration-buttons .insert-ruby::before    { content:"ルビ"; transform: translateY(-.2rem); }
+.decoration-buttons .insert-em::before      { content:"傍点"; transform: translateY(-.2rem); }
+.decoration-buttons .insert-serif::before   { content:"明朝"; transform: translateY(-.2rem); }
 
-.decoration-buttons .insert-bold::before    { content:"\f032"; }
-.decoration-buttons .insert-oblique::before { content:"\f033"; }
-.decoration-buttons .insert-under::before   { content:"\f0cd"; }
-.decoration-buttons .insert-strike::before  { content:"\f0cc"; }
-.decoration-buttons .insert-big::before     { content:"\f031"; left: .2rem; right: auto; }
-.decoration-buttons .insert-small::before   { content:"\f031"; left: .2rem; right: auto; }
-.decoration-buttons .insert-big::after      { content:"\f067"; left: auto; right: .2rem; font-size: 80%; }
-.decoration-buttons .insert-small::after    { content:"\f068"; left: auto; right: .2rem; font-size: 80%; }
-.decoration-buttons .insert-color::before   { content:"\f031"; color:#e80; }
-.decoration-buttons .insert-hide::before    { content:"\f031"; opacity:0.2; }
-.decoration-buttons .insert-horizon::before { content:"―"; }
-.decoration-buttons .insert-left::before    { content:"\f036"; }
-.decoration-buttons .insert-center::before  { content:"\f037"; }
-.decoration-buttons .insert-right::before   { content:"\f038"; }
-.decoration-buttons .insert-headline::before{ content:"\f1dc"; }
+.decoration-buttons .insert-bold::before    { content:"\e238"; }
+.decoration-buttons .insert-oblique::before { content:"\e23f"; }
+.decoration-buttons .insert-under::before   { content:"\e249"; }
+.decoration-buttons .insert-strike::before  { content:"\e257"; }
+.decoration-buttons .insert-big::before     { content:"\eae2"; transform: scale(1.45, 1.6); }
+.decoration-buttons .insert-small::before   { content:"\eadd"; transform: scale(1.45, 1.6); }
+.decoration-buttons .insert-color::before   { content:"\e23c"; transform: scale(1.45) translateY(.2rem); color:#e80; }
+.decoration-buttons .insert-hide::before    { content:"\e23c"; transform: scale(1.45) translateY(.2rem); opacity:0.2; }
+.decoration-buttons .insert-horizon::before { content:"\f108"; }
+.decoration-buttons .insert-left::before    { content:"\e236"; }
+.decoration-buttons .insert-center::before  { content:"\e234"; }
+.decoration-buttons .insert-right::before   { content:"\e237"; }
+.decoration-buttons .insert-headline::before{ content:"\f019"; transform: scale(1.55); }
 
-.decoration-buttons .insert-image::before   { content:"\f03e"; color:#8fd; }
+.decoration-buttons .insert-image::before   { content:"\e3f4"; color:#8fd; }
 
 /* ダイスボタン */
 .dice-button {
@@ -1101,15 +1102,17 @@ body.rom .input-form { display: none !important; }
   z-index: 1;
   width: 2.4rem;
   height: 2.4rem;
+  font-size: 1.8rem;
+  padding: .2rem;
   top: -1.8rem;
   right: -5px;
 }
 .chat .logs dl dd.comm span.rewrited {
 }
 .chat .logs dl dd.comm button.rewrite::before {
-  content: "\f304";
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: "\e3c9";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
 }
 .chat .logs dl dd.comm:hover button.rewrite {
   display: inline-block;
@@ -1269,9 +1272,9 @@ body.rom .input-form { display: none !important; }
 .float-box summary:hover {
   background: rgba(127,127,127,0.1);
 }
-.float-box summary i,
-.float-box h3 i,
-.float-box h4 i {
+.float-box summary .material-symbols-outlined,
+.float-box h3 .material-symbols-outlined,
+.float-box h4 .material-symbols-outlined {
   margin-right: .5rem;
   color: #fb0;
 }
@@ -1285,7 +1288,8 @@ body.rom .input-form { display: none !important; }
 .float-box > h2::before {
   display: inline-block;
   margin-right: .25em;
-  transform: scale(1.2);
+  vertical-align: bottom;
+  transform: scale(1.4);
   color: #dc8;
 }
 .float-box h3,
@@ -1449,8 +1453,8 @@ body.rom .input-form { display: none !important; }
 #bgm-set-preview-play {
   display: inline-block;
   margin: -.5em .2em 0;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   vertical-align: bottom;
   font-size: 180%;
   cursor: pointer;
@@ -1459,10 +1463,10 @@ body.rom .input-form { display: none !important; }
   opacity: 0.5;
 }
 #bgm-set-preview-play::before {
-  content:'\f04b';
+  content:'\e037';
 }
 #bgm-set-preview-play.playing::before {
-  content:'\f04c';
+  content:'\e034';
 }
 #bgm-set-preview-play::before {
 }
@@ -1482,16 +1486,19 @@ body.rom .input-form { display: none !important; }
   position: relative;
 }
 .bg-list li[data-vol]::before {
-  content:'\f04b';
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content:'\e037';
+  display: inline-block;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   position: relative;
   left: -4px;
   font-size: 80%;
+  transform: scale(1.4);
 }
-.bg-list li[data-vol]::after{
-  content: "\f028 " attr(data-vol) "%";
-  font-family: "Font Awesome 5 Free";
+.bg-list li[data-vol]::after {
+  content: "\e050 " attr(data-vol) "%";
+  font-family: "Noto Serif JP","Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-weight: bold;
   color: #ed9;
   font-size: 90%;
@@ -1578,11 +1585,15 @@ body.rom .input-form { display: none !important; }
 #help-window.search-mode details.search-matched, #help-window.search-mode details.contains-search-matched {
   display: block;
 }
-.float-box .fa-lock        { color: #fe8; }
-.float-box .fa-dice-d6     { color: #f88; }
-.float-box .fa-user        { color: #b8f; }
-.float-box .fa-comment     { color: #8ff; }
-.float-box .fa-sticky-note { color: #9f8; }
+.float-box .comm-icon {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+}
+.float-box .comm-icon.full::before { content: "\e898"; color: #fe8; }
+.float-box .comm-icon.dice::before { content: "\eb40"; color: #f88; }
+.float-box .comm-icon.name::before { content: "\e7fd"; color: #b8f; }
+.float-box .comm-icon.off::before  { content: "\e253"; color: #8ff; }
+.float-box .comm-icon.memo::before { content: "\e06f"; color: #9f8; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\f0ae"; }
@@ -1605,29 +1616,29 @@ body.rom .input-form { display: none !important; }
   left: 0;
   width: 1.5em;
   text-align: center;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+  transform: scale(1.3) translateY(.1em);
 }
 #ready-list li.ok::before {
-  content: "\f00c";
+  content: "\e5ca";
   color: #0f0;
 }
 #ready-list li.no::before {
-  content: "\f00d";
+  content: "\e5cd";
   color: #f20;
 }
 
 .mem-signal::before {
   display: inline-block;
-  width: 1.5em;
-  margin-right: .5em;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   text-align: center;
+  transform: scale(1.3) translateY(.1em);
 }
-.mem-signal.green::before  { content: "\f012"; color: #0f0; }
-.mem-signal.yellow::before { content: "\f071"; color: #ff0; }
-.mem-signal.red::before    { content: "\f057"; color: #f00; }
+.mem-signal.green::before  { content: "\e202"; color: #0f0; }
+.mem-signal.yellow::before { content: "\e002"; color: #ff0; }
+.mem-signal.red::before    { content: "\f239"; color: #f00; }
 
 /* // その他
 ---------------------------------------------------------------------------------------------------- */

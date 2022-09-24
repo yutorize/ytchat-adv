@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž%26&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700&text=0123456879ABCČĆDĐEFGHIJKLMNOPQRSŠTUVWXYZŽabcčćdđefghijklmnopqrsštuvwxyzž%26&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Kosugi|Kosugi+Maru|Sawarabi+Gothic|Noto+Sans+JP:400,700|Noto+Serif+JP:400,700|Zen+Old+Mincho:900|&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300..600,0..1,-25');
+
 /* // カスタムプロパティ
 ---------------------------------------------------------------------------------------------------- */
 :root {
@@ -279,10 +281,10 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 /* チャットログ：リンク */
 .logs a[href]::before, 
 #topic a[href]::before {
-  content: "\f35d";
+  content: "\e89e";
   margin-right: .2rem;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-size: .8em;
   line-height: 1;
   color: #fff;
@@ -296,25 +298,22 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   font-weight: bold;
 }
 .logs dl.system dd.comm::before {
-  content: '';
+  line-height: 1;
   display: inline-block;
-  width: 1.6em;
-  font-size: 1em;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   text-align: center;
-  opacity: 1 !important;
-  border-radius: 50%;
+  vertical-align: text-bottom;
 }
-.logs dl.system.enter  dd.comm::before { color: #fd9; content: "\f52b"; }
-.logs dl.system.exit   dd.comm::before { color: #89a; content: "\f52a"; }
-.logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f044"; }
+.logs dl.system.enter  dd.comm::before { color: #fd9; content: "\ea77"; }
+.logs dl.system.exit   dd.comm::before { color: #89a; content: "\e9ba"; transform: scaleX(-1); }
+.logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f88d"; }
 .logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f249"; }
-.logs dl.system.ready  dd.comm::before { color: #f77; content: "\f0ae"; }
-.logs dl.system.round  dd.comm::before { color: #f90; content: "\f562"; }
-.logs dl.system.change dd.comm::before { color: #f55; content: "\f085"; }
-.logs dl.system.bgm    dd.comm::before { color: #f8c; content: "\f001"; }
-.logs dl.system.bg     dd.comm::before { color: #c8f; content: "\f03e"; }
+.logs dl.system.ready  dd.comm::before { color: #f77; content: "\e6b1"; }
+.logs dl.system.round  dd.comm::before { color: #f90; content: "\eb49"; }
+.logs dl.system.change dd.comm::before { color: #f55; content: "\f1b8"; }
+.logs dl.system.bgm    dd.comm::before { color: #f8c; content: "\e405"; }
+.logs dl.system.bg     dd.comm::before { color: #c8f; content: "\e1bc"; }
 
 .logs dl.system  dd.info { color: #cdf; }
 .logs dl.system.round  dd.info { color: #f90; font-weight: bold; }
@@ -324,18 +323,27 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 
 .logs dl.system.bgm dd.info small { color: #b9a; }
 .logs dl.system.bgm dd.info small::before {
-  content: '\f028';
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
-  margin: auto .2em auto .5em;
+  content: '\e050';
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+  margin: auto .1em auto .5em;
+  line-height: 1;
+  vertical-align: text-bottom;
 }
 .logs dl.bgm dd.info a.link-yt {
   background: none;
 }
 .logs dl.bgm dd.info a.link-yt::before {
+  content: "\e41b";
+  display: inline-block;
   margin-left: .5em;
-  transform: scale(1.5);
+  transform: scale(1.6, 1.4);
+  vertical-align: text-bottom;
   text-shadow: none;
+  color: #f00;
+}
+.logs dl.bgm dd.info .link-yt:hover::before {
+  color: #fff;
 }
 /* チャットログ：ユニット操作 */
 .logs dl dd.info.unit::before {
@@ -449,16 +457,15 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   right: -.5rem;
   bottom: 0;
   color: var( --base-font-color);
-  border-bottom: 1px dashed var( --base-font-color);
-  font-size: 80%;
+  font-size: 90%;
   line-height: 1;
   text-shadow: none;
   opacity: 0.2;
 }
 .logs dl dd span.rewrited::before {
-  content: "\f304";
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: "\e9a2";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
 }
 /* チャットログ：水平線 */
 .logs hr {
@@ -699,8 +706,16 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   content: '共有メモ';
   opacity: 0.3;
 }
-/* // Font awesome
+/* // Material Symbok
 ---------------------------------------------------------------------------------------------------- */
+.material-symbols-outlined {
+  font-size: 1.2em;
+  vertical-align: text-bottom;
+  font-variation-settings: 'wght' 300, 'FILL' 0;
+}
+summary .material-symbols-outlined {
+  font-variation-settings: 'wght' 500, 'FILL' 1;
+}
 .s-icon {
   display: inline-block;
   position: relative;
@@ -723,17 +738,20 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   position: absolute;
   left: 0;
   bottom: 0;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'wght' 300, 'FILL' 1;
   font-style: normal;
-  font-size: .9em;
-  text-shadow: #000 0 0 2px, #000 0 0 2px, #000 0 0 2px;
+  text-shadow: var(--box-text-shadow);
 }
-.s-icon.passive::before{ content: "\f111"; font-weight: normal; }
-.s-icon.setup::before  { content: "△";    font-weight: bold; }
-.s-icon.major::before  { content: "\f04b"; font-weight: bold; }
-.s-icon.minor::before  { content: "\f04e"; font-weight: bold; }
-.s-icon.active::before { content: "\f075"; font-weight: normal; transform: scale(-1, 1); }
-.s-icon.active::after  { content: "\f00c"; font-weight: bold; transform: scale(0.6,0.6);  }
+.no-text-shadow .s-icon::after,
+.no-text-shadow .s-icon::before {
+  text-shadow: none;
+}
+.s-icon.passive::before{ content: "\ef4a"; font-variation-settings: 'FILL' 0; }
+.s-icon.setup::before  { content: "\e86b"; font-variation-settings: 'FILL' 0; }
+.s-icon.major::before  { content: "\e037"; transform: scale(1.2); }
+.s-icon.minor::before  { content: "\e01f"; transform: scaleY(1.4); }
+.s-icon.active::before { content: "\e625"; font-variation-settings: 'FILL' 0; transform: scaleX(-1) }
 
 /* // カラーピッカー
 ---------------------------------------------------------------------------------------------------- */

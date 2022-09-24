@@ -87,8 +87,8 @@
           <button onclick="formSubmit('form-comm-main');">送信</button>
           </div>
           <div class="decoration-buttons">
-            <span data-target="form-comm-main" class="button start help" onclick="boxOpen('help-window','help-text-rule')"></span>
-            <span data-target="form-comm-main" class="button insert-ruby"></span>
+            <span data-target="form-comm-main" class="button help" onclick="boxOpen('help-window','help-text-rule')"></span>
+            <span data-target="form-comm-main" class="button start insert-ruby"></span>
             <span data-target="form-comm-main" class="button insert-em"></span>
             <span data-target="form-comm-main" class="button insert-serif"></span>
             <span data-target="form-comm-main" class="button insert-bold"    title="太字"></span>
@@ -314,18 +314,18 @@
       </p>
     </div>
     <div>
-      <h4><i class="far fa-images"></i>プリセット</h4>
+      <h4><span class="material-symbols-outlined">photo_library</span>プリセット</h4>
       <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
         <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
       </ul>
-      <h4><i class="fas fa-history"></i>履歴</h4>
+      <h4><span class="material-symbols-outlined">history</span>履歴</h4>
       <ul class="bg-list" id="bg-history"></ul>
       <TMPL_IF srcURL>
-      <h4><i class="fas fa-check-circle"></i>使用可能URL</h4>
+      <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
       <p>下記のドメインから始まるURL以外は使用できません。</p>
       <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
       </TMPL_IF>
-      <h3><i class="fas fa-trash-alt"></i>背景画像削除</h3>
+      <h3><span class="material-symbols-outlined">delete</span>背景画像削除</h3>
       <p>現在の背景を削除し、初期状態に戻します。</p>
       <p class="center">
         <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する</button>
@@ -374,18 +374,18 @@
       </p>
     </div>
     <div>
-      <h4><i class="far fa-images"></i>プリセット</h4>
+      <h4><span class="material-symbols-outlined">library_music</span>プリセット</h4>
       <ul class="bg-list" id="bgm-preset"><TMPL_LOOP bgmPreset>
         <li onclick="bgmInputSet('<TMPL_VAR URL>', this.innerHTML,<TMPL_VAR VOL>)" data-vol="<TMPL_VAR VOL>"><TMPL_VAR TITLE></li></TMPL_LOOP>
       </ul>
-      <h4><i class="fas fa-history"></i>履歴</h4>
+      <h4><span class="material-symbols-outlined">history</span>履歴</h4>
       <ul class="bg-list" id="bgm-history"></ul>
       <TMPL_IF srcURL>
-      <h4><i class="fas fa-check-circle"></i>使用可能URL</h4>
+      <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
       <p>下記のドメインから始まるURL以外は使用できません。</p>
       <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
       </TMPL_IF>
-      <h3><i class="fas fa-trash-alt"></i>BGM削除</h3>
+      <h3><span class="material-symbols-outlined">delete</span>BGM削除</h3>
       <p>現在のBGMを削除し、無音状態に戻します。</p>
       <p class="center">
         <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
@@ -398,7 +398,7 @@
     <h2>ユーザー個人設定</h2>
     <p>　ゲームルームを跨いで、あなただけに適用される設定です。</p>
     <details id="config-sound">
-      <summary><i class="fas fa-volume-up"></i>サウンド設定</summary>
+      <summary><span class="material-symbols-outlined">volume_up</span>サウンド設定</summary>
       <h4>■音量</h4>
       <table>
         <tr><th>マスターボリューム</th><td><input type="range" id="volume-master" data-type="master" min="0" max="100" step="1" value="80"></td><td id="volume-master-view">80%</td></tr>
@@ -432,7 +432,7 @@
       </table>
     </details>
     <details id="config-mark">
-      <summary><i class="fas fa-exclamation-circle"></i>通知設定</summary>
+      <summary><span class="material-symbols-outlined">notification_important</span>通知設定</summary>
       <p>
         入室名を強調する：<input id="mark-name-check" class="toggle-button" type="checkbox" onchange="markNameToggle();"><label for="mark-name-check"></label><br>
         強調ワード：<br><textarea id="mark-list-value" class="autosize" rows="2" onchange="markListChange();"></textarea><br>
@@ -446,7 +446,7 @@
       </p>
     </details>
     <details id="config-palette">
-      <summary><i class="fas fa-palette"></i>発言欄・チャットパレット設定</summary>
+      <summary><span class="material-symbols-outlined">comment</span>発言欄・チャットパレット設定</summary>
       <h3>■チャットパレット挙動</h3>
       <p>
         クリック時の転記先：
@@ -458,7 +458,7 @@
       <h3>■サブ発言欄Enter・⏎ボタン挙動</h3>
       <table>
         <tr>
-          <th><span class="fas fa-lock"></span></th>
+          <th><span class="comm-icon full"></span></th>
           <td>
             <select id="option-subform-full-behavior">
               <option value="plain">そのまま送信
@@ -469,7 +469,7 @@
           <td>欄に全文残す</td>
         </tr>
         <tr>
-          <th><span class="fas fa-dice-d6"></span></th>
+          <th><span class="comm-icon dice"></span></th>
           <td>
             <select id="option-subform-dice-behavior">
               <option value="plain">そのまま送信
@@ -480,7 +480,7 @@
           <td>欄にコマンドを残す</td>
         </tr>
         <tr>
-          <th><span class="fas fa-user"></span></th>
+          <th><span class="comm-icon name"></span></th>
           <td>
             <select id="option-subform-name-behavior">
               <option value="plain">そのまま送信
@@ -491,7 +491,7 @@
           <td>欄に発言名を残す</td>
         </tr>
         <tr>
-          <th><span class="fas fa-comment"></span></th>
+          <th><span class="comm-icon off"></span></th>
           <td>
             <select id="option-subform-off-behavior">
               <option value="plain">そのまま送信
@@ -502,7 +502,7 @@
           <td>欄を空にする</td>
         </tr>
         <tr>
-          <th><span class="fas fa-sticky-note"></span></th>
+          <th><span class="comm-icon memo"></span></th>
           <td>送信しない</td>
           <td>メモ欄</td>
         </tr>
@@ -510,7 +510,7 @@
       </p>
     </details>
     <details id="config-font">
-      <summary><i class="fas fa-font"></i>ログフォント設定</summary>
+      <summary><span class="material-symbols-outlined">text_fields</span>ログフォント設定</summary>
       <p>文字の明るさ： <input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"> <span id="option-font-lightness-view">100</span>%</p>
       <p>文字の縁取り： <input id="option-font-shadow" class="toggle-button" type="checkbox" checked><label for="option-font-shadow"></label></p>
       <div class="font-sample logs-font">
@@ -542,7 +542,7 @@
       </p>
     </details>
     <details id="config-layout">
-      <summary><i class="far fa-window-maximize"></i>ＵＩ配置</summary>
+      <summary><span class="material-symbols-outlined">tab</span>ＵＩ配置</summary>
       <p>
         ステータス・メモ一覧の配置：
         <select id="window-layout-sidebar" onchange="layoutChange()">
@@ -581,7 +581,7 @@
       　変更すると、入室中の全ユーザーに変更が適用されます。<br>
     </p>
     <details>
-      <summary><i class="fas fa-cogs"></i>基本設定</summary>
+      <summary><span class="material-symbols-outlined">meeting_room</span>基本設定</summary>
       <TMPL_IF userRoomFlag>
       <p>
         ゲームルーム名: <input type="text" id="config-room-name" value="<TMPL_VAR title>"><br>
@@ -616,7 +616,7 @@
       </TMPL_IF>
     </details>
     <details>
-      <summary onclick="getFileName();"><i class="fas fa-file-export"></i>ログ初期化／保存／ルーム削除</summary>
+      <summary onclick="getFileName();"><span class="material-symbols-outlined">drive_file_move</span>ログ初期化／保存／ルーム削除</summary>
       <form onsubmit="resetRoom();return false;">
       <p>
         このルームの現行ログを過去ログに格納（保存）し、初期化します。<br>

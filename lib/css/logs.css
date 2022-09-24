@@ -594,9 +594,9 @@ aside.credit li {
 }
 .mute-button::before {
   display: inline-block;
-  content: "\f028";
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: "\0f7";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   transform: scale(2) translate(.2em);
 }
 .mute-button::after {
@@ -611,7 +611,7 @@ aside.credit li {
   background-color: #fd0;
 }
 .mute-button.muted::before {
-  content: "\f6a9";
+  content: "\e04f";
 }
 .mute-button.muted::after {
   content: "SOUND OFF";

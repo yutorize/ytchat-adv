@@ -246,14 +246,14 @@ img.icon { width: 1em; height: 1em; }
   white-space: normal;
 }
 .logs dl dd.info::before {
-  content: '\f054';
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: '\e5df';
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   position: absolute;
-  left: -.25em;
+  left: -.5em;
   text-shadow: none;
   opacity: 0.6;
-  transform: scale(0.7);
+  transform: scale(1.5);
 }
 .logs dl dd.info b {
   display: inline-block;

@@ -124,16 +124,16 @@ body {
 }
 #sidebar > .button.toggle,
 #sidebar.close > *::before {
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
 }
-#sidebar.close #status::before { content:"\f0c0"; }
-#sidebar.close #memo::before   { content:"\f249"; }
+#sidebar.close #status::before { content:"\f233"; }
+#sidebar.close #memo::before   { content:"\e06f"; }
 #sidebar.close #status::after { content:attr(data-num); font-weight:bold; }
 #sidebar.close #memo::after   { content:attr(data-num); font-weight:bold; }
 
-#sidebar .button.toggle::before { content:"\f422"; }
-#sidebar.close .button.toggle::before { content:"\f424"; }
+#sidebar .button.toggle::before { content:"\f1cf"; }
+#sidebar.close .button.toggle::before { content:"\f1ce"; }
 
 #sidebar:not([data-layout="row"]).close #round { overflow: hidden; }
 #sidebar[data-layout="row"].close > .box { flex-basis: 4em; white-space: nowrap; overflow: hidden; }
@@ -200,8 +200,11 @@ body {
   font-size: .8em;
 }
 #menubar ul li a::before {
+  display: inline-block;
   margin-right: .2rem;
   font-size: calc(1em / 0.8);
+  vertical-align: text-bottom;
+  transform: scale(1.2);
 }
 #menubar ul li a:hover {
   box-shadow: inset 0 0 .5rem #7af;
@@ -221,9 +224,16 @@ body {
 }
 #menubar li#menu-mute-button {
   flex-basis: 5rem;
+  align-self: stretch;
+  position: relative;
 }
 #menubar li#menu-mute-button a {
-  
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 1.1em;
 }
 
 /* // チャットログ
@@ -272,9 +282,9 @@ body {
   opacity: 1;
 }
 .tab-group .option::before {
-  content: "\f013";
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  content: "\e8b8";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-size: 1.6rem;
   position: absolute;
   top: 0;
@@ -373,6 +383,9 @@ body {
 }
 .sub .chat .logs dl:after {
   top: 0;
+}
+.sub .chat  .logs dl dd.info::before {
+  margin-top: .3em;
 }
 .sub .comm-area {
   margin: 0 0 .3em;
@@ -572,9 +585,9 @@ body {
   text-align: center;
   font-size: 1.4rem;
   line-height: 1;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-style: normal;
-  font-weight: bold;
   text-shadow: none
 }
 .form-dice .dice-button i:hover::before {
@@ -585,11 +598,11 @@ body {
 .form-dice .dice-button textarea[data-lock="name"] + i { background: linear-gradient(to right, rgba(200,  0,255, 0.6), transparent); color: #fcf; }
 .form-dice .dice-button textarea[data-lock="off" ] + i { background: linear-gradient(to right, rgba(  0,255,255, 0.6), transparent); color: #cff; }
 .form-dice .dice-button textarea[data-lock="memo"] + i { background: linear-gradient(to right, rgba(100,255,  0, 0.6), transparent); color: #cfb; }
-.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\f023"; }
-.form-dice .dice-button textarea[data-lock="dice"] + i::before { content: "\f6d1"; }
-.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\f007"; }
-.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\f075"; transform: scale(-1, 1); }
-.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\f249"; }
+.form-dice .dice-button textarea[data-lock="full"] + i::before { content: "\e898"; }
+.form-dice .dice-button textarea[data-lock="dice"] + i::before { content: "\eb40"; }
+.form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\e7fd"; }
+.form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\e253"; }
+.form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\e06f"; }
 
 
 /* ヘルプボタン */
@@ -608,9 +621,9 @@ body {
   content: 'ラウンド: ';
 }
 #sidebar.close #round #round-value::before {
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
-  content:"\f562";
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+  content:"\eb49";
 }
 [data-layout="row"] #round {
   flex-basis: 8em;
@@ -640,13 +653,16 @@ body {
 #status #status-body > dl:hover > dd[id*="stt-url"] {
   display: block;
 }
+#status #status-body > dl > dd[id*="stt-url"] a {
+  background: none;
+}
 #status #status-body > dl > dd[id*="stt-url"] a::before {
-  content: "\f35d";
+  content: "\e89e";
   display: inline-block;
   width: 1em;
   height: 1em;
-  font-family: "Font Awesome 5 Free";
-  font-weight: bold;
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
   font-size: 1.2em;
   line-height: 1;
 }

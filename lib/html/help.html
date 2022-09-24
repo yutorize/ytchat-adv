@@ -21,15 +21,15 @@
   <div class="form-dice" style="display:block;width:18em;margin:0;padding:1em;"><div class="dice-button"><textarea data-lock="dice" style="height:1.7em;" disabled></textarea><i></i><button></button></div></div>
   <p>
     　よく使うダイスコマンドを置いておいたり、複数のNPCを扱う時に発言欄が追加で欲しいとき、単純にメモ欄として……などに利用できます。<br>
-    　アイコンをクリックすると<i class="fas fa-dice-d6"></i>→<i class="fas fa-user"></i>→<i class="fas fa-comment"></i>→<i class="fas fa-sticky-note"></i>→<span class="fas fa-lock"></span>の順でアイコンと挙動が変わります。
+    　アイコンをクリックすると<span class="comm-icon dice"></span>→<span class="comm-icon name"></span>→<span class="comm-icon off"></span>→<span class="comm-icon memo"></span>→<span class="comm-icon full"></span>の順でアイコンと挙動が変わります。
   </p>
   <table>
     <tr><th>アイコン</th><th>説明</th></tr>
-    <tr><th><span class="fas fa-lock"></span></th><td>内容を送信しても欄に内容が残る。</td></tr>
-    <tr><th><span class="fas fa-dice-d6"></span></th><td>内容を送信しても欄にコマンドが残る。</td></tr>
-    <tr><th><span class="fas fa-user"></span></th><td>内容を送信すると欄に発言者名が残る。</td></tr>
-    <tr><th><span class="fas fa-comment"></span></th><td>内容を送信すると欄が空になる。</td></tr>
-    <tr><th><span class="fas fa-sticky-note"></span></th><td>内容を送信できない。メモ欄。</td></tr>
+    <tr><th><span class="comm-icon full"></span></th><td>内容を送信しても欄に内容が残る。</td></tr>
+    <tr><th><span class="comm-icon dice"></span></th><td>内容を送信しても欄にコマンドが残る。</td></tr>
+    <tr><th><span class="comm-icon name"></span></th><td>内容を送信すると欄に発言者名が残る。</td></tr>
+    <tr><th><span class="comm-icon off"></span></th><td>内容を送信すると欄が空になる。</td></tr>
+    <tr><th><span class="comm-icon memo"></span></th><td>内容を送信できない。メモ欄。</td></tr>
   </table>
   <p>　また、<button onclick="boxOpen('config-user','config-palette')">個人設定</button>から、Enterおよび⏎ボタンの挙動は変更できます。</p>
 </details>
