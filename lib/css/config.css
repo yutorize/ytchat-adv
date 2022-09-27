@@ -727,6 +727,11 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   vertical-align: text-bottom;
   font-variation-settings: 'wght' 300, 'FILL' 0;
 }
+.material-symbols-outlined i {
+  display: inline-block;
+  font-size: 0px;
+  opacity: 0;
+}
 summary .material-symbols-outlined {
   font-variation-settings: 'wght' 500, 'FILL' 1;
 }
