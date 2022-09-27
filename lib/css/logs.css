@@ -66,12 +66,27 @@ body {
 article#contents {
   padding-bottom: 20vh;
 }
+#prev-button,
+#next-button {
+  padding: 1em;
+}
+#prev-button .button,
+#next-button .button {
+  font-size: inherit;
+}
 /* ログ */
 .logs {
   margin: 1rem;
 }
+.logs.prev-page,
+.logs.next-page {
+  display: none !important;
+}
 .logs dl {
   position: relative;
+}
+.logs dl.hide:not(.bg):not(.bgm) {
+  display: none;
 }
 .logs dl:last-child {
   border-bottom-width: .1rem;
@@ -527,18 +542,6 @@ aside.credit li {
 }
 .stat-table.code-2D6 tr.stat-graf-row td:nth-child(7),
 .stat-table.code-2D6 tr:not(.stat-graf-row) td:nth-child(6) {
-  background: rgba(100,250,150,0.1);
-}
-.stat-table.code-D10 thead th:nth-child(6),
-.stat-table.code-D10 tfoot th:nth-child(6),
-.stat-table.code-D10 thead th:nth-child(7),
-.stat-table.code-D10 tfoot th:nth-child(7) {
-  background: rgba(70,100,80,0.6);
-}
-.stat-table.code-D10 tr.stat-graf-row td:nth-child(6),
-.stat-table.code-D10 tr.stat-graf-row td:nth-child(7),
-.stat-table.code-D10 tr:not(.stat-graf-row) td:nth-child(5),
-.stat-table.code-D10 tr:not(.stat-graf-row) td:nth-child(6) {
   background: rgba(100,250,150,0.1);
 }
 

@@ -4,19 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><TMPL_VAR title> - ゆとチャadv.</title>
-  <link rel="stylesheet" media="all" href="./lib/css/base.css?<TMPL_VAR ver>">
-  <link rel="stylesheet" media="all" href="./lib/css/chat-common.css?<TMPL_VAR ver>">
-  <link rel="stylesheet" media="all and (min-width: 601px)" href="./lib/css/chat-layout-pc.css?<TMPL_VAR ver>">
-  <link rel="stylesheet" media="all and (max-width: 600px)" href="./lib/css/chat-layout-sp.css?<TMPL_VAR ver>">
-  <link rel="stylesheet" media="all" href="./lib/css/config.css?<TMPL_VAR ver>">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
+  <style>
+    @layer lib, base, common, pc, sp;
+    @import url('./lib/css/base.css?<TMPL_VAR ver>') layer(base);
+    @import url('./lib/css/chat-common.css?<TMPL_VAR ver>') layer(common);
+    @import url('./lib/css/chat-layout-pc.css?<TMPL_VAR ver>') layer(pc) screen and (min-width:601px);
+    @import url('./lib/css/chat-layout-sp.css?<TMPL_VAR ver>') layer(sp) screen and (max-width:600px);
+    @import url('./lib/css/config.css?<TMPL_VAR ver>');
+      
+    @import url('https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css') layer(lib);
+  </style>
   <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
   <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   <script src="./lib/js/ui.js?<TMPL_VAR ver>" defer></script>
   <script src="./lib/js/ui-sp.js?<TMPL_VAR ver>" defer></script>
   <script src="./lib/js/chat.js?<TMPL_VAR ver>" defer></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <TMPL_INCLUDE NAME="script.html">
 </head>
 <body>

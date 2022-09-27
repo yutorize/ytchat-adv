@@ -48,109 +48,112 @@
   --box-bg-opacity: 0.7;
   --box-bg-color: rgba(0,0,0, var(--box-bg-opacity));
   
+  --chara-name-bg: #0005;
+
   /* 背景 */
   --bg-opacity: 1;
+}
+.no-text-shadow {
+  --chara-name-bg: #0007;
+}
+@media (max-width: 600px) {
+  :root {
+    --box-bg-color: rgba(0,0,0, 0.8);
+  }
+  #base {
+    --box-bg-color: rgba(0,0,0, 0.6);
+  }
 }
 
 /* // ベース設定
 ---------------------------------------------------------------------------------------------------- */
 /* デフォルト背景 */
-body {
-  background-image: linear-gradient(160deg, #808899, #202233);
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.bg-image {
-  filter: brightness(var(--bg-opacity));
-}
-/* ボックスとテキストシャドウ */
-.box {
-  background-color: var(--box-bg-color);
-  box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
-  text-shadow: var(--box-text-shadow);
-}
-.box.sheet {
-  background-image: linear-gradient(to bottom, rgba(0,0,0, 0.7), transparent 5em);
-}
-.logs dl dt,
-.box:not(#status):not(.sheet) .chara-name {
-  background-color: #0005;
-}
-.logs dl dt {
-  border-radius: .5em;
-}
-.no-text-shadow .box {
-  text-shadow: none;
-}
-.no-text-shadow .logs dl dt,
-.no-text-shadow .box:not(#status):not(.sheet) .chara-name {
-  background-color: #0007;
-}
-.no-text-shadow .system.enter b,
-.no-text-shadow .system.exit b,
-.no-text-shadow #status #status-body > dl > dt {
-  text-shadow: var(--box-text-shadow);
-}
-.no-text-shadow .logs dl dt:empty {
-  background: none;
-}
-/* リンク */
-a { text-decoration: none; }
-.link,
-a[href]:link    { color: #00ffff; background: linear-gradient(to top, rgba(50,180,255,0.5) 0%, rgba(50,180,255,0.5) 20%, transparent 20%); }
-a[href]:visited { color: #77ccff; }
-.link:hover,
-a[href]:hover   { color: #ffffff; }
-.link-yt::before {
-  content: "\f167" !important;
-  display: inline-block;
-  font-family: "Font Awesome 5 Brands" !important;
-  font-weight: normal !important;
-  color: #f00 !important;
-}
-.link-yt:hover::before {
-  color: #fff !important;
-}
+@layer base {
+  body {
+    background-image: linear-gradient(160deg, #808899, #202233);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .bg-image {
+    filter: brightness(var(--bg-opacity));
+  }
+  /* ボックスとテキストシャドウ */
+  .box {
+    background-color: var(--box-bg-color);
+    box-shadow: inset 0 0 1em rgba(255,255,255,0.15);
+    text-shadow: var(--box-text-shadow);
+  }
+  .box.sheet {
+    background-image: linear-gradient(to bottom, rgba(0,0,0, 0.7), transparent 5em);
+  }
+  .logs dl dt,
+  .system.enter b,
+  .system.exit b,
+  .box:not(#status):not(.sheet) .chara-name {
+    background-color: var(--chara-name-bg);
+  }
+  .logs dl dt {
+    border-radius: .5em;
+  }
+  .no-text-shadow .box {
+    text-shadow: none;
+  }
+  .no-text-shadow #status #status-body > dl > dt {
+    text-shadow: var(--box-text-shadow);
+  }
+  .no-text-shadow .logs dl dt:empty {
+    background: none;
+  }
+  /* リンク */
+  a { text-decoration: none; }
+  .link,
+  a[href]:link    {
+    color: #00ffff;
+  }
+  a[href]:visited { color: #77ccff; }
+  .link:hover,
+  a[href]:hover   { color: #ffffff; }
 
-/* 他 */
-input, textarea, select, button, .button, .dice-button, .toggle-button+label {
-  background: rgba(30,35,50,0.8);
-  color: #fff;
-}
-.chat-palette {
-  background: rgba(20,25,30,0.8);
-}
-input:focus,textarea:focus,select:focus {
-  background: rgba(55,60,65,0.8);
-}
-button, .button {
-  background: linear-gradient(145deg, rgba(50,60,80,0.8), rgba(30,40,60,0.8));
-  color: #dde;
-}
-summary:hover,
-label:hover {
-  color: #ffaa00;
-}
-label input+b {
-  font-style: normal;
-  color: #8899aa;
-}
-label input:checked+b {
-  color: inherit;
-}
-label:hover input+b {
-  color: inherit !important;
-}
-.chat-palette b {
-  color: #ee9999;
-}
-.chat-palette i {
-  color: #99ccee;
-  font-style: normal;
-}
-.chat-palette em {
-  color: #cc99ee;
-  font-style: normal;
+  /* 他 */
+  input, textarea, select, button, .button, .dice-button, .toggle-button+label {
+    background: rgba(30,35,50,0.8);
+    color: #fff;
+  }
+  .chat-palette {
+    background: rgba(20,25,30,0.8);
+  }
+  input:focus,textarea:focus,select:focus {
+    background: rgba(55,60,65,0.8);
+  }
+  button, .button {
+    background: linear-gradient(145deg, rgba(50,60,80,0.8), rgba(30,40,60,0.8));
+    color: #dde;
+  }
+  summary:hover,
+  label:hover {
+    color: #ffaa00;
+  }
+  label input+b {
+    font-style: normal;
+    color: #8899aa;
+  }
+  label input:checked+b {
+    color: inherit;
+  }
+  label:hover input+b {
+    color: inherit !important;
+  }
+  .chat-palette b {
+    color: #ee9999;
+  }
+  .chat-palette i {
+    color: #99ccee;
+    font-style: normal;
+  }
+  .chat-palette em {
+    color: #cc99ee;
+    font-style: normal;
+  }
 }
 
 /* // カラー設定：チャット
@@ -167,11 +170,6 @@ label:hover input+b {
   text-shadow: inherit;
 }
 #form-name :checked {
-}
-@media (max-width: 600px) {
-  .box {
-    background-color: rgba(0,0,0,0.7);
-  }
 }
 .box #main-name1 {
   text-shadow: inherit;
@@ -273,16 +271,23 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   background: rgba(0,0,0,0.2);
 }
 .logs dl:hover {
-  background-image: linear-gradient(rgba(0,0,0, 0.3), rgba(0,0,0, 0.3));
+  background-color: rgba(0,0,0, 0.3);
 }
 .logs dl dd:hover {
-  box-shadow: 0 0 0 .1rem rgba(100,200,255,0.2) inset !important;
+  box-shadow: 0 0 0 .1rem rgba(100,200,255,0.2) inset;
 }
 /* チャットログ：リンク */
+.logs a[href],
+#topic a[href] {
+  text-decoration: underline;
+  text-decoration-thickness: .2em;
+  text-decoration-color: rgba(50,180,255,0.5);
+  text-underline-offset: .1em;
+  text-decoration-skip-ink: none;
+}
 .logs a[href]::before, 
 #topic a[href]::before {
   content: "\e89e";
-  margin-right: .2rem;
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
   font-size: .8em;
@@ -308,7 +313,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl.system.enter  dd.comm::before { color: #fd9; content: "\ea77"; }
 .logs dl.system.exit   dd.comm::before { color: #89a; content: "\e9ba"; transform: scaleX(-1); }
 .logs dl.system.topic  dd.comm::before { color: #7f7; content: "\f88d"; }
-.logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f249"; }
+.logs dl.system.memo   dd.comm::before { color: #7f7; content: "\f1c6"; }
 .logs dl.system.ready  dd.comm::before { color: #f77; content: "\e6b1"; }
 .logs dl.system.round  dd.comm::before { color: #f90; content: "\eb49"; }
 .logs dl.system.change dd.comm::before { color: #f55; content: "\f1b8"; }
@@ -320,6 +325,13 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl.system.topic  dd.info { color: #bfc; font-weight: bold; }
 .logs dl.system.memo   dd.info { color: #ded; }
 .logs dl.system.change dd.info { color: #f99; }
+
+.logs dl.system.exit b,
+.logs dl.system.enter b {
+  margin: 0 .2em;
+  padding: .1em .2em;
+  border-radius: .5rem;
+}
 
 .logs dl.system.bgm dd.info small { color: #b9a; }
 .logs dl.system.bgm dd.info small::before {
@@ -354,6 +366,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 }
 .logs dl dd.info.unit i {
   opacity: 0.70;
+  font-style: normal;
 }
 /* チャットログ：チョイス */
 .logs dl dd.info.choice::before {
@@ -395,6 +408,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dd.info.dice i {
   margin-left: .2rem;
   font-size: 90%;
+  font-style: normal;
   opacity: 0.85;
 }
 .logs dl dd.info.dice b,

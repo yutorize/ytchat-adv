@@ -67,12 +67,6 @@ body {
 #chat-area .tab-group.main + .sub:nth-last-of-type(odd) {
   grid-row: span 2;
 }
-#chat-area .tab-group.sub {
-}
-#chat-area .tab-group .chat {
-}
-#chat-area .tab-group .chat.close {
-}
 #chat-area .button.add {
   position: absolute;
   right: 0;
@@ -653,7 +647,6 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: rgba(0,0,0, var(--box-bg-opacity));
 }
 #status #status-body > dl:hover > dd[id*="stt-url"] {
   display: block;

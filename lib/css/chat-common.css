@@ -422,13 +422,13 @@ html,body {
 .sheet[data-memo-mode="view"] .sheet-memo-body .sheet-memo-outline,
 .sheet[data-memo-mode="view"] .sheet-memo-body  > button        { display: none; }
 .sheet[data-memo-mode="edit"] .sheet-memo-body #memo-view { display: none; }
-body.rom .sheet#sheet-unit-memo { display: grid !important; }
+body.rom .sheet#sheet-unit-memo { display: grid; }
 body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }
 body.rom .sheet#sheet-unit-memo button { display: none; }
 
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
-body.rom .sheet { display: none !important; }
+body.rom .sheet { display: none; }
 #sheet-area {
 }
 .sheet {
@@ -1049,7 +1049,7 @@ body.rom .input-form { display: none !important; }
   animation-timing-function: ease-out;
 }
 .chat .logs dl dt {
-  max-width: max-content;
+  width: max-content;
   height: max-content;
   padding-left: .1em;
   padding-right: .1em;
@@ -1636,13 +1636,14 @@ body.rom .input-form { display: none !important; }
 
 .mem-signal::before {
   display: inline-block;
+  margin-right: .3em;
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
   text-align: center;
   transform: scale(1.3) translateY(.1em);
 }
 .mem-signal.green::before  { content: "\e202"; color: #0f0; }
-.mem-signal.yellow::before { content: "\e002"; color: #ff0; }
+.mem-signal.yellow::before { content: "\f0ac"; color: #ff0; }
 .mem-signal.red::before    { content: "\f239"; color: #f00; }
 
 /* // その他

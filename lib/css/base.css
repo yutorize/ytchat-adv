@@ -240,7 +240,6 @@ img.icon { width: 1em; height: 1em; }
   overflow-wrap: break-word;
 }
 .logs dl dd a {
-  display: inline-block;
 }
 .logs dd.info {
   white-space: normal;
