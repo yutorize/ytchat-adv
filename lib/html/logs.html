@@ -16,8 +16,12 @@
   <script src="https://cdn.jsdelivr.net/npm/jszip-utils@0.1.0/dist/jszip-utils.min.js"></script>
   </TMPL_UNLESS>
   <script src="./lib/js/logs.js?<TMPL_VAR ver>" defer></script>
-  <TMPL_IF liteMode><script>var liteMode = 1;</script></TMPL_IF>
-  <TMPL_UNLESS dlMode><script>var pageMax = "<TMPL_VAR pageMax>";</script></TMPL_UNLESS>
+  <script>
+    <TMPL_IF liteMode>var liteMode = 1;</TMPL_IF>
+    <TMPL_UNLESS dlMode>
+    var customCSS = "<TMPL_VAR customCSS />";
+    </TMPL_UNLESS>
+  </script>
 </head>
 <body id="logviewer" <TMPL_IF liteMode>class="lite"</TMPL_IF>>
   <div class="bg-image bg-front"></div>
@@ -36,9 +40,10 @@
   </div>
 <div id="right">
   <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="box"><span class="material-symbols-outlined">menu</span></label>
   <aside id="menu" class="box">
-    <h2>メニュー<label for="menu-toggle"></label></h2>
-    <TMPL_IF pagination><div class="pagination"><TMPL_VAR pagination></div></TMPL_IF>
+    <h2>メニュー</h2>
+    <label for="menu-toggle"><span class="material-symbols-outlined">close</span></label>
     <ul id="tablist"><TMPL_LOOP TabList>
       <li><label><input type="checkbox" id="tab-on-<TMPL_VAR NUM>" checked onchange="tabSelect(<TMPL_VAR NUM>)"><b><TMPL_VAR NAME></b></label></li></TMPL_LOOP>
       <li><label for="secret-on"><input type="checkbox" id="secret-on" onchange="secretView()"><b>秘話</b></label></li>
@@ -47,8 +52,8 @@
       <TMPL_UNLESS dlMode><button id="dl-button" onclick="downloadAllLogs()">ログを保存</button></TMPL_UNLESS>
     </dl>
     <dl class="options" id="options-sound">
-      <dt>サウンド音量 <span id="option-sound-view">100</span> %</dt><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"><br>
-      <span class="mute-button muted" id="option-mute-button"></span></dd>
+      <dt>サウンド音量 <span id="option-sound-view">100</span> %</dt><dd><input id="option-sound" type="range" min="0.01" max="1" step="0.01" value="1"></dd>
+      <dd><span class="mute-button muted" id="option-mute-button"></span></dd>
     </dl>
     <dl class="options" id="options-logs">
       <dt id="opt-viewmode">閲覧モード</dd>
@@ -56,11 +61,12 @@
         <select id="option-view-mode">
           <option value="normal">通常
           <option value="lite" <TMPL_IF liteMode>selected</TMPL_IF>>軽量（背景/BGMなし）
+          <option value="simple">シンプル（新規タブを開く）
         </select>
       </dd>
       <dt id="opt-opacity">背景不透過 <span id="option-opacity-view">70</span> %</dt><dd><input id="option-opacity" type="range" min="0.0" max="1.0" step="0.01" value="0.7"></dd>
       <dt id="opt-lightness">文字の輝度 <span id="option-font-lightness-view">100</span> %</dd><dd><input id="option-font-lightness" type="range" min="50" max="100" step="1" value="100"></dd>
-      <dt id="opt-lightness">文字の縁取り</dd><dd><input id="option-font-shadow" class="toggle-button" type="checkbox" checked><label for="option-font-shadow"></label></dd>
+      <dt id="opt-shadow">文字の縁取り</dd><dd><input id="option-font-shadow" class="toggle-button" type="checkbox" checked><label for="option-font-shadow"></label></dd>
       <dt id="opt-fontsize">文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
       <dt id="opt-fontfamily">日本語フォント</dd><dd><select id="option-font-family-jp"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
     </dl>
@@ -85,11 +91,19 @@
   </aside>
 </div>
 <div id="left">
-  <aside class="box table-of-contents">
+  <input type="checkbox" id="toc-toggle">
+  <label for="toc-toggle" class="box"><span class="material-symbols-outlined">list</span></label>
+  <aside id="toc" class="box">
+    <label for="toc-toggle"><span class="material-symbols-outlined">close</span></label>
+    <h2>ページ</h2>
+    <div id="pagination"></div>
     <h2>目次</h2>
-    <ul id="toc-headline"><TMPL_LOOP Headlines>
-      <li class="lv<TMPL_VAR LV>"><a href="#headline-<TMPL_VAR NUM>"><TMPL_VAR NAME></a></li>
-    </TMPL_LOOP></ul>
+    <ul id="toc-headline"></ul>
+    <ul>
+      <TMPL_IF statDice><li data-lv="1"><a href="#stat-dice">出目統計</a></li></TMPL_IF>
+      <TMPL_IF BgmList><li data-lv="1"><a href="#bgm-list">BGMリスト</a></li></TMPL_IF>
+      <TMPL_IF BgiList><li data-lv="1"><a href="#bgi-list">背景リスト</a></li></TMPL_IF>
+    </ul>
   </aside>
 </div>
 <div id="base" class="box">
@@ -97,6 +111,7 @@
     <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
   </header>
   <article id="contents">
+  <div id="prev-button" class="center"><a class="button" onclick="pageSet('prev');">前のページ</a></div>
   <div class="logs logs-font">
     <TMPL_LOOP Logs>
     <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
@@ -104,27 +119,32 @@
 <TMPL_LOOP LogsDD><TMPL_IF COMM>      <dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd>
 </TMPL_IF><TMPL_IF INFO>      <dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>"<TMPL_IF GAME> data-game="<TMPL_VAR GAME>"</TMPL_IF>><TMPL_VAR INFO></dd>
 </TMPL_IF></TMPL_LOOP>    </dl>
+<TMPL_IF BORDER>
+  </div>
+  <div class="logs logs-font next-page"></TMPL_IF>
     </TMPL_LOOP>
   </div>
-  <TMPL_IF nextPage><div class="center"><TMPL_VAR nextPage></TMPL_IF></div>
+  <div id="next-button" class="center"><a class="button" onclick="pageSet('next');">次のページ</a></div>
   </article>
 </div>
 <div id="foot-area">
-  <TMPL_IF statDice><aside class="credit">
-    <h3 data-headline="1">出目統計</h3>
-    <TMPL_VAR statDice>
-  </aside></TMPL_IF>
-  <TMPL_IF BgmList><aside class="credit">
-    <h3 data-headline="1">BGMリスト</h3>
-    <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
-  </aside></TMPL_IF>
-  <TMPL_IF BgiList><aside class="credit">
-    <h3 data-headline="1">背景リスト</h3>
-    <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
-  </aside></TMPL_IF>
   <footer>
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
   </footer>
+</div>
+<div id="credit-area" onclick="this.style.display='none';location.hash='_';">
+  <TMPL_IF statDice><aside id="stat-dice" class="credit" onclick="event.stopPropagation();">
+    <h3>出目統計</h3>
+    <div><TMPL_VAR statDice></div>
+  </aside></TMPL_IF>
+  <TMPL_IF BgmList><aside id="bgm-list" class="credit" onclick="event.stopPropagation();">
+    <h3>BGMリスト</h3>
+    <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+  </aside></TMPL_IF>
+  <TMPL_IF BgiList><aside id="bgi-list" class="credit" onclick="event.stopPropagation();">
+    <h3>背景リスト</h3>
+    <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+  </aside></TMPL_IF>
 </div>
 <div id="bottom-bar">
   <dl>

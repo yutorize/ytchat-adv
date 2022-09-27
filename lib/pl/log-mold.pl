@@ -89,27 +89,15 @@ else { #現行ログ
   $logfile = "./room/${id}/log-all.dat";
 }
 
-my @logs;
-my $size_limit_over;
-if(-s $logfile > 1024*512){
-  $size_limit_over = 1;
-  if(!$::in{'type'} && !$::in{'page'}){
-    $ROOM->param(liteMode => 1);
-    my $query;
-    if   ($::in{'id'} ){ $query = 'id='.$::in{'id'}; }
-    elsif($::in{'log'}){ $query = 'log='.$::in{'log'}; }
-    push(@logs, {
-      "NAME"   => 'SYSTEM',
-      "USER"   => 'system',
-      "CLASS" => 'main',
-      "LogsDD" => [{
-        "COMM"  => 'このログは、規定のサイズを超えているため、デフォルトでは軽量モードになっています。<br>このまま通常モードにした場合、動作が遅くなる恐れがあります。<br>BGMと背景を動作させたい場合、<a href="./?mode=logs&'.$query.'&page=1">ページ分割表示</a>をご利用下さい。<hr>',
-      }]
-    });
-  }
-}
+# my $size_limit_over;
+# if(-s $logfile > 1024*512){
+#   $size_limit_over = 1;
+#   if(!$::in{'type'} && !$::in{'page'}){
+#     $ROOM->param(liteMode => 1);
+#   }
+# }
 
-sysopen (my $FH, $logfile, O_RDONLY) or $error_flag = 1;
+my @logs;
 my $before_tab;
 my $before_name;
 my $before_color;
@@ -120,8 +108,8 @@ my %stat;
 my %stat_count;
 my %user_color;
 my $tagconvert_on = %logconfig ? 1 : $::in{"log"} ? 0 : 1;
-my $line_count = 0;
 
+sysopen (my $FH, $logfile, O_RDONLY) or $error_flag = 1;
 foreach (<$FH>){
   chomp;
   if($_ =~ s/^>//) {
@@ -135,24 +123,6 @@ foreach (<$FH>){
   my $userid;
   $user =~ s/<(.+?)>$/$userid = $1; '';/e;
   $user_color{$name} = $color;
-  
-  
-  $line_count++;
-  if($::in{'page'}){
-    if($line_count > 2500 * $::in{'page'} && $system !~ /^rewrite(name)?:/){
-      next;
-    }
-    elsif($line_count <= 2500 * ($::in{'page'}-1) && $system !~ /^(bgm:|bg:)/){
-      if($system =~ /^dice/){
-        foreach(split(/<br>/,$info)){
-          $_ =~ s/\<\<(.*)$//;
-          my $game = ($system =~ /^dice:(.*)$/) ? $1 : '';
-          diceStat($game,$user,$_);
-        }
-      }
-      next;
-    }
-  }
   
   my $openlater;
   if($address){
@@ -170,6 +140,7 @@ foreach (<$FH>){
   }
   
   $comm = tagConvert($comm) if $tagconvert_on; #文字装飾
+  $comm =~ s#<h([1-6])>(.+?)</h\1>#<h$1 data-headline="$1">$2</h$1>#ig;
 
   if($system =~ /^palette$/){
     next;
@@ -210,8 +181,6 @@ foreach (<$FH>){
   }
 
   if(!$tabs[$tab-1]){ $tabs[$tab-1] = "タブ${tab}"; }
-
-  $comm =~ s#<h([1-6])>(.+?)</h\1>#<h$1 data-headline="$1">$2</h$1>#ig;
   
   my $type = ($system =~ /^(check|dice)/) ? 'dice' : $system;
      $type .= ' choice' if ($system =~ /^deck/);
@@ -285,16 +254,9 @@ foreach (<$FH>){
   }
 
   if($system =~ /^memo/ && $info){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
-
-  
-  if($line_count <= 2500 * ($::in{'page'}-1)){
-    if   ($system =~ /^bgm:/){ @logs = grep $_->{'CLASS'} !~ "bgm ", @logs; }
-    elsif($system =~ /^bg:/ ){ @logs = grep $_->{'CLASS'} !~ "bg " , @logs; }
-  }
   
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
      $class .= ($system =~ /^(topic|memo|bgm?|ready|round|enter|exit)/) ? "$1 " : '';
-     $class .= ($system =~ /^bgm?/)   ? 'important ' : '';
      $class .= $address   ? 'secret '    : '';
      $class .= $openlater ? 'openlater ' : '';
      $class .= $tab == 1 ? 'main ' : '';
@@ -314,6 +276,7 @@ foreach (<$FH>){
       "COLOR"  => $color,
       "CLASS" => $class,
       "LogsDD" => [],
+      "BORDER" => ((scalar(@logs)+1) % 1000 == 0 ? 1 : 0),
     });
   }
   
@@ -342,37 +305,8 @@ push(@bgi_list,{ "TITLE"  => $bgis{$_} }) foreach @bgis;
 $ROOM->param(BgmList => \@bgm_list);
 $ROOM->param(BgiList => \@bgi_list);
 
-## ページネーション
-my $last_page;
-if($::in{'page'} || $size_limit_over){
-  my $pagination; my $nextpage; my $pagelist; 
-  my $page_max = int($line_count/2500)+1;
-  if($::in{'page'} == $page_max){ $last_page = 1; }
-  if($::in{'page'}){
-    foreach(1 .. $page_max){
-      if($_ == $::in{'page'}){
-        $pagination .= '<b>['.$_.']</b> ';
-      }
-      else {
-        my $href;
-        if($::in{'type'} eq 'download'){ $href = 'log'.$_.'.html'; }
-        elsif($::in{'id'} ){ $href = './?mode=logs&id=' .$::in{'id'} .'&page='.$_; }
-        elsif($::in{'log'}){ $href = './?mode=logs&log='.$::in{'log'}.'&page='.$_; }
-        $pagination .= '<a href="'.$href.'" data-num="'.$_.'">['.$_.']</a> ';
-
-        if($_ == $::in{'page'}+1) {
-          $nextpage = '<a href="'.$href.'">次のページ</a>';
-        }
-      }
-    }
-    $ROOM->param(pagination => $pagination);
-    $ROOM->param(nextPage => $nextpage);
-  }
-  $ROOM->param(pageMax => $page_max);
-}
-
 ## 出目統計
-if(!$::in{'page'} || $last_page){
+{
   my $user_stat_dice;
   my $stat_game = $stat_count{'D10'} > $stat_count{'2D6'} ? 'D10' : '2D6';
   my $stat_type = $stat_game eq '2D6' ? 'total' : 'single';
