@@ -234,6 +234,12 @@ input[type=range]::-moz-range-thumb {
   border-radius: 0;
   border-bottom: .1rem solid var(--border-color);
 }
+#sidebar > .button.toggle {
+  display: none;
+}
+#round-value::before {
+  content: "ラウンド: ";
+}
 
 /* // 共有メモ
 ---------------------------------------------------------------------------------------------------- */

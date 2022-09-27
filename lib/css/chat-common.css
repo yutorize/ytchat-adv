@@ -119,19 +119,22 @@ html,body {
 /* // ラウンド
 ---------------------------------------------------------------------------------------------------- */
 #round {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  padding: 0;
 }
 #round-value {
+  margin: .5em;
   text-align: center;
 }
 #round .round-buttons {
   display: flex;
   justify-content: center;
-  margin: .5rem -.3rem;
+  margin: 0;
 }
 #round .button {
-  min-width: 2em;
-  padding: .3em .8em;
+  min-width: 1.5em;
+  padding: .5em .5em;
 }
 #round .button:first-child {
   border-top-right-radius: 0;
