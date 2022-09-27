@@ -7,7 +7,8 @@ use Fcntl;
 use HTML::Template;
 use CGI::Cookie;
 
-require './lib/pl/log-mold.pl';
+if($::in{'type'} eq 'text') { require './lib/pl/log-text.pl'; }
+else                        { require './lib/pl/log-mold.pl'; }
 
 ###################
 ### 出力
@@ -17,6 +18,9 @@ if($::in{'type'} eq 'text') {
 }
 else {
   print "Content-Type: text/html\n\n";
+  if($::in{'type'} eq 'simple'){
+    print logOutput();
+  }
   if($::in{'type'} eq 'download'){
     print logOutput();
   }

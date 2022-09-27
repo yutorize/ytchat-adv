@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ログ: <TMPL_VAR title> - ゆとチャadv.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300..600,0..1,-25');
+    body {
+      background: #000;
+      color: #fff;
+    }
+    .logs {
+      
+    }
+    .logs dl {
+      border-top: 1px solid #333;
+    }
+    .logs dl::before {
+      content: '[' attr(data-tab-name) ']';
+      font-size: 70%;
+      color: #555;
+    }
+    .logs dl dt {
+      font-weight: bold;
+    }
+    .logs dl dd.info {
+      color: #acd;
+      position: relative;
+    }
+    .logs dl dd.info::before {
+      content: "▶";
+      position: absolute;
+      left: -1em;
+    }
+    .logs dl dd.info.dice {
+      color: #e55;
+    }
+    .logs em {
+      text-emphasis: dot filled;
+      font-style: inherit; 
+    }
+    .logs .dice em {
+      text-emphasis: none;
+    }
+    .logs .dice i,
+    .logs .unit i {
+      font-style: normal;
+    }
+    .oblique { font-style: oblique; }
+    .strike  { text-decoration: line-through; }
+    .under  { text-decoration: underline; }
+    .large { font-size: 150%; }
+    .small { font-size: 80%; }
+    .hide  { color:transparent; text-shadow: none; }
+    .left  { text-align: left; }
+    .center{ text-align: center; }
+    .right { text-align: right; }
+    
+    a:link    { color: #0ff; }
+    a:visited { color: #7af; }
+
+    footer {
+      text-align: right;
+    }
+  </style>
+</head>
+<body id="logviewer">
+<div id="right">
+<div id="base" class="box">
+  <header>
+    <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
+  </header>
+  <article id="contents">
+  <div class="logs">
+<TMPL_LOOP Logs>      <dl data-user="<TMPL_VAR USER>" data-tab-name="<TMPL_VAR TABNAME>">
+        <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
+<TMPL_LOOP LogsDD><TMPL_IF COMM>        <dd><TMPL_VAR COMM></dd></TMPL_IF>
+<TMPL_IF INFO>        <dd class="info <TMPL_VAR TYPE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>      </dl>
+</TMPL_LOOP>
+  </div>
+  </article>
+</div>
+<div id="foot-area">
+  <footer>
+    ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
+  </footer>
+</div>
+</body>
+</html>
