@@ -613,8 +613,7 @@ sub unitMake {
   my $set_name = shift;
   my $set_data = shift;
   
-  
-  if($set_name eq ''){ return 'error ユニットの名前が指定されていません。' }
+  if($set_name eq ''){ error 'ユニットの名前が指定されていません。' }
   
   my %new;
   my $result;
@@ -702,6 +701,8 @@ sub unitCalcEdit {
   my $set_name = shift;
   my $set_text = shift;
   my $update = $set_text ? 0 : 1;
+  
+  if($set_name eq ''){ error 'ユニットの名前が指定されていません。' }
   
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
