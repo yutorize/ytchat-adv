@@ -17,6 +17,9 @@ if($::in{'type'} eq 'text') {
 }
 else {
   print "Content-Type: text/html\n\n";
+  if($::in{'type'} eq 'simple'){
+    print logOutput();
+  }
   if($::in{'type'} eq 'download'){
     print logOutput();
   }
