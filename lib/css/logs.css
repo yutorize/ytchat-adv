@@ -191,13 +191,17 @@ article#contents {
   overflow: hidden;
   background-repeat: no-repeat;
   cursor: zoom-in;
-}@-moz-document url-prefix() {
+}
+@-moz-document url-prefix() {
   .logs dl dd .chara-image {
     float: none;
   }
 }
 .logs dl:has(.chara-image) {
   display: grid;
+}
+#page-bottom {
+  padding-bottom: 3em;
 }
 
 /* メニュー -------------------------------------------------- */

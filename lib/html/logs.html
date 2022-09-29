@@ -125,6 +125,7 @@
     </TMPL_LOOP>
   </div>
   <div id="next-button" class="center"><a class="button" onclick="pageSet('next');">次のページ</a></div>
+  <div id="page-bottom"></div>
   </article>
 </div>
 <div id="foot-area">
@@ -132,7 +133,7 @@
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
   </footer>
 </div>
-<div id="credit-area" onclick="this.style.display='none';location.hash='_';">
+<div id="credit-area" onclick="creditClose();">
   <TMPL_IF statDice><aside id="stat-dice" class="credit" onclick="event.stopPropagation();">
     <h3>出目統計</h3>
     <div><TMPL_VAR statDice></div>
