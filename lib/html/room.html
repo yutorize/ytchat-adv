@@ -584,6 +584,15 @@
       　変更すると、入室中の全ユーザーに変更が適用されます。<br>
     </p>
     <details>
+      <summary><span class="material-symbols-outlined">tab</span>タブの追加／リネーム／変更</summary>
+      <h3>■追加</h3>
+      <p><input type="text" id="tab-add-name" placeholder="追加するタブの名前"> <button class="button" onclick="tabAddSubmit()">追加</button></p>
+      <h3>■リネーム</h3>
+      <p><select id="tab-rename-list"></select> <input type="text" id="tab-rename-name" placeholder="変更後の名前"> <button class="button" onclick="tabRenameSubmit()">変更</button></p>
+      <h3>■削除</h3>
+      <p><select id="tab-delete-list"></select> <button class="button" onclick="tabDeleteSubmit()">削除</button></p>
+    </details>
+    <details>
       <summary><span class="material-symbols-outlined">meeting_room</span>基本設定</summary>
       <TMPL_IF userRoomFlag>
       <p>
