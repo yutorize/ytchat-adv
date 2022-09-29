@@ -1,6 +1,6 @@
 <div class="search-form">
   <label>
-    <span class="fa fa-search"></span>
+    <span class="material-symbols-outlined">search</span>
     <input type="text" placeholder="ヘルプ内を検索" />
   </label>
   <button class="to-clear">Clear</button>
@@ -18,7 +18,9 @@
 
 <details id="help-sub-form">
   <summary>サブ発言欄（ダイス欄）</summary>
-  <div class="form-dice" style="display:block;width:18em;margin:0;padding:1em;"><div class="dice-button"><textarea data-lock="dice" style="height:1.7em;" disabled></textarea><i></i><button></button></div></div>
+  <div class="form-dice" style="display:inline-block;width:18em;margin:0;padding:1em;">
+    外観：<div class="dice-button"><textarea data-lock="dice" style="height:1.7em;" disabled>2d6</textarea><i></i><button></button></div>
+  </div>
   <p>
     　よく使うダイスコマンドを置いておいたり、複数のNPCを扱う時に発言欄が追加で欲しいとき、単純にメモ欄として……などに利用できます。<br>
     　アイコンをクリックすると<span class="comm-icon dice"></span>→<span class="comm-icon name"></span>→<span class="comm-icon off"></span>→<span class="comm-icon memo"></span>→<span class="comm-icon full"></span>の順でアイコンと挙動が変わります。
@@ -58,6 +60,7 @@
     <tr><th>&lt;h6&gt;テキスト&lt;/h6&gt;</th><td class="logs"><h6>テキスト</h6></td><td>見出しレベル6</td></tr>
     <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td class="logs"><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
     <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
+    <tr><th>:アイコン名:</th><td>(任意のアイコン)</td><td>Google Fontsの<a href="https://fonts.google.com/icons" target="_blank">Material Symbols</a>のアイコンを表示する。アイコン名は全て半角小文字、スペースの代わりにアンダースコア(_)を用いる。</td></tr>
   </table>
   <table class="help-text-rule-table">
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
@@ -387,24 +390,24 @@
   <table class="help-config-table">
     <tr>
       <th>音量
-      <td><button onclick="boxOpen('config-user','config-sound');">個人設定</button> ⇒ サウンド設定 ⇒ 音量<br>
+      <td><button onclick="boxOpen('config-user','config-sound');">個人設定 ⇒ サウンド設定</button> ⇒ 音量<br>
         <span class="small">着信SEやBGMなどの、各音量を変更できます。</span>
     <tr>
       <th>着信音／着信SE
-      <td><button onclick="boxOpen('config-user','config-sound');">個人設定</button> ⇒ サウンド設定 ⇒ 着信SE<br><span class="small">各着信SEを変更できます。</span>
+      <td><button onclick="boxOpen('config-user','config-sound');">個人設定 ⇒ サウンド設定</button> ⇒ 着信SE<br><span class="small">各着信SEを変更できます。</span>
     <tr>
       <th>通知／名前強調／ワード強調／強調ワード
-      <td><button onclick="boxOpen('config-user','config-mark');">個人設定</button> ⇒ 通知設定
+      <td><button onclick="boxOpen('config-user','config-mark');">個人設定 ⇒ 通知設定</button>
     <tr>
       <th>入力フォーム／ダイス欄／チャットパレット
-      <td><button onclick="boxOpen('config-user','config-palette');">個人設定</button> ⇒ 入力フォーム・チャットパレット設定
+      <td><button onclick="boxOpen('config-user','config-palette');">個人設定 ⇒ 入力フォーム・チャットパレット設定</button>
     <tr>
       <th>フォント／文字
-      <td><button onclick="boxOpen('config-user','config-font');">個人設定</button> ⇒ ログフォント設定<br>
-        <span class="small">チャットログのフォント種類、及び明るさを変更できます。</span>
+      <td><button onclick="boxOpen('config-user','config-font');">個人設定 ⇒ ログフォント設定</button><br>
+        <span class="small">チャットログのフォント種類、及び明るさ・縁取りの有無を変更できます。</span>
     <tr>
       <th>UIレイアウト／タブバー
-      <td><button onclick="boxOpen('config-user','config-layout');">個人設定</button> ⇒ ＵＩ配置<br>
+      <td><button onclick="boxOpen('config-user','config-layout');">個人設定 ⇒ ＵＩ配置</button><br>
         <span class="small">各UIの配置パターンを選択できます。</span>
   </table>
 </details>
