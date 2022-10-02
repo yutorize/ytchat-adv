@@ -246,13 +246,17 @@ img.icon { width: 1em; height: 1em; }
 }
 .logs dl dd.info::before {
   content: '\e5df';
+  height: 1em;
+  overflow: hidden;
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
   position: absolute;
   left: -.5em;
+  top: 0;
   text-shadow: none;
   opacity: 0.6;
-  transform: scale(1.5);
+  font-size: 1.4em;
+  line-height: 1.4;
 }
 .logs dl dd.info b {
   display: inline-block;

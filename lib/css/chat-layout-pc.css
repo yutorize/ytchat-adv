@@ -378,9 +378,6 @@ body {
 .sub .chat .logs dl:after {
   top: 0;
 }
-.sub .chat  .logs dl dd.info::before {
-  margin-top: .3em;
-}
 .sub .comm-area {
   margin: 0 0 .3em;
 }
