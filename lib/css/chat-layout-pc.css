@@ -582,7 +582,7 @@ body {
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
   font-style: normal;
-  text-shadow: none
+  text-shadow: none;
 }
 .form-dice .dice-button i:hover::before {
   color: #fff;
@@ -597,6 +597,9 @@ body {
 .form-dice .dice-button textarea[data-lock="name"] + i::before { content: "\e7fd"; }
 .form-dice .dice-button textarea[data-lock="off" ] + i::before { content: "\e253"; }
 .form-dice .dice-button textarea[data-lock="memo"] + i::before { content: "\e06f"; }
+
+.form-dice .dice-button textarea[data-lock="memo"] ~ button  { display: none; }
+.form-dice .dice-button textarea[data-lock="memo"] { border-radius: 0 .5em .5em 0; }
 
 
 /* ヘルプボタン */
