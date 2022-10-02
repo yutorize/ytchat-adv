@@ -1181,33 +1181,34 @@ body.rom .input-form { display: none !important; }
 .tablist {
   display: flex;
   flex-wrap: wrap;
-  min-height: 1.5em;
   margin-left: -.5rem;
   padding-left: .5em;
+  padding-top: 0;
+  padding-bottom: .2rem;
   border-top: 1px solid var(--border-color-pale);
   line-height: 1;
   font-size: 92%;
 }
+.tablist:empty {
+  height: 1.7em;
+}
 #chat-area[data-layout-tab-bar="top"] .tablist {
-  border-top: 0;
+  padding-top: .2rem;
+  padding-bottom: 0;
   border-bottom: 1px solid var(--border-color-pale);
 }
 .tablist li {
   display: inline-block;
-  margin: 0 0 -.5em;
-  padding: .2em 0 .3em 1rem;
-  border-width: .2em 0 0;
-  border-style: solid;
-  border-color: transparent;
+  margin: 0;
+  padding: .3em .1rem .3em .9rem;
+  border-radius: 0 0 .5em .5em;
   cursor: pointer;
 }
 #chat-area[data-layout-tab-bar="top"] .tablist li {
-  margin: 0;
-  padding: .1em 0 .1em 1rem;
-  border-width: 0 0 .2em;
+  border-radius: .5em .5em 0 0;
 }
 .tablist li.bold {
-  border-color: var(--border-color);
+  background-color: var(--border-color-pale);
   color: #ffcc00;
   font-family: inherit;
 }

@@ -236,16 +236,19 @@ body {
   display: flex;
   flex-direction: column-reverse;
   position: relative;
-  padding-top: .1rem;
+  margin-right: -.1rem;
+  padding-top: 0;
+  padding-bottom: 0;
   padding-right: .1rem;
-  position: relative;
   overflow: hidden;
 }
 #chat-area[data-layout-tab-bar="top"] .tab-group {
   flex-direction: column;
   justify-content: space-between;
-  padding-top: .5rem;
-  padding-bottom: .1rem;
+}
+.tablist {
+}
+#chat-area[data-layout-tab-bar="top"] .tab-group .tablist {
 }
 .chat {
   display: none;

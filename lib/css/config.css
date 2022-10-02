@@ -243,6 +243,9 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
     background-color: rgba(0,0,0, 0.3);
   }
 }
+.tablist {
+  background-color: #6684;
+}
 .logs-font {
   color: var(--logs-font-color);
 }
