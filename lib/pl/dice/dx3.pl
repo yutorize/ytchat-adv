@@ -78,7 +78,7 @@ sub dxRoll {
 sub encroachRoll {
   my $rolls = shift;
   my $minus = shift;
-  $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
+  $rolls = $rolls < 1 ? 1 : $rolls > 100 ? 100 : $rolls;
   my $number = 0; my @numbers;
   foreach(1 .. $rolls){
     my $n = int(rand(10)) + 1;
@@ -93,7 +93,7 @@ sub encroachRoll {
 sub resurrectRoll {
   my $rolls = shift;
   my $plus  = shift;
-  $rolls = $rolls < 1 ? 1 : $rolls > 10 ? 10 : $rolls;
+  $rolls = $rolls < 1 ? 1 : $rolls > 100 ? 100 : $rolls;
   my $number = 0;
   foreach(1 .. $rolls){ $number += int(rand(10)) + 1; }
   my $result_hp = ( unitCalcEdit($::in{'name'}, 'HP'.($plus?'+':'=').$number) )[0];
