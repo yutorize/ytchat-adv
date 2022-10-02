@@ -1601,7 +1601,7 @@ body.rom .input-form { display: none !important; }
 .float-box .comm-icon.memo::before { content: "\e06f"; color: #9f8; }
 
 /* レディチェック */
-#ready-check h2::before { content: "\f0ae"; }
+#ready-check h2::before { content: "\e6b1"; }
 #ready-list {
   width: max-content;
   margin: auto;
