@@ -148,7 +148,7 @@ article#contents {
   padding-left: .9em;
 }
 .logs dl dd.info::before {
-  left: 0;
+  left: -.15em;
 }
 .logs dl dd.info strong {
   display: inline-block;
