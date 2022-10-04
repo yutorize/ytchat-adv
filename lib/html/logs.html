@@ -79,7 +79,7 @@
       </details>
     </TMPL_IF><TMPL_IF LogList>
     <details <TMPL_VAR logListOpen>>
-      <summary class="bold">過去ログ</summary>
+      <summary class="bold"><TMPL_IF isIsolated><TMPL_VAR roomName>の</TMPL_IF>過去ログ</summary>
         <ul id="loglist">
 <TMPL_LOOP LogList><li><a href="./?mode=logs<TMPL_IF idDir>&id=<TMPL_VAR idDir></TMPL_IF>&log=<TMPL_VAR FILE>" data-byte="<TMPL_VAR BYTE>" <TMPL_IF CURRENT>class="bold"</TMPL_IF>><TMPL_IF NAME><span class="name"><TMPL_VAR NAME></span></TMPL_IF><TMPL_IF FILE><span class="file"><TMPL_VAR FILE></span></TMPL_IF></a>
 </TMPL_LOOP>
@@ -87,7 +87,14 @@
     </details>
     </TMPL_IF></div>
 
-    <ul id="return-link"><TMPL_UNLESS dlMode><li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li></TMPL_UNLESS></ul>
+    <ul id="return-link">
+      <TMPL_UNLESS dlMode>
+        <TMPL_IF isIsolated>
+          <li class="right"><a href="./?mode=logs"><i class="fas fa-undo-alt"></i>ログ一覧</a></li>
+        </TMPL_IF>
+        <li class="right"><a href="./"><i class="fas fa-undo-alt"></i>ルーム一覧に戻る</a></li>
+      </TMPL_UNLESS>
+    </ul>
   </aside>
 </div>
 <div id="left">
