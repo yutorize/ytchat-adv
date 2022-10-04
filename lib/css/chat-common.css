@@ -340,7 +340,7 @@ html,body {
   bottom: .1em;
   right: .1em;
 }
-#sheet-unit-memo h2::after {
+#sheet-unit-memo > h2::after {
   content: '#' attr(data-num);
   margin-left: .3em;
   font-weight: normal;
