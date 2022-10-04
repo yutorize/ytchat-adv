@@ -99,6 +99,41 @@ html,body {
   color: #f00;
 }
 
+/* モーダル */
+dialog.modal {
+  margin: auto;
+  box-sizing: border-box;
+  min-width: 25vw;
+  max-width: 45vw;
+  min-height: 25vh;
+  max-height: 65vh;
+  z-index: 20;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4rem;
+  padding: 4rem;
+  background-color: rgb(0, 16, 32);
+}
+dialog.modal::backdrop {
+  background: hsl(0 0% 80% / 0.5);
+}
+dialog.modal[open] {
+  display: flex;
+}
+dialog.modal > .dialog-inner {
+  max-height: calc(35vh - (4rem * 2));
+  width: auto;
+  height: auto;
+  overflow-y: auto;
+  background: none;
+  box-shadow: none;
+}
+dialog.modal > .dialog-inner > .content-area {
+  color: white;
+  line-height: 1.4;
+}
+
 /* // トピック
 ---------------------------------------------------------------------------------------------------- */
 #topic {
@@ -406,6 +441,7 @@ html,body {
   text-align: left;
   line-height: 1.6;
   overflow: auto;
+  cursor: zoom-in;
 }
 .sheet .sheet-memo-body #memo-view:empty::before {
   content: 'メモがありません';
