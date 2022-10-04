@@ -1448,8 +1448,8 @@ body.rom .input-form { display: none !important; }
 }
 #bgm-set-preview-area {
   display: block;
-  height: 60px;
-  margin: 30px 1em 29px;
+  height: 45px;
+  margin: 15px 1em 14px;
   padding: 1em .5em;
   border-radius: 2em;
   background: #567;
@@ -1487,28 +1487,333 @@ body.rom .input-form { display: none !important; }
 #bgm-yt-preview-area {
   text-align: center;
 }
+#bgm-set {
+  display: flex;
+  flex-flow: column;
+}
+#bgm-set h2 {
+  height: 3rem;
+}
+#bgm-set .preview-section {
+  height: calc(90px + 12rem);
+}
+#bgm-set .preview-section .properties-area {
+  margin: 0;
+  height: calc(100% - 90px - 1rem - 2.5rem);
+  padding-right: 30px;
+}
+#bgm-set .preview-section .properties-area label {
+  height: calc((100% - (0.8rem * 2)) / 3);
+  margin-bottom: 0.8rem;
+}
+#bgm-set .preview-section .properties-area label:last-child {
+  margin-bottom: 0;
+}
+#bgm-set .preview-section .properties-area label input[type="text"] {
+  height: 100%;
+}
+#bgm-set .preview-section .button-area {
+  margin: 1rem 0 0 0;
+  height: 2.5rem;
+}
+#bgm-set .preview-section .button-area > button {
+  height: 100%;
+}
+#bgm-set .tracks-section {
+  height: calc(100% - 3rem - (90px + 12rem) - 1rem);
+  display: flex;
+  flex-flow: column;
+  margin-top: 1rem;
+}
+#bgm-set .tracks-section > h4 {
+  height: 3rem;
+  margin-top: 0;
+}
+#bgm-set .tracks-section .filter-area {
+  height: 2.5rem;
+  width: 80%;
+  margin: 0 0 0.5rem auto;
+  padding-right: 0.4em;
+}
+#bgm-set .tracks-section .tracks-area {
+  height: calc(100% - 3rem - 2.5rem - 0.5rem - 1rem - 11.5rem - 1rem - 6rem);
+  overflow-y: auto;
+  padding-right: 0.5em;
+}
+#bgm-set.contains-restriction .tracks-section .tracks-area {
+  height: calc(100% - 3rem - 2.5rem - 0.5rem - 1rem - 11.5rem - 1rem - 6rem - 1rem - 10rem);
+}
+#bgm-set .tracks-section .history-area {
+  height: 11.5rem;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+#bgm-set .tracks-section .history-area h4 {
+  height: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#bgm-set .tracks-section .history-area ul {
+  height: calc(100% - 3rem);
+  overflow-y: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-right: 0.5em;
+  font-size: 90%;
+}
+#bgm-set .tracks-section .restriction-area {
+  height: 10rem;
+  margin-top: 1rem;
+}
+#bgm-set .tracks-section .restriction-area:empty {
+  display: none;
+}
+#bgm-set .tracks-section .restriction-area h4 {
+  height: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#bgm-set .tracks-section .restriction-area p {
+  height: 2rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#bgm-set .tracks-section .restriction-area ul {
+  height: calc(100% - 3rem - 2rem);
+  overflow-y: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#bgm-set .tracks-section .remover-area {
+  height: 6rem;
+  margin-top: 1rem;
+}
+#bgm-set .tracks-section .remover-area h3 {
+  height: 3rem;
+  margin-top: 0;
+}
+#bgm-set .tracks-section .remover-area .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: calc(100% - 3rem);
+  padding-right: 0.5em;
+}
+#bgm-set .form > label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+#bgm-set .form > label:last-child {
+  margin-bottom: 0;
+}
+#bgm-set .form > label:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  clear: both;
+}
+#bgm-set .form > label > .label {
+  float: left;
+  display: flex;
+  width: 9em;
+  height: 100%;
+  justify-content: end;
+  align-items: center;
+  box-sizing: border-box;
+  padding-right: 0.5em;
+}
+#bgm-set .form > label > .control {
+  float: left;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 9em);
+  height: 100%;
+}
 .bg-list li[data-vol] {
   position: relative;
 }
-.bg-list li[data-vol]::before {
-  content:'\e037';
-  display: inline-block;
-  font-family: "Material Symbols Outlined";
-  font-variation-settings: 'FILL' 1;
-  position: relative;
-  left: -4px;
-  font-size: 80%;
-  transform: scale(1.4);
+
+.bgm-list, .bgm-list ul {
+  padding: 0 0 0 1em;
+  margin: 0;
 }
-.bg-list li[data-vol]::after {
-  content: "\e050 " attr(data-vol) "%";
-  font-family: "Noto Serif JP","Material Symbols Outlined";
-  font-variation-settings: 'FILL' 1;
-  font-weight: bold;
-  color: #ed9;
+.bgm-list li {
+  list-style-type: none;
+  margin-right: 0;
+}
+.bgm-list details[open] {
+  background-color: transparent;
+}
+.bgm-list details > summary {
+  display: block;
+}
+.bgm-list details > summary::-webkit-details-marker {
+  display: none;
+}
+.bgm-list details > summary:before {
+  content: "[+]";
+  font-family: monospace;
+  font-weight: normal;
+  opacity: 0.55;
+  margin-left: 0.3em;
+  margin-right: 0.2em;
+  background-color: rgba(248, 232, 212, 0.35);
+}
+.bgm-list details[open] > summary:before {
+  content: "[-]";
+  background-color: transparent;
+}
+.bgm-list details > summary[data-number-of-available-tracks]:after {
+  content: "(" attr(data-number-of-available-tracks) " tracks)";
+  font-size: 80%;
+  font-weight: normal;
+  margin-left: 0.4em;
+  opacity: 0.7;
+}
+.bgm-list details > summary[data-number-of-available-tracks="1"]:after {
+  content: "(" attr(data-number-of-available-tracks) " track)";
+}
+.bgm-list details[open] > summary[data-number-of-available-tracks]:after {
+  display: none;
+}
+.bgm-list .group > .headline {
+  display: block;
+  width: 100%;
+  padding-left: 0.3em;
+  box-sizing: border-box;
+}
+.bgm-list > .group {
+  border-left: 3px double rgba(255,255,255,0.32);
+  margin: 0.8em 0;
+}
+.bgm-list > .group > ul > .group {
+  border-left: 2px solid rgba(255,255,255,0.21);
+  margin: 0.62em 0;
+}
+.bgm-list > .group > ul > .group > ul > .group {
+  border-left: 1px solid rgba(255,255,255,0.10);
+  margin: 0.46em 0;
+}
+.bgm-list .track {
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.2);
+  border: 1px dotted rgba(255,255,255,0.0);
+  border-radius: 0.4em;
+  margin: 0.25em 0;
+  padding: 0.3em;
+}
+.bgm-list .track:hover {
+  background-color: rgba(240, 212, 176, 0.2);
+  border-color:  rgba(255,255,255,0.7);
+}
+.bgm-list .track > .icon {
+  font-size: 80%;
+  margin-right: 0.3em;
+  text-shadow: none;
+  opacity: 0.9;
+}
+.bgm-list .track .track-index {
+  font-size: 80%;
+  opacity: 0.8;
+  margin-right: 0.2em;
+  text-shadow: none;
+}
+.bgm-list .track .track-index:before {
+  content: "#";
+}
+.bgm-list .track .artists {
   font-size: 90%;
   margin-left: .5em;
 }
+.bgm-list .track .artists:before {
+  content: "( by ";
+}
+.bgm-list .track .artists:after {
+  content: ")";
+}
+.bgm-list .track .volume {
+  font-weight: bold;
+  color: #ed9;
+  font-size: 90%;
+}
+.bgm-list .track .volume > .icon {
+  margin-left: .5em;
+}
+.bgm-list .track .volume::after {
+  content: "%";
+}
+.bgm-list .track .tag {
+  font-size: 80%;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 0.3em;
+  padding: 0.2em;
+  margin-left: .5em;
+}
+
+.bgm-preset-filter {
+  display: block;
+  box-sizing: border-box;
+}
+.bgm-preset-filter > label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+.bgm-preset-filter > label:hover {
+  color: white;
+}
+.bgm-preset-filter > label > .label {
+  float: left;
+  display: flex;
+  width: 3.5em;
+  text-align: right;
+  box-sizing: border-box;
+  padding-right: 0.3em;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+.bgm-preset-filter > label > .control {
+  float: left;
+  display: block;
+  width: calc(100% - 3.5em);
+  height: 100%;
+}
+.bgm-preset-filter > label > .control > input {
+  height: 100%;
+}
+.bgm-preset-filter > .to-clear {
+  display: flex;
+  width: 1.5em;
+  height: 1.5em;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: rgba(255, 64, 64, 0.733);
+  float: right;
+  clear: right;
+  position: relative;
+  top: -1.5em;
+  cursor: pointer;
+}
+.bgm-preset-filter > .to-clear.hidden {
+  display: none;
+}
+.bgm-list li.hidden {
+  display: none;
+}
+#notice_on_present_not_found {
+  color: #e80;
+  font-size: 80%;
+  text-align: right;
+}
+#notice_on_present_not_found.hidden {
+  display: none;
+}
+
 /* 設定 */
 #config-user .font-sample {
   max-width: 30em;

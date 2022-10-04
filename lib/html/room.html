@@ -353,7 +353,7 @@
   </div>
   <div class="float-box" id="bgm-set">
     <h2>BGM変更</h2>
-    <div>
+    <div class="preview-section">
       <div id="bgm-set-preview-area">
         <audio id="bgm-set-preview" loop></audio>
         <div id="bgm-set-preview-time">
@@ -364,37 +364,62 @@
         <div id="bgm-set-preview-seekbar"></div>
       </div>
       <div id="bgm-yt-preview-area" style="display:none"><div id="bgm-yt-preview"></div></div>
-      <p>
-        タイトル・権利表記等：<br>
-        <input type="text" id="bgm-set-title" placeholder="XXX／(c)YYY..."><br>
-        ＵＲＬ：<small>※オーディオファイル、またはYoutubeのURL</small><br>
-        <input type="text" id="bgm-set-url" oninput="bgmPreview();" placeholder="http://..."><br>
-        音量：(<span id="bgm-set-volume-text">100</span>%)<br>
-        <input type="range" id="bgm-set-volume" oninput="bgmPreviewVol(this.value);" min="1" max="100" value="100" style="width: 80%;margin-left:10%">
+      <p class="form properties-area">
+        <label>
+          <span class="label">Summary</span>
+          <span class="control">
+            <input type="text" id="bgm-set-title" placeholder="タイトルやアーティスト名など">
+          </span>
+        </label>
+        <label>
+          <span class="label">ＵＲＬ</span>
+          <span class="control">
+            <input type="text" id="bgm-set-url" oninput="bgmPreview();" placeholder="http://...">
+          </span>
+        </label>
+        <label>
+          <span class="label">Volume (<span id="bgm-set-volume-text">100</span>%)</span>
+          <span class="control">
+            <input type="range" id="bgm-set-volume" oninput="bgmPreviewVol(this.value);" min="1" max="100" value="100">
+          </span>
+        </label>
       </p>
-      <p class="center" style="margin-top:1em;">
+      <p class="center button-area">
         <button onclick="bgmSubmit();">変更する</button>
       </p>
     </div>
-    <div>
+    <div class="tracks-section">
       <h4><span class="material-symbols-outlined">library_music</span>プリセット</h4>
-      <ul class="bg-list" id="bgm-preset"><TMPL_LOOP bgmPreset>
-        <li onclick="bgmInputSet('<TMPL_VAR URL>', this.innerHTML,<TMPL_VAR VOL>)" data-vol="<TMPL_VAR VOL>"><TMPL_VAR TITLE></li></TMPL_LOOP>
-      </ul>
-      <h4><span class="material-symbols-outlined">history</span>履歴</h4>
-      <ul class="bg-list" id="bgm-history"></ul>
-      <TMPL_IF srcURL>
-      <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
-      <p>下記のドメインから始まるURL以外は使用できません。</p>
-      <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
-      </TMPL_IF>
-      <h3><span class="material-symbols-outlined">delete</span>BGM削除</h3>
-      <p>現在のBGMを削除し、無音状態に戻します。</p>
-      <p class="center">
-        <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
-      </p>
-    <span class="close button" onclick="boxClose('bgm-set');bgmPreviewEnd();">×</span>
+      <div class="bgm-preset-filter filter-area">
+        <label class="filter">
+          <span class="label"><span class="material-symbols-outlined">search</span>filter</span>
+          <span class="control"><input type="text" id="bgm_preset_filter" /></span>
+        </label>
+        <span class="to-clear">×</span>
+      </div>
+      <div class="tracks-area">
+        <ul class="asset-list bgm-list" id="bgm-preset" data-preset-source="<TMPL_VAR bgmPreset>">
+        </ul>
+        <p class="notice" id="notice_on_present_not_found">該当するプリセットなし</p>
+      </div>
+      <div class="history-area">
+        <h4><span class="material-symbols-outlined">history</span>履歴</h4>
+        <ul class="bg-list" id="bgm-history"></ul>
+      </div>
+      <div class="restriction-area"><TMPL_IF srcURL>
+        <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
+        <p>下記のドメインから始まるURL以外は使用できません。</p>
+        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul></TMPL_IF></div>
+      <div class="remover-area">
+        <h3><span class="material-symbols-outlined">delete</span>BGM削除</h3>
+        <div class="content">
+          <p>現在のBGMを削除し、無音状態に戻します。</p>
+          <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
+        </div>
+      </div>
     </div>
+    <span class="close button" onclick="boxClose('bgm-set');bgmPreviewEnd();">×</span>
+    <script src="./lib/js/bgm_preset.js?<TMPL_VAR ver>" defer></script>
   </div>
   
   <div class="float-box" id="config-user">
