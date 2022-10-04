@@ -363,13 +363,28 @@ label[for="toc-toggle"] {
 
 /* 目次 -------------------------------------------------- */
 /* ページネーション */
+h2.page-headline {
+  display: none;
+}
+[data-number-of-pages] h2.page-headline {
+  display: block;
+}
+[data-number-of-pages="1"] h2.page-headline {
+  display: none;
+}
 #pagination {
-  display: flex;
+  display: none;
   max-width: 20em;
   flex-wrap: wrap;
   gap: .5em;
   margin: auto;
   padding: 0 .2em .5em;
+}
+[data-number-of-pages] #pagination {
+  display: flex;
+}
+[data-number-of-pages="1"] #pagination {
+  display: none;
 }
 #pagination > * {
   width: 2em;
