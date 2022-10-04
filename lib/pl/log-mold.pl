@@ -39,6 +39,8 @@ foreach my $key (keys %set::rooms){
 my $error_flag = (!exists($rooms{$id}) && !$::in{'log'}) ? 1 : 0;
 
 my $logs_dir = ($id && $rooms{$id}{'logs-dir'}) ? $rooms{$id}{'logs-dir'} : $set::logs_dir;
+my $is_isolated = !($logs_dir eq $set::logs_dir);
+my $room_name = $is_isolated ? $rooms{$id}{'name'} : '';
 
 my @tabs = $id ? ($rooms{$id}{'tab'} ? @{$rooms{$id}{'tab'}} : ('メイン','サブ')) : ();
 
@@ -408,6 +410,8 @@ if($opt{'logList'}){
   $ROOM->param(LogList => \@loglist);
   $ROOM->param(idDir => $id) if($id && $rooms{$id}{'logs-dir'});
   $ROOM->param(logListOpen => $::in{'log'} ? 'open' : '');
+  $ROOM->param(isIsolated => $is_isolated);
+  $ROOM->param(roomName => $room_name);
 }
 
 
