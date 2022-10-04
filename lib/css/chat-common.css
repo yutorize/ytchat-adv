@@ -874,7 +874,7 @@ body.rom .input-form { display: none !important; }
   opacity: 1;
 }
 #main-form .address-area label:hover {
-  box-shadow: inset 0 0 .5rem #7af;
+  box-shadow: inset 0 0 .5rem var(--hover-inset-color);
 }
 #main-form .address-area label input {
   vertical-align: text-bottom;
@@ -1181,6 +1181,7 @@ body.rom .input-form { display: none !important; }
 .tablist {
   display: flex;
   flex-wrap: wrap;
+  gap: 0;
   margin-left: -.5rem;
   padding-left: .5em;
   padding-top: 0;
@@ -1199,17 +1200,22 @@ body.rom .input-form { display: none !important; }
 }
 .tablist li {
   display: inline-block;
-  margin: 0;
-  padding: .3em .1rem .3em .9rem;
+  margin: 0 -1px 0 0;
+  padding: .3em .2rem .3em .8rem;
+  border-width: 0 1px 1px;
+  border-style: solid;
+  border-color: var(--border-color-faint);
   border-radius: 0 0 .5em .5em;
   cursor: pointer;
 }
 #chat-area[data-layout-tab-bar="top"] .tablist li {
+  border-width: 1px 1px 0;
   border-radius: .5em .5em 0 0;
 }
+.tablist li:not(.bold):hover {
+  box-shadow: inset 0 0 .5rem var(--hover-inset-color);
+}
 .tablist li.bold {
-  background-color: var(--border-color-pale);
-  color: #ffcc00;
   font-family: inherit;
 }
 .tablist li::after {
@@ -1659,7 +1665,7 @@ body .pickr {
   overflow: hidden;
 }
 body .pickr:hover {
-  outline: .1rem solid #7af;
+  box-shadow: inset 0 0 .5rem var(--hover-inset-color);
 }
 body .pickr .pcr-button {
   width: auto;
