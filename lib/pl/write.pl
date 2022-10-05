@@ -58,7 +58,7 @@ elsif($::in{'system'} eq 'exit'){
 else {
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
   # ラウンド処理
-  if($::in{'comm'} =~ s<^/round([+\-][0-9]+|reset)(?:\s|$)><>i){
+  if($::in{'comm'} =~ s<^/round([+\-=][0-9]+|reset)(?:\s|$)><>i){
     my $num = roundChange($1);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "ラウンド".($num?" $num" : 'をリセット');
@@ -599,6 +599,9 @@ sub roundChange {
   
   if($num eq 'reset'){
     $data{'round'} = 0;
+  }
+  elsif($num =~ /\A=(\d+)/){
+    $data{'round'} = $1;
   }
   else { $data{'round'} += $num; }
   
