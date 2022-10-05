@@ -34,7 +34,7 @@ button, .button {
   user-select: none;
 }
 input:hover, textarea:hover, select:hover, button:hover, .button:hover, label:hover {
-  box-shadow: inset 0 0 .5rem #7af;
+  box-shadow: inset 0 0 .5rem var(--hover-inset-color);
   color: var(--base-font-color);
 }
 input:focus,textarea:focus,select:focus,button:focus {

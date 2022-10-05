@@ -52,6 +52,9 @@
 
   /* 背景 */
   --bg-opacity: 1;
+
+  /* ボタン・インプットhover */
+  --hover-inset-color: #7af;
 }
 .no-text-shadow {
   --chara-name-bg: #0007;
@@ -244,7 +247,11 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   }
 }
 .tablist {
-  background-color: #6684;
+  background-color: #0004;
+}
+.tablist li.bold {
+  background-color: #7895;
+  color: #fc0;
 }
 .logs-font {
   color: var(--logs-font-color);
