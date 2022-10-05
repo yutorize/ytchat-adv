@@ -1006,6 +1006,7 @@ body.rom .input-form { display: none !important; }
 
 /* // チャットログ
 ---------------------------------------------------------------------------------------------------- */
+/* 未読 */
 .chat .notice-unread {
   position: absolute;
   text-align: center;
