@@ -1373,8 +1373,7 @@ body.rom .input-form { display: none !important; }
 .float-box table h6 {
   margin: 0;
 }
-#dark-back,
-#image-box {
+#dark-back {
   position: fixed;
   top: 0;
   left: 0;
@@ -1384,9 +1383,18 @@ body.rom .input-form { display: none !important; }
   z-index: 20;
 }
 #image-box {
-  background-color: rgba(0,0,0,0.8);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: transparent;
+  overflow: hidden;
+
   animation-duration: .25s;
   animation-name: imageIn;
+}
+#image-box::backdrop {
+  background-color: rgba(0,0,0,0.8);
 }
 @keyframes imageIn {
   from { opacity: 0; }

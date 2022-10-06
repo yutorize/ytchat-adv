@@ -518,43 +518,38 @@ h2.page-headline {
 }
 
 /* クレジット表記 -------------------------------------------------- */
-#credit-area {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9;
-  padding: 0 1em;
-  background: rgba(0,0,0,0.6);
-  line-height: 1.8;
-}
-aside.credit {
-  display: none;
+dialog.credit {
   width: max-content;
   max-width: calc(100vw - 2em);
   min-width: calc(400px - 2em);
-  position: fixed;
-  inset: 1em;
-  margin: 1em auto;
+  min-height: 10em;
+  max-height: calc(100vh - 2em);
+  margin: auto;
   border: 1px solid var(--border-color);
   border-radius: 5px;
   background: rgba(10,20,40,0.8);
+  color: inherit;
+  line-height: 1.8;
   overflow: hidden;
   cursor: auto;
   overscroll-behavior: none;
 }
-aside.credit.view {
+dialog.credit[open] {
   display: grid;
   grid-template-rows: max-content 1fr;
 }
-aside.credit.view > h3 + * {
+dialog.credit::backdrop {
+  background: rgba(0,0,0,0.6);
+}
+dialog.credit[open] > h3 + * {
   overflow: auto;
 }
-aside.credit h3 {
+dialog.credit h3 {
   padding: .1em .4em;
   border-bottom: 1px solid var(--border-color-pale);
   font-family: var(--logs-font-family-min);
 }
-aside.credit li {
+dialog.credit li {
   border-bottom: 1px dotted var(--border-color-pale);
   padding: .2em 1em;
 }
@@ -712,25 +707,19 @@ aside.credit li {
 /* // サウンドON/OFF確認
 ---------------------------------------------------------------------------------------------------- */
 #sound-confirm {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 10;
-}
-#sound-confirm p {
-  max-width: max-content;
   margin: auto;
   padding: 1em 2em;
-  text-align: center;
-  line-height: 1.8;
   background: rgba(0,0,0,0.8);
   border: 3px double #568;
   border-radius: .5em;
+  color: inherit;
+  text-align: center;
+  line-height: 1.8;
 }
-#sound-confirm p .mute-button {
+#sound-confirm::backdrop {
+  background: rgba(0,0,0,0.6);
+}
+#sound-confirm .mute-button {
   margin: 1em .5em;
 }
 
@@ -802,17 +791,18 @@ dd.bgm-title:hover + #yt-player-area,
 /* // 画像ビュー
 ---------------------------------------------------------------------------------------------------- */
 #image-box {
-  display: grid;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 10;
-  background-color: rgba(0,0,0,0.8);
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: transparent;
+  overflow: hidden;
+
   animation-duration: .25s;
   animation-name: imageIn;
+}
+#image-box::backdrop {
+  background-color: rgba(0,0,0,0.8);
 }
 @keyframes imageIn {
   from { opacity: 0; }

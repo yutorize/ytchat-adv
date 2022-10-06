@@ -27,17 +27,15 @@
   <div class="bg-image bg-front"></div>
   <div class="bg-image bg-back"></div>
   <div id="loading"><div id="loading-animation"></div></div>
-  <div id="image-box" style="display:none"><img id="image-box-image"></div>
-  <div id="sound-confirm" style="display:none;">
-    <p>
-      このログにはＢＧＭが含まれています。<br>
-      音量設定をＯＮにしますか？<br>
-      <small>(後からでもメニューから設定変更できます)</small><br>
-      
-      <span class="mute-button" onclick="soundOn();soundConfirmClose();bgScroll();"></span>
-      <span class="mute-button muted" onclick="soundOff();soundConfirmClose();"></span>
-    </p>
-  </div>
+  <dialog id="image-box"><img id="image-box-image"></dialog>
+  <dialog id="sound-confirm">
+    このログにはＢＧＭが含まれています。<br>
+    音量設定をＯＮにしますか？<br>
+    <small>(後からでもメニューから設定変更できます)</small><br>
+    
+    <span class="mute-button" onclick="soundOn();soundConfirmClose();bgScroll();"></span>
+    <span class="mute-button muted" onclick="soundOff();soundConfirmClose();"></span>
+  </dialog>
 <div id="right">
   <input type="checkbox" id="menu-toggle">
   <label for="menu-toggle" class="box"><span class="material-symbols-outlined">menu</span></label>
@@ -140,20 +138,18 @@
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
   </footer>
 </div>
-<div id="credit-area" onclick="creditClose();">
-  <TMPL_IF statDice><aside id="stat-dice" class="credit" onclick="event.stopPropagation();">
-    <h3>出目統計</h3>
-    <div><TMPL_VAR statDice></div>
-  </aside></TMPL_IF>
-  <TMPL_IF BgmList><aside id="bgm-list" class="credit" onclick="event.stopPropagation();">
-    <h3>BGMリスト</h3>
-    <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
-  </aside></TMPL_IF>
-  <TMPL_IF BgiList><aside id="bgi-list" class="credit" onclick="event.stopPropagation();">
-    <h3>背景リスト</h3>
-    <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
-  </aside></TMPL_IF>
-</div>
+<TMPL_IF statDice><dialog id="stat-dice" class="credit">
+  <h3>出目統計</h3>
+  <div><TMPL_VAR statDice></div>
+</dialog></TMPL_IF>
+<TMPL_IF BgmList><dialog id="bgm-list" class="credit">
+  <h3>BGMリスト</h3>
+  <ul><TMPL_LOOP BgmList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+</dialog></TMPL_IF>
+<TMPL_IF BgiList><dialog id="bgi-list" class="credit">
+  <h3>背景リスト</h3>
+  <ul><TMPL_LOOP BgiList><li><TMPL_VAR TITLE></li></TMPL_LOOP></ul>
+</dialog></TMPL_IF>
 <div id="bottom-bar">
   <dl>
     <dt>背景</dt><dd id="bg-title">－</dd>
