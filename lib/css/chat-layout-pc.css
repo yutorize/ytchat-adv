@@ -968,10 +968,6 @@ body {
 #bgm-set {
   width: 30em;
 }
-#bg-set input,
-#bgm-set  input {
-  width: 100%;
-}
 .float-box .image-preview-area {
   height: 200px;
   display: flex;

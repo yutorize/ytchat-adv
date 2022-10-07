@@ -1433,15 +1433,10 @@ body.rom .input-form { display: none !important; }
   text-align: center;
 }
 /* 背景/BGM */
-#bg-set,
-#bgm-set {
+.bg-set-box {
   height: auto;
   display: grid;
-  grid-template-rows: max-content max-content 1fr;
-}
-#bg-set h2 + div + div,
-#bgm-set h2 + div + div {
-  overflow-y: auto;
+  grid-template-rows: max-content max-content 1fr max-content;
 }
 .bg-list {
   margin: 0;
@@ -1458,6 +1453,59 @@ body.rom .input-form { display: none !important; }
 .bg-list li:hover {
   background: none;
 }
+.bg-set-box .preview-section .button-area {
+  margin: .5em 0 0 0;
+}
+.bg-set-box .list-section {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  overflow: hidden;
+}
+.bg-set-box .list-section input[type=radio] {
+  display: none;
+}
+.bg-set-box .list-section label {
+  cursor: pointer;
+  user-select: none;
+}
+.bg-set-box .list-section ul {
+  overflow-y: auto;
+}
+.bg-set-box .remover-area {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+}
+.bg-set-box .remover-area h3 {
+  grid-column: span 2;
+}
+.bg-set-box .remover-area button {
+  align-self: end;
+  margin: .5em;
+  padding: .5em;
+}
+.bg-set-box .properties-area > label {
+  display: grid;
+  grid-template-columns: 5em 1fr;
+  gap: .5em;
+  width: 100%;
+  padding: .3em 0;
+}
+.bg-set-box .properties-area > label > .label {
+  justify-self: end;
+}
+.bg-set-box .properties-area > label > .control {
+  padding-right: 1em;
+}
+.bg-set-box .properties-area > label > .control input {
+  width: 100%;
+}
+
+#bg-set #bg-set-tracks-check-preset:not(:checked)  ~ #bg-preset,
+#bg-set #bg-set-tracks-check-history:not(:checked) ~ #bg-history { display: none; }
+
+#bg-set #bg-set-tracks-check-preset:not(:checked)  ~ h3 label[for="bg-set-tracks-check-preset"],
+#bg-set #bg-set-tracks-check-history:not(:checked) ~ h3 label[for="bg-set-tracks-check-history"] { opacity: 0.6; }
+
 #bgm-set-preview:not([src]) + #bgm-set-preview-area,
 #bgm-set-preview[src=""] + #bgm-set-preview-area {
   opacity: 0.2;
@@ -1489,8 +1537,6 @@ body.rom .input-form { display: none !important; }
 #bgm-set-preview-play.playing::before {
   content:'\e034';
 }
-#bgm-set-preview-play::before {
-}
 #bgm-set-preview-seekbar {
   display: inline-block;
   width: 80%;
@@ -1503,150 +1549,41 @@ body.rom .input-form { display: none !important; }
 #bgm-yt-preview-area {
   text-align: center;
 }
-#bgm-set {
-  display: flex;
-  flex-flow: column;
+#bgm-set span#bgm-set-volume-text {
+  display: inline-block;
+  width: 2em;
+  text-align: center;
 }
-#bgm-set h2 {
-  height: 3rem;
+#bgm-set input#bgm-set-volume {
+  width: 70%;
+  min-width: 110px;
 }
-#bgm-set .preview-section {
-  height: calc(90px + 12rem);
-}
-#bgm-set .preview-section .properties-area {
-  margin: 0;
-  height: calc(100% - 90px - 1rem - 2.5rem);
-  padding-right: 30px;
-}
-#bgm-set .preview-section .properties-area label {
-  height: calc((100% - (0.8rem * 2)) / 3);
-  margin-bottom: 0.8rem;
-}
-#bgm-set .preview-section .properties-area label:last-child {
-  margin-bottom: 0;
-}
-#bgm-set .preview-section .properties-area label input[type="text"] {
-  height: 100%;
-}
-#bgm-set .preview-section .button-area {
-  margin: 1rem 0 0 0;
-  height: 2.5rem;
-}
-#bgm-set .preview-section .button-area > button {
-  height: 100%;
-}
-#bgm-set .tracks-section {
-  height: calc(100% - 3rem - (90px + 12rem) - 1rem);
-  display: flex;
-  flex-flow: column;
+#bgm-set .list-section {
+  display: grid;
+  grid-template-rows: max-content auto minmax(6em,1fr);
   margin-top: 1rem;
 }
-#bgm-set .tracks-section > h4 {
-  height: 3rem;
-  margin-top: 0;
-}
-#bgm-set .tracks-section .filter-area {
-  height: 2.5rem;
-  width: 80%;
-  margin: 0 0 0.5rem auto;
-  padding-right: 0.4em;
-}
-#bgm-set .tracks-section .tracks-area {
-  height: calc(100% - 3rem - 2.5rem - 0.5rem - 1rem - 11.5rem - 1rem - 6rem);
-  overflow-y: auto;
-  padding-right: 0.5em;
-}
-#bgm-set.contains-restriction .tracks-section .tracks-area {
-  height: calc(100% - 3rem - 2.5rem - 0.5rem - 1rem - 11.5rem - 1rem - 6rem - 1rem - 10rem);
-}
-#bgm-set .tracks-section .history-area {
-  height: 11.5rem;
-  overflow-y: auto;
-  margin-top: 1rem;
-}
-#bgm-set .tracks-section .history-area h4 {
-  height: 3rem;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-#bgm-set .tracks-section .history-area ul {
-  height: calc(100% - 3rem);
-  overflow-y: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-right: 0.5em;
-  font-size: 90%;
-}
-#bgm-set .tracks-section .restriction-area {
-  height: 10rem;
-  margin-top: 1rem;
-}
-#bgm-set .tracks-section .restriction-area:empty {
+#bgm-set .list-section #bgm-set-tracks-check-preset:not(:checked) ~ .filter-area,
+#bgm-set .list-section #bgm-set-tracks-check-preset:not(:checked) ~ .tracks-area,
+#bgm-set .list-section #bgm-set-tracks-check-history:not(:checked) ~ .history-area {
   display: none;
 }
-#bgm-set .tracks-section .restriction-area h4 {
-  height: 3rem;
-  margin-top: 0;
-  margin-bottom: 0;
+#bgm-set .list-section #bgm-set-tracks-check-preset:not(:checked)  ~ h3 label[for="bgm-set-tracks-check-preset"],
+#bgm-set .list-section #bgm-set-tracks-check-history:not(:checked) ~ h3 label[for="bgm-set-tracks-check-history"] {
+  opacity: 0.6;
 }
-#bgm-set .tracks-section .restriction-area p {
-  height: 2rem;
-  margin-top: 0;
-  margin-bottom: 0;
+#bgm-set .list-section .filter-area {
+  width: 80%;
+  margin: .3em 0 0.5rem auto;
+  padding-right: 1em;
 }
-#bgm-set .tracks-section .restriction-area ul {
-  height: calc(100% - 3rem - 2rem);
-  overflow-y: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-#bgm-set .tracks-section .remover-area {
-  height: 6rem;
-  margin-top: 1rem;
-}
-#bgm-set .tracks-section .remover-area h3 {
-  height: 3rem;
-  margin-top: 0;
-}
-#bgm-set .tracks-section .remover-area .content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: calc(100% - 3rem);
+#bgm-set .list-section .tracks-area {
   padding-right: 0.5em;
 }
-#bgm-set .form > label {
-  display: flex;
-  align-items: center;
-  width: 100%;
+#bgm-set .list-section .history-area {
+  grid-row: span 2;
 }
-#bgm-set .form > label:last-child {
-  margin-bottom: 0;
-}
-#bgm-set .form > label:after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  clear: both;
-}
-#bgm-set .form > label > .label {
-  float: left;
-  display: flex;
-  width: 9em;
-  height: 100%;
-  justify-content: end;
-  align-items: center;
-  box-sizing: border-box;
-  padding-right: 0.5em;
-}
-#bgm-set .form > label > .control {
-  float: left;
-  display: flex;
-  align-items: center;
-  width: calc(100% - 9em);
-  height: 100%;
-}
+
 .bg-list li[data-vol] {
   position: relative;
 }
@@ -1769,37 +1706,22 @@ body.rom .input-form { display: none !important; }
 }
 
 .bgm-preset-filter {
-  display: block;
-  box-sizing: border-box;
 }
 .bgm-preset-filter > label {
-  display: block;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  grid-template-columns: max-content 1fr;
   color: white;
 }
 .bgm-preset-filter > label:hover {
   color: white;
 }
 .bgm-preset-filter > label > .label {
-  float: left;
-  display: flex;
-  width: 3.5em;
-  text-align: right;
-  box-sizing: border-box;
-  padding-right: 0.3em;
-  height: 100%;
-  justify-content: flex-end;
-  align-items: center;
+  padding-right: .2em;
 }
 .bgm-preset-filter > label > .control {
-  float: left;
-  display: block;
-  width: calc(100% - 3.5em);
-  height: 100%;
 }
 .bgm-preset-filter > label > .control > input {
-  height: 100%;
+  width: 100%;
 }
 .bgm-preset-filter > .to-clear {
   display: flex;
@@ -1808,7 +1730,7 @@ body.rom .input-form { display: none !important; }
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: rgba(255, 64, 64, 0.733);
+  color: rgba(255, 200, 64, 0.8);
   float: right;
   clear: right;
   position: relative;

@@ -303,38 +303,53 @@
     <span class="close button" onclick="boxClose('edit-npc');">×</span>
   </div>
   
-  <div class="float-box" id="bg-set">
+  <div class="float-box bg-set-box" id="bg-set">
     <h2>背景画像変更</h2>
-    <div>
+    <div class="preview-section">
       <div class="image-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
-      <p>
-        タイトル・権利表記等：<br>
-        <input type="text" id="bg-set-title" placeholder="XXX／(c)YYY..."><br>
-        ＵＲＬ：<br>
-        <input type="text" id="bg-set-url" oninput="bgPreview();" placeholder="http://..."><br>
-      <p class="center">
+      <p class="properties-area">
+        <label>
+          <span class="label">Summary</span>
+          <span class="control">
+            <input type="text" id="bg-set-title" placeholder="タイトル・アーティスト名・権利表記など">
+          </span>
+        </label>
+        <label>
+          <span class="label">ＵＲＬ</span>
+          <span class="control">
+            <input type="text" id="bg-set-url" oninput="bgPreview();" placeholder="http://...">
+          </span>
+        </label>
+      <p class="center button-area">
         <button onclick="bgSubmit();">変更する</button>
       </p>
     </div>
-    <div>
-      <h4><span class="material-symbols-outlined">photo_library</span>プリセット</h4>
+    <div class="list-section">
+      <input type="radio" name="bg-set-tracks-check" id="bg-set-tracks-check-preset" checked>
+      <input type="radio" name="bg-set-tracks-check" id="bg-set-tracks-check-history">
+      <h3>
+        <label for="bg-set-tracks-check-preset"><span class="material-symbols-outlined">photo_library</span>プリセット</label>
+        ／
+        <label for="bg-set-tracks-check-history"><span class="material-symbols-outlined">history</span>履歴</label>
+      </h3>
       <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
         <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
       </ul>
-      <h4><span class="material-symbols-outlined">history</span>履歴</h4>
       <ul class="bg-list" id="bg-history"></ul>
-      <TMPL_IF srcURL>
-      <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
-      <p>下記のドメインから始まるURL以外は使用できません。</p>
-      <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
-      </TMPL_IF>
-      <h3><span class="material-symbols-outlined">delete</span>背景画像削除</h3>
-      <p>現在の背景を削除し、初期状態に戻します。</p>
-      <p class="center">
-        <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する</button>
-      </p>
-    <span class="close button" onclick="boxClose('bg-set');">×</span>
     </div>
+    <div class="other-section">
+      <TMPL_IF srcURL><div class="restriction-area">
+        <h3><span class="material-symbols-outlined">check_circle</span>使用可能URL</h3>
+        <p>下記のドメインから始まるURL以外は使用できません。</p>
+        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul>
+      </div></TMPL_IF>
+      <div class="remover-area">
+        <h3><span class="material-symbols-outlined">delete</span>背景画像削除</h3>
+        <p>現在の背景を削除し、初期状態に戻します。</p>
+        <button onclick="commSend('/bgreset',0,nameList[0]['name']);">削除する</button>
+      </div>
+    </div>
+    <span class="close button" onclick="boxClose('bg-set');">×</span>
   </div>
   
   <div class="float-box" id="bgm-confirm" style="top:30vh;left:0;right:0;max-width:100%;">
@@ -351,7 +366,7 @@
     </p>
     <span class="close button" onclick="boxClose('bgm-confirm');">×</span>
   </div>
-  <div class="float-box" id="bgm-set">
+  <div class="float-box bg-set-box" id="bgm-set">
     <h2>BGM変更</h2>
     <div class="preview-section">
       <div id="bgm-set-preview-area">
@@ -368,7 +383,7 @@
         <label>
           <span class="label">Summary</span>
           <span class="control">
-            <input type="text" id="bgm-set-title" placeholder="タイトルやアーティスト名など">
+            <input type="text" id="bgm-set-title" placeholder="タイトル・アーティスト名・権利表記など">
           </span>
         </label>
         <label>
@@ -378,8 +393,9 @@
           </span>
         </label>
         <label>
-          <span class="label">Volume (<span id="bgm-set-volume-text">100</span>%)</span>
+          <span class="label">Volume</span>
           <span class="control">
+            [<span id="bgm-set-volume-text">100</span>%]
             <input type="range" id="bgm-set-volume" oninput="bgmPreviewVol(this.value);" min="1" max="100" value="100">
           </span>
         </label>
@@ -388,8 +404,14 @@
         <button onclick="bgmSubmit();">変更する</button>
       </p>
     </div>
-    <div class="tracks-section">
-      <h4><span class="material-symbols-outlined">library_music</span>プリセット</h4>
+    <div class="list-section">
+      <input type="radio" name="bgm-set-tracks-check" id="bgm-set-tracks-check-preset" checked>
+      <input type="radio" name="bgm-set-tracks-check" id="bgm-set-tracks-check-history">
+      <h3>
+        <label for="bgm-set-tracks-check-preset"><span class="material-symbols-outlined">library_music</span>プリセット</label>
+        ／
+        <label for="bgm-set-tracks-check-history"><span class="material-symbols-outlined">history</span>履歴</label>
+      </h3>
       <div class="bgm-preset-filter filter-area">
         <label class="filter">
           <span class="label"><span class="material-symbols-outlined">search</span>filter</span>
@@ -403,19 +425,18 @@
         <p class="notice" id="notice_on_present_not_found">該当するプリセットなし</p>
       </div>
       <div class="history-area">
-        <h4><span class="material-symbols-outlined">history</span>履歴</h4>
         <ul class="bg-list" id="bgm-history"></ul>
       </div>
-      <div class="restriction-area"><TMPL_IF srcURL>
+    </div>
+    <div class="other-section">
+      <TMPL_IF srcURL><div class="restriction-area">
         <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
         <p>下記のドメインから始まるURL以外は使用できません。</p>
-        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul></TMPL_IF></div>
+        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul></div></TMPL_IF>
       <div class="remover-area">
         <h3><span class="material-symbols-outlined">delete</span>BGM削除</h3>
-        <div class="content">
-          <p>現在のBGMを削除し、無音状態に戻します。</p>
-          <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
-        </div>
+        <p>現在のBGMを削除し、無音状態に戻します。</p>
+        <button onclick="commSend('/bgmreset',0,nameList[0]['name']);">削除する</button>
       </div>
     </div>
     <span class="close button" onclick="boxClose('bgm-set');bgmPreviewEnd();">×</span>
