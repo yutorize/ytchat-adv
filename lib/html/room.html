@@ -406,10 +406,10 @@
         <h4><span class="material-symbols-outlined">history</span>履歴</h4>
         <ul class="bg-list" id="bgm-history"></ul>
       </div>
-      <div class="restriction-area"><TMPL_IF srcURL>
+      <TMPL_IF srcURL><div class="restriction-area">
         <h4><span class="material-symbols-outlined">check_circle</span>使用可能URL</h4>
         <p>下記のドメインから始まるURL以外は使用できません。</p>
-        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul></TMPL_IF></div>
+        <ul><TMPL_LOOP srcURL><li><TMPL_VAR URL></li></TMPL_LOOP></ul></div></TMPL_IF>
       <div class="remover-area">
         <h3><span class="material-symbols-outlined">delete</span>BGM削除</h3>
         <div class="content">
