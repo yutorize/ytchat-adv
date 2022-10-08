@@ -843,8 +843,12 @@ body {
   padding: 0;
   overflow: hidden;
 }
+#footer div {
+  display: flex;
+}
 #footer dl {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   margin: .5rem;
   line-height: 1.2rem;
@@ -857,14 +861,7 @@ body {
   margin-right: .3em;
 }
 #footer dl dd {
-  margin-right: 2.5em;
   font-size: 0.8em;
-}
-#footer dl + dl {
-  margin-left: 2.5em;
-}
-#footer dl dd:last-child {
-  margin-right: 0;
 }
 /* // フロートボックス
 ---------------------------------------------------------------------------------------------------- */

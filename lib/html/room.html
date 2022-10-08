@@ -168,15 +168,15 @@
     <!-- / SIDE-AREA -->
     <!-- FOOTER -->
     <div class="box" id="footer">
-      <dl>
-        <dt>入室</dt><dd id="member-num" class="link" onclick="boxOpen('member-list')">－</dd>
-        <dt>ルーム</dt><dd><TMPL_VAR title></dd>
-        <dt>システム</dt><dd style="white-space: nowrap;"><TMPL_VAR gameSystemName></dd>
-      </dl>
-      <dl>
-        <dt>背景</dt><dd id="bg-title">－</dd>
-        <dt>BGM</dt><dd id="bgm-title">－</dd>
-      </dl>
+      <div>
+        <dl><dt>入室</dt><dd id="member-num" class="link" style="white-space: nowrap;" onclick="boxOpen('member-list')">－</dd></dl>
+        <dl><dt>ルーム</dt><dd><TMPL_VAR title></dd></dl>
+        <dl><dt>システム</dt><dd><TMPL_VAR gameSystemName></dd></dl>
+      </div>
+      <div>
+        <dl><dt>背景</dt><dd id="bg-title">－</dd></dl>
+        <dl><dt>BGM</dt><dd id="bgm-title">－</dd></dl>
+      </div>
     </div>
     <!-- / FOOTER -->
     
