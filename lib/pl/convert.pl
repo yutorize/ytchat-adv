@@ -21,27 +21,34 @@ sub dataGet {
 sub dataConvert {
   my $set_url = shift;
   
-  ### キャラクター保管所
-  #if($set_url =~ m"^https?://charasheet\.vampire-blood\.net/"){
-  #  my $data = get($set_url.'.js') or error 'キャラクター保管所のデータが取得できませんでした:'.$file;
-  #  my %in = %{ decode_json(encode('utf8', (join '', $data))) };
-  #  
-  #  return convertHokanjoToYtsheet(\%in);
-  #}
-  ### キャラクター保管所
-  #if($set_url =~ m"^https?://character-sheets\.appspot\.com/dx3/edit.html"){
-  #  $set_url =~ s/edit\.html\?/display\?ajax=1&/;
-  #  my $data = get($set_url) or error 'キャラクターシート倉庫のデータが取得できませんでした:'.$file;
-  #  my %in = %{ decode_json(encode('utf8', (join '', $data))) };
-  #  
-  #  return convertSoukoToYtsheet(\%in);
-  #}
-  ## ゆとシートⅡ
   {
-    my $data = dataGet($set_url.'&mode=json') or error 'URLを開けませんでした';
+    my $sheetHtml = dataGet($set_url) or error 'URLを開けませんでした';
+    my $bodyUrl;
+    if ($sheetHtml =~ /\<link\s+rel=\"ytchat-body-exporting-point\"\s+type=\"[a-z0-9\/]+\"\s+href=\"(.+?)\"\s*\/?\>/) {
+      $bodyUrl = $1;
+      if (substr($bodyUrl, 0, 1) eq '.') {
+        my $relation = $bodyUrl;
+        $bodyUrl = $set_url;
+        $bodyUrl =~ s/\?.+$/$relation/;
+      }
+    } else {
+      error('ステータスの取得できる参照先ではありません');
+    }
+    my $paletteUrl;
+    if ($sheetHtml =~ /\<link\s+rel=\"ytchat-palette-exporting-point\"\s+type=\"[a-z0-9\/]+\"\s+href=\"(.+?)\"\s*\/?\>/) {
+      $paletteUrl = $1;
+      if (substr($paletteUrl, 0, 1) eq '.') {
+        my $relation = $paletteUrl;
+        $paletteUrl = $set_url;
+        $paletteUrl =~ s/\?.+$/$relation/;
+      }
+    } else {
+      $paletteUrl = '';
+    }
+    my $data = dataGet($bodyUrl) or error 'JSONのURLを開けませんでした';
     my $json;
     eval { $json = decode_json(join '', $data); };
-    if ($@) { error('ステータスの取得できる参照先ではありません'); }
+    if ($@) { error('JSONの形式が不正です'); }
     my %pc = %{ $json };
     error('有効なキャラクターシートではありません') if !$pc{'ver'};
     my %stt;
@@ -87,7 +94,7 @@ sub dataConvert {
             . ($profile ? $profile.'<br>':'')
             . $result;
     # チャットパレット取得
-    my $palette = dataGet($set_url.'&mode=palette') || '';
+    my $palette = $paletteUrl ? dataGet($paletteUrl) || '' : '';
     # 最終
     my %data = (
       'url' => $set_url,
