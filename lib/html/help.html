@@ -62,10 +62,12 @@
     <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
     <tr><th>:アイコン名:</th><td>(任意のアイコン)</td><td>Google Fontsの<a href="https://fonts.google.com/icons" target="_blank">Material Symbols</a>のアイコンを表示する。アイコン名は全て半角小文字、スペースの代わりにアンダースコア(_)を用いる。</td></tr>
   </table>
+  <TMPL_IF TextReplace>
   <table class="help-text-rule-table">
     <tr><th>記述</th><th>結果</th><th>説明</th></tr>
     <TMPL_LOOP TextReplace><tr><th><TMPL_VAR BEFORE></th><td><TMPL_VAR AFTER></td><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
   </table>
+  </TMPL_IF>
 </details>
 
 <details>
