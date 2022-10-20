@@ -127,13 +127,23 @@
 
   <details>
     <summary>通常ダイス</summary>
-    <p><span style="color:#ee7777;">ダイスの数</span><b>D</b><span style="color:#eebb77;">面の数</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#cc77ee;">:繰返し回数</span></p>
+    <p><span style="color:#ee7777;">ダイスの数</span><b>D</b><span style="color:#eebb77;">面の数</span><span style="color:#77ee77;">+修正値</span><span style="color:#eebb77;">@C値</span><span style="color:#77bbee;">目標値</span><span style="color:#cc77ee;">:繰返し回数</span></p>
     <p>
-      　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#cc77ee;">:繰返し回数</span>は省略できます。<br>
+      　<span style="color:#77ee77;">+修正値</span>・<span style="color:#eebb77;">@C値</span>・<span style="color:#cc77ee;">:繰返し回数</span>、<span style="color:#77bbee;">目標値</span>は省略できます。<br>
       　修正値の末尾に「<span style="color:#77ee77;">//</span>」をつけると半減した結果になります。<br>
       　半減した上でさらに修正がある場合、「<span style="color:#77ee77;">//</span>」の後ろにさらに付け足します（「<span style="color:#77ee77;">//</span>」など）。<br>
-      　また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。
+      　また、半減と同様に「<span style="color:#77ee77;">**</span>」と*を2つ重ねることで倍化した結果になります。<br>
     </p>
+    <p>
+      　<span style="color:#77bbee;">目標値</span>は以下のように記述してください。<br>
+    </p>
+    <table class="help-rate-table">
+      <tr><th><b style="color:#77bbee;">&gt;</b><i>Num</i>  <td>Num より大きい
+      <tr><th><b style="color:#77bbee;">&gt;=</b><i>Num</i> <td>Num 以上
+      <tr><th><b style="color:#77bbee;">&lt;</b><i>Num</i>  <td>Num より小さい
+      <tr><th><b style="color:#77bbee;">&lt;=</b><i>Num</i> <td>Num 以下
+      <tr><th><b style="color:#77bbee;">==</b><i>Num</i>    <td>Num と等しい
+    </table>
     <p>
       例1：「6面ダイスを1つ振る」<br>
       　<span style="color:#ee7777;">1</span><b>D</b><span style="color:#eebb77;">6</span>
