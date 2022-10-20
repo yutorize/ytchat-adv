@@ -55,6 +55,7 @@ our $default_game = 'sw2';
 our %random_table = (
   'じゃんけん' => { 'data'=>'janken.txt', 'max'=>1, 'def'=>1, 'help'=>'グー、チョキ、パーをランダムに表示します' },
   'トランプ' => { 'data'=>'trump.txt', 'help'=>'全53枚のトランプのカードです' },
+  'トランプ2' => { 'data'=>'trump-wjoker.txt', 'help'=>'全54枚のトランプのカードです（ジョーカー2枚）' },
   '大アルカナ' => { 'data'=>'major-arcana.txt', 'faces' => ['正位置','逆位置'], 'help'=>'全21枚のタロットカード（大アルカナ）です' },
 );
 our $rtable_dir = './rtable/';
