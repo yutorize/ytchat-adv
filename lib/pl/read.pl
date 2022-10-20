@@ -78,7 +78,7 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   
   my $openlater;
   if($address =~ s/\#$//){ $openlater = 1; }
-  if($address && $address ne $::in{'userId'}){
+  if($address && $address ne $::in{'userId'} && $userid ne $::in{'userId'}){
     if($system =~ /^deck/){
       if($info =~ /([0-9]+)[#＃](.+?) →/){
         $info = "＃$2 から $1 枚ドローしました。"
@@ -93,7 +93,7 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
       $comm = $info = '';
     }
   }
-  if($address && $address eq $::in{'userId'}){
+  if($address && ($address eq $::in{'userId'} || $userid eq $::in{'userId'})){
     if($system =~ /^deck/){
       $info .= '<span class=small><br>(※引いた枚数は全員に通知されます)</span>';
     }
