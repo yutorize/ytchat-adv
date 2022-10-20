@@ -124,6 +124,7 @@ our @bg_preset = (
   ['https://userdisk.webry.biglobe.ne.jp/012/472/52/N000/000/001/134747150552113113690_BG10a_1280.jpg',
    '森の道(昼)／(C)きまぐれアフター'],
 );
+our $bg_thum_on = 0; #サムネイルの表示
 
 ## ●BGMのプリセット
 our @bgm_preset = (

@@ -160,9 +160,14 @@ $ROOM->param(RandomTable => \@random_table);
 my @bg_list;
 foreach (@set::bg_preset){
   next if !$_ || !@$_[0];
-  push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1] });
+  if($set::bg_thum_on){
+    my $src = @$_[2] || @$_[0];
+    push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VIEW' => "<img loading=\"lazy\" src=\"${src}\"><div class=\"title\">@$_[1]</div>" });
+  }
+  else { push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VIEW' => @$_[1] }); }
 }
 $ROOM->param(bgPreset => \@bg_list);
+if($set::bg_thum_on){ $ROOM->param(bgThumOn => $set::bg_thum_on); }
 
 my @encoded_bgm_preset = encode_json \@set::bgm_preset;
 $ROOM->param(bgmPreset => decode('utf8', uri_escape(@encoded_bgm_preset)));

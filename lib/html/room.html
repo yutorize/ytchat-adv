@@ -332,8 +332,8 @@
         ／
         <label for="bg-set-tracks-check-history"><span class="material-symbols-outlined">history</span>履歴</label>
       </h3>
-      <ul class="bg-list" id="bg-preset"><TMPL_LOOP bgPreset>
-        <li onclick="bgInputSet('<TMPL_VAR URL>', this.innerHTML)"><TMPL_VAR TITLE></li></TMPL_LOOP>
+      <ul class="bg-list <TMPL_IF bgThumOn>thumnail-on</TMPL_IF>" id="bg-preset"><TMPL_LOOP bgPreset>
+        <li onclick="bgInputSet('<TMPL_VAR URL>', '<TMPL_VAR TITLE>')"><TMPL_VAR VIEW></li></TMPL_LOOP>
       </ul>
       <ul class="bg-list" id="bg-history"></ul>
     </div>
