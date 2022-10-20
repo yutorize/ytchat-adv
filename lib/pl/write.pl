@@ -32,9 +32,6 @@ foreach (%::in) {
 my @adds;
 
 my @status = $::in{'status'} ? (split(' &lt;&gt; ', $::in{'status'}))
-          # : $set::rooms{$::in{'room'}}{'status'} ? @{$set::rooms{$::in{'room'}}{'status'}}
-          # : $set::games{$::in{'game'}}{'status'} ? @{$set::games{$::in{'game'}}{'status'}}
-          # : ('HP','MP','他')
            : ();
 my @stt_commands = map { quotemeta $_; } @status;
 my $stt_commands = join('|', @stt_commands);
@@ -260,7 +257,7 @@ else {
     delete $::in{'address'};
   }
   #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo|url)[\+＋\-－\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
+  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo|url)[\+＋\-－\*＊\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
@@ -714,7 +711,7 @@ sub unitCalcEdit {
   
   my $result_info; my $result_system; my $memo_flag; my $url_flag;
   $set_text =~ tr/０-９＋－÷＊＝：！/0-9\+\-\/\*=:!/;
-  while($set_text =~ s/^($stt_commands|メモ|memo|url)([+\-\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
+  while($set_text =~ s/^($stt_commands|メモ|memo|url)([+\-\*\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
     my ($type, $op, $text, $num) = ($1,$2,$3,$4);
     # メモ
     if($type =~ /^(メモ|memo)$/){
@@ -740,7 +737,7 @@ sub unitCalcEdit {
     # 通常
     else {
       if($num eq '' && $text){ $num = $text; }
-      if($op =~ /^[+\-\/=]$/){
+      if($op =~ /^[+\-\*\/=]$/){
         $num = parenthesisCalc($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
@@ -778,14 +775,15 @@ sub unitCalcEdit {
   return ($result_info, $result_system);
 }
 sub sttCalc {
-  my $type = shift;
-  my $num  = shift;
-  my $op   = shift;
-  my $base = shift;
+  my $type = shift; #ステータス名
+  my $num  = shift; #入力値
+  my $op   = shift; #+-*/=
+  my $base = shift; #今の値
   my $break;
   
   if($num =~ s/!$//){ $break = 1; }
-  if($op ne '='){ $num =  $op.$num; }
+  if($op ne '=' && $op ne '*'){ $num =  $op.$num; }
+
   
   my @nums = split('/', $num, 2);
   my @base = split('/', $base, 2);
@@ -794,7 +792,17 @@ sub sttCalc {
   if($base[0] > $base[1]){ $break = 1; }
   foreach my $i (0 .. 1){
     next if $nums[$i] eq '';
-    if($nums[$i] =~ /[+\-]/ && $op ne '='){
+    if($op eq '*'){
+      my $total = calc($base[$i].'*'.$nums[$i]);
+      $diff[$i] = $total - $base[$i];
+      $base[$i] = $total;
+    }
+    elsif($op eq '=' && $nums[$i] =~ /^\*/){
+      my $total = calc($base[$i].$nums[$i]);
+      $diff[$i] = $total - $base[$i];
+      $base[$i] = $total;
+    }
+    elsif($nums[$i] =~ /[+\-]/ && $op ne '='){
       $diff[$i] = calc($nums[$i]);
       $base[$i] = calc($base[$i]) + $diff[$i];
     }
