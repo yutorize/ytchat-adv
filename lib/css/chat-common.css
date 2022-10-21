@@ -305,6 +305,10 @@ html,body {
   display: none;
 }
 
+#status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
+  cursor: pointer;
+}
+
 #status .add.button {
   position: absolute;
   bottom: .1em;
@@ -548,6 +552,44 @@ body.rom .sheet { display: none; }
   width: max-content;
   margin-left: auto;
 }
+
+.status-manipulator {
+  display: block;
+  padding: 0.75rem;
+  margin: 0;
+  position: fixed;
+  z-index: 5;
+  right: 1rem;
+  width: calc(((0.75rem + 1px) * 2) + ((3rem + 0.5rem) * 5));
+  height: auto;
+  max-height: 90vh;
+  background-color: rgba(4, 1, 27, 0.85);
+  border: 1px solid black;
+  border-radius: 0.7em;
+  font-size: xx-small;
+}
+.status-manipulator .manipulation {
+  margin: 0 0.5rem 0.5rem 0;
+  text-align: right;
+  padding: 0.5em;
+  border-radius: 0.3em;
+  cursor: pointer;
+  float: left;
+  width: 3rem;
+}
+.status-manipulator .manipulation:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.status-manipulator .manipulation[data-token^="+"] {
+  color: #92cde2;
+}
+.status-manipulator .manipulation[data-token^="-"] {
+  color: #ebad73;
+}
+.status-manipulator .manipulation[data-token="+1"], .status-manipulator .manipulation[data-token="-1"] {
+  clear: left;
+}
+
 /* パレット */
 .sheet-body .chat-palette-area {
   position: relative;
