@@ -203,6 +203,7 @@
       <h2>共有メモ</h2>
       <div class="sheet-memo-body">
         <ul class="sheet-memo-menu">
+          <li class="button" onclick="memoShowModal();"><span class="material-symbols-outlined">open_with</span></li>
           <li class="button" onclick="memoModeChange('view');">閲覧</li>
           <li class="button" onclick="memoModeChange('edit');">編集</li>
         </ul>
@@ -780,6 +781,8 @@
     </div>
     <span class="close button" onclick="boxClose('help-window');">×</span>
   </div>
+
+  <dialog id="dialog-memo" class="box logs"></dialog>
   
   <!-- / FLOAT-BOXES -->
   <!-- LIST -->

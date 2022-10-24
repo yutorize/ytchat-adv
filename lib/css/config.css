@@ -47,6 +47,7 @@
   /* ボックス（ウィンドウ）背景 */
   --box-bg-opacity: 0.7;
   --box-bg-color: rgba(0,0,0, var(--box-bg-opacity));
+  --float-bg-color: rgba(10,10,30,0.9);
   
   --chara-name-bg: #0005;
 
@@ -178,7 +179,7 @@
   text-shadow: inherit;
 }
 .float-box {
-  background: rgba(10,10,30,0.9);
+  background: var(--float-bg-color);
   border: .1rem solid #777;
   box-shadow: 0 0 .5em .1em #000;
   text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
@@ -617,14 +618,6 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image-slice: 1;
   background-image: linear-gradient(to right, transparent, #fff1, transparent);
 }
-/* .logs h4::before {
-  content: "❖";
-  display: inline-block;
-  margin-right: .4em;
-  color: #fff7;
-  text-shadow: none;
-  transform: scale(1.4);
-} */
 .logs h5 {
   margin: 1em 0 .5em;
   padding: .4em;
@@ -653,6 +646,10 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image: linear-gradient(to right, transparent, #fff3, #fff5, #fff3, transparent);
   border-image-slice: 1;
 }
+#memo-view h1 { font-size: 130%; }
+#memo-view h2 { font-size: 125%; }
+#memo-view h3 { font-size: 120%; }
+#memo-view h4 { font-size: 105%; }
 /* チャットログ：テーブル */
 .logs table,
 #topic table {

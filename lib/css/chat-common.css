@@ -366,7 +366,7 @@ html,body {
 }
 .sheet .sheet-memo-body ul.sheet-memo-menu {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 3em 1fr 1fr;
   height: max-content;
   margin: 1em 1em 0;
   border: .1rem solid var(--border-color);
@@ -379,8 +379,8 @@ html,body {
   border-radius: 0;
   font-size: inherit;
 }
-.sheet[data-memo-mode="view"] .sheet-memo-body ul.sheet-memo-menu li:first-child,
-.sheet[data-memo-mode="edit"] .sheet-memo-body ul.sheet-memo-menu li:last-child {
+.sheet[data-memo-mode="view"] .sheet-memo-body ul.sheet-memo-menu li:nth-child(2),
+.sheet[data-memo-mode="edit"] .sheet-memo-body ul.sheet-memo-menu li:nth-child(3) {
   font-weight: bold;
   background: #346;
   color: inherit;
@@ -429,6 +429,24 @@ html,body {
 body.rom .sheet#sheet-unit-memo { display: grid; }
 body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }
 body.rom .sheet#sheet-unit-memo button { display: none; }
+
+/* 拡大 */
+#dialog-memo {
+  min-width: 30em;
+  max-width: 45vw;
+  min-height: 25vh;
+  max-height: 75vh;
+  margin: auto;
+  padding: 1.5em;
+  border: .5em solid var(--border-color-pale);
+  border-radius: 1em;
+  background: var(--float-bg-color);
+  color: var(--text-color);
+  line-height: 1.8;
+}
+#dialog-memo::backdrop {
+  background-color: #000a;
+}
 
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
