@@ -346,7 +346,13 @@ body {
   opacity: 0.5;
 }
 .main .chat .logs dl dt:empty {
-  margin-right: 0;
+  width: .5em;
+  height: 1.6em;
+  margin: 0;
+  background: none;
+}
+.main .chat .logs dl dt:empty:hover {
+  background: #7777;
 }
 .main .chat .logs dl dt:empty::after {
   display: none;
