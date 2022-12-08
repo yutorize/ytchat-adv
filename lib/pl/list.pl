@@ -9,16 +9,9 @@ use Encode qw/encode decode/;
 use JSON::PP;
 
 my %games = %set::games;
-my %rooms;
-if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
-  my $text = join('', <$FH>);
-  %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
-  close($FH);
-}
+my %rooms = getRoomList();
 my $userroom_num = keys %rooms;
-foreach my $key (keys %set::rooms){
-  $rooms{$key} = $set::rooms{$key};
-}
+   $userroom_num -= keys %set::rooms;
 
 ###################
 ### テンプレート読み込み

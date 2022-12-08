@@ -60,6 +60,20 @@ sub getParam {
   return %params;
 }
 
+## list.datのデータ取得
+sub getRoomList {
+  my %rooms;
+  if(open(my $FH, './room/list.dat')){
+    my $text = join('', <$FH>);
+    %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
+    close($FH);
+  }
+  foreach my $key (keys %set::rooms){
+    $rooms{$key} = $set::rooms{$key};
+  }
+  return %rooms;
+}
+
 ## 計算処理
 sub calc {
   my $formula = shift;

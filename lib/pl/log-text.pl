@@ -24,15 +24,7 @@ my $cookie_id = $cookies{'ytchat-userid'}->value if(exists $cookies{'ytchat-user
 my $id = $::in{'id'}; #部屋ID
 
 my %games = %set::games;
-my %rooms;
-if(sysopen(my $FH, './room/list.dat', O_RDONLY)){
-  my $text = join('', <$FH>);
-  %rooms = %{ decode_json(encode('utf8', $text)) } if $text;
-  close($FH);
-}
-foreach my $key (keys %set::rooms){
-  $rooms{$key} = $set::rooms{$key};
-}
+my %rooms = getRoomList();
 
 ###################
 ### 部屋の有無をチェック
