@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.00.000";
+our $ver = "1.00.004";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -298,5 +298,37 @@ sub error {
     print "Content-type:text/plain; charset=UTF-8\n\n";
     print $_[0];
   }
+  exit;
+}
+sub errorHtml {
+  print "Content-type:text/html; charset=UTF-8\n\n";
+  print <<"HTML";
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ゆとチャadv.</title>
+  <link rel="stylesheet" media="all" href="lib/css/base.css?$::ver">
+  <link rel="stylesheet" media="all" href="lib/css/list.css?$::ver">
+  <link rel="stylesheet" media="all" href="lib/css/config.css?$::ver">
+</head>
+<body>
+<div id="base" class="box" style="position:relative;">
+  <header>
+    <h1>ゆとチャadv.</h1>
+  </header>
+  <article id="contents">
+    <h2><span class="material-symbols-outlined">warning</span>エラー</h2>
+    <p style="padding: 1em;">$_[0]</p>
+    <p><a href="./">ゲームルーム一覧に戻る</a></p>
+  </article>
+  <footer>
+    ゆとチャadv. ver.$::ver - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>
+  </footer>
+</div>
+</body>
+</html>
+HTML
   exit;
 }

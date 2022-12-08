@@ -25,7 +25,7 @@ my %roomdata;
 
 ###################
 ### 部屋の有無をチェック
-error('ルームがありません') if !exists($rooms{$id});
+errorHtml('ルームがありません') if !exists($rooms{$id});
 
 my %room = %{$rooms{$id}};
 my @tabs = $room{'tab'} ? @{$room{'tab'}} : ('メイン','サブ');
