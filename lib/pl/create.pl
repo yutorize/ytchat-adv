@@ -32,11 +32,6 @@ foreach (%::in) { $::in{$_} = decode('utf8', $::in{$_}); }
 my $game = ($::in{'game'} eq 'bcdice') ? $::in{'bcdice-game'} : $::in{'game'};
 my @tab = $::in{'tab'} ? split(/[ 　]/, $::in{'tab'}) : ();
 my @status = $::in{'status'} ? split(/[ 　]/, $::in{'status'}) : ();
-my @status_values;
-foreach (@status){
-  ($_, my $value) = split(/[:：]/, $_, 2);
-  push(@status_values, $value||'');
-}
 
 {
   my %data;
@@ -52,7 +47,6 @@ foreach (@status){
     'game'   => $game,
     'tab'    => (@tab ? [@tab] : undef),
     'status' => (@status ? [@status] : undef),
-    'statusValues' => (@status_values ? [@status_values] : undef),
     'bcdice-url' => $::in{'bcdice-url'},
   };
 

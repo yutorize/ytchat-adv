@@ -97,33 +97,26 @@ $ROOM->param(gameSystemName => $games{$game}{'name'} ? $games{$game}{'name'} : $
 $ROOM->param(bcdiceAPI => $room{'bcdice-url'} || ($room{'bcdice'} ? $set::bcdice_api : ''));
 $ROOM->param(bcdiceSystem => $games{$game}{'bcdice'} ? $games{$game}{'bcdice'} : $game ? $game : 'DiceBot');
 
-if(!$room{'status'} && $games{$game}{'status'}){
-  foreach (@{$games{$game}{'status'}}){
-    ($_, my $value) = split(/[:：]/, $_, 2);
-    push(@{$games{$game}{'statusValues'}}, $value||'');
-  }
-}
-
 my @status = $room{'status'} ? @{$room{'status'}}
            : $games{$game}{'status'} ? @{$games{$game}{'status'}}
            : ('HP','MP','他');
-my @status_values = $room{'statusValues'} ? @{$room{'statusValues'}}
-                  : $games{$game}{'statusValues'} ? @{$games{$game}{'statusValues'}}
-                  : ('','','');
-$ROOM->param(sttNameList => join("','", @status));
-$ROOM->param(sttDefaultValues => join("','", @status_values));
-$ROOM->param(tabArray => join("','", @tabs));
-$ROOM->param(tabArrayValue => join("　", @tabs));
-
+my @status_default;
 my @status_set_list_room;
 my @status_set_list_unit;
-foreach my $i (0 .. $#status){
-  push(@status_set_list_room, "$status[$i]".($status_values[$i]?":$status_values[$i]":''));
-  push(@status_set_list_unit, "$status[$i]:$status_values[$i]");
-}
-$ROOM->param(roomSetFormSttList => join("　", @status_set_list_room));
+foreach my $label (@status){
+  ($label, my $value) = split(/[:：]/, $label, 2);
 
-$ROOM->param(newUnitSttDefault => join("\n",@status_set_list_unit));
+  push(@status_set_list_room, "$label".( $value ? ":$value" : '' ));
+  push(@status_set_list_unit, "$label:$value");
+  if($value){ push(@status_default, "$label:$value"); }
+}
+$ROOM->param(sttNameList      => decode('utf-8', encode_json \@status));
+$ROOM->param(sttDefaultValues => decode('utf-8', encode_json \@status_default));
+$ROOM->param(tabArray         => decode('utf-8', encode_json \@tabs));
+$ROOM->param(tabArrayValue    => join("　", @tabs));
+
+$ROOM->param(roomSetFormSttList => join("　", @status_set_list_room));
+$ROOM->param(newUnitSttDefault  => join("\n", @status_set_list_unit));
 
 if   ($game eq 'sw2') { $ROOM->param(helpOnSW2 => 1); }
 elsif($game eq 'dx3') { $ROOM->param(helpOnDX3 => 1); }
