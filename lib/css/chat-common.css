@@ -1018,8 +1018,8 @@ body.rom .input-form { display: none !important; }
 .decoration-buttons .insert-strike::before  { content:"\e257"; }
 .decoration-buttons .insert-big::before     { content:"\eae2"; transform: scale(1.45, 1.6); }
 .decoration-buttons .insert-small::before   { content:"\eadd"; transform: scale(1.45, 1.6); }
-.decoration-buttons .insert-color::before   { content:"\e23c"; transform: scale(1.45) translateY(.2rem); color:#e80; }
-.decoration-buttons .insert-hide::before    { content:"\e23c"; transform: scale(1.45) translateY(.2rem); opacity:0.2; }
+.decoration-buttons .insert-color::before   { content:"\e23c"; transform: scale(1.45); color:#e80; }
+.decoration-buttons .insert-hide::before    { content:"\e23c"; transform: scale(1.45); opacity:0.2; }
 .decoration-buttons .insert-horizon::before { content:"\f108"; }
 .decoration-buttons .insert-left::before    { content:"\e236"; }
 .decoration-buttons .insert-center::before  { content:"\e234"; }
