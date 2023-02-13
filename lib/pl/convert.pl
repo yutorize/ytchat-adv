@@ -56,17 +56,6 @@ sub dataConvert {
     my $memo;
     my $result;
     my $game = $::in{'game'};
-    if($::in{'status'}){
-      foreach my $label (split(' &lt;&gt; ', $::in{'status'})){
-        push(@stt_name, $label);
-      }
-      if($::in{'statusDefault'}){
-        foreach my $data (split(' &lt;&gt; ', $::in{'statusDefault'})){
-          my ($label, $value) = split(/[:：]/, $data, 2);
-          $stt{$label} = $value || '';
-        }
-      }
-    }
     if($pc{'unitStatus'}){
       foreach my $data (@{$pc{'unitStatus'}}){
         if($data eq '|'){
@@ -82,6 +71,20 @@ sub dataConvert {
             $stt{$key} = $data->{$key};
           }
           $result .= "<b>$key</b>:$data->{$key}　";
+        }
+      }
+    }
+    if($::in{'status'}){
+      my %except = {};
+      %except = %{$pc{'unitExceptStatus'}} if $pc{'unitExceptStatus'};
+      foreach my $label (split(' &lt;&gt; ', $::in{'status'})){
+        next if($except{$label});
+        push(@stt_name, $label);
+      }
+      if($::in{'statusDefault'}){
+        foreach my $data (split(' &lt;&gt; ', $::in{'statusDefault'})){
+          my ($label, $value) = split(/[:：]/, $data, 2);
+          $stt{$label} ||= $value || '';
         }
       }
     }
