@@ -391,7 +391,7 @@ sub memberEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
-  if   ($type eq 'enter'){
+  if   ($type eq 'enter' && $user){
     $data{'member'}{$user} = {};
     $data{'member'}{$user}{'name'} = $name;
     $data{'member'}{$user}{'date'} = time;
