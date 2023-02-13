@@ -124,6 +124,11 @@ sub getFileNameDate {
 sub tagConvert {
   my $comm = shift;
   $comm =~ s/<br>/\n/g;
+
+  # 自動リンク・前処理
+  my @linkURL;
+  $comm =~ s{(https?://[^\s\<]+)}{ push(@linkURL, $1); "<!a#".scalar(@linkURL).">" }ge;
+
   # ユーザー定義
   foreach my $hash (@set::replace_regex){
     foreach my $key (keys %{$hash}){
@@ -164,8 +169,8 @@ sub tagConvert {
   
   1 while $comm =~ s#&lt;h([1-6])&gt;(.*?)&lt;/h\1&gt;\n?#<h$1>$2</h$1>#gis;
   
-  # 自動リンク
-  $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#gi;
+  # 自動リンク・後処理
+  $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
   
   $comm =~ s#\n#<br>#gi;
   
