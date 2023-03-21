@@ -102,7 +102,7 @@ sub dataConvert {
       elsif($fit =~ /^percentX?$/){ $fit =         $pc{'imagePercent'}*1.3 .'%'; }
       $fit = "background-size:$fit;" if $fit;
       my $position = "background-position:$pc{imagePositionX}% $pc{imagePositionY}%;";
-      $img = "<div class=\"chara-image\" style=\"background:url($pc{'imageURL'});${fit}${position}\"></div>";
+      $img = "<div class=\"chara-image\" style=\"background-image:url($pc{'imageURL'});${fit}${position}\"></div>";
     }
     $result = ($img || '')
             . "<a href=\"${set_url}\" target=\"_blank\">".($aka?"“$aka”":'')."$name</a><br>"
