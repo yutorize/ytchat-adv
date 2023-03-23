@@ -754,6 +754,9 @@ body {
   border-radius: .8em;
   font-size: 90%;
 }
+[data-layout="row"] #memo ul#memo-list li[onclick]:hover {
+  background-color: rgba(255,150,0,0.3);
+}
 
 /* // ユニットシート
 ---------------------------------------------------------------------------------------------------- */
