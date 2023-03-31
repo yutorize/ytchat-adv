@@ -36,15 +36,23 @@
     else { status.placeholder = 'HP　MP'; }
   }
   function BCDiceGet(apiUrl){
+    /** @return {Promise<Response>} */
+    function makeTimeout(milliseconds) {
+      return new Promise(function(resolve, reject) {
+        setTimeout(() => reject(`timeout`), milliseconds);
+      });
+    }
     const select = document.getElementById('set-bcdice-game');
-    $.ajax({
-      url: apiUrl+'/v1/names',
-      type: 'GET',
-      cache: false,
-      timeout: 10000,
-      dataType: 'json',
-    })
-    .done( (data) => {
+    Promise.race([
+      fetch(apiUrl+'/v1/names', {
+        method: "GET",
+        cache: 'no-cache'
+      }),
+      makeTimeout(10000)
+    ])
+    .then(response => response.text())
+    .then( json => {
+      const data = JSON.parse(json);
       data['names'].sort(function(a,b){
         if(a.name < b.name) return -1;
         if(a.name > b.name) return 1;
@@ -60,7 +68,7 @@
         select.appendChild(op);
       }
     })
-    .fail( (data) => {
+    .catch( () => {
       alert('APIサーバー（'+apiUrl+'）にアクセスできませんでした。URLが間違っているか、サーバーがダウンしている可能性があります。');
     });
   }
