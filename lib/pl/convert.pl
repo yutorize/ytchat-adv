@@ -100,12 +100,10 @@ sub dataConvert {
       my $fit = $pc{'imageFit'};
       if   ($fit eq 'percentY')   { $fit = 'auto '.$pc{'imagePercent'}*1.3 .'%'; }
       elsif($fit =~ /^percentX?$/){ $fit =         $pc{'imagePercent'}*1.3 .'%'; }
-      $fit = "background-size:$fit;" if $fit;
-      my $position = "background-position:$pc{imagePositionX}% $pc{imagePositionY}%;";
-      $img = "<div class=\"chara-image\" style=\"background:url($pc{'imageURL'});${fit}${position}\"></div>";
+      $img = "<chara-image:$pc{'imageURL'},$fit,$pc{'imagePositionX'}% $pc{'imagePositionY'}%>";
     }
     $result = ($img || '')
-            . "<a href=\"${set_url}\" target=\"_blank\">".($aka?"“$aka”":'')."$name</a><br>"
+            . "[[".($aka?"“$aka”":'')."${name}>${set_url}]]<br>"
             . ($profile ? $profile.'<br>':'')
             . $result;
     # チャットパレット取得

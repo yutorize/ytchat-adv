@@ -638,7 +638,7 @@ sub unitMake {
         push(@{$new{'sttnames'}}, $label);
       }
     }
-    if($new{'url'}) { $result  = "<b>参照先</b>:<a href=\"$new{'url'}\" target=\"_blank\">$new{'url'}</a><br>".$result; }
+    if($new{'url'}) { $result  = "<b>参照先</b>:$new{'url'}<br>".$result; }
     if($new{'memo'}){ $result .= ($result ? '　' : '') . "<b>メモ</b>:$new{'memo'}"; }
   }
   my $result_system;

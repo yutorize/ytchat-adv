@@ -226,6 +226,7 @@ foreach (<$FH>){
   }
 
   $info = tagConvert($info) if $tagconvert_on && $system =~ /^(topic|memo|choice|deck)/; #文字装飾
+  $info = tagConvertUnit($info) if $tagconvert_on && $system =~ /^(unit)/;
 
   $comm =~ s#(―+)#<span class="dash">$1</span>#g;
   $info =~ s#(―+)#<span class="dash">$1</span>#g;
