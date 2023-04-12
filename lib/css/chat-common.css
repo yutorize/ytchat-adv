@@ -328,7 +328,7 @@ html,body {
   display: none !important;
 }
 .memo ul#memo-list li[onclick]:hover {
-  background: rgba(255,150,0,0.3);
+  background-color: rgba(255,150,0,0.3) !important;
 }
 .memo ul#memo-list li::before {
   content: '#' attr(data-num);
@@ -1234,6 +1234,7 @@ body.rom .input-form { display: none !important; }
   max-width: 100%;
   overflow: hidden;
   background-repeat: no-repeat;
+  background-size: contain;
   cursor: zoom-in;
   animation-name: imgfadein;
   animation-duration: .5s;
