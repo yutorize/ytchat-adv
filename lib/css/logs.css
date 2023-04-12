@@ -190,6 +190,7 @@ article#contents {
   max-width: 100%;
   overflow: hidden;
   background-repeat: no-repeat;
+  background-size: contain;
   cursor: zoom-in;
 }
 @-moz-document url-prefix() {
