@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.01.000";
+our $ver = "1.01.001";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -173,9 +173,20 @@ sub tagConvert {
   $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
   
   $comm =~ s#\n#<br>#gi;
-  
   return $comm;
 }
+sub tagConvertUnit {
+  my $comm = shift;
+  $comm =~ s/<br>/\n/g;
+
+  $comm =~ s#<chara-image:(https?:\/\/[^\s\<]+)(?:,(.+?))(?:,(.+?))>#<div class="chara-image" style="background-image:url($1>);background-size:$2;background-position:$3;"></div>#g;
+  $comm =~ s#\[\[(.+?)>(https?:\/\/[^\s\<]+)\]\]#<a href="$2" target="_blank">$1</a>#g;
+  $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#g;
+
+  $comm =~ s#\n#<br>#gi;
+  return $comm;
+}
+#リスト
 sub listCreate {
   my $text = shift;
   $text =~ s/^・/<li>/gm;
