@@ -158,7 +158,7 @@ else {
       if(!$hit){ error('許可されていないURLです'); }
     }
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=sharing$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     bgEdit($url,$title);
