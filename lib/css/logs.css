@@ -825,6 +825,7 @@ dd.bgm-title:hover + #yt-player-area,
   bottom: 0;
   background-size: cover;
   background-position: center;
+  pointer-events: none;
 }
 .bg-front {
   z-index: -1;
