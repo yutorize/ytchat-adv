@@ -819,10 +819,7 @@ dd.bgm-title:hover + #yt-player-area,
 ---------------------------------------------------------------------------------------------------- */
 .bg-image {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-size: cover;
   background-position: center;
   pointer-events: none;
@@ -835,6 +832,10 @@ dd.bgm-title:hover + #yt-player-area,
 }
 .bg-back {
   z-index: -2;
+}
+.bg-next {
+  z-index: -3;
+  visibility: hidden;
 }
 @keyframes bgfade {
   from { opacity: 0; }
