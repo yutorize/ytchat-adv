@@ -98,10 +98,12 @@ our @src_url_list = (
 ## ●背景画像のプリセット
 # ['URL','タイトル','サムネイルURL'], で記述する
 our @bg_preset = (
-  ['https://userdisk.webry.biglobe.ne.jp/012/472/52/N000/000/000/BG00a1_80.jpg',
-   '昼空／(C)きまぐれアフター'],
-  ['https://userdisk.webry.biglobe.ne.jp/012/472/52/N000/000/001/134747150552113113690_BG10a_1280.jpg',
-   '森の道(昼)／(C)きまぐれアフター'],
+  ['https://gakaisozai.up.seesaa.net/01247252N000000000/BG00a1_80.jpg',
+   '空（昼）／(C)きまぐれアフター',
+  ],
+  ['https://gakaisozai.up.seesaa.net/01247252N000000001/134747150552113113690_BG10a_1280.jpg',
+   '森の道(昼)／(C)きまぐれアフター',
+  ],
 );
 our $bg_thum_on = 1; #サムネイルの表示
 
