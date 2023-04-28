@@ -214,6 +214,38 @@ button, .button {
 
 img.icon { width: 1em; height: 1em; }
 
+/* ツールチップ */
+.tooltip {
+  position: relative;
+  border-bottom: 1px #6699bb dashed;
+  cursor: help;
+}
+.tooltip .tooltip-text {
+  display: none;
+  position: fixed;
+  max-width: 25em;
+  width: max-content;
+  padding: .5em .9em;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #000e;
+  text-shadow: none;
+  box-shadow: 3px 3px 3px #000a;
+  font-size: 80%;
+  z-index: 2;
+  pointer-events: none;
+  animation-name: tooltipfade;
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+}
+.tooltip:hover .tooltip-text {
+  display: block;
+}
+@keyframes tooltipfade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* ボックス */
 .box {
   border-radius: 1rem;

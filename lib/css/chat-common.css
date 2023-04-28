@@ -1154,13 +1154,17 @@ body.rom .input-form { display: none !important; }
   content: attr(data-date);
   position: absolute;
   font-size: 1.2rem;
-  top: -1.2rem;
-  right: 20px;
+  line-height: 1;
+  right: 0px;
+  bottom: calc(100% - 2px);
   opacity: 0;
   font-family: 'Arial';
   font-weight: normal;
   white-space: nowrap;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+.chat .logs dl dd:has(button.rewrite)::after {
+  right: 2.5rem;
 }
 .chat .logs dl dd:hover::after {
   opacity: 1;
@@ -1170,12 +1174,17 @@ body.rom .input-form { display: none !important; }
   position: absolute;
   display: none;
   z-index: 1;
-  width: 2.4rem;
-  height: 2.4rem;
-  font-size: 1.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.6rem;
   padding: .2rem;
-  top: -1.8rem;
-  right: -5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+}
+.chat .logs dl dd.comm:has(button.rewrite) {
+  border-top-right-radius: 0;
 }
 .chat .logs dl dd.comm span.rewrited {
 }
