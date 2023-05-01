@@ -164,6 +164,7 @@ article#contents {
   margin-left: -1rem;
 }
 .logs dl span.rewrited {
+  animation: none !important;
 }
 
 /* 挿絵 */
