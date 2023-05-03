@@ -824,6 +824,10 @@ dd.bgm-title:hover + #yt-player-area,
   background-position: center;
   pointer-events: none;
 }
+.bg-image[data-mode="tiling"] {
+  background-size: auto;
+  background-repeat: repeat;
+}
 .bg-front {
   z-index: -1;
   animation-name: bgfade;

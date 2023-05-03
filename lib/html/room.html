@@ -308,7 +308,7 @@
     <h2>背景画像変更</h2>
     <div class="preview-section">
       <div class="image-preview-area"><img id="bg-set-preview" style="max-width:100%;max-height:200px;"></div>
-      <p class="properties-area">
+      <div class="properties-area">
         <label>
           <span class="label">Summary</span>
           <span class="control">
@@ -321,6 +321,17 @@
             <input type="text" id="bg-set-url" oninput="bgPreview();" placeholder="http://...">
           </span>
         </label>
+        <div class="fill-mode">
+          <label>
+            <input type="radio" name="background-fill-mode" value="resize" checked />
+            画面サイズに合わせる
+          </label>
+          <label>
+            <input type="radio" name="background-fill-mode" value="tiling" />
+            タイリング
+          </label>
+        </div>
+      </div>
       <p class="center button-area">
         <button onclick="bgSubmit();">変更する</button>
       </p>

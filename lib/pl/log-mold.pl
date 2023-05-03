@@ -156,8 +156,8 @@ foreach (<$FH>){
   elsif($system =~ /^bgm$/){
     $comm = '<span class="bgm-border"></span>'.$comm;
   }
-  elsif($system =~ /^bg:(.+)$/){
-    $comm = '<span class="bg-border" data-url="'.$1.'" data-title="'.$info.'"></span>'.$comm;
+  elsif($system =~ /^bg:(?:(resize|tiling):)?(.+)$/){
+    $comm = '<span class="bg-border" data-mode="'.$1.'" data-url="'.$2.'" data-title="'.$info.'"></span>'.$comm;
     if(!$bgis{$1}){ push(@bgis, $1) }
     $bgis{$1} = $info;
   }
