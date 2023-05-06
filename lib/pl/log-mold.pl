@@ -55,6 +55,7 @@ $ROOM = HTML::Template->new(
 $ROOM->param(ver => $::ver);
 
 $ROOM->param(roomId => $id);
+$ROOM->param(isPresent => !$::in{'log'} ? 1 : 0);
 $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');
 

@@ -43,7 +43,7 @@ body {
 }
 /* メイン -------------------------------------------------- */
 #base header {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   align-items: end;
   position: sticky;
@@ -62,6 +62,15 @@ body {
 #base header h2 {
   display: inline-block;
   font-size: 1em !important;
+}
+#base header .back-to-room {
+  font-size: 80%;
+  margin-bottom: 0.1em;
+}
+#base header .back-to-room::before {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+  content: "\e5c4";
 }
 article#contents {
   padding-bottom: 20vh;
