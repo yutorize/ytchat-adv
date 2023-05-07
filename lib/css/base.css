@@ -317,6 +317,11 @@ img.icon { width: 1em; height: 1em; }
 
 .logs dl.system.round dd.info { font-size: inherit; }
 
+.logs dl.system.ready dd {
+  display: flex;
+  align-items: center;
+}
+
 .logs dl dd button {
   vertical-align: middle;
 }
