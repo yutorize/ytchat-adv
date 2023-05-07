@@ -1958,6 +1958,20 @@ body.rom .input-form { display: none !important; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\e6b1"; }
+#ready-check button[name^="ready-"] {
+  display: inline-flex;
+  align-items: center;
+}
+#ready-check button[name^="ready-"]::before {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+}
+#ready-check button[name="ready-ok"]::before {
+  content: "\e5ca";
+}
+#ready-check button[name="ready-no"]::before {
+  content: "\e5cd";
+}
 #ready-list {
   width: max-content;
   margin: auto;
