@@ -308,6 +308,10 @@ html,body {
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
   cursor: pointer;
 }
+#status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"]:hover {
+  background-color: rgba(187, 204, 238, 0.1);
+  filter: brightness(115%);
+}
 
 #status .add.button {
   position: absolute;
