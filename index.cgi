@@ -143,6 +143,7 @@ sub tagConvert {
     $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
   }
   
+  $comm =~ s#&lt;br&gt;\n?#<br>#gi;
   $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
   $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
   $comm =~ s#([♠♤♥♡♣♧♦♢]+)#<span class="trump">$1</span>#gi;
