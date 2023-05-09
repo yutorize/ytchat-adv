@@ -104,11 +104,14 @@ else {
     $::in{'system'} = 'bgm';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bgm(?:\s+(.*?))?(?:\s+([0-9]{1,3}))?\s+(https?://.+)><>i){
-    my $url = $3;
-    my $title = $1 || '無題';
-    $2 =~ s/^0+//;
-    my $volume = $2 || 100;
+  elsif($::in{'comm'} =~ s<^/bgm(\s+.+)><>i){
+    my $str = $1;
+    my $url;
+    if($str =~ s#\s+(https?://\S+)##){ $url = $1 } else { error('URLがありません') }
+    my $volume = 100;
+    if($str =~ s/\s+vol=([1-9][0-9]{0,2}|0)//){ $volume = $1 }
+    my $title = '無題';
+    if($str =~ /^\s*(\S+?)\s*$/){ $title = $1 }
     #Youtube
     if($url =~ "https?://((www\.)?youtube\.com|youtu\.be)/"){
       if($url =~ /youtube\.com\/watch\?(?:.*?)v=(.+?)(?:&|$)/){
