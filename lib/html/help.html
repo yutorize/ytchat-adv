@@ -112,10 +112,10 @@
     <tr><th>/roundreset  </th><td>ラウンド数を「0」にする。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
     <tr><th>/memo 文字列 </th><td>「文字列」の内容のメモを追加する。</td></tr>
-    <tr><th>/bg 文字列 URL</th><td rowspan="2">「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。<br>「文字列」の前に mode=tiling を指定すると、タイリングして表示される。</td></tr>
+    <tr><th>/bg 文字列 URL</th><td rowspan="2">「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。<br>「mode=tiling」を指定すると、タイリングして表示される。<br>「/bg」以降の内容は順番は問わない。<br>（<code>/bg URL タイトル mode=tiling</code>などでもよい）</td></tr>
     <tr><th>/bg mode=tiling 文字列 URL</th></tr>
     <tr><th>/bgreset</th><td>背景画像を初期状態に戻す。</td></tr>
-    <tr><th>/bgm 文字列 数値 URL</th><td>「URL」の音声をBGMに設定する。<br>「文字列」をタイトル、「数値」%の音量で設定される（省略時は100）。</td></tr>
+    <tr><th>/bgm 文字列 vol=数値 URL</th><td>「URL」の音声をBGMに設定する。<br>「文字列」をタイトル、「数値」%の音量で設定される（省略時は100）。<br>「/bgm」以降の内容は順番は問わない。<br>（<code>/bgm vol=100 URL タイトル</code>などでもよい）</td></tr>
     <tr><th>/bgmreset</th><td>BGMを無音状態に戻す。</td></tr>
     <tr><th>/insert URL</th><td>「URL」の画像を挿入</td></tr>
   </table>
