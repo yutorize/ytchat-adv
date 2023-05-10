@@ -321,6 +321,10 @@ img.icon { width: 1em; height: 1em; }
   display: flex;
   align-items: center;
 }
+.logs dl.system.ready dd .ready-check-message {
+  font-weight: normal;
+  margin-left: 0.25em;
+}
 
 .logs dl dd button {
   vertical-align: middle;

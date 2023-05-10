@@ -105,7 +105,8 @@
     <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
     <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
     <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
-    <tr><th>/ready       </th><td>「レディチェック（準備確認）」をおこなう。</td></tr>
+    <tr><th>/ready       </th><td rowspan="2">「レディチェック（準備確認）」をおこなう。<br>メッセージを指定した場合、その文面とともにレディチェックをおこなう。<br>例： <code>/ready 割り込み行動のないひとはチェックしてください</code></td></tr>
+    <tr><th>/ready メッセージ</th></tr>
     <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round=数値  </th><td>ラウンド数を「数値」にする。<br>ユニットの✔は全て外れる。</td></tr>
