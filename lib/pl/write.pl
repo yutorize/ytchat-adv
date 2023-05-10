@@ -149,10 +149,14 @@ else {
     $::in{'system'} = 'bg';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bg(?:\s+mode=(.+?))?(?:\s+(.*?))?\s+(https?://.+)><>i){
-    my $url = $3;
-    my $title = $2 || '無題';
-    my $mode = $1 || 'resize';
+  elsif($::in{'comm'} =~ s<^/bg(\s+.+)><>i){
+    my $str = $1;
+    my $url;
+    if($str =~ s#\s+(https?://\S+)##){ $url = $1 } else { error('URLがありません') }
+    my $mode = 'resize';
+    if($str =~ s/\s+mode=(resize|tiling)//){ $mode = $1 }
+    my $title = '無題';
+    if($str =~ /^\s*(\S+?)\s*$/){ $title = $1 }
     if($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
