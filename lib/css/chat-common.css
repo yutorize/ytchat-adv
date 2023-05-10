@@ -1912,9 +1912,11 @@ body.rom .input-form { display: none !important; }
 }
 #help-window code {
   display: inline-block;
-  padding: .2rem .5rem;
-  background: rgba(0,255,100,0.4);
-  border-radius: 1rem;
+  margin: .1em 0;
+  padding: .2em .5rem;
+  background: rgba(0,255,100,0.3);
+  border-radius: .5rem;
+  font-size: 85%;
 }
 #help-window h3:nth-child(n+2) {
   margin-top: 1em;
