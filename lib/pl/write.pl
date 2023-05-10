@@ -149,9 +149,10 @@ else {
     $::in{'system'} = 'bg';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bg(?:\s+(.*?))?\s+(https?://.+)><>i){
-    my $url = $2;
-    my $title = $1 || '無題';
+  elsif($::in{'comm'} =~ s<^/bg(?:\s+mode=(.+?))?(?:\s+(.*?))?\s+(https?://.+)><>i){
+    my $url = $3;
+    my $title = $2 || '無題';
+    my $mode = $1 || 'resize';
     if($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
@@ -164,11 +165,11 @@ else {
     if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
-    bgEdit($url,$title);
+    bgEdit($mode,$url,$title);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "背景を変更 by $::in{'player'}";
     $::in{'info'} = "$title";
-    $::in{'system'} = 'bg:'.$url;
+    $::in{'system'} = 'bg:'.$mode.':'.$url;
     delete $::in{'color'};
   }
   # 発言修正
@@ -458,6 +459,7 @@ sub memoEdit {
   return $num;
 }
 sub bgEdit {
+  my $mode = shift;
   my $url = shift;
   my $title = shift;
   
@@ -467,6 +469,7 @@ sub bgEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
+  $data{'bg'}{'mode'} = $mode;
   $data{'bg'}{'url'} = $url;
   $data{'bg'}{'title'} = $title;
   

@@ -27,6 +27,10 @@ html,body {
   background-size: cover;
   background-position: center;
 }
+.bg-image[data-mode="tiling"] {
+  background-size: auto;
+  background-repeat: repeat;
+}
 .bg-front {
   z-index: 2;
   animation-name: bgfade;
@@ -1234,10 +1238,16 @@ body.rom .input-form { display: none !important; }
   animation-duration: .5s;
   animation-timing-function: linear;
 }
-.logs dl dd img.insert.bg {
+.logs dl dd .insert.bg {
   width: 100%;
-  max-height: 10vh;
-  object-fit: cover;
+  height: 10vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.logs dl dd .insert.bg[data-mode="tiling"] {
+  background-size: auto;
+  background-repeat: repeat;
 }
 .logs dl dd .chara-image {
   float: left;
@@ -1578,6 +1588,17 @@ body.rom .input-form { display: none !important; }
 }
 .bg-set-box .properties-area > label > .control input {
   width: 100%;
+}
+.bg-set-box .properties-area .fill-mode {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0;
+}
+.bg-set-box .properties-area .fill-mode > label {
+  margin-right: 1em;
+}
+.bg-set-box .properties-area .fill-mode > label:last-child {
+  margin-right: 0;
 }
 
 #bg-set #bg-set-tracks-check-preset:not(:checked)  ~ #bg-preset,
