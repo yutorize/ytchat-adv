@@ -27,6 +27,7 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   $_ =~ s/"/\\"/g;
   $_ =~ s/\t/\\t/g;
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
+  $color =~ s/^#{2,}/#/;
   # 初回読込時は各タブ最大100件まで読み込む
   if(!$::in{'loadedLog'}){
     next if $tablog{$tab} > 100;
