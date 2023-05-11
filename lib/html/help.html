@@ -58,6 +58,7 @@
     <tr><th>&lt;h4&gt;テキスト&lt;/h4&gt;</th><td class="logs"><h4>テキスト</h4></td><td>見出しレベル4</td></tr>
     <tr><th>&lt;h5&gt;テキスト&lt;/h5&gt;</th><td class="logs"><h5>テキスト</h5></td><td>見出しレベル5</td></tr>
     <tr><th>&lt;h6&gt;テキスト&lt;/h6&gt;</th><td class="logs"><h6>テキスト</h6></td><td>見出しレベル6</td></tr>
+    <tr><th>&lt;hr&gt;</th><td class="logs"><hr /></td><td>水平線</td></tr>
     <tr><th>&lt;tip&gt;単語=&gt;説明&lt;/tip&gt;</th><td><span class="tooltip" onmouseover="tooltipHover(event)">単語<span class="tooltip-text">説明</span></span></td><td>予め設定されている以外のツールチップ</td></tr>
     <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td class="logs"><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
     <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
@@ -105,7 +106,8 @@
     <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
     <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
     <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
-    <tr><th>/ready       </th><td>「レディチェック（準備確認）」をおこなう。</td></tr>
+    <tr><th>/ready       </th><td rowspan="2">「レディチェック（準備確認）」をおこなう。<br>メッセージを指定した場合、その文面とともにレディチェックをおこなう。<br>例： <code>/ready 割り込み行動のないひとはチェックしてください</code></td></tr>
+    <tr><th>/ready メッセージ</th></tr>
     <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round=数値  </th><td>ラウンド数を「数値」にする。<br>ユニットの✔は全て外れる。</td></tr>
