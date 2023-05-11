@@ -74,7 +74,7 @@
   <article id="contents">
   <div class="logs">
 <TMPL_LOOP Logs>      <dl data-user="<TMPL_VAR USER>" data-tab-name="<TMPL_VAR TABNAME>">
-        <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
+        <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF>><TMPL_VAR NAME></dt>
 <TMPL_LOOP LogsDD><TMPL_IF COMM>        <dd><TMPL_VAR COMM></dd></TMPL_IF>
 <TMPL_IF INFO>        <dd class="info <TMPL_VAR TYPE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>      </dl>
 </TMPL_LOOP>

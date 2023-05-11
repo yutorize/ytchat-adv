@@ -115,6 +115,7 @@ foreach (<$FH>){
   }
   
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
+  $color = '' if $color eq 'undefined' || $color eq 'null';
   $color =~ s/^#{2,}/#/;
   my $userid;
   $user =~ s/<(.+?)>$/$userid = $1; '';/e;

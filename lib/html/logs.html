@@ -122,7 +122,7 @@
   <div class="logs logs-font">
     <TMPL_LOOP Logs>
     <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
-      <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
+      <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF>><TMPL_VAR NAME></dt>
 <TMPL_LOOP LogsDD><TMPL_IF COMM>      <dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd>
 </TMPL_IF><TMPL_IF INFO>      <dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>"<TMPL_IF GAME> data-game="<TMPL_VAR GAME>"</TMPL_IF>><TMPL_VAR INFO></dd>
 </TMPL_IF></TMPL_LOOP>    </dl>
