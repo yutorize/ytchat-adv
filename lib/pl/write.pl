@@ -215,7 +215,7 @@ else {
     $::in{'comm'} = "タブ「$1」を「$2」に変更しました。by $::in{'player'}";
     $::in{'tab'} = $num;
   }
-  #レディチェック
+  # レディチェック ----------
   elsif($::in{'comm'} =~ s<^/ready(?:\s(.+)$|$)><>i){
     my $message = defined($1) ? $1 : "レディチェックを開始";
     $::in{'name'} = "!SYSTEM";
