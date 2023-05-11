@@ -21,7 +21,7 @@ else {
   if($::in{'type'} eq 'simple'){
     print logOutput();
   }
-  if($::in{'type'} eq 'download'){
+  elsif($::in{'type'} eq 'download'){
     print logOutput();
   }
   else {
