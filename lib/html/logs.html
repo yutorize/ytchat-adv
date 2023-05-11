@@ -121,8 +121,8 @@
   <div id="prev-button" class="center"><a class="button" onclick="pageSet('prev');">前のページ</a></div>
   <div class="logs logs-font">
     <TMPL_LOOP Logs>
-    <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
-      <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF>><TMPL_VAR NAME></dt>
+    <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-user-id="<TMPL_VAR USER_ID>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
+      <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF> <TMPL_IF ADDRESS>data-target-user-id="<TMPL_VAR ADDRESS>"</TMPL_IF>><TMPL_VAR NAME></dt>
 <TMPL_LOOP LogsDD><TMPL_IF COMM>      <dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd>
 </TMPL_IF><TMPL_IF INFO>      <dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>"<TMPL_IF GAME> data-game="<TMPL_VAR GAME>"</TMPL_IF>><TMPL_VAR INFO></dd>
 </TMPL_IF></TMPL_LOOP>    </dl>

@@ -1134,6 +1134,9 @@ body.rom .input-form { display: none !important; }
   animation-duration: 10s;
   animation-timing-function: linear;
 }
+.chat .logs dl.secret > dt[data-target-user-name] > .target-user-name::before {
+  content: " > ";
+}
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }

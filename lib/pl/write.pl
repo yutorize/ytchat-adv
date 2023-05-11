@@ -320,7 +320,6 @@ sub diceCodeCheck {
 
 # 秘話 ----------
 if($::in{'address'}){
-  $::in{'name'} .= ' > '.$::in{'addressName'};
   $::in{'address'} .= $::in{'openlater'} ? '#' : '';
 }
 

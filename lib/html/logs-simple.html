@@ -24,6 +24,9 @@
     .logs dl dt {
       font-weight: bold;
     }
+    .logs dl.secret > dt > .target-user-name::before {
+      content: " > ";
+    }
     .logs dl dd.info {
       color: #acd;
       position: relative;
@@ -73,14 +76,32 @@
   </header>
   <article id="contents">
   <div class="logs">
-<TMPL_LOOP Logs>      <dl data-user="<TMPL_VAR USER>" data-tab-name="<TMPL_VAR TABNAME>">
-        <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF>><TMPL_VAR NAME></dt>
+<TMPL_LOOP Logs>      <dl data-user="<TMPL_VAR USER>" data-user-id="<TMPL_VAR USER_ID>" data-tab-name="<TMPL_VAR TABNAME>" class="<TMPL_IF ADDRESS>secret</TMPL_IF>">
+        <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF> <TMPL_IF ADDRESS>data-target-user-id="<TMPL_VAR ADDRESS>"</TMPL_IF>><TMPL_VAR NAME></dt>
 <TMPL_LOOP LogsDD><TMPL_IF COMM>        <dd><TMPL_VAR COMM></dd></TMPL_IF>
 <TMPL_IF INFO>        <dd class="info <TMPL_VAR TYPE>" data-game="<TMPL_VAR GAME>"><TMPL_VAR INFO></dd></TMPL_IF></TMPL_LOOP>      </dl>
 </TMPL_LOOP>
   </div>
   </article>
 </div>
+<script type="application/javascript">
+  // 非公開発言の宛先解決
+  {
+    const userNames = {};
+
+    document.querySelectorAll('.logs dl.secret > dt[data-target-user-id]').forEach(
+            dt => {
+              const targetUserId = dt.dataset.targetUserId;
+              const targetUserNameNode = document.createElement('span');
+              targetUserNameNode.classList.add('target-user-name');
+              targetUserNameNode.textContent =
+                      userNames[targetUserId] ??
+                      (userNames[targetUserId] = document.querySelector(`.logs dl[data-user-id="${targetUserId}"][data-user]`)?.getAttribute('data-user') ?? '');
+              dt.appendChild(targetUserNameNode);
+            }
+    );
+  }
+</script>
 <div id="foot-area">
   <footer>
     ゆとチャadv. - <a href="https://yutorize.2-d.jp" target="_blank">ゆとらいず工房</a>

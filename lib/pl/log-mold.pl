@@ -270,9 +270,11 @@ foreach (<$FH>){
       "TAB"    => $tab,
       "TABNAME"=> $tabs[$tab-1],
       "USER"   => $user,
+      "USER_ID" => $userid,
       "NAME"   => $name,
       "COLOR"  => $color,
       "CLASS" => $class,
+      "ADDRESS" => $address || '',
       "LogsDD" => [],
       "BORDER" => ((scalar(@logs)+1) % 1000 == 0 ? 1 : 0),
     });

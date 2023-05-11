@@ -128,6 +128,9 @@ article#contents {
   margin-left: -.3em;
   padding: 0 .3em;
 }
+.logs dl.secret > dt > .target-user-name::before {
+  content: " > ";
+}
 .logs dl dd {
   position: relative;
   margin-left: .5rem;
