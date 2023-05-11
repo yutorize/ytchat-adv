@@ -216,9 +216,10 @@ else {
     $::in{'tab'} = $num;
   }
   # レディチェック ----------
-  elsif($::in{'comm'} =~ s<^/ready(?:\s|$)><>i){
+  elsif($::in{'comm'} =~ s<^/ready(?:\s(.+)$|$)><>i){
+    my $message = defined($1) ? $1 : "レディチェックを開始";
     $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
+    $::in{'comm'} = "$message by $::in{'player'}";
     $::in{'system'} = "ready";
     delete $::in{'color'};
     delete $::in{'address'};

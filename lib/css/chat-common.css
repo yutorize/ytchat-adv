@@ -1985,6 +1985,9 @@ body.rom .input-form { display: none !important; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\e6b1"; }
+#ready-check > .message:empty {
+  display: none;
+}
 #ready-check button[name^="ready-"] {
   display: inline-flex;
   align-items: center;
