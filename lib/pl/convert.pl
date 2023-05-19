@@ -90,7 +90,7 @@ sub dataConvert {
     }
     @stt_name = do { my %c; grep {!$c{$_}++} @stt_name }; # 重複削除
     # 名前
-    my $aka  = rubyConvert( $pc{'aka'} );
+    my $aka  = rubyConvert( $pc{'akaRuby'} ? "｜$pc{'aka'}《$pc{'akaRuby'}》" : $pc{'aka'} );
     my $name = rubyConvert( $pc{'characterName'} || $pc{'monsterName'} );
     # プロフィール
     my $profile = textConvert($pc{'sheetDescriptionM'});
