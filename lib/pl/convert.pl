@@ -91,7 +91,7 @@ sub dataConvert {
     @stt_name = do { my %c; grep {!$c{$_}++} @stt_name }; # 重複削除
     # 名前
     my $aka  = rubyConvert( $pc{'akaRuby'} ? "｜$pc{'aka'}《$pc{'akaRuby'}》" : $pc{'aka'} );
-    my $name = rubyConvert( $pc{'characterName'} || $pc{'monsterName'} );
+    my $name = rubyConvert( ($pc{'characterName'} ? ($pc{'characterNameRuby'} ? "｜$pc{'characterName'}《$pc{'characterNameRuby'}》" : $pc{'characterName'}) : undef) || $pc{'monsterName'} );
     # プロフィール
     my $profile = textConvert($pc{'sheetDescriptionM'});
     # 画像
