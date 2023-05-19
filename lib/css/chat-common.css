@@ -944,6 +944,9 @@ body.rom .input-form { display: none !important; }
   font-size: 80%;
   opacity: 0.5;
 }
+#main-form .input-form:not(.secret) .address-area label {
+  pointer-events: none;
+}
 #main-form .secret .address-area label {
   opacity: 1;
 }
