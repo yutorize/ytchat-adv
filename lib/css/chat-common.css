@@ -2005,6 +2005,17 @@ body.rom .input-form { display: none !important; }
 #ready-check button[name="ready-no"]::before {
   content: "\e5cd";
 }
+#ready-check button[name^="ready-"].selected {
+  pointer-events: none;
+  box-shadow: none;
+  filter: grayscale(50%);
+}
+#ready-check button[name="ready-ok"].selected {
+  background: rgba(0, 255, 0, 0.8);
+}
+#ready-check button[name="ready-no"].selected {
+  background: rgba(255, 34, 0, 0.8);
+}
 #ready-list {
   width: max-content;
   margin: auto;
@@ -2035,6 +2046,11 @@ body.rom .input-form { display: none !important; }
 #ready-list li.no::before {
   content: "\e5cd";
   color: #f20;
+}
+#ready-list li.mine::after {
+  content: "（自分）";
+  color: #ffc480;
+  font-size: 80%;
 }
 
 .mem-signal::before {
