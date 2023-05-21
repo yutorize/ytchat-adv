@@ -2044,6 +2044,11 @@ body.rom .input-form { display: none !important; }
   content: "\e5cd";
   color: #f20;
 }
+#ready-list li.mine::after {
+  content: "（自分）";
+  color: #ffc480;
+  font-size: 80%;
+}
 
 .mem-signal::before {
   display: inline-block;
