@@ -1989,6 +1989,11 @@ body.rom .input-form { display: none !important; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\e6b1"; }
+#ready-check > .message {
+  padding: .5em .8em;
+  border-radius: .5em;
+  background-color: #fff2;
+}
 #ready-check > .message:empty {
   display: none;
 }
