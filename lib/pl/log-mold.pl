@@ -246,7 +246,15 @@ foreach (<$FH>){
   elsif($system =~ /^rewritename:([0-9]+)$/){
     my $target = $1;
     foreach my $data (@logs){
-      if($data->{'NUM'} eq $target){ $data->{'NAME'} = $name; $data->{'COLOR'} = $color; }
+      if($data->{'NUM'} eq $target){
+        if($data->{'CLASS'} =~ 'secret'){
+          $data->{'NAME'} =~ s/^.* > (.+?)$/$name > $1/;
+        }
+        else {
+          $data->{'NAME'} = $name;
+        }
+        $data->{'COLOR'} = $color;
+      }
     }
     next;
   }
