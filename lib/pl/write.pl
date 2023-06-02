@@ -158,7 +158,7 @@ else {
     my $mode = 'resize';
     if($str =~ s/\s+mode=(resize|tiling)//){ $mode = $1 }
     my $title = '無題';
-    if($str =~ /^\s*(\S+?)\s*$/){ $title = $1 }
+    if($str =~ /^\s*(.+?)\s*$/){ $title = $1 }
     if($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
