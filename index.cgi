@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.01.009";
+our $ver = "1.01.010";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -145,7 +145,8 @@ sub tagConvert {
   
   $comm =~ s#&lt;br&gt;\n?#<br>#gi;
   $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
-  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
+  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rt>$2</ruby>#gi;
+  $comm =~ s#<ruby>(.+?)(?:<rp>\(</rp>)?<rt>(.*?)(?:<rp>\)</rp>)?</ruby>#<ruby><rp>｜</rp>$1<rp>《</rp><rt>$2<rp>》</rp></ruby>#gi;
   $comm =~ s#([♠♤♥♡♣♧♦♢]+)#<span class="trump">$1</span>#gi;
   $comm =~ s#:([a-z0-9_]+?):#<span class="material-symbols-outlined"><i>:</i>$1<i>:</i></span>#g;
 

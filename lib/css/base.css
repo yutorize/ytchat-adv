@@ -212,6 +212,11 @@ button, .button {
 .center{ text-align: center; }
 .right { text-align: right; }
 
+ruby rp {
+  display: inline;
+  font-size: 0;
+}
+
 img.icon { width: 1em; height: 1em; }
 
 /* ツールチップ */
