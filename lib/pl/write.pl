@@ -89,7 +89,7 @@ else {
   elsif($::in{'comm'} =~ s<^/insert\s+(https?://.+)><>i){
     my $url = $1;
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     $::in{'system'} = 'image';
@@ -132,7 +132,7 @@ else {
       if(!$hit){ error('許可されていないURLです'); }
     }
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     bgmEdit($url,$title,$volume);
@@ -168,7 +168,7 @@ else {
       if(!$hit){ error('許可されていないURLです'); }
     }
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     bgEdit($mode,$url,$title);
