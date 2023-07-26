@@ -112,7 +112,7 @@ else {
     my $volume = 100;
     if($str =~ s/\s+vol=([1-9][0-9]{0,2}|0)//){ $volume = $1 }
     my $title = '無題';
-    if($str =~ /^\s*(\S+?)\s*$/){ $title = $1 }
+    if($str =~ /^\s*(.+?)\s*$/){ $title = $1 }
     #Youtube
     if($url =~ "https?://((www\.)?youtube\.com|youtu\.be)/"){
       if($url =~ /youtube\.com\/watch\?(?:.*?)v=(.+?)(?:&|$)/){
@@ -158,7 +158,7 @@ else {
     my $mode = 'resize';
     if($str =~ s/\s+mode=(resize|tiling)//){ $mode = $1 }
     my $title = '無題';
-    if($str =~ /^\s*(\S+?)\s*$/){ $title = $1 }
+    if($str =~ /^\s*(.+?)\s*$/){ $title = $1 }
     if($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
