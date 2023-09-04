@@ -114,6 +114,10 @@ html,body {
   font-size: 1.2rem;
   line-height: 1.6rem;
 }
+#topic-value > .image-container > img {
+  max-height: 6em;
+  cursor: zoom-in;
+}
 #topic .edit.button {
   position: absolute;
   top: .2rem;
