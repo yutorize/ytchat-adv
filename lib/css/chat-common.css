@@ -1248,6 +1248,7 @@ body.rom .input-form { display: none !important; }
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  cursor: zoom-in;
 }
 .logs dl dd .insert.bg[data-mode="tiling"] {
   background-size: auto;
