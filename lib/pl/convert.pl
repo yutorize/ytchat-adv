@@ -20,6 +20,7 @@ sub dataGet {
 
 sub dataConvert {
   my $set_url = shift;
+  my $game = $::in{'game'};
   
   {
     my $sheetHtml = dataGet($set_url) or error 'URLを開けませんでした';
@@ -41,6 +42,9 @@ sub dataConvert {
         my $relation = $paletteUrl;
         $paletteUrl = $set_url;
         $paletteUrl =~ s/\?.+$/$relation/;
+        if($game && !exists $set::games{$game}{'name'}){
+          $paletteUrl .= '&tool=bcdice'
+        }
       }
     } else {
       $paletteUrl = '';
@@ -55,7 +59,6 @@ sub dataConvert {
     my @stt_name;
     my $memo;
     my $result;
-    my $game = $::in{'game'};
     if($pc{'unitStatus'}){
       foreach my $data (@{$pc{'unitStatus'}}){
         if($data eq '|'){
