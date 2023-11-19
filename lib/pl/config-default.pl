@@ -180,4 +180,9 @@ our @ready_se_list = (
   ['./lib/sound/se-lab/decision4.mp3',   '決定4／効果音ラボ'],
 );
 
+## ●発言の送信モード
+ # Base64にして送信するかどうか
+ #（ロリポップなどでファイアウォールに引っ掛かる場合、「1」（=ON）にする）
+  our $base64mode = 0;
+
 1;

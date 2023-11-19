@@ -13,7 +13,6 @@ use JSON::PP;
 my $log_pre_max = 50;
 my $dir = "./room/$::in{'room'}/";
 
-
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
 if(!-d "room/".$::in{'room'}){ error "ルームがありません"; }
@@ -22,11 +21,27 @@ if(!$::in{'system'}){
   if($::in{'comm'} eq ''){ error "発言がありません"; }
 }
 
-foreach (%::in) {
-  $::in{$_} = decode('utf8', $::in{$_});
-  $::in{$_} =~ s/</&lt;/g;
-  $::in{$_} =~ s/>/&gt;/g;
-  $::in{$_} =~ s/\\/&#92;/g;
+if($::in{base64mode}){
+  use MIME::Base64;
+  foreach (keys %::in) {
+    if($_ eq 'comm'){
+      $::in{$_} = decode('utf8', decode_base64($::in{$_}) );
+    }
+    else {
+      $::in{$_} = decode('utf8', $::in{$_});
+    }
+    $::in{$_} =~ s/</&lt;/g;
+    $::in{$_} =~ s/>/&gt;/g;
+    $::in{$_} =~ s/\\/&#92;/g;
+  }
+}
+else {
+  foreach (keys %::in) {
+    $::in{$_} = decode('utf8', $::in{$_});
+    $::in{$_} =~ s/</&lt;/g;
+    $::in{$_} =~ s/>/&gt;/g;
+    $::in{$_} =~ s/\\/&#92;/g;
+  }
 }
 
 my @adds;
