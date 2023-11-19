@@ -661,28 +661,28 @@ body.rom .sheet { display: none; }
   outline: none;
   background-color: rgba(0,150,255, 0.2);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value] {
   display: block;
   padding: .4rem .1rem .4rem .5rem;
   border-bottom: .1rem solid var(--border-color-pale);
   cursor: pointer;
 }
-.sheet-body .chat-palette-frame .chat-palette.lines details span {
+.sheet-body .chat-palette-frame .chat-palette.lines details span[data-value] {
   border-left: .4rem solid var(--border-color-pale);
   padding-left: .2rem;
 }
-.sheet-body .chat-palette-frame .chat-palette.lines details[open] span {
+.sheet-body .chat-palette-frame .chat-palette.lines details[open] span[data-value] {
   animation: paletteFade 0.25s ease;
 }
 @keyframes paletteFade {
   0%   { opacity: 0; transform: translateY(-1rem); }
   100% { opacity: 1; transform: none; }
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span:focus {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value]:focus {
   outline: none;
   background-color: rgba(0,150,255, 0.2);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span:hover {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value]:hover {
   background-color: rgba(255,150,0, 0.2);
 }
 .sheet-body .chat-palette-frame .chat-palette.lines span.param {
