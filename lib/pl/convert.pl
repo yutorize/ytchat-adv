@@ -31,6 +31,7 @@ sub dataConvert {
         my $relation = $bodyUrl;
         $bodyUrl = $set_url;
         $bodyUrl =~ s/\?.+$/$relation/;
+        $bodyUrl =~ s#/\./#/#g;
       }
     } else {
       error('ステータスの取得できる参照先ではありません');
@@ -42,6 +43,7 @@ sub dataConvert {
         my $relation = $paletteUrl;
         $paletteUrl = $set_url;
         $paletteUrl =~ s/\?.+$/$relation/;
+        $paletteUrl =~ s#/\./#/#g;
         if($game && !exists $set::games{$game}{'name'}){
           $paletteUrl .= '&tool=bcdice'
         }
