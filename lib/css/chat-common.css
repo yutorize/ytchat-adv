@@ -1720,10 +1720,11 @@ body.rom .input-form { display: none !important; }
 }
 #bgm-set .list-section .tracks-area {
   padding-right: 0.5em;
-  overflow: auto;
+  overflow-y: auto;
 }
 #bgm-set .list-section .history-area {
   grid-row: span 2;
+  overflow-y: auto;
 }
 
 .bg-list li[data-vol] {
