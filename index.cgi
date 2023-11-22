@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.01.010";
+our $ver = "1.02.000";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -271,6 +271,14 @@ sub tableHeaderCreate {
   }
   $output .= "</tr></thead>";
   return $output;
+}
+
+## 山括弧エスケープ
+sub escapeBracket {
+  my $text = shift;
+  $text =~ s/</&lt;/g;
+  $text =~ s/>/&gt;/g;
+  return $text;
 }
 
 ## タグ削除

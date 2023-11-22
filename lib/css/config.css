@@ -170,10 +170,16 @@
   background-color: rgba(0,170,190,0.1);
 }
 /* ベース */
-#form-name {
+.form-name {
   text-shadow: inherit;
 }
-#form-name :checked {
+.chat .form-name {
+  color: inherit;
+}
+.chat .form-name option {
+  background-color: #000;
+  font-family: inherit;
+  font-weight: inherit;
 }
 .box #main-name1 {
   text-shadow: inherit;

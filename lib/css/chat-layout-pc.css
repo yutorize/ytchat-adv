@@ -467,15 +467,32 @@ body {
 #main-form input#form-color-text {
   width: 7em;
 }
-#main-form .comm-config-area {
+#main-form .comm-area {
+  margin-right: 2rem;
+}
+#main-form .address-area {
+  margin-right: 2rem;
+}
+.comm-config-area {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 2px;
 }
-#main-form .comm-area {
-  margin-right: 2rem;
+.chat .comm-config-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0 1.2rem;
 }
+.chat .comm-config-area select {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: .3rem .5rem;
+}
+.chat .comm-config-area .address-area::before { font-size: 1.2rem; }
+.chat .comm-config-area .address-area label { width: 3em; }
+
 
 /* 装飾ボタン */
 .decoration-buttons {
