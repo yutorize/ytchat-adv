@@ -30,16 +30,14 @@ if($::in{base64mode}){
     else {
       $::in{$_} = decode('utf8', $::in{$_});
     }
-    $::in{$_} =~ s/</&lt;/g;
-    $::in{$_} =~ s/>/&gt;/g;
+    $::in{$_} = escapeBracket($::in{$_});
     $::in{$_} =~ s/\\/&#92;/g;
   }
 }
 else {
   foreach (keys %::in) {
     $::in{$_} = decode('utf8', $::in{$_});
-    $::in{$_} =~ s/</&lt;/g;
-    $::in{$_} =~ s/>/&gt;/g;
+    $::in{$_} = escapeBracket($::in{$_});
     $::in{$_} =~ s/\\/&#92;/g;
   }
 }
@@ -57,13 +55,15 @@ $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 if($::in{'system'} eq 'enter'){
   if($::in{'player'} eq ''){ error('名前を入力してください') }
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました";
+  $::in{'comm'} = "<b><c:$::in{'color'}>$::in{'player'}</c></b>が入室しました";
+  $::in{'comm'} = escapeBracket($::in{'comm'});
   delete $::in{'color'};
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
 }
 elsif($::in{'system'} eq 'exit'){
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が退室しました";
+  $::in{'comm'} = "<b><c:$::in{'color'}>$::in{'player'}</c></b>が退室しました";
+  $::in{'comm'} = escapeBracket($::in{'comm'});
   delete $::in{'color'};
   memberEdit('exit', $::in{'player'}, $::in{'userId'});
 }
