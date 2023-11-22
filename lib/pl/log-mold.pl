@@ -97,6 +97,7 @@ my $before_tab;
 my $before_name;
 my $before_color;
 my $before_user;
+my $before_address;
 my @bgms; my %bgms;
 my @bgis; my %bgis;
 my %stat;
@@ -123,7 +124,7 @@ foreach (<$FH>){
   
   my $openlater;
   if($address){
-    if($address =~ s/\#$//){ $openlater = 1; } #青秘話=1
+    if($address =~ s/\#$//){ $openlater = '#'; } #青秘話=#
     # 過去ログ
     if($::in{"log"}){
       #赤秘話なら非表示（青は通す）
@@ -267,10 +268,11 @@ foreach (<$FH>){
      $class .= $openlater ? 'openlater ' : '';
      $class .= $tab == 1 ? 'main ' : '';
   
-  if ( $before_tab   ne $tab
-    || $before_name  ne $name
-    || $before_color ne $color
-    || $before_user  ne $user
+  if ( $before_tab     ne $tab
+    || $before_name    ne $name
+    || $before_color   ne $color
+    || $before_user    ne $user
+    || $before_address ne $address.$openlater
     || ($name eq '!SYSTEM')
   ){
     push(@logs, {
@@ -299,6 +301,7 @@ foreach (<$FH>){
   $before_name  = $name;
   $before_color = $color;
   $before_user  = $user;
+  $before_address  = $address.$openlater;
 }
 close($FH);
 
