@@ -107,6 +107,7 @@
     <ul id="toc-headline"></ul>
     <ul>
       <TMPL_IF statDice><li data-lv="1"><a href="#stat-dice">出目統計</a></li></TMPL_IF>
+      <TMPL_IF SheetList><li data-lv="1"><a href="#sheet-list">キャラクターシート</a></li></TMPL_IF>
       <TMPL_IF BgmList><li data-lv="1"><a href="#bgm-list">BGMリスト</a></li></TMPL_IF>
       <TMPL_IF BgiList><li data-lv="1"><a href="#bgi-list">背景リスト</a></li></TMPL_IF>
     </ul>
@@ -143,6 +144,10 @@
 <TMPL_IF statDice><dialog id="stat-dice" class="credit">
   <h3>出目統計</h3>
   <div><TMPL_VAR statDice></div>
+</dialog></TMPL_IF>
+<TMPL_IF SheetList><dialog id="sheet-list" class="credit">
+  <h3>キャラクターシート一覧</h3>
+  <ul><TMPL_LOOP SheetList><li><a target="_blank" href="<TMPL_VAR URL>"><TMPL_VAR NAME></a></li></TMPL_LOOP></ul>
 </dialog></TMPL_IF>
 <TMPL_IF BgmList><dialog id="bgm-list" class="credit">
   <h3>BGMリスト</h3>

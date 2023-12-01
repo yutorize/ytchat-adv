@@ -562,6 +562,10 @@ dialog.credit li {
   padding: .2em 1em;
 }
 
+#sheet-list li {
+  line-height: 300%;
+}
+
 /* 統計 -------------------------------------------------- */
 .stat-table {
   margin: 0 1em 1em;
