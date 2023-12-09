@@ -1,19 +1,21 @@
 <script>
-  const roomId = '<TMPL_VAR roomId>';
+  const roomId = '<TMPL_VAR roomId />';
   const tabArray = <TMPL_VAR tabArray />;
   const setStatus = <TMPL_VAR sttNameList />;
   const sttDefaultValues = <TMPL_VAR sttDefaultValues />;
-  const gameSystem = '<TMPL_VAR gameSystem>';
-  const gameSystemName = '<TMPL_VAR gameSystemName>';
+  const gameSystem = '<TMPL_VAR gameSystem />';
+  const gameSystemName = '<TMPL_VAR gameSystemName />';
   const checkTimeMem =  2000; // 更新チェック周期（1000=1秒）
   const checkTimeRom = 10000; // 更新チェック周期・見学者
   const defSeType = {
-    'chat'  : '<TMPL_VAR defaultChatSE>',
-    'mark'  : '<TMPL_VAR defaultMarkSE>',
-    'ready' : '<TMPL_VAR defaultReadySE>',
+    'chat'  : '<TMPL_VAR defaultChatSE />',
+    'mark'  : '<TMPL_VAR defaultMarkSE />',
+    'ready' : '<TMPL_VAR defaultReadySE />',
   }
-  const bcdiceAPI = '<TMPL_VAR bcdiceAPI>';
-  let bcdiceSystem = '<TMPL_VAR bcdiceSystem>';
-  const replaceRule = <TMPL_VAR replaceRule>;
-  const replaceRegex = <TMPL_VAR replaceRegex>;
+  const bcdiceAPI = '<TMPL_VAR bcdiceAPI />';
+  let bcdiceSystem = '<TMPL_VAR bcdiceSystem />';
+  const replaceRule = <TMPL_VAR replaceRule DEFAULT="{}" />;
+  const replaceRegex = <TMPL_VAR replaceRegex DEFAULT="[]" />;
+  const tooltips = <TMPL_VAR tooltips DEFAULT="{}" />;
+  const base64Mode = <TMPL_VAR base64Mode DEFAULT="0" />;
   </script>

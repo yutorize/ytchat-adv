@@ -55,6 +55,7 @@ $ROOM = HTML::Template->new(
 $ROOM->param(ver => $::ver);
 
 $ROOM->param(roomId => $id);
+$ROOM->param(isPresent => !$::in{'log'} ? 1 : 0);
 $ROOM->param(title => $rooms{$id}{'name'});
 $ROOM->param(subtitle => $::in{'log'}?$::in{'log'}:'現行ログ');
 
@@ -96,6 +97,7 @@ my $before_tab;
 my $before_name;
 my $before_color;
 my $before_user;
+my $before_address;
 my @bgms; my %bgms;
 my @bgis; my %bgis;
 my %stat;
@@ -114,13 +116,15 @@ foreach (<$FH>){
   }
   
   my ($num, $date, $tab, $name, $color, $comm, $info, $system, $user, $address) = split(/<>/, $_);
+  $color = '' if $color eq 'undefined' || $color eq 'null';
+  $color =~ s/^#{2,}/#/;
   my $userid;
   $user =~ s/<(.+?)>$/$userid = $1; '';/e;
   $user_color{$name} = $color;
   
   my $openlater;
   if($address){
-    if($address =~ s/\#$//){ $openlater = 1; } #青秘話=1
+    if($address =~ s/\#$//){ $openlater = '#'; } #青秘話=#
     # 過去ログ
     if($::in{"log"}){
       #赤秘話なら非表示（青は通す）
@@ -156,8 +160,8 @@ foreach (<$FH>){
   elsif($system =~ /^bgm$/){
     $comm = '<span class="bgm-border"></span>'.$comm;
   }
-  elsif($system =~ /^bg:(.+)$/){
-    $comm = '<span class="bg-border" data-url="'.$1.'" data-title="'.$info.'"></span>'.$comm;
+  elsif($system =~ /^bg:(?:(resize|tiling):)?(.+)$/){
+    $comm = '<span class="bg-border" data-mode="'.$1.'" data-url="'.$2.'" data-title="'.$info.'"></span>'.$comm;
     if(!$bgis{$1}){ push(@bgis, $1) }
     $bgis{$1} = $info;
   }
@@ -243,7 +247,15 @@ foreach (<$FH>){
   elsif($system =~ /^rewritename:([0-9]+)$/){
     my $target = $1;
     foreach my $data (@logs){
-      if($data->{'NUM'} eq $target){ $data->{'NAME'} = $name; $data->{'COLOR'} = $color; }
+      if($data->{'NUM'} eq $target){
+        if($data->{'CLASS'} =~ 'secret'){
+          $data->{'NAME'} =~ s/^.* > (.+?)$/$name > $1/;
+        }
+        else {
+          $data->{'NAME'} = $name;
+        }
+        $data->{'COLOR'} = $color;
+      }
     }
     next;
   }
@@ -256,10 +268,11 @@ foreach (<$FH>){
      $class .= $openlater ? 'openlater ' : '';
      $class .= $tab == 1 ? 'main ' : '';
   
-  if ( $before_tab   ne $tab
-    || $before_name  ne $name
-    || $before_color ne $color
-    || $before_user  ne $user
+  if ( $before_tab     ne $tab
+    || $before_name    ne $name
+    || $before_color   ne $color
+    || $before_user    ne $user
+    || $before_address ne $address.$openlater
     || ($name eq '!SYSTEM')
   ){
     push(@logs, {
@@ -288,6 +301,7 @@ foreach (<$FH>){
   $before_name  = $name;
   $before_color = $color;
   $before_user  = $user;
+  $before_address  = $address.$openlater;
 }
 close($FH);
 

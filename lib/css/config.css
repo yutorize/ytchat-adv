@@ -170,10 +170,16 @@
   background-color: rgba(0,170,190,0.1);
 }
 /* ベース */
-#form-name {
+.form-name {
   text-shadow: inherit;
 }
-#form-name :checked {
+.chat .form-name {
+  color: inherit;
+}
+.chat .form-name option {
+  background-color: #000;
+  font-family: inherit;
+  font-weight: inherit;
 }
 .box #main-name1 {
   text-shadow: inherit;
@@ -486,6 +492,17 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   line-height: 1;
   text-shadow: none;
   opacity: 0.2;
+  animation-name: rewrited-mark-fade-in;
+  animation-duration: 0.1s;
+  animation-timing-function: ease-out;
+}
+@keyframes rewrited-mark-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.2;
+  }
 }
 .logs dl dd span.rewrited::before {
   content: "\e9a2";

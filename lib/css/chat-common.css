@@ -27,6 +27,10 @@ html,body {
   background-size: cover;
   background-position: center;
 }
+.bg-image[data-mode="tiling"] {
+  background-size: auto;
+  background-repeat: repeat;
+}
 .bg-front {
   z-index: 2;
   animation-name: bgfade;
@@ -195,11 +199,12 @@ html,body {
   left: .1rem;
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
+  font-weight: bold;
   font-size: 1em;
   color: #f20;
   text-shadow: 
     var(--box-text-shadow-color) 0 0 .1rem, var(--box-text-shadow-color) 0 0 .1rem ;
-  transform: scale(1.6);
+  transform: scale(1.2, 1.6);
 }
 #status #status-body > dl > dt {
   grid-column: 1 / -1;
@@ -307,6 +312,10 @@ html,body {
 
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
   cursor: pointer;
+}
+#status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"]:hover {
+  background-color: rgba(187, 204, 238, 0.1);
+  filter: brightness(115%);
 }
 
 #status .add.button {
@@ -652,28 +661,28 @@ body.rom .sheet { display: none; }
   outline: none;
   background-color: rgba(0,150,255, 0.2);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value] {
   display: block;
   padding: .4rem .1rem .4rem .5rem;
   border-bottom: .1rem solid var(--border-color-pale);
   cursor: pointer;
 }
-.sheet-body .chat-palette-frame .chat-palette.lines details span {
+.sheet-body .chat-palette-frame .chat-palette.lines details span[data-value] {
   border-left: .4rem solid var(--border-color-pale);
   padding-left: .2rem;
 }
-.sheet-body .chat-palette-frame .chat-palette.lines details[open] span {
+.sheet-body .chat-palette-frame .chat-palette.lines details[open] span[data-value] {
   animation: paletteFade 0.25s ease;
 }
 @keyframes paletteFade {
   0%   { opacity: 0; transform: translateY(-1rem); }
   100% { opacity: 1; transform: none; }
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span:focus {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value]:focus {
   outline: none;
   background-color: rgba(0,150,255, 0.2);
 }
-.sheet-body .chat-palette-frame .chat-palette.lines span:hover {
+.sheet-body .chat-palette-frame .chat-palette.lines span[data-value]:hover {
   background-color: rgba(255,150,0, 0.2);
 }
 .sheet-body .chat-palette-frame .chat-palette.lines span.param {
@@ -905,27 +914,26 @@ body.rom .input-form { display: none !important; }
 #main-form .name-area #form-color {
   width: 7em;
 }
-#main-form .address-area {
+.address-area {
   display: inline-flex;
   position: relative;
   margin-left: auto;
-  margin-right: 2rem;
   border: .1rem solid var(--border-color);
   border-radius: .8rem;
 }
-#main-form .address-area::before {
+.address-area::before {
   position: absolute;
   content: "⇒";
   left: -1.1em;
   bottom: 0;
 }
-#main-form .address-area select {
+.address-area select {
   max-width: 10em;
   border: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-#main-form .address-area label {
+.address-area label {
   display: flex;
   align-items: center;
   position: relative;
@@ -936,16 +944,19 @@ body.rom .input-form { display: none !important; }
   font-size: 80%;
   opacity: 0.5;
 }
-#main-form .secret .address-area label {
+.input-form:not(.secret) .address-area label {
+  pointer-events: none;
+}
+.secret .address-area label {
   opacity: 1;
 }
-#main-form .address-area label:hover {
+.address-area label:hover {
   box-shadow: inset 0 0 .5rem var(--hover-inset-color);
 }
-#main-form .address-area label input {
+.address-area label input {
   vertical-align: text-bottom;
 }
-#main-form .address-area label input+b {
+.address-area label input+b {
   user-select: none;
 }
 /* 装飾ボタン */
@@ -1154,13 +1165,17 @@ body.rom .input-form { display: none !important; }
   content: attr(data-date);
   position: absolute;
   font-size: 1.2rem;
-  top: -1.2rem;
-  right: 20px;
+  line-height: 1;
+  right: 0px;
+  bottom: calc(100% - 2px);
   opacity: 0;
   font-family: 'Arial';
   font-weight: normal;
   white-space: nowrap;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+.chat .logs dl dd:has(button.rewrite)::after {
+  right: 2.5rem;
 }
 .chat .logs dl dd:hover::after {
   opacity: 1;
@@ -1170,12 +1185,17 @@ body.rom .input-form { display: none !important; }
   position: absolute;
   display: none;
   z-index: 1;
-  width: 2.4rem;
-  height: 2.4rem;
-  font-size: 1.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.6rem;
   padding: .2rem;
-  top: -1.8rem;
-  right: -5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+}
+.chat .logs dl dd.comm:has(button.rewrite) {
+  border-top-right-radius: 0;
 }
 .chat .logs dl dd.comm span.rewrited {
 }
@@ -1221,10 +1241,17 @@ body.rom .input-form { display: none !important; }
   animation-duration: .5s;
   animation-timing-function: linear;
 }
-.logs dl dd img.insert.bg {
+.logs dl dd .insert.bg {
   width: 100%;
-  max-height: 10vh;
-  object-fit: cover;
+  height: 10vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: zoom-in;
+}
+.logs dl dd .insert.bg[data-mode="tiling"] {
+  background-size: auto;
+  background-repeat: repeat;
 }
 .logs dl dd .chara-image {
   float: left;
@@ -1566,6 +1593,17 @@ body.rom .input-form { display: none !important; }
 .bg-set-box .properties-area > label > .control input {
   width: 100%;
 }
+.bg-set-box .properties-area .fill-mode {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0;
+}
+.bg-set-box .properties-area .fill-mode > label {
+  margin-right: 1em;
+}
+.bg-set-box .properties-area .fill-mode > label:last-child {
+  margin-right: 0;
+}
 
 #bg-set #bg-set-tracks-check-preset:not(:checked)  ~ #bg-preset,
 #bg-set #bg-set-tracks-check-history:not(:checked) ~ #bg-history { display: none; }
@@ -1682,10 +1720,11 @@ body.rom .input-form { display: none !important; }
 }
 #bgm-set .list-section .tracks-area {
   padding-right: 0.5em;
-  overflow: auto;
+  overflow-y: auto;
 }
 #bgm-set .list-section .history-area {
   grid-row: span 2;
+  overflow-y: auto;
 }
 
 .bg-list li[data-vol] {
@@ -1878,9 +1917,11 @@ body.rom .input-form { display: none !important; }
 }
 #help-window code {
   display: inline-block;
-  padding: .2rem .5rem;
-  background: rgba(0,255,100,0.4);
-  border-radius: 1rem;
+  margin: .1em 0;
+  padding: .2em .5rem;
+  background: rgba(0,255,100,0.3);
+  border-radius: .5rem;
+  font-size: 85%;
 }
 #help-window h3:nth-child(n+2) {
   margin-top: 1em;
@@ -1949,6 +1990,39 @@ body.rom .input-form { display: none !important; }
 
 /* レディチェック */
 #ready-check h2::before { content: "\e6b1"; }
+#ready-check > .message {
+  padding: .5em .8em;
+  border-radius: .5em;
+  background-color: #fff2;
+}
+#ready-check > .message:empty {
+  display: none;
+}
+#ready-check button[name^="ready-"] {
+  display: inline-flex;
+  align-items: center;
+}
+#ready-check button[name^="ready-"]::before {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: 'FILL' 1;
+}
+#ready-check button[name="ready-ok"]::before {
+  content: "\e5ca";
+}
+#ready-check button[name="ready-no"]::before {
+  content: "\e5cd";
+}
+#ready-check button[name^="ready-"].selected {
+  pointer-events: none;
+  box-shadow: none;
+  filter: grayscale(50%);
+}
+#ready-check button[name="ready-ok"].selected {
+  background: rgba(0, 255, 0, 0.8);
+}
+#ready-check button[name="ready-no"].selected {
+  background: rgba(255, 34, 0, 0.8);
+}
 #ready-list {
   width: max-content;
   margin: auto;
@@ -1970,6 +2044,7 @@ body.rom .input-form { display: none !important; }
   text-align: center;
   font-family: "Material Symbols Outlined";
   font-variation-settings: 'FILL' 1;
+  font-weight: bold;
   transform: scale(1.3) translateY(.1em);
 }
 #ready-list li.ok::before {
@@ -1979,6 +2054,11 @@ body.rom .input-form { display: none !important; }
 #ready-list li.no::before {
   content: "\e5cd";
   color: #f20;
+}
+#ready-list li.mine::after {
+  content: "（自分）";
+  color: #ffc480;
+  font-size: 80%;
 }
 
 .mem-signal::before {

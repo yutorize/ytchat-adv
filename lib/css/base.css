@@ -212,7 +212,44 @@ button, .button {
 .center{ text-align: center; }
 .right { text-align: right; }
 
+ruby rp {
+  display: inline;
+  font-size: 0;
+}
+
 img.icon { width: 1em; height: 1em; }
+
+/* ツールチップ */
+.tooltip {
+  position: relative;
+  border-bottom: 1px #6699bb dashed;
+  cursor: help;
+}
+.tooltip .tooltip-text {
+  display: none;
+  position: fixed;
+  max-width: 25em;
+  width: max-content;
+  padding: .5em .9em;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #000e;
+  text-shadow: none;
+  box-shadow: 3px 3px 3px #000a;
+  font-size: 80%;
+  z-index: 2;
+  pointer-events: none;
+  animation-name: tooltipfade;
+  animation-duration: 0.25s;
+  animation-timing-function: ease-out;
+}
+.tooltip:hover .tooltip-text {
+  display: block;
+}
+@keyframes tooltipfade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
 /* ボックス */
 .box {
@@ -284,6 +321,15 @@ img.icon { width: 1em; height: 1em; }
 .logs dl.system.round dd.comm::before  { font-size: calc(1em / 0.8); }
 
 .logs dl.system.round dd.info { font-size: inherit; }
+
+.logs dl.system.ready dd {
+  display: flex;
+  align-items: center;
+}
+.logs dl.system.ready dd .ready-check-message {
+  font-weight: normal;
+  margin-left: 0.25em;
+}
 
 .logs dl dd button {
   vertical-align: middle;

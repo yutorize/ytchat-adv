@@ -13,7 +13,6 @@ use JSON::PP;
 my $log_pre_max = 50;
 my $dir = "./room/$::in{'room'}/";
 
-
 if($::in{'room'} eq ''){ error "ルームIDがありません"; }
 if($::in{'logKey'} eq ''){ error "ログKeyがありません"; }
 if(!-d "room/".$::in{'room'}){ error "ルームがありません"; }
@@ -22,11 +21,25 @@ if(!$::in{'system'}){
   if($::in{'comm'} eq ''){ error "発言がありません"; }
 }
 
-foreach (%::in) {
-  $::in{$_} = decode('utf8', $::in{$_});
-  $::in{$_} =~ s/</&lt;/g;
-  $::in{$_} =~ s/>/&gt;/g;
-  $::in{$_} =~ s/\\/&#92;/g;
+if($::in{base64mode}){
+  use MIME::Base64;
+  foreach (keys %::in) {
+    if($_ eq 'comm'){
+      $::in{$_} = decode('utf8', decode_base64($::in{$_}) );
+    }
+    else {
+      $::in{$_} = decode('utf8', $::in{$_});
+    }
+    $::in{$_} = escapeBracket($::in{$_});
+    $::in{$_} =~ s/\\/&#92;/g;
+  }
+}
+else {
+  foreach (keys %::in) {
+    $::in{$_} = decode('utf8', $::in{$_});
+    $::in{$_} = escapeBracket($::in{$_});
+    $::in{$_} =~ s/\\/&#92;/g;
+  }
 }
 
 my @adds;
@@ -38,23 +51,25 @@ my $stt_commands = join('|', @stt_commands);
 
 $::in{'name'} =~ s/!SYSTEM/$::in{'player'}/;
 
-# 入退室処理
+# 入退室処理 ----------
 if($::in{'system'} eq 'enter'){
   if($::in{'player'} eq ''){ error('名前を入力してください') }
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が入室しました";
+  $::in{'comm'} = "<b><c:$::in{'color'}>$::in{'player'}</c></b>が入室しました";
+  $::in{'comm'} = escapeBracket($::in{'comm'});
   delete $::in{'color'};
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
 }
 elsif($::in{'system'} eq 'exit'){
   $::in{'name'} = "!SYSTEM";
-  $::in{'comm'} = "<b style=\"color:$::in{'color'}\">$::in{'player'}</b>が退室しました";
+  $::in{'comm'} = "<b><c:$::in{'color'}>$::in{'player'}</c></b>が退室しました";
+  $::in{'comm'} = escapeBracket($::in{'comm'});
   delete $::in{'color'};
   memberEdit('exit', $::in{'player'}, $::in{'userId'});
 }
 else {
   memberEdit('enter', $::in{'player'}, $::in{'userId'});
-  # ラウンド処理
+  # ラウンド処理 ----------
   if($::in{'comm'} =~ s<^/round([+\-=][0-9]+|reset)(?:\s|$)><>i){
     my $num = roundChange($1);
     $::in{'name'} = "!SYSTEM";
@@ -62,7 +77,7 @@ else {
     $::in{'system'} = "round:".$num;
     delete $::in{'address'};
   }
-  # トピック処理
+  # トピック処理 ----------
   elsif($::in{'comm'} =~ s<^/topic(\s|$)><>i){
     topicEdit($::in{'comm'});
     $::in{'tab'} = '1';
@@ -73,7 +88,7 @@ else {
     delete $::in{'color'};
     delete $::in{'address'};
   }
-  # メモ処理
+  # メモ処理 ----------
   elsif($::in{'comm'} =~ s<^/memo([0-9]*)(\s|$)><>i){
     my $new = $1 eq '' ? 1 : 0;
     error('メモの内容がありません。') if ($new && !$::in{'comm'});
@@ -85,18 +100,18 @@ else {
     $::in{'comm'} = "共有メモ".($num+1).'を'. ($new ? '追加' : ($::in{'info'} ? '更新' : "削除")) ." by $::in{'player'}";
     delete $::in{'address'};
   }
-  # 挿絵
+  # 挿絵 ----------
   elsif($::in{'comm'} =~ s<^/insert\s+(https?://.+)><>i){
     my $url = $1;
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     $::in{'system'} = 'image';
     $::in{'comm'} = '';
     $::in{'info'} = $url;
   }
-  # BGM変更処理
+  # BGMリセット処理 ----------
   elsif($::in{'comm'} =~ s<^/bgmreset><>i){
     bgmEdit('','');
     $::in{'name'} = "!SYSTEM";
@@ -104,11 +119,15 @@ else {
     $::in{'system'} = 'bgm';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bgm(?:\s+(.*?))?(?:\s+([0-9]{1,3}))?\s+(https?://.+)><>i){
-    my $url = $3;
-    my $title = $1 || '無題';
-    $2 =~ s/^0+//;
-    my $volume = $2 || 100;
+  # BGM変更処理 ----------
+  elsif($::in{'comm'} =~ s<^/bgm(\s+.+)><>i){
+    my $str = $1;
+    my $url;
+    if($str =~ s#\s+(https?://\S+)##){ $url = $1 } else { error('URLがありません') }
+    my $volume = 100;
+    if($str =~ s/\s+vol=([1-9][0-9]{0,2}|0)//){ $volume = $1 }
+    my $title = '無題';
+    if($str =~ /^\s*(.+?)\s*$/){ $title = $1 }
     #Youtube
     if($url =~ "https?://((www\.)?youtube\.com|youtu\.be)/"){
       if($url =~ /youtube\.com\/watch\?(?:.*?)v=(.+?)(?:&|$)/){
@@ -128,7 +147,7 @@ else {
       if(!$hit){ error('許可されていないURLです'); }
     }
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
     bgmEdit($url,$title,$volume);
@@ -138,7 +157,7 @@ else {
     $::in{'system'} = 'bgm:'.$volume.':'.$url;
     delete $::in{'color'};
   }
-  # 背景変更処理
+  # 背景リセット処理 ----------
   elsif($::in{'comm'} =~ s<^/bgreset><>i){
     bgEdit('','');
     $::in{'name'} = "!SYSTEM";
@@ -146,9 +165,15 @@ else {
     $::in{'system'} = 'bg';
     delete $::in{'color'};
   }
-  elsif($::in{'comm'} =~ s<^/bg(?:\s+(.*?))?\s+(https?://.+)><>i){
-    my $url = $2;
-    my $title = $1 || '無題';
+  # 背景変更処理 ----------
+  elsif($::in{'comm'} =~ s<^/bg(\s+.+)><>i){
+    my $str = $1;
+    my $url;
+    if($str =~ s#\s+(https?://\S+)##){ $url = $1 } else { error('URLがありません') }
+    my $mode = 'resize';
+    if($str =~ s/\s+mode=(resize|tiling)//){ $mode = $1 }
+    my $title = '無題';
+    if($str =~ /^\s*(.+?)\s*$/){ $title = $1 }
     if($set::src_url_limit) {
       my $hit = 0;
       foreach my $domain (@set::src_url_list){
@@ -158,29 +183,29 @@ else {
       if(!$hit){ error('許可されていないURLです'); }
     }
     #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|share_link)$/){
+    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
       $url = 'https://drive.google.com/uc?id=' . $1;
     }
-    bgEdit($url,$title);
+    bgEdit($mode,$url,$title);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "背景を変更 by $::in{'player'}";
     $::in{'info'} = "$title";
-    $::in{'system'} = 'bg:'.$url;
+    $::in{'system'} = 'bg:'.$mode.':'.$url;
     delete $::in{'color'};
   }
-  # 発言修正
+  # 発言修正 ----------
   elsif($::in{'comm'} =~ s<^/rewrite:([0-9]+)\s?><>i){
     $::in{'system'} = "rewrite:$1";
   }
   elsif($::in{'comm'} =~ s<^/rewritename:([0-9]+)$><>i){
     $::in{'system'} = "rewritename:$1";
   }
-  # チャットパレット更新
+  # チャットパレット更新 ----------
   elsif($::in{'comm'} =~ s<^/paletteupdate\s(.*)$><>is){
     paletteUpdate($::in{'name'}, $1);
     $::in{'system'} = 'palette';
   }
-  # タブ追加
+  # タブ追加 ----------
   elsif($::in{'comm'} =~ s<^/tab-add\s+(.+?)(?:\s|$)><>i){
     my $num = tabAdd($1);
     if($num){ $::in{'system'} = "tab:$num=$1"; }
@@ -188,7 +213,7 @@ else {
     $::in{'comm'} = "タブ「$1」を追加しました。by $::in{'player'}";
     $::in{'tab'} = $num;
   }
-  # タブ削除
+  # タブ削除 ----------
   elsif($::in{'comm'} =~ s<^/tab-delete\s+(.+?)(?:\s|$)><>i){
     my $num = tabDelete($1);
     if($num){ $::in{'system'} = "tab:$num="; }
@@ -196,7 +221,7 @@ else {
     $::in{'comm'} = "タブ「$1」を削除しました。by $::in{'player'}";
     $::in{'tab'} = 1;
   }
-  # タブ変更
+  # タブ変更 ----------
   elsif($::in{'comm'} =~ s<^/tab-rename\s+(.+?)-&gt;(.+)(?:\s|$)><>i){
     my $num = tabRename($1,$2);
     if($num){ $::in{'system'} = "tab:$num=$2"; }
@@ -205,19 +230,11 @@ else {
     $::in{'comm'} = "タブ「$1」を「$2」に変更しました。by $::in{'player'}";
     $::in{'tab'} = $num;
   }
-  # ユニット処理
-  #チェック
-  elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
-    my $check = $1 eq 'check' ? 1 : 0;
-    $::in{'info'} = 'チェック：'.($check ? '✔' : '×');
-    $::in{'system'} = "check:".$check;
-    unitCheck($::in{'name'}, $check);
-    delete $::in{'address'};
-  }
-  #レディチェック
-  elsif($::in{'comm'} =~ s<^/ready(?:\s|$)><>i){
+  # レディチェック ----------
+  elsif($::in{'comm'} =~ s<^/ready(?:\s(.+)$|$)><>i){
+    my $message = defined($1) ? $1 : "レディチェックを開始";
     $::in{'name'} = "!SYSTEM";
-    $::in{'comm'} = "レディチェックを開始 by $::in{'player'}";
+    $::in{'comm'} = "$message by $::in{'player'}";
     $::in{'system'} = "ready";
     delete $::in{'color'};
     delete $::in{'address'};
@@ -226,6 +243,15 @@ else {
     my $ready = $1 eq 'no' ? 'no' : 'ok';
     $::in{'system'} = "ready-${ready}";
     delete $::in{'comm'};
+    delete $::in{'address'};
+  }
+  # ユニット処理 ----------
+  #チェック
+  elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
+    my $check = $1 eq 'check' ? 1 : 0;
+    $::in{'info'} = 'チェック：'.($check ? '✔' : '×');
+    $::in{'system'} = "check:".$check;
+    unitCheck($::in{'name'}, $check);
     delete $::in{'address'};
   }
   #新規
@@ -261,13 +287,13 @@ else {
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
-  # BCDice処理
+  # BCDice処理 ----------
   elsif($::in{'bcdice'}){
     $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
     $::in{'info'} = $::in{'bcdice'}.'<<'.$1;
     $::in{'system'} = 'dice';
   }
-  # ダイス処理
+  # ダイス処理 ----------
   elsif(diceCodeCheck()){
     #なんもないよ
   }
@@ -275,7 +301,7 @@ else {
 
 error('書き込む情報がありません') if ($::in{'comm'} eq '' && $::in{'info'} eq '' && $::in{'system'} eq '');
 
-# ダイスコード確認
+# ダイスコード確認 ----------
 sub diceCodeCheck {
   # ダイス処理
   if($::in{'comm'} =~ /^(?:
@@ -307,16 +333,13 @@ sub diceCodeCheck {
   }
 }
 
-# 秘話
+# 秘話 ----------
 if($::in{'address'}){
   $::in{'name'} .= ' > '.$::in{'addressName'};
   $::in{'address'} .= $::in{'openlater'} ? '#' : '';
 }
 
-# タグ変換
-#$::in{'comm'} = tagConvert($::in{'comm'});
-
-# 最終安全装置
+# 最終安全装置 ----------
 $::in{$_} = finalSafetyMain($::in{$_}) foreach ('comm','info');
 $::in{$_} = finalSafetySub($::in{$_})  foreach ('tab','name','color','system','player','userId','address');
 sub finalSafetyMain {
@@ -330,12 +353,12 @@ sub finalSafetySub {
   return $text;
 }
 
-# 時間取得
+# 時間取得 ----------
 my @time = localtime(time);
 my $date = sprintf("%04d/%02d/%02d %02d:%02d:%02d", $time[5]+1900,$time[4]+1,$time[3],$time[2],$time[1],$time[0]);
 
 
-# カウンター
+# カウンター ----------
 sysopen(my $NUM, $dir."log-num-$::in{'logKey'}.dat", O_RDWR) or error "log-num-$::in{'logKey'}.datが開けません";
 flock($NUM, 2);
 my $counter = <$NUM>;
@@ -343,23 +366,23 @@ seek($NUM, 0, 0);
 
 $counter++;
 
-# 新規データ
+# 新規データ ----------
 my @posts;
 push(@posts, "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$::in{'comm'}<>$::in{'info'}<>$::in{'system'}<>$::in{'player'}<$::in{'userId'}><>$::in{'address'}<>\n");
-# 追加データ
+# 追加データ ----------
 foreach my $add (@adds){
   $counter++;
   push(@posts, "$counter<>$date<>$::in{'tab'}<>$::in{'name'}<>$::in{'color'}<>$add->{'comm'}<>$add->{'info'}<>$add->{'system'}<>$::in{'player'}<$::in{'userId'}><>$::in{'address'}<>\n");
 }
 
-# 過去ログに追加
+# 過去ログに追加 ----------
 sysopen(my $LOG, $dir.'log-all.dat', O_WRONLY | O_APPEND) or error "log-all.datが開けません";
 print $LOG join("", @posts);
 close($LOG);
 
 @posts = reverse @posts;
 
-# 現在ログに追加
+# 現在ログに追加 ----------
 sysopen(my $FH, $dir.'log-pre.dat', O_RDWR) or error "log-pre.datが開けません";
 flock($FH, 2);
 my @lines = <$FH>;
@@ -380,6 +403,11 @@ print "Content-type:application/json; charset=UTF-8\n\n";
 
 exit;
 
+
+###################
+### サブルーチン
+
+# 参加者 ----------
 sub memberEdit {
   my $type = shift;
   my $name = shift;
@@ -416,6 +444,7 @@ sub memberEdit {
   }
 }
 
+# トピック ----------
 sub topicEdit {
   my $topic = shift;
   $topic =~ s/\r\n?|\n/<br>/g;
@@ -432,6 +461,7 @@ sub topicEdit {
   truncate($FH, tell($FH));
   close($FH);
 }
+# メモ ----------
 sub memoEdit {
   my $num  = shift;
   my $memo = shift;
@@ -454,7 +484,9 @@ sub memoEdit {
   
   return $num;
 }
+# 背景 ----------
 sub bgEdit {
+  my $mode = shift;
   my $url = shift;
   my $title = shift;
   
@@ -464,6 +496,7 @@ sub bgEdit {
   my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
   seek($FH, 0, 0);
   
+  $data{'bg'}{'mode'} = $mode;
   $data{'bg'}{'url'} = $url;
   $data{'bg'}{'title'} = $title;
   
@@ -475,6 +508,7 @@ sub bgEdit {
   truncate($FH, tell($FH));
   close($FH);
 }
+# BGM ----------
 sub bgmEdit {
   my $url = shift;
   my $title = shift;
@@ -502,6 +536,7 @@ sub bgmEdit {
   close($FH);
 }
 
+# タブ追加 ----------
 sub tabAdd {
   my $name = shift;
   if(!$name){ error('タブの名前が入力されていません'); }
@@ -527,6 +562,7 @@ sub tabAdd {
   return $num;
 }
 
+# タブ削除 ----------
 sub tabDelete {
   my $name = shift;
   if(!$name){ error('タブの名前が入力されていません'); }
@@ -549,6 +585,7 @@ sub tabDelete {
   return $num;
 }
 
+# タブリネーム ----------
 sub tabRename {
   my $before = shift;
   my $after  = shift;
@@ -573,6 +610,7 @@ sub tabRename {
   return $num;
 }
 
+# 行動済みチェックリセット ----------
 sub checkReset {
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
@@ -587,6 +625,7 @@ sub checkReset {
   truncate($FH, tell($FH));
   close($FH);
 }
+# ラウンド変更 ----------
 sub roundChange {
   my $num = shift;
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
@@ -609,6 +648,7 @@ sub roundChange {
   checkReset;
   return $data{'round'};
 }
+# ユニット作成 ----------
 sub unitMake {
   my $set_name = shift;
   my $set_data = shift;
@@ -663,6 +703,7 @@ sub unitMake {
   
   return ($result, $result_system);
 }
+# ユニット削除 ----------
 sub unitDelete {
   my $set_name = shift;
   
@@ -677,6 +718,7 @@ sub unitDelete {
   truncate($FH, tell($FH));
   close($FH);
 }
+# ユニットチェック変更 ----------
 sub unitCheck {
   my $set_name = shift;
   my $set_check = shift;
@@ -697,6 +739,7 @@ sub unitCheck {
   truncate($FH, tell($FH));
   close($FH);
 }
+# ユニットステータス計算・変更 ----------
 sub unitCalcEdit {
   my $set_name = shift;
   my $set_text = shift;
@@ -774,6 +817,7 @@ sub unitCalcEdit {
   
   return ($result_info, $result_system);
 }
+
 sub sttCalc {
   my $type = shift; #ステータス名
   my $num  = shift; #入力値
@@ -841,6 +885,7 @@ sub parenthesisCalc {
   return $text;
 }
 
+# チャットパレット ----------
 sub paletteUpdate {
   my $set_name = shift;
   my $set_text = shift;

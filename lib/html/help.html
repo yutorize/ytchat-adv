@@ -58,6 +58,8 @@
     <tr><th>&lt;h4&gt;テキスト&lt;/h4&gt;</th><td class="logs"><h4>テキスト</h4></td><td>見出しレベル4</td></tr>
     <tr><th>&lt;h5&gt;テキスト&lt;/h5&gt;</th><td class="logs"><h5>テキスト</h5></td><td>見出しレベル5</td></tr>
     <tr><th>&lt;h6&gt;テキスト&lt;/h6&gt;</th><td class="logs"><h6>テキスト</h6></td><td>見出しレベル6</td></tr>
+    <tr><th>&lt;hr&gt;</th><td class="logs"><hr /></td><td>水平線</td></tr>
+    <tr><th>&lt;tip&gt;単語=&gt;説明&lt;/tip&gt;</th><td><span class="tooltip" onmouseover="tooltipHover(event)">単語<span class="tooltip-text">説明</span></span></td><td>予め設定されている以外のツールチップ</td></tr>
     <tr><th>|テキスト|テキスト|<br>|テキスト|テキスト|</th><td class="logs"><table><tr><td>テキスト<td>テキスト<tr><td>テキスト<td>テキスト</table></td><td>テーブル（表組み）</td></tr>
     <tr><th>・テキスト<br>・テキスト</th><td><ul><li>テキスト<li>テキスト</ul></td><td>リスト</td></tr>
     <tr><th>:アイコン名:</th><td>(任意のアイコン)</td><td>Google Fontsの<a href="https://fonts.google.com/icons" target="_blank">Material Symbols</a>のアイコンを表示する。アイコン名は全て半角小文字、スペースの代わりにアンダースコア(_)を用いる。</td></tr>
@@ -99,21 +101,24 @@
       　このさい、２つ目以降のステータス名の前に@は不要です。<br>
       例: <code>@HP:25/25 MP:10/10 防護:4</code>、<code>@HP-12 MP-12</code>
     </td></tr>
+    <tr><th>@memo:メモの内容</th><td>ユニットの「メモ」の内容を設定します。<br><code>@memo:</code>のみで送信するとメモを削除します。</td></tr>
     <tr><th>@new ステータス名:文字列  </th><td>ユニット、ステータスを新規に設定します。<br>既に同名のものがある場合は上書きされます。<br>例外的に、名前欄・ユニット欄に存在しない名前でも指定できます。<br>例: <code>大蜥蜴@new 頭部HP:30/30 胴体HP:40/40</code>、<code>ゴブリンの群れ@new ＡHP:16/16 ＢHP:16/16 ＣHP:16/16 防護:2</code></td></tr>
     <tr><th>@add ステータス名:文字列  </th><td>ステータスを追加で設定します。<br>既に同名のものがある場合は上書きされます。<br>例: <code>@add 使い魔MP:7/7</code>、</td></tr>
     <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
     <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
     <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
-    <tr><th>/ready       </th><td>「レディチェックを開始しました」の文言とともに、ユニットの✔を全て外す。</td></tr>
+    <tr><th>/ready       </th><td rowspan="2">「レディチェック（準備確認）」をおこなう。<br>メッセージを指定した場合、その文面とともにレディチェックをおこなう。<br>例： <code>/ready 割り込み行動のないひとはチェックしてください</code></td></tr>
+    <tr><th>/ready メッセージ</th></tr>
     <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/round=数値  </th><td>ラウンド数を「数値」にする。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/roundreset  </th><td>ラウンド数を「0」にする。<br>ユニットの✔は全て外れる。</td></tr>
     <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
     <tr><th>/memo 文字列 </th><td>「文字列」の内容のメモを追加する。</td></tr>
-    <tr><th>/bg 文字列 URL</th><td>「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。</td></tr>
+    <tr><th>/bg 文字列 URL</th><td rowspan="2">「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。<br>「mode=tiling」を指定すると、タイリングして表示される。<br>「/bg」以降の内容は順番は問わない。<br>（<code>/bg URL タイトル mode=tiling</code>などでもよい）</td></tr>
+    <tr><th>/bg mode=tiling 文字列 URL</th></tr>
     <tr><th>/bgreset</th><td>背景画像を初期状態に戻す。</td></tr>
-    <tr><th>/bgm 文字列 数値 URL</th><td>「URL」の音声をBGMに設定する。<br>「文字列」をタイトル、「数値」%の音量で設定される（省略時は100）。</td></tr>
+    <tr><th>/bgm 文字列 vol=数値 URL</th><td>「URL」の音声をBGMに設定する。<br>「文字列」をタイトル、「数値」%の音量で設定される（省略時は100）。<br>「/bgm」以降の内容は順番は問わない。<br>（<code>/bgm vol=100 URL タイトル</code>などでもよい）</td></tr>
     <tr><th>/bgmreset</th><td>BGMを無音状態に戻す。</td></tr>
     <tr><th>/insert URL</th><td>「URL」の画像を挿入</td></tr>
   </table>

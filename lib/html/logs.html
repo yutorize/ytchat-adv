@@ -69,7 +69,7 @@
       <dt id="opt-fontsize">文字サイズ <span id="option-font-size-view">100</span> %</dd><dd><input id="option-font-size" type="range" min="80" max="130" step="1" value="100"></dd>
       <dt id="opt-fontfamily">日本語フォント</dd><dd><select id="option-font-family-jp"><TMPL_INCLUDE NAME="option-fonts.html"></select></dd>
     </dl>
-    <div id="loglist-area"><TMPL_IF RoomList>
+    <TMPL_UNLESS dlMode><div id="loglist-area"><TMPL_IF RoomList>
     <details <TMPL_VAR roomListOpen>>
       <summary class="bold">現行ログ</summary>
       <ul id="roomlist"><TMPL_LOOP RoomList>
@@ -84,7 +84,7 @@
 </TMPL_LOOP>
         </ul>
     </details>
-    </TMPL_IF></div>
+    </TMPL_IF></div></TMPL_UNLESS>
 
     <ul id="return-link">
       <TMPL_UNLESS dlMode>
@@ -114,6 +114,7 @@
 </div>
 <div id="base" class="box">
   <header>
+    <TMPL_IF isPresent><a class="back-to-room" href="./?mode=room&id=<TMPL_VAR roomId>">ルームに戻る</a><br></TMPL_IF>
     <h1><TMPL_VAR title></h1><h2><TMPL_VAR subtitle></h2>
   </header>
   <article id="contents">
@@ -121,7 +122,7 @@
   <div class="logs logs-font">
     <TMPL_LOOP Logs>
     <dl id="line-<TMPL_VAR NUM>"<TMPL_IF CLASS> class="<TMPL_VAR CLASS>"</TMPL_IF> data-user="<TMPL_VAR USER>" data-tab="<TMPL_VAR TAB>" data-tab-name="<TMPL_VAR TABNAME>">
-      <dt style="color:<TMPL_VAR COLOR>"><TMPL_VAR NAME></dt>
+      <dt <TMPL_IF COLOR>style="color:<TMPL_VAR COLOR>"</TMPL_IF>><TMPL_VAR NAME></dt>
 <TMPL_LOOP LogsDD><TMPL_IF COMM>      <dd class="comm" data-date="<TMPL_VAR DATE>"><TMPL_VAR COMM></dd>
 </TMPL_IF><TMPL_IF INFO>      <dd class="info <TMPL_VAR TYPE>" data-date="<TMPL_VAR DATE>"<TMPL_IF GAME> data-game="<TMPL_VAR GAME>"</TMPL_IF>><TMPL_VAR INFO></dd>
 </TMPL_IF></TMPL_LOOP>    </dl>

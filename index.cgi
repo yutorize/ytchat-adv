@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 ####################################
 ##               ゆとチャadv.     ##
 ##          by ゆとらいず工房     ##
@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.01.003";
+our $ver = "1.02.000";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -129,6 +129,16 @@ sub tagConvert {
   my @linkURL;
   $comm =~ s{(https?://[^\s\<]+)}{ push(@linkURL, $1); "<!a#".scalar(@linkURL).">" }ge;
 
+  #
+  $comm =~ s#&lt;br&gt;\n?#<br>#gi;
+  $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
+  $comm =~ s/(^・(?!・).+(\n|$))+/&listCreate($&)/egim;
+  $comm =~ s/(?:^(?:\|(?:.*?))+\|[hc]?(?:\n|$))+/&tableCreate($&)/egim;
+  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rt>$2</ruby>#gi;
+  $comm =~ s#<ruby>(.+?)(?:<rp>\(</rp>)?<rt>(.*?)(?:<rp>\)</rp>)?</ruby>#<ruby>$1<rt>$2</ruby>#gi;
+  $comm =~ s#([♠♤♥♡♣♧♦♢]+)#<span class="trump">$1</span>#gi;
+  $comm =~ s#:([a-z0-9_]+?):#<span class="material-symbols-outlined"><i>:</i>$1<i>:</i></span>#g;
+
   # ユーザー定義
   foreach my $hash (@set::replace_regex){
     foreach my $key (keys %{$hash}){
@@ -142,32 +152,29 @@ sub tagConvert {
     my $qkey = quotemeta $key;
     $comm =~ s/${qkey}/$set::replace_rule{$key}/g;
   }
-  
-  $comm =~ s#&lt;hr&gt;\n?#<hr>#gi;
-  $comm =~ s#&lt;ruby&gt;(.+?)&lt;rt&gt;(.*?)&lt;/ruby&gt;#<ruby>$1<rp>(</rp><rt>$2</rt><rp>)</rp></ruby>#gi;
-  $comm =~ s#([♠♤♥♡♣♧♦♢]+)#<span class="trump">$1</span>#gi;
-  $comm =~ s#:([a-z0-9_]+?):#<span class="material-symbols-outlined"><i>:</i>$1<i>:</i></span>#g;
 
-  $comm =~ s/(^・(?!・).+(\n|$))+/&listCreate($&)/egim;
-  $comm =~ s/(?:^(?:\|(?:.*?))+\|[hc]?(?:\n|$))+/&tableCreate($&)/egim;
+  #
+  $comm =~ s#<ruby>(.+?)(?:<rp>\(</rp>)?<rt>(.*?)(?:<rp>\)</rp>)?</ruby>#<ruby><rp>｜</rp>$1<rp>《</rp><rt>$2<rp>》</rp></ruby>#gi;
 
-  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
-  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
-  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
   1 while $comm =~ s#&lt;b&gt;(.*?)&lt;/b&gt;#<b>$1</b>#gis;
   1 while $comm =~ s#&lt;i&gt;(.*?)&lt;/i&gt;#<i>$1</i>#gis;
   1 while $comm =~ s#&lt;s&gt;(.*?)&lt;/s&gt;#<s>$1</s>#gis;
   1 while $comm =~ s#&lt;u&gt;(.*?)&lt;/u&gt;#<span class="under">$1</span>#gis;
   1 while $comm =~ s#&lt;o&gt;(.*?)&lt;/o&gt;#<span class="over">$1</span>#gis;
-  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gis;
+  1 while $comm =~ s#&lt;em&gt;(.+?)&lt;/em&gt;#<em>$1</em>#gis;
+  1 while $comm =~ s#&lt;mi&gt;(.+?)&lt;/mi&gt;#<i class="serif">$1</i>#gis;
+  1 while $comm =~ s#&lt;hide&gt;(.+?)&lt;/hide&gt;#<span class="hide">$1</span>#gis;
   1 while $comm =~ s#&lt;big&gt;(.*?)&lt;/big&gt;#<span class="large">$1</span>#gis;
   1 while $comm =~ s#&lt;small&gt;(.*?)&lt;/small&gt;#<span class="small">$1</span>#gis;
+  1 while $comm =~ s#&lt;c:([0-9a-zA-Z\#]*?)&gt;(.*?)&lt;/c&gt;#<span style="color:$1">$2</span>#gis;
   
   1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;\n?#<div class="left">$1</div>#gis;
   1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
   1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
   
   1 while $comm =~ s#&lt;h([1-6])&gt;(.*?)&lt;/h\1&gt;\n?#<h$1>$2</h$1>#gis;
+  
+  1 while $comm =~ s#&lt;tip&gt;(.*?)=&gt;(.*?)&lt;\/tip&gt;#$1#gis;
   
   # 自動リンク・後処理
   $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
@@ -264,6 +271,14 @@ sub tableHeaderCreate {
   }
   $output .= "</tr></thead>";
   return $output;
+}
+
+## 山括弧エスケープ
+sub escapeBracket {
+  my $text = shift;
+  $text =~ s/</&lt;/g;
+  $text =~ s/>/&gt;/g;
+  return $text;
 }
 
 ## タグ削除

@@ -20,6 +20,7 @@ sub dataGet {
 
 sub dataConvert {
   my $set_url = shift;
+  my $game = $::in{'game'};
   
   {
     my $sheetHtml = dataGet($set_url) or error 'URLを開けませんでした';
@@ -30,6 +31,7 @@ sub dataConvert {
         my $relation = $bodyUrl;
         $bodyUrl = $set_url;
         $bodyUrl =~ s/\?.+$/$relation/;
+        $bodyUrl =~ s#/\./#/#g;
       }
     } else {
       error('ステータスの取得できる参照先ではありません');
@@ -41,6 +43,10 @@ sub dataConvert {
         my $relation = $paletteUrl;
         $paletteUrl = $set_url;
         $paletteUrl =~ s/\?.+$/$relation/;
+        $paletteUrl =~ s#/\./#/#g;
+        if($game && !exists $set::games{$game}{'name'}){
+          $paletteUrl .= '&tool=bcdice'
+        }
       }
     } else {
       $paletteUrl = '';
@@ -55,7 +61,6 @@ sub dataConvert {
     my @stt_name;
     my $memo;
     my $result;
-    my $game = $::in{'game'};
     if($pc{'unitStatus'}){
       foreach my $data (@{$pc{'unitStatus'}}){
         if($data eq '|'){
@@ -90,8 +95,12 @@ sub dataConvert {
     }
     @stt_name = do { my %c; grep {!$c{$_}++} @stt_name }; # 重複削除
     # 名前
-    my $aka  = rubyConvert( $pc{'aka'} );
-    my $name = rubyConvert( $pc{'characterName'} || $pc{'monsterName'} );
+    my $aka  = nameConvert( $pc{'aka'} , $pc{'akaRuby'} );
+    my $name = nameConvert(
+      $pc{'characterName'} && $pc{'monsterName'} ? "$pc{'characterName'}（$pc{'monsterName'}）"
+      : $pc{'characterName'}                     ? ($pc{'characterName'}, $pc{'characterNameRuby'})
+      : $pc{'monsterName'}
+    );
     # プロフィール
     my $profile = textConvert($pc{'sheetDescriptionM'});
     # 画像
@@ -119,19 +128,20 @@ sub dataConvert {
     return (\%data, $result);
   }
 }
-sub rubyConvert {
-  my ($text, $ruby) = split(':', shift);
+sub nameConvert {
+  my $text = shift;
+  my $ruby = shift;
   if($ruby){
     return "<ruby>$text<rt>$ruby</rt></ruby>";
   }
   else {
-    $text =~ s#[|｜](.+?)《(.+?)》#<ruby>$1<rt>$2</rt></ruby>#g;
+    $text =~ s#[|｜](.+?)《(.+?)》#<ruby>$1<rt>$2</ruby>#g;
     return $text;
   }
 }
 sub textConvert {
   my $text = shift;
-  $text =~ s#[|｜](.+?)《(.+?)》#<ruby>$1<rt>$2</rt></ruby>#g;
+  $text =~ s#[|｜](.+?)《(.+?)》#<ruby>$1<rt>$2</ruby>#g;
   $text =~ s/&lt;br&gt;|\n/<br>/gi;
   return $text;
 }

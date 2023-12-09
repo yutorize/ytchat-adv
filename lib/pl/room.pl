@@ -163,11 +163,12 @@ $ROOM->param(RandomTable => \@random_table);
 my @bg_list;
 foreach (@set::bg_preset){
   next if !$_ || !@$_[0];
+  my $mode = @$_[3] || '';
   if($set::bg_thum_on){
     my $src = @$_[2] || @$_[0];
-    push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VIEW' => "<img loading=\"lazy\" src=\"${src}\"><div class=\"title\">@$_[1]</div>" });
+    push(@bg_list, { 'URL' => @$_[0], 'MODE' => $mode, 'TITLE' => @$_[1], 'VIEW' => "<img loading=\"lazy\" src=\"${src}\"><div class=\"title\">@$_[1]</div>" });
   }
-  else { push(@bg_list, { 'URL' => @$_[0], 'TITLE' => @$_[1], 'VIEW' => @$_[1] }); }
+  else { push(@bg_list, { 'URL' => @$_[0], 'MODE' => $mode, 'TITLE' => @$_[1], 'VIEW' => @$_[1] }); }
 }
 $ROOM->param(bgPreset => \@bg_list);
 if($set::bg_thum_on){ $ROOM->param(bgThumOn => $set::bg_thum_on); }
@@ -188,8 +189,12 @@ $ROOM->param(customCSS => $set::custom_css);
 
 $ROOM->param(userRoomFlag => exists($set::rooms{$id}) ? 0 : 1);
 
-$ROOM->param(replaceRule => decode('utf-8', encode_json( \%set::replace_rule )) );
-$ROOM->param(replaceRegex => decode('utf-8', encode_json( \@set::replace_regex )) );
+$ROOM->param(replaceRule => decode('utf-8', encode_json \%set::replace_rule ) );
+$ROOM->param(replaceRegex => decode('utf-8', encode_json \@set::replace_regex ) );
+
+$ROOM->param(tooltips => decode('utf-8', encode_json \%set::tooltips) );
+
+$ROOM->param(base64Mode => $set::base64mode );
 
 ###################
 ### 出力
