@@ -325,6 +325,9 @@ body.rom #status #status-body > dl > dt {
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
   cursor: pointer;
 }
+body.rom #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
+  pointer-events: none;
+}
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"]:hover {
   background-color: rgba(187, 204, 238, 0.1);
   filter: brightness(115%);
