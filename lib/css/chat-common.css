@@ -197,7 +197,7 @@ body.rom #round .round-buttons {
     transform: scaleY(1);
   }
 }
-#status #status-body > dl.selected {
+body:not(.rom) #status #status-body > dl.selected {
   background-color: rgba(0,150,255, 0.2);
 }
 #status #status-body > dl.check::before {
@@ -223,9 +223,12 @@ body.rom #round .round-buttons {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#status #status-body > dl > dt[onclick]:hover {
+body:not(.rom) #status #status-body > dl > dt[onclick]:hover {
   background: rgba(255,150,0,0.3);
   white-space: normal;
+}
+body.rom #status #status-body > dl > dt {
+  cursor: default;
 }
 #status #status-body > dl > dd {
   padding: 0 0 .2em .2em;
