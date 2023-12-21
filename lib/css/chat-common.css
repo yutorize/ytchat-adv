@@ -356,6 +356,9 @@ body.rom #status .add.button {
   bottom: .1em;
   right: .1em;
 }
+body.rom .memo .add.button {
+  display: none;
+}
 #sheet-unit-memo > h2::after {
   content: '#' attr(data-num);
   margin-left: .3em;
