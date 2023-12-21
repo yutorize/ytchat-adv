@@ -634,6 +634,9 @@ body {
   background: none;
   font-size: 1.6rem;
 }
+body.rom #main-form > .help.button {
+  display: none;
+}
 
 /* // ラウンド
 ---------------------------------------------------------------------------------------------------- */
