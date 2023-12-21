@@ -397,6 +397,9 @@ body.rom .memo .add.button {
   border-radius: .8rem;
   overflow: hidden;
 }
+body.rom .sheet .sheet-memo-body ul.sheet-memo-menu {
+  grid-template-columns: 3em 1fr;
+}
 .sheet .sheet-memo-body ul.sheet-memo-menu li {
   padding: .5em;
   border-width: 0;
@@ -408,6 +411,9 @@ body.rom .memo .add.button {
   font-weight: bold;
   background: #346;
   color: inherit;
+}
+body.rom .sheet .sheet-memo-body ul.sheet-memo-menu li:nth-child(3) {
+  display: none;
 }
 .sheet .sheet-memo-body .sheet-memo-outline {
   grid-row: 2;
