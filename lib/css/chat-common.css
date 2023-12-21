@@ -142,6 +142,9 @@ body.rom #topic .edit.button {
   justify-content: center;
   margin: 0;
 }
+body.rom #round .round-buttons {
+  display: none;
+}
 #round .button {
   min-width: 1.5em;
   padding: .5em .5em;
