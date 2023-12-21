@@ -114,10 +114,16 @@ html,body {
   font-size: 1.2rem;
   line-height: 1.6rem;
 }
+body.rom #topic-value {
+  padding-left: .5em;
+}
 #topic .edit.button {
   position: absolute;
   top: .2rem;
   left: .2rem;
+}
+body.rom #topic .edit.button {
+  display: none;
 }
 
 /* // ラウンド
