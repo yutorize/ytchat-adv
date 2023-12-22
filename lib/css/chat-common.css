@@ -2023,11 +2023,18 @@ body.rom .input-form { display: none !important; }
 #ready-check button[name="ready-no"].selected {
   background: rgba(255, 34, 0, 0.8);
 }
+body.rom #ready-check > p:nth-of-type(2) {
+  display: none;
+}
 #ready-list {
   width: max-content;
   margin: auto;
   list-style-type: none;
   font-size: 120%;
+}
+body.rom #ready-list {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 #ready-list li {
   position: relative;
