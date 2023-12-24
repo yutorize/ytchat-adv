@@ -103,10 +103,7 @@ else {
   # 挿絵 ----------
   elsif($::in{'comm'} =~ s<^/insert\s+(https?://.+)><>i){
     my $url = $1;
-    #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
-      $url = 'https://drive.google.com/uc?id=' . $1;
-    }
+    $url = resolveGoogleDriveAssetUrl($url); # Google
     $::in{'system'} = 'image';
     $::in{'comm'} = '';
     $::in{'info'} = $url;
@@ -146,10 +143,7 @@ else {
       }
       if(!$hit){ error('許可されていないURLです'); }
     }
-    #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
-      $url = 'https://drive.google.com/uc?id=' . $1;
-    }
+    $url = resolveGoogleDriveAssetUrl($url); # Google
     bgmEdit($url,$title,$volume);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "BGMを変更 by $::in{'player'}";
@@ -182,10 +176,7 @@ else {
       }
       if(!$hit){ error('許可されていないURLです'); }
     }
-    #Google
-    if($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/){
-      $url = 'https://drive.google.com/uc?id=' . $1;
-    }
+    $url = resolveGoogleDriveAssetUrl($url); # Google
     bgEdit($mode,$url,$title);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "背景を変更 by $::in{'player'}";
@@ -902,6 +893,16 @@ sub paletteUpdate {
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
+}
+
+sub resolveGoogleDriveAssetUrl {
+  my $url = shift;
+
+  if ($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/) {
+    return 'https://drive.google.com/uc?id=' . $1;
+  }
+
+  return $url;
 }
 
 1;
