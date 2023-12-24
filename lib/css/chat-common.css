@@ -113,6 +113,8 @@ html,body {
   padding: 0 .5em 0 1.8em;
   font-size: 1.2rem;
   line-height: 1.6rem;
+  max-height: 25vh;
+  overflow-y: auto;
 }
 #topic .edit.button {
   position: absolute;
