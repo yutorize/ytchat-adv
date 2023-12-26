@@ -5,6 +5,7 @@ use open ":utf8";
 use open ":std";
 use Encode qw/encode decode/;
 use JSON::PP;
+use Time::Piece;
 
 ###################
 ### 読み込み処理
@@ -19,6 +20,7 @@ if(!$::in{'loadedLog'}){
   my $allsize = -s $dir.'log-all.dat';
   if($allsize > $presize){ $logfile = 'log-all.dat'; $reverseOn = 1; }
 }
+my $now = localtime;
 my @lines; my %palette;
 open(my $FH, '<', $dir.$logfile) or error "${logfile}が開けません";
 foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
@@ -36,7 +38,8 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
     last if ($::in{'num'} > $num - 1);
   }
   #
-  my (undef, $time) = split(/ /, $date);
+  my $timePiece = Time::Piece->strptime($date, '%Y/%m/%d %H:%M:%S');
+  my $time = $timePiece->strftime($now->epoch - $timePiece->epoch > 60 * 60 * 12 ? '%Y/%m/%d %H:%M:%S' : '%H:%M:%S');
   my ($username, $userid) = $user =~ /^(.*)<([0-9a-zA-Z]+?)>$/;
   my $game;
   my $code;
