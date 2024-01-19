@@ -197,8 +197,9 @@ sub tagConvertUnit {
 sub listCreate {
   my $text = shift;
   $text =~ s/^・/<li>/gm;
+  my $needLinefeed = $text =~ /\n$/;
   $text =~ s/\n//g;
-  return "<ul>$text</ul>";
+  return "<ul>$text</ul>" . ($needLinefeed ? "\n" : '');
 }
 #テーブル
 sub tableCreate {
