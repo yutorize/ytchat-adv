@@ -417,12 +417,15 @@ html,body {
 
   & button.to-write {
     width: 10em;
-    margin-right: 0.5em;
   }
 
   & button.to-remove {
     background: rgb(161, 14, 68);
+    margin-left: 0.5em;
   }
+}
+#sheet-unit-memo[data-num="new"] .sheet-memo-body > .buttons button.to-remove {
+  display: none;
 }
 .sheet .sheet-memo-body #memo-view {
   grid-row: 2;
