@@ -424,8 +424,14 @@ html,body {
     margin-left: 0.5em;
   }
 }
+#sheet-unit-memo[data-num="new"] .sheet-memo-body > .buttons button.to-write::after {
+  content: "追加";
+}
 #sheet-unit-memo[data-num="new"] .sheet-memo-body > .buttons button.to-remove {
   display: none;
+}
+#sheet-unit-memo:not([data-num="new"]) .sheet-memo-body > .buttons button.to-write::after {
+  content: "更新";
 }
 .sheet .sheet-memo-body #memo-view {
   grid-row: 2;
