@@ -409,9 +409,20 @@ html,body {
   font-size: 90%;
   line-height: 1.4;
 }
-.sheet .sheet-memo-body > button {
+.sheet .sheet-memo-body > .buttons {
   grid-row: 3;
-  margin: 0 calc(50% - 5em);
+  width: 100%;
+  margin: 0 auto;
+  text-align: right;
+
+  & button.to-write {
+    width: 10em;
+    margin-right: 0.5em;
+  }
+
+  & button.to-remove {
+    background: rgb(161, 14, 68);
+  }
 }
 .sheet .sheet-memo-body #memo-view {
   grid-row: 2;
@@ -433,7 +444,7 @@ html,body {
   margin-top: 0;
 }
 .sheet[data-memo-mode="view"] .sheet-memo-body .sheet-memo-outline,
-.sheet[data-memo-mode="view"] .sheet-memo-body  > button        { display: none; }
+.sheet[data-memo-mode="view"] .sheet-memo-body  > .buttons      { display: none; }
 .sheet[data-memo-mode="edit"] .sheet-memo-body #memo-view { display: none; }
 body.rom .sheet#sheet-unit-memo { display: grid; }
 body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }
