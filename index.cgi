@@ -179,6 +179,8 @@ sub tagConvert {
   # 自動リンク・後処理
   $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
   
+  $comm =~ s#(</ul>)\n#$1#;
+  
   $comm =~ s#\n#<br>#gi;
   return $comm;
 }
