@@ -63,9 +63,9 @@ sub rateRoll {
   if($rate > 100){ $rate = 100; } elsif($rate < 0){ $rate = 0; }
   if($crit <= 0){ $crit = 0; } elsif($crit < 3){ $crit = 3; }
   
-  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? 1 : $repeat;
+  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? undef : $repeat;
   my @result;
-  foreach my $i (1 .. $repeat){
+  foreach my $i (1 .. ($repeat || 1)){
     push(@result,
       rateCalc(
         $rate    ,
@@ -77,7 +77,7 @@ sub rateRoll {
         $fixed   ,
         $curse   ,
         $gf      ,
-        $i
+        $repeat ? $i : undef
       )
     );
   }
@@ -98,7 +98,7 @@ sub rateCalc {
   my $unique   = (exists $unique{$rate}) ? $unique{$rate}{'name'} : '';
   
   my $total = 0;
-  my $code = $unique || "威力${rate}";
+  my $code = (defined($repeat) ? makeRollIndexText($repeat) . ' ' : '') . ($unique || "威力${rate}");
   my @results;
   my $crits_max = 20;
   foreach my $crits (0 .. $crits_max) {
@@ -152,7 +152,7 @@ sub rateCalc {
       $number_result .=">$number";
     }
     # クリティカルレイ
-    if($crit_ray != 0 && ($repeat == 1 || $unique)){
+    if($crit_ray != 0 && (!defined($repeat) || $repeat == 1 || $unique)){
       $number += $crit_ray;
       $number = 12 if $number > 12;
       $number =  2 if $number <  2;
@@ -247,5 +247,11 @@ sub growRoll {
   return join(' or ', @result);
 }
 
+sub makeRollIndexText {
+  my $repeatId = shift;
+  return undef unless defined($repeatId);
+  my @chars = ('❶', '❷', '❸', '❹', '❺', '❻', '❼', '❽', '❾', '❿', '⓫', '⓬', '⓭', '⓮', '⓯', '⓰', '⓱', '⓲', '⓳', '⓴');
+  return $chars[$repeatId - 1];
+}
 
 1;
