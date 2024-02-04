@@ -179,6 +179,8 @@ sub tagConvert {
   # 自動リンク・後処理
   $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
   
+  $comm =~ s#(</ul>)\n#$1#;
+  
   $comm =~ s#\n#<br>#gi;
   return $comm;
 }
@@ -197,8 +199,9 @@ sub tagConvertUnit {
 sub listCreate {
   my $text = shift;
   $text =~ s/^・/<li>/gm;
+  my $needLinefeed = $text =~ /\n$/;
   $text =~ s/\n//g;
-  return "<ul>$text</ul>";
+  return "<ul>$text</ul>" . ($needLinefeed ? "\n" : '');
 }
 #テーブル
 sub tableCreate {
