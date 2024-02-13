@@ -678,6 +678,36 @@ sub validateRandomTableRows {
 sub addRandomTable {
   my $tableName = shift;
   my $rowsReference = shift;
+  my @rows = @{ $rowsReference };
+  my $diceCodeRow = @rows[0] =~ /^\d+D\d+$/i ? @rows[0] : undef;
+
+  my %table = ();
+
+  if (defined($diceCodeRow)) {
+    my $totalRowCount = @rows;
+    my @rowSources = @rows[1...$totalRowCount];
+
+    @rows = ();
+    foreach my $row (@rowSources) {
+      next if $row eq '';
+      if ($row =~ s/^(\d+(?:-(?:\d+)?)?|-\d+)\s+//) {
+        my $range = $1;
+        (my $begin, my $end) = split('-', $range);
+        $begin = $end if $begin eq '';
+        $end = $begin if $end eq '';
+
+        foreach my $i ($begin .. $end) {
+          push(@rows, "$i:$row");
+        }
+      }
+    }
+
+    my %diceCode = ();
+    $diceCode{'command'} = $diceCodeRow;
+    $table{'diceCode'} = \%diceCode;
+  }
+
+  $table{'rows'} = \@rows;
 
   sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
   flock($FH, 2);
@@ -685,11 +715,9 @@ sub addRandomTable {
   seek($FH, 0, 0);
 
   if (!defined($data{randomTables})) {
-    $data{randomTables} = {};
+    $data{randomTables} = ();
   }
-  $data{randomTables}{$tableName} = {
-      'rows' => $rowsReference,
-  };
+  $data{randomTables}{$tableName} = \%table;
 
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
