@@ -230,7 +230,7 @@ sub shuffleRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /[0-9]+D[0-9]+/i){
+    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
       return randomDiceTableRoll($rolls,$faces,@list), 'choice:table';
     }
     else {
@@ -321,8 +321,16 @@ sub randomDiceTableRoll {
     ($code, my $value, my $text) = dice(split(/D/i, $code));
     $text =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
+    my $hit = 0;
     foreach(@list){
-      if($_ =~ s/^$value:(.*?)$/$1/){ $results .= "＠$name → $code → $value\[$text\] : \[$1\]"; last; }
+      if($_ =~ s/^($value:(?:.*?))$/$1/){
+        $results .= "＠$name → $code → $value\[$text\] : \[$1\]";
+        $hit = 1;
+        last;
+      }
+    }
+    if (!$hit) {
+      error "合致する行がありませんでした（出目: $value）";
     }
   }
   return $results;
