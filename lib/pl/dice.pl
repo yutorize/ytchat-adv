@@ -323,7 +323,7 @@ sub randomDiceTableRoll {
     $results .= '<br>' if $results;
     my $hit = 0;
     foreach(@list){
-      if($_ =~ s/^$value:(.*?)$/$1/){
+      if($_ =~ s/^($value:(?:.*?))$/$1/){
         $results .= "＠$name → $code → $value\[$text\] : \[$1\]";
         $hit = 1;
         last;
