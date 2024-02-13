@@ -444,6 +444,24 @@ sub loadRoomRandomTable {
   }
 
   my %table = %{ $tables{$tableName} };
+
+  if ($table{'diceCode'}) {
+    my $command = $table{'diceCode'}{'command'};
+
+    my $minValue = $table{'diceCode'}{'minValue'};
+    my $maxValue = $table{'diceCode'}{'maxValue'};
+
+    my @diceCodeRowParts = ($command);
+    push(@diceCodeRowParts, $minValue) if defined($minValue);
+    push(@diceCodeRowParts, $maxValue) if defined($maxValue);
+    my $diceCodeRow = join(' ', @diceCodeRowParts);
+
+    my @rows = @{ $table{'rows'} };
+    unshift(@rows, $diceCodeRow);
+    delete $table{'diceCode'};
+    $table{'rows'} = \@rows;
+  }
+
   return %table;
 }
 
