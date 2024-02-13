@@ -230,7 +230,7 @@ sub shuffleRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /[0-9]+D[0-9]+/i){
+    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
       return randomDiceTableRoll($rolls,$faces,@list), 'choice:table';
     }
     else {
