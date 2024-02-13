@@ -248,6 +248,16 @@ else {
     delete $::in{'color'};
     delete $::in{'address'};
   }
+  # ランダム表の削除 ----------
+  elsif($::in{'comm'} =~ s<^/remove-random-table\s+(.+?)\s*$><>i){
+    my $tableName = $1;
+    removeRandomTable($tableName);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ランダム表「$tableName」が削除されました";
+    $::in{'system'} = "remove-random-table";
+    delete $::in{'color'};
+    delete $::in{'address'};
+  }
   # ユニット処理 ----------
   #チェック
   elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
@@ -680,6 +690,24 @@ sub addRandomTable {
   $data{randomTables}{$tableName} = {
       'rows' => $rowsReference,
   };
+
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
+sub removeRandomTable {
+  my $tableName = shift;
+
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  if (defined($data{randomTables})) {
+    my %randomTables = %{ $data{randomTables} };
+    delete $randomTables{$tableName};
+    $data{randomTables} = \%randomTables;
+  }
 
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));

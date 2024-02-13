@@ -208,7 +208,8 @@
     </table>
     <p>　こちらの表は、山札機能（下記）においても使用します。</p>
     <details>
-      <summary>ランダム表の定義</summary>
+      <summary>独自ランダム表</summary>
+      <h5>独自ランダム表の定義</h5>
       <p>　そのルーム専用のランダム表を定義することができます。</p>
       <p>　<code>/random-table</code> の後に（スペースを挟んでから）“表の名前”を記述したうえで改行し、以降１行ごとに表の内容を記述します。</p>
       <p>　たとえば以下の例では、「フルーツ」という名前で、「apple」「orange」「banana」の三通りの結果を得られる表を定義します。</p>
@@ -216,6 +217,9 @@
 apple
 orange
 banana</pre>
+      <h5>独自ランダム表の削除</h5>
+      <p>　定義した独自ランダム表の削除は、以下のように <code>/remove-random-table</code> の後に“表の名前”を記述することでおこなえます。</p>
+      <pre class="code">/remove-random-table フルーツ</pre>
     </details>
   </details>
   <details>
