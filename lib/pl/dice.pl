@@ -321,8 +321,16 @@ sub randomDiceTableRoll {
     ($code, my $value, my $text) = dice(split(/D/i, $code));
     $text =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
+    my $hit = 0;
     foreach(@list){
-      if($_ =~ s/^$value:(.*?)$/$1/){ $results .= "＠$name → $code → $value\[$text\] : \[$1\]"; last; }
+      if($_ =~ s/^$value:(.*?)$/$1/){
+        $results .= "＠$name → $code → $value\[$text\] : \[$1\]";
+        $hit = 1;
+        last;
+      }
+    }
+    if (!$hit) {
+      error "合致する行がありませんでした（出目: $value）";
     }
   }
   return $results;
