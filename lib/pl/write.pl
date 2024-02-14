@@ -245,6 +245,29 @@ else {
     delete $::in{'comm'};
     delete $::in{'address'};
   }
+  # ランダム表の定義 ----------
+  elsif($::in{'comm'} =~ s<^/random-table\s+(.+?)\n((?:.+?(?:\n|$))+)><>i){
+    my $tableName = $1;
+    my $tableRowsSource = $2;
+    my @tableRows = &validateRandomTableRows($tableRowsSource);
+    my $tableJson = addRandomTable($tableName, \@tableRows);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'info'} = $tableJson;
+    $::in{'comm'} = "ランダム表「$tableName」が定義されました";
+    $::in{'system'} = "define-random-table";
+    delete $::in{'color'};
+    delete $::in{'address'};
+  }
+  # ランダム表の削除 ----------
+  elsif($::in{'comm'} =~ s<^/remove-random-table\s+(.+?)\s*$><>i){
+    my $tableName = $1;
+    removeRandomTable($tableName);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ランダム表「$tableName」が削除されました";
+    $::in{'system'} = "remove-random-table";
+    delete $::in{'color'};
+    delete $::in{'address'};
+  }
   # ユニット処理 ----------
   #チェック
   elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
@@ -648,6 +671,95 @@ sub roundChange {
   checkReset;
   return $data{'round'};
 }
+
+# 独自ランダム表 ----------
+sub validateRandomTableRows {
+  my $source = shift;
+  my @split = split("\n", $source);
+  my @validated = ();
+  foreach my $row (@split) {
+    if ($row =~ /^\s*$/) {
+      next;
+    }
+    push(@validated, $row);
+  }
+  return @validated;
+}
+sub addRandomTable {
+  my $tableName = shift;
+  my $rowsReference = shift;
+  my @rows = @{ $rowsReference };
+  my $diceCodeRow = @rows[0] =~ /^\d+D\d+(?:\s+\d+){0,2}$/i ? @rows[0] : undef;
+
+  my %table = ();
+
+  if (defined($diceCodeRow)) {
+    (my $command, my $minValue, my $maxValue) = split(/\s+/, $diceCodeRow);
+
+    my $totalRowCount = @rows;
+    my @rowSources = @rows[1...$totalRowCount];
+
+    @rows = ();
+    foreach my $row (@rowSources) {
+      next if $row eq '';
+      if ($row =~ s/^(\d+(?:-(?:\d+)?)?|-\d+)\s+//) {
+        my $range = $1;
+        (my $begin, my $end) = split('-', $range);
+        $begin = $minValue if !defined($begin) || $begin eq '';
+        $end = $maxValue if !defined($end) || $end eq '';
+
+        if (defined($begin) && $begin ne '' && defined($end) && $end ne '') {
+          foreach my $i ($begin..$end) {
+            push(@rows, "$i:$row");
+          }
+        }
+      }
+    }
+
+    my %diceCode = ();
+    $diceCode{'command'} = $command;
+    $diceCode{'minValue'} = $minValue if defined($minValue) && $minValue ne '';
+    $diceCode{'maxValue'} = $maxValue if defined($maxValue) && $maxValue ne '';
+    $table{'diceCode'} = \%diceCode;
+  }
+
+  $table{'rows'} = \@rows;
+
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  if (!defined($data{randomTables})) {
+    $data{randomTables} = ();
+  }
+  $data{randomTables}{$tableName} = \%table;
+
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+
+  return makeRandomTableHtml reformatRandomTable \%table;
+}
+sub removeRandomTable {
+  my $tableName = shift;
+
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  if (defined($data{randomTables})) {
+    my %randomTables = %{ $data{randomTables} };
+    delete $randomTables{$tableName};
+    $data{randomTables} = \%randomTables;
+  }
+
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
+
 # ユニット作成 ----------
 sub unitMake {
   my $set_name = shift;
