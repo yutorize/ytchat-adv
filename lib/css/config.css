@@ -740,7 +740,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   opacity: 0.3;
 }
 /* 共有メモ */
-#memo-list:empty::before {
+#memo-list:not(:has(li:not(.removed)))::before {
   content: '共有メモ';
   opacity: 0.3;
 }
