@@ -336,8 +336,10 @@ sub message {
 ## エラー
 sub error {
   if($in{'mode'} =~ /write|read|reset|change/){
+    my $message = $_[0];
+    $message =~ s/\n/\\n/g;
     print "Content-type:application/json; charset=UTF-8\n\n";
-    print '{"status":"error","text":"'.$_[0].'"}';
+    print '{"status":"error","text":"'.$message.'"}';
   }
   else {
     print "Content-type:text/plain; charset=UTF-8\n\n";
