@@ -154,6 +154,9 @@
     color: #99ccee;
     font-style: normal;
   }
+  .chat-palette i.unit-status {
+    filter: hue-rotate(-120deg);
+  }
   .chat-palette em {
     color: #cc99ee;
     font-style: normal;
