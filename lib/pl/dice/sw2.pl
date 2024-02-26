@@ -63,7 +63,7 @@ sub rateRoll {
   if($rate > 100){ $rate = 100; } elsif($rate < 0){ $rate = 0; }
   if($crit <= 0){ $crit = 0; } elsif($crit < 3){ $crit = 3; }
   
-  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? 1 : $repeat;
   my @result;
   foreach my $i (1 .. $repeat){
     push(@result,
