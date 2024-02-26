@@ -96,7 +96,7 @@ sub diceRoll {
     if($target eq ''){ return ''; }
   }
   
-  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? 1 : $repeat;
   my @result;
   foreach my $i (1 .. $repeat){
     push(@result,
