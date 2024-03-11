@@ -16,8 +16,8 @@ sub diceCheck {
   $comm =~ s/&gt;/>/;
   $comm =~ s/&lt;/</;
   $comm =~ s/<br>/ /;
-  $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＾＠＄＃（）＜＞、＝！：/a-zA-Z0-9\+\-\*\/\^@\$#\(\)<>,=!:/;
-  if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+\)?D\(?([0-9\+\-\*\/@<>:=]|\s|$)/i){ return diceRoll($comm), 'dice'; }
+  $comm =~ tr/ａ-ｚＡ-Ｚ０-９＋－＊／＾＠＄＃（）＜＞、＝！：｜/a-zA-Z0-9\+\-\*\/\^@\$#\(\)<>,=!:\|/;
+  if   ($comm =~ /^[0-9\+\-\*\/()]*[0-9]+\)?D\(?([0-9\+\-\*\/@<>:=|]|\s|$)/i){ return diceRoll($comm), 'dice'; }
   elsif($comm =~ /^[0-9]*\@/){ return shuffleRoll($comm); }
   elsif($comm =~ /^[0-9]*\$/){ return  choiceRoll($comm); }
   elsif($comm =~ /^[0-9]*\#/){ return drawDeck($comm), 'deck'; }
@@ -69,7 +69,7 @@ sub diceRoll {
       [0-9\+\-\*\/()D@]*?
     )
     (?:(\/\/|\*\*) ([0-9]*) ([+-][0-9()][0-9\+\-\*()]*)? )?
-    (?:(>=?|<=?|==) ([0-9\+\-\*()]*) )?
+    (?:(>=?|<=?|==) ([0-9\+\-\*()|]*) )?
     =?
     (?:\:([0-9]+))?
     (?:\s|$)
@@ -92,8 +92,9 @@ sub diceRoll {
     if($add eq ''){ return ''; }
   }
   if($target){
-    $target = parenthesisCalc($target);
-    if($target eq ''){ return ''; }
+    for my $x (split(/\|/, $target)) {
+      return '' if $x eq '';
+    }
   }
   
   $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
@@ -119,7 +120,7 @@ sub diceCalc {
   my $half_num  = shift;
   my $add       = shift;
   my $rel       = shift;
-  my $target    = shift;
+  my $targets   = shift;
   
   my $total = 0;
   my @code;
@@ -155,17 +156,27 @@ sub diceCalc {
   my $code = join('+',@code);
   
   if($rel){
-    if(
-      ($rel eq '>'  && $total >  $target) ||
-      ($rel eq '>=' && $total >= $target) ||
-      ($rel eq '<'  && $total <  $target) ||
-      ($rel eq '<=' && $total <= $target) ||
-      ($rel eq '==' && $total == $target)
-    ){
-      $result .= ' → 成功';
+    $result .= ' → ';
+    $code .= $rel;
+    for my $target (split(/\|/, $targets)) {
+      $target = parenthesisCalc($target);
+      return '' if $target eq '';
+      if ($result =~ /(成功|失敗)$/) {
+        $result .= '／';
+        $code .= '|';
+      }
+      if (
+          ($rel eq '>' && $total > $target) ||
+          ($rel eq '>=' && $total >= $target) ||
+          ($rel eq '<' && $total < $target) ||
+          ($rel eq '<=' && $total <= $target) ||
+          ($rel eq '==' && $total == $target)
+      ) {
+        $result .= '成功';
+      }
+      else {$result .= '失敗';}
+      $code .= $target;
     }
-    else { $result .= ' → 失敗'; }
-    $code .= $rel.$target;
   }
   
   return $code .' → '. $result;
