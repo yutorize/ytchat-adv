@@ -817,6 +817,29 @@ body {
 }
 .sheet {
 }
+.sheet:has(.chat-palette-area) {
+  display: grid;
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 1fr;
+
+  .sheet-body {
+    grid-template-rows: max-content 1fr max-content;
+
+    .status-remocon-area {
+      display: grid;
+      grid-template-rows: max-content max-content 1fr max-content;
+      grid-template-columns: 1fr;
+      height: auto;
+      max-height: max(calc(100vh - 44rem), 18rem);
+
+      .status-remocon-list {
+        max-height: 100%;
+        overflow-y: auto;
+        grid-auto-rows: max-content;
+      }
+    }
+  }
+}
 @keyframes sheetrightfade {
   from { opacity: 0.5; left: 16em; right: -16em; }
   to   { }
