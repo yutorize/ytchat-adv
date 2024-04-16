@@ -192,6 +192,16 @@ $ROOM->param(userRoomFlag => exists($set::rooms{$id}) ? 0 : 1);
 $ROOM->param(replaceRule => decode('utf-8', encode_json \%set::replace_rule ) );
 $ROOM->param(replaceRegex => decode('utf-8', encode_json \@set::replace_regex ) );
 
+my @gameTooltips = $games{$game}{tooltips} ? @{$games{$game}{tooltips}} : ();
+if ($#gameTooltips >= 0) {
+  foreach (@gameTooltips) {
+    my %h = %{$_};
+    for my $k (keys %h) {
+      my $v = $h{$k};
+      $set::tooltips{$k} = $v;
+    }
+  }
+}
 $ROOM->param(tooltips => decode('utf-8', encode_json \%set::tooltips) );
 
 $ROOM->param(base64Mode => $set::base64mode );
