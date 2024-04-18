@@ -491,6 +491,22 @@ body {
   width: max-content;
   border-top: 0;
   border-radius: 0 0 .8rem .8rem;
+
+  > span[data-unit-name]:not([data-unit-name=""]) {
+    display: inline-flex;
+    align-items: center;
+    height: max-content;
+
+    &::after {
+      content: ":" attr(data-unit-name);
+      display: inline-block;
+      max-width: 10em;
+      height: max-content;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
 }
 .check-buttons button::before {
   content: '✔';
