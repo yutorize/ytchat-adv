@@ -588,18 +588,14 @@ body {
 }
 .form-dice .dice-button i {
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 2.4em;
   border-width: 0 .1rem 0 0;
   border-radius: .5em 0 0 .5em;
 }
 .form-dice .dice-button i::before {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: .4rem;
-  margin: auto;
-  text-align: center;
   font-size: 1.4rem;
   line-height: 1;
   font-family: "Material Symbols Outlined";
