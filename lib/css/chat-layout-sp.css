@@ -281,6 +281,10 @@ input[type=range]::-moz-range-thumb {
   height: 100%;
   flex-direction: column-reverse;
   overflow: hidden;
+
+  > .switch-area {
+    display: none;
+  }
 }
 #chat-area[data-layout-tab-bar="top"] .tab-group {
   flex-direction: column;

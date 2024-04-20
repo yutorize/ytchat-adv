@@ -1328,6 +1328,58 @@ body.rom .input-form { display: none !important; }
   display: block;
 }
 
+.tab-group {
+  &.main > .switch-area {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    height: calc((1em * (0.92 * (1 + (0.3 * 2)))) + 1px + 0.2rem); /* タブリストの大きさに合わせる */
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 1px 0.25rem 1px 0;
+
+    > button {
+      height: max-content;
+      max-height: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      background: none;
+      border: none;
+      color: #7895;
+
+      &:hover {
+        color: #789;
+        box-shadow: none;
+      }
+
+      &:first-child {
+        margin-right: 0.25em;
+      }
+
+      &::before {
+        font-family: "Material Symbols Outlined";
+        font-variation-settings: 'FILL' 1;
+      }
+
+      &[data-direction="previous"]::before {
+        content: "\e408";
+      }
+
+      &[data-direction="next"]::before {
+        content: "\e409";
+      }
+    }
+  }
+
+  &:not(.main) > .switch-area {
+    display: none;
+  }
+}
+
 #tab-add-area {
   position: absolute;
   top: 2em;
