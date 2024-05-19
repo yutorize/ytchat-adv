@@ -132,6 +132,16 @@ sub diceCalc {
     $base =~ s/<dice>/ $num\[$text\] /;
   }
   $base =~ s/[\.\+\-\*\/\s]+$//gi; # 末尾の演算子は消す
+
+  if (
+      ($::in{'game'} eq 'sw2') &&
+      $#code == 0 &&
+      $code[0] =~ /^2D6$/i &&
+      $rel =~ /^>=?$/ &&
+      $dice_value == 2
+  ) {
+    return $code[0] . $rel . $targets . ' → 2[1,1...] → 自動失敗';
+  }
   
   ## 基本合計値計算
   my $result = $base;
