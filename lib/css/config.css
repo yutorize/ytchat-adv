@@ -414,6 +414,10 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   color: #888;
   text-decoration: none;
 }
+.logs dl dd.info.choice b.result {
+  background-color: #db52;
+  padding: 0 0.25em;
+}
 /* チャットログ：ダイス */
 .logs dl dd.info.dice::before {
   color: #f33;

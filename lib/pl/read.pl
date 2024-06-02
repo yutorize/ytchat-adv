@@ -60,6 +60,11 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
       #
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
+    elsif($system eq 'choice') {
+      if ($_ =~ /^\(.+\)\s+→\s+(.+?)$/) {
+        $_ =~ s#(\s+→\s+)(.+?)$#$1<b class='result'>$2</b>#;
+      }
+    }
     elsif($system =~ /^unit/){
       $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
