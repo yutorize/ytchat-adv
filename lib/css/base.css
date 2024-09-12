@@ -237,6 +237,7 @@ img.icon { width: 1em; height: 1em; }
   text-shadow: none;
   box-shadow: 3px 3px 3px #000a;
   font-size: 80%;
+  line-height: 1.8;
   z-index: 2;
   pointer-events: none;
   animation-name: tooltipfade;
