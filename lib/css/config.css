@@ -653,7 +653,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 /* チャットログ：テーブル */
 .logs table,
 #topic table {
-  margin: .5em 0;
+  margin: calc(.5em + 1px) 1px;
   border-collapse: collapse;
   border-style: hidden;
   outline-width: 1px;
@@ -661,7 +661,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   outline-color: var(--border-color-deep);
 }
 #topic table {
-  margin: 0 0;
+  margin: 1px;
 }
 .logs table thead th,
 .logs table thead td,
