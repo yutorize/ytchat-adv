@@ -176,7 +176,7 @@ foreach (<$FH>){
     }
   }
   elsif ($system =~ /^state-(?:add|modify|remove)$/) {
-    if ($system eq 'state-modify') {
+    if ($system =~ /^state-(?:modify|remove)$/) {
       my %decoded = %{decode_json(encode('utf8', $info))};
       my @differences = @{$decoded{differences};};
 
@@ -186,20 +186,23 @@ foreach (<$FH>){
         my %state = %{$_};
         my $unit = $state{unit};
         my $stateName = $state{stateName};
-        my %difference = %{$state{difference};};
 
         my @properties = ();
-        for my $key (keys %difference) {
-          my %value = %{$difference{$key};};
+        if ($system eq 'state-modify') {
+          my %difference = %{$state{difference};};
 
-          my $before = $value{before};
-          my $after = $value{after};
-          my $valueUnit = $value{unit} // '';
+          for my $key (keys %difference) {
+            my %value = %{$difference{$key};};
 
-          push(@properties, "${before}${valueUnit}→${after}${valueUnit}");
+            my $before = $value{before};
+            my $after = $value{after};
+            my $valueUnit = $value{unit} // '';
+
+            push(@properties, "${before}${valueUnit}→${after}${valueUnit}");
+          }
         }
 
-        push(@rows, "${unit}::${stateName}（" . join('，', @properties) . '）');
+        push(@rows, "${unit}::${stateName}" . ($system eq 'state-modify' ? '（' . join('，', @properties) . '）' : ''));
       }
 
       $info = join('<br>', @rows);
