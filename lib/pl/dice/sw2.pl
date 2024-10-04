@@ -164,7 +164,7 @@ sub rateCalc {
       $crit_ray = 0; # 1回処理したらなくなる
     }
     # ［魔女の火］
-    if($witch_blaze != 0 && (!defined($repeat) || $repeat == 1 || $unique)){
+    if($witch_blaze != 0){
       $number += $witch_blaze if 3 <= $number && $number <= 10;
       $number = 12 if $number > 12;
       $number_result .=">$number";
