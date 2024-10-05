@@ -175,7 +175,7 @@ sub tableCreate {
   my $row_num = 0;
   foreach my $row (@data){
     next if !@{$row};
-    $output .= "<tr data-test=@{$row}>";
+    $output .= "<tr>";
     my $col_num = 0;
     my $colspan = 1;
     foreach my $col (@{$row}){
