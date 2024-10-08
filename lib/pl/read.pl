@@ -48,8 +48,7 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
       $_ =~ s#(\[.*?\])#<i>$1</i>#g;
       $_ =~ s# = ([0-9a-z.∞]+)$# = <strong>$1</strong>#gi;
       $_ =~ s# = ([0-9a-z.∞]+)# = <b>$1</b>#gi;
-      $_ =~ s# → (成功)$# → <strong>$1</strong>#gi;
-      $_ =~ s# → ((?:自動)?失敗)$# → <strong class='fail'>$1</strong>#gi;
+      $_ =~ s# → ((?:成功|(?:自動)?失敗|／)+)$#" → ".stylizeSuccessAndFailure($1)#gie;
       #クリティカルをグラデにする
       my $crit = $_ =~ s/(クリティカル!\])/$1<em>/g;
       while($crit > 0){ $_ .= "</em>"; $crit--; }
