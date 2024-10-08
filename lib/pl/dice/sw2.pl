@@ -33,7 +33,7 @@ sub rateRoll {
   if($comm !~ /^
     (?: (?:[kr]|威力) ( [0-9]+ | \([0-9\+\-]+\) | $unique_reg ) )
     (?:\[([0-9\+\-]+)\])?
-    ([0-9a-z\+\-\*\/\@\$()><\#!値必殺首切出目難半減]*)
+    ([0-9a-z\+\-\*\/\@\$~()><\#!値必殺首切出目難半減]*)
     (?:\:([0-9]+))?
     (?:\s|$)
   /ix){
@@ -47,6 +47,7 @@ sub rateRoll {
   my $rate_up;
   my $crit_atk;
   my $crit_ray;
+  my $witch_blaze;
   my $fixed;
   my $curse;
   my $gf;
@@ -55,7 +56,8 @@ sub rateRoll {
   while($form =~ s/(?:[rck]|首切)(\-?[0-9]*)//gi)     { $rate_up  = $1 ne ''?$1:5 if !$rate_up; } #首切効果
   while($form =~ s/(?:[#b!]|必殺)([\+\-]?[0-9]*)//gi) { $crit_atk = $1 ne ''?$1:1 if !$crit_atk; }#必殺効果
   while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)       { $fixed    = $1 if !$fixed; }        #出目固定
-  while($form =~ s/(?:[\$]|出目)\+?([\+\-][0-9]+)//gi){ $crit_ray = $1 if !$crit_ray; }     #出目修正
+  while($form =~ s/(?:[\$]|出目)\+?([\+\-][0-9]+)//gi){ $crit_ray = $1 if !$crit_ray; }     #出目修正【クリティカルレイ】
+  while($form =~ s/(?:[\$]|出目)~\+?([\+\-][0-9]+)//gi){ $witch_blaze = $1 if !$witch_blaze; } #出目修正［魔女の火］
   while($form =~ s/(?:[<]|難)([0-9]+)//gi)            { $curse    = $1 if !$curse; }        #Aカース「難しい」
   
   $rate = $unique || calc($rate);
@@ -63,9 +65,9 @@ sub rateRoll {
   if($rate > 100){ $rate = 100; } elsif($rate < 0){ $rate = 0; }
   if($crit <= 0){ $crit = 0; } elsif($crit < 3){ $crit = 3; }
   
-  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? undef : $repeat;
   my @result;
-  foreach my $i (1 .. $repeat){
+  foreach my $i (1 .. ($repeat || 1)){
     push(@result,
       rateCalc(
         $rate    ,
@@ -74,10 +76,11 @@ sub rateRoll {
         $rate_up ,
         $crit_atk,
         $crit_ray,
+        $witch_blaze,
         $fixed   ,
         $curse   ,
         $gf      ,
-        $i
+        $repeat ? $i : undef
       )
     );
   }
@@ -91,6 +94,7 @@ sub rateCalc {
   my $rate_up  = shift;
   my $crit_atk = shift;
   my $crit_ray = shift;
+  my $witch_blaze = shift;
   my $fixed    = shift;
   my $curse    = shift;
   my $gf       = shift;
@@ -98,7 +102,7 @@ sub rateCalc {
   my $unique   = (exists $unique{$rate}) ? $unique{$rate}{'name'} : '';
   
   my $total = 0;
-  my $code = $unique || "威力${rate}";
+  my $code = (defined($repeat) ? makeRollIndexText($repeat) . ' ' : '') . ($unique || "威力${rate}");
   my @results;
   my $crits_max = 20;
   foreach my $crits (0 .. $crits_max) {
@@ -152,12 +156,19 @@ sub rateCalc {
       $number_result .=">$number";
     }
     # クリティカルレイ
-    if($crit_ray != 0 && ($repeat == 1 || $unique)){
+    if($crit_ray != 0 && (!defined($repeat) || $repeat == 1 || $unique)){
       $number += $crit_ray;
       $number = 12 if $number > 12;
       $number =  2 if $number <  2;
       $number_result .=">$number";
       $crit_ray = 0; # 1回処理したらなくなる
+    }
+    # ［魔女の火］
+    if($witch_blaze != 0){
+      $number += $witch_blaze if 3 <= $number && $number <= 10;
+      $number = 12 if $number > 12;
+      $number_result .=">$number";
+      $witch_blaze = 0; # 1回処理したらなくなる
     }
     # アビスカース「難しい」
     if($curse && $number <= $curse){
@@ -247,5 +258,11 @@ sub growRoll {
   return join(' or ', @result);
 }
 
+sub makeRollIndexText {
+  my $repeatId = shift;
+  return undef unless defined($repeatId);
+  my @chars = ('❶', '❷', '❸', '❹', '❺', '❻', '❼', '❽', '❾', '❿', '⓫', '⓬', '⓭', '⓮', '⓯', '⓰', '⓱', '⓲', '⓳', '⓴');
+  return $chars[$repeatId - 1];
+}
 
 1;

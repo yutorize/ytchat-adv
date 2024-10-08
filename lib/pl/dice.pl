@@ -97,7 +97,7 @@ sub diceRoll {
     }
   }
   
-  $repeat = ($repeat > 10) ? 10 : (!$repeat) ? 1 : $repeat;
+  $repeat = ($repeat > 20) ? 20 : (!$repeat) ? 1 : $repeat;
   my @result;
   foreach my $i (1 .. $repeat){
     push(@result,
@@ -133,6 +133,18 @@ sub diceCalc {
     $base =~ s/<dice>/ $num\[$text\] /;
   }
   $base =~ s/[\.\+\-\*\/\s]+$//gi; # 末尾の演算子は消す
+
+  # ファンブル／自動失敗チェック
+  my $fumble;
+  if( #SW2：2D6＆大なり記号あり＆1ゾロ
+    ($::in{'game'} eq 'sw2') &&
+    $#code == 0 &&
+    $code[0] =~ /^2D6$/i &&
+    $rel =~ /^>=?$/ &&
+    $base =~ /\Q2[1,1...]\E/
+  ) {
+    $fumble = '自動失敗';
+  }
   
   ## 基本合計値計算
   my $result = $base;
@@ -155,7 +167,12 @@ sub diceCalc {
   
   my $code = join('+',@code);
   
-  if($rel){
+  ## ファンブル処理
+  if($fumble){
+    $result .= ' → '.$fumble;
+  }
+  ## 目標値成否
+  elsif($rel && $targets ne ''){
     $result .= ' → ';
     $code .= $rel;
     for my $target (split(/\|/, $targets)) {
