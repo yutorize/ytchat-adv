@@ -172,7 +172,7 @@ sub diceCalc {
     $result .= ' → '.$fumble;
   }
   ## 目標値成否
-  elsif($rel && $targets ne ''){
+  elsif($rel && $targets ne '' && $targets ne '|'){
     $result .= ' → ';
     $code .= $rel;
     for my $target (split(/\|/, $targets)) {
