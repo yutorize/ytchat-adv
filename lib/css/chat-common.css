@@ -716,7 +716,8 @@ body.rom .sheet { display: none; }
   height: 100%;
 }
 .chat-palette span i,
-.chat-palette span em {
+.chat-palette span em,
+.chat-palette span img {
   pointer-events: none;
   font-size: 1.1rem;
 }
