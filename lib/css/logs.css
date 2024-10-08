@@ -526,6 +526,9 @@ h2.page-headline {
 }
 
 /* クレジット表記 -------------------------------------------------- */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
 dialog.credit {
   width: max-content;
   max-width: calc(100vw - 2em);
