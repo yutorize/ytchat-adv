@@ -291,6 +291,16 @@ sub tagDelete {
   return $text;
 }
 
+## ダイスロール成否強調
+sub stylizeSuccessAndFailure {
+  my @array = split('／', shift);
+  foreach (@array){
+    if($_ eq '成功'){ $_ = "<strong>成功</strong>" }
+    elsif($_ =~ /^(自動)?失敗$/){ $_ = "<strong class='fail'>$&</strong>" }
+  }
+  return join('／', @array);
+}
+
 ##
 sub logNameFileCreate {
   my $dir = shift;
