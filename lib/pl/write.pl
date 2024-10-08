@@ -895,6 +895,7 @@ sub paletteUpdate {
   close($FH);
 }
 
+# GoogleドライブURL変換 ----------
 sub resolveGoogleDriveAssetUrl {
   my $url = shift;
 
