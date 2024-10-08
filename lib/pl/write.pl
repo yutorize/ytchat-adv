@@ -241,8 +241,9 @@ else {
     my $tableName = $1;
     my $tableRowsSource = $2;
     my @tableRows = &validateRandomTableRows($tableRowsSource);
-    addRandomTable($tableName, \@tableRows);
+    my $tableHtml = addRandomTable($tableName, \@tableRows);
     $::in{'name'} = "!SYSTEM";
+    $::in{'info'} = $tableHtml;
     $::in{'comm'} = "ランダム表「$tableName」が定義されました";
     $::in{'system'} = "define-random-table";
     delete $::in{'color'};
@@ -722,6 +723,8 @@ sub addRandomTable {
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
+
+  return makeRandomTableHtml reformatRandomTable \%table;
 }
 sub removeRandomTable {
   my $tableName = shift;
