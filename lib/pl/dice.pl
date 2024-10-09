@@ -238,14 +238,14 @@ sub dice {
 sub shuffleRoll {
   my $comm = shift;
   if($comm !~ s/^
-    ([0-9]+)? @ ([-+][-+*\/()0-9]+)? (.*?)
+    ([0-9]+)? @ (.*?) ([-+][-+*\/()0-9]+)?
     (?:\s|$)
   //ix){
     return;
   }
   my $rolls = $1; my $rolls_raw = $rolls;
-  my $faces = $3;
-  my $diceOffset = $2;
+  my $faces = $2;
+  my $diceOffset = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
@@ -288,14 +288,14 @@ sub shuffleRoll {
 sub choiceRoll {
   my $comm = shift;
   if($comm !~ /^
-    ([0-9]+)? \$ ([-+][-+*\/()0-9]+)? (.*?)
+    ([0-9]+)? \$ (.*?) ([-+][-+*\/()0-9]+)?
     (?:\s|$)
   /ix){
     return "";
   }
   my $rolls = $1; my $rolls_raw = $rolls;
-  my $faces = $3;
-  my $diceOffset = $2;
+  my $faces = $2;
+  my $diceOffset = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
