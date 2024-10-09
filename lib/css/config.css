@@ -429,6 +429,89 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dd.info.dice {
   color: #e77;
   letter-spacing: 0.1rem;
+
+  details {
+    position: relative;
+
+    &[open] {
+      padding-left: calc(1.2em + 0.1em);
+      border-left: 0.1em solid rgba(255, 255, 255, 0.35);
+      margin-bottom: 0.35em;
+    }
+
+    > summary::before {
+      content: "\e5d7";
+      font-family: "Material Symbols Outlined", sans-serif;
+      font-variation-settings: 'FILL' 1;
+      display: inline-flex;
+      width: 1.2em;
+      height: 1.2em;
+      justify-content: center;
+      align-content: center;
+    }
+
+    &:not([open]) > summary::before {
+      position: relative;
+      top: 1px;
+    }
+
+    &[open] > summary::before {
+      content: "\e5d6";
+    }
+
+    > summary {
+      position: absolute;
+      top: 0;
+      left: 0.1em;
+      list-style: none;
+
+      &:hover::before {
+        filter: brightness(150%);
+      }
+
+      .code {
+        [open] & {
+          display: none;
+        }
+      }
+
+      .row-count {
+        margin-left: 0.5em;
+        font-size: 80%;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+
+        [open] & {
+          display: none;
+        }
+      }
+    }
+
+    &:not([open]) > summary {
+      display: grid;
+      height: 1.5em;
+      grid-template-rows: 100%;
+      grid-template-columns: max-content 1fr max-content;
+
+      &::before {
+        grid-column: 1 / 2;
+      }
+
+      .code {
+        grid-column: 2 / 3;
+
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .row-count {
+        grid-column: 3 / 4;
+      }
+    }
+  }
 }
 .logs dl dd.info.dice i {
   margin-left: .2rem;
