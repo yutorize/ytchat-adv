@@ -200,6 +200,8 @@
       　選ぶ回数（個数）の指定は省略できます。<br>
       　また、回数の指定が無い時に自動的に設定される回数と、指定できる最大の回数は、ランダム表により異なります。それぞれ、下記の表を参照してください。
     </p>
+    <h5>出目の補正</h5>
+    <p>　「xDy」を振るタイプのランダム表は、末尾に<code>+n</code>や<code>-n</code>と記述することで出目を補正できます（ n は補正値）。（例： <code>2$イベント表+1</code>，「イベント表」の出目に +1 の補正をつけたうえで 2 回振る）</p>
     <table>
       <tr><th>表の名前</th><th>省略</th><th>最大</th><th>説明</th></tr>
       <TMPL_LOOP RandomTable><tr><th><TMPL_VAR COMMAND></th><td class="right" style="white-space:nowrap"><TMPL_VAR DEF>回</td><td class="right" style="white-space:nowrap"><TMPL_VAR MAX>回</td><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
