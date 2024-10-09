@@ -207,6 +207,16 @@
       <TMPL_LOOP RandomTable><tr><th><TMPL_VAR COMMAND></th><td class="right" style="white-space:nowrap"><TMPL_VAR DEF>回</td><td class="right" style="white-space:nowrap"><TMPL_VAR MAX>回</td><td><TMPL_VAR HELP></td></tr></TMPL_LOOP>
     </table>
     <p>　こちらの表は、山札機能（下記）においても使用します。</p>
+    <details>
+      <summary>ランダム表の定義</summary>
+      <p>　そのルーム専用のランダム表を定義することができます。</p>
+      <p>　<code>/random-table</code> の後に（スペースを挟んでから）“表の名前”を記述したうえで改行し、以降１行ごとに表の内容を記述します。</p>
+      <p>　たとえば以下の例では、「フルーツ」という名前で、「apple」「orange」「banana」の三通りの結果を得られる表を定義します。</p>
+      <pre class="code">/random-table フルーツ
+apple
+orange
+banana</pre>
+    </details>
   </details>
   <details>
     <summary>山札機能</summary>

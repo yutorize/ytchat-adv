@@ -236,6 +236,18 @@ else {
     delete $::in{'comm'};
     delete $::in{'address'};
   }
+  # ランダム表の定義 ----------
+  elsif($::in{'comm'} =~ s<^/random-table\s+(.+?)\n((?:.+?(?:\n|$))+)><>i){
+    my $tableName = $1;
+    my $tableRowsSource = $2;
+    my @tableRows = &validateRandomTableRows($tableRowsSource);
+    addRandomTable($tableName, \@tableRows);
+    $::in{'name'} = "!SYSTEM";
+    $::in{'comm'} = "ランダム表「$tableName」が定義されました";
+    $::in{'system'} = "define-random-table";
+    delete $::in{'color'};
+    delete $::in{'address'};
+  }
   # ユニット処理 ----------
   #チェック
   elsif($::in{'comm'} =~ s/^[@＠](check|uncheck)(?:\s|$)//i){
@@ -639,6 +651,41 @@ sub roundChange {
   checkReset;
   return $data{'round'};
 }
+
+# 独自ランダム表 ----------
+sub validateRandomTableRows {
+  my $source = shift;
+  my @split = split("\n", $source);
+  my @validated = ();
+  foreach my $row (@split) {
+    if ($row =~ /^\s*$/) {
+      next;
+    }
+    push(@validated, $row);
+  }
+  return @validated;
+}
+sub addRandomTable {
+  my $tableName = shift;
+  my $rowsReference = shift;
+
+  sysopen(my $FH, $dir.'room.dat', O_RDWR) or error "room.datが開けません";
+  flock($FH, 2);
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  seek($FH, 0, 0);
+
+  if (!defined($data{randomTables})) {
+    $data{randomTables} = {};
+  }
+  $data{randomTables}{$tableName} = {
+      'rows' => $rowsReference,
+  };
+
+  print $FH decode('utf8', encode_json \%data);
+  truncate($FH, tell($FH));
+  close($FH);
+}
+
 # ユニット作成 ----------
 sub unitMake {
   my $set_name = shift;

@@ -1918,13 +1918,16 @@ body.rom .input-form { display: none !important; }
   display: grid;
   grid-template-rows: max-content 1fr;
 }
-#help-window code {
-  display: inline-block;
+#help-window code,
+#help-window pre.code {
   margin: .1em 0;
   padding: .2em .5rem;
   background: rgba(0,255,100,0.3);
   border-radius: .5rem;
   font-size: 85%;
+}
+#help-window code {
+  display: inline-block;
 }
 #help-window h3:nth-child(n+2) {
   margin-top: 1em;

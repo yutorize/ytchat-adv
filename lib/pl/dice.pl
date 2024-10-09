@@ -257,15 +257,27 @@ sub shuffleRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
-    if (!$set::random_table{$faces}) {
+
+  my $roomRandomTableReference = loadRoomRandomTable($faces);
+
+  if(defined($roomRandomTableReference) || $set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
+    if (!defined($roomRandomTableReference) && !$set::random_table{$faces}) {
       # 補正値っぽい部分まで含めて表の名前だったっぽい:
       $faces .= $modifier;
       $modifier = undef;
     }
-    open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
-    my @list = <$FH>;
-    close($FH);
+
+    my @list;
+
+    if (defined($roomRandomTableReference)) {
+      my %roomRandomTable = &loadRoomRandomTable($faces);
+      @list = @{ $roomRandomTable{rows} };
+    } else {
+      open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2} . 'が開けません');
+      @list = <$FH>;
+      close($FH);
+    }
+
     if($list[0] =~ /^[0-9]+D[0-9]+$/i){
       return randomDiceTableRoll($rolls,$faces,$modifier,@list), 'choice:table';
     }
@@ -312,15 +324,27 @@ sub choiceRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
-    if (!$set::random_table{$faces}) {
+
+  my $roomRandomTableReference = loadRoomRandomTable($faces);
+
+  if(defined($roomRandomTableReference) || $set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
+    if (!defined($roomRandomTableReference) && !$set::random_table{$faces}) {
       # 補正値っぽい部分まで含めて表の名前だったっぽい:
       $faces .= $modifier;
       $modifier = undef;
     }
-    open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces}.'が開けません');
-    my @list = <$FH>;
-    close($FH);
+
+    my @list;
+
+    if (defined($roomRandomTableReference)) {
+      my %roomRandomTable = &loadRoomRandomTable($faces);
+      @list = @{ $roomRandomTable{rows} };
+    } else {
+      open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces} . 'が開けません');
+      @list = <$FH>;
+      close($FH);
+    }
+
     if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
       return randomDiceTableRoll($rolls,$faces,$modifier,@list), 'choice:table';
     }
@@ -455,6 +479,32 @@ sub drawDeck {
   truncate($FH, tell($FH));
   close($FH);
   return "${draw}＃$+{deckName} → [".join('][',@draws)."]".($finish ? '<br>山札がなくなりました。':'');
+}
+
+sub loadRoomRandomTable {
+  my $tableName = shift;
+
+  my %tables = &loadRandomTables();
+
+  if (!exists($tables{$tableName})) {
+    return undef;
+  }
+
+  my %table = %{ $tables{$tableName} };
+  return %table;
+}
+
+sub loadRandomTables {
+  sysopen(my $FH, "./room/$::in{'room'}/room.dat", O_RDONLY) or error "room.datが開けません";
+  my %data = %{ decode_json(encode('utf8', (join '', <$FH>))) };
+  close($FH);
+
+  if (!$data{randomTables}) {
+    return {};
+  }
+
+  my %tables = %{ $data{randomTables} };
+  return %tables;
 }
 
 1;
