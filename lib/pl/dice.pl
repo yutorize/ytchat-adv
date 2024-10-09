@@ -356,33 +356,32 @@ sub randomDiceTableRoll {
   my $name = shift;
   my $codeOffset = shift;
   my $code = shift;
-  my @list = @_;
   chomp $code;
-  foreach (@list){ chomp $_; $_=~ s/\\n/<br>/g; }
-  my $minValue;
-  my $maxValue;
-  foreach (@list) {
-    (my $key,) = split(':', $_);
-    $minValue = $key if !defined($minValue) || $key < $minValue;
-    $maxValue = $key if !defined($maxValue) || $key > $maxValue;
+  my ($rolls, $faces) = split(/D/i, $code);
+  my %data;
+  my $min = $rolls;
+  my $max = $rolls * $faces;
+  foreach (@_){
+    chomp $_;
+    $_=~ s/\\n/<br>/g;
+    if($_ =~ /^(-?[0-9]+):/){
+      $data{$1} = $_;
+      $min = $1 if $1 < $min;
+      $max = $1 if $1 > $max;
+    }
   }
   my $results;
   foreach(1 .. $repeat){
-    ($code, my $value, my $text) = dice(split(/D/i, $code));
+    ($code, my $value, my $text) = dice($rolls, $faces);
     my $finalValue = defined($codeOffset) ? calc("$value$codeOffset") : $value;
-    $finalValue = $minValue if $finalValue < $minValue;
-    $finalValue = $maxValue if $finalValue > $maxValue;
+    $finalValue = $min if $finalValue < $min;
+    $finalValue = $max if $finalValue > $max;
     $text =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
-    my $hit = 0;
-    foreach(@list){
-      if($_ =~ /^$finalValue:.*?$/){
-        $results .= "＠$name → $code" . (defined($codeOffset) ? "($codeOffset)" : '') . " → $value\[$text\]$codeOffset : \[$&\]";
-        $hit = 1;
-        last;
-      }
+    if(exists $data{$finalValue}){
+      $results .= "＠$name → $code" . (defined($codeOffset) ? "($codeOffset)" : '') . " → $value\[$text\]$codeOffset : \[$data{$finalValue}\]";
     }
-    if (!$hit) {
+    else {
       error "合致する行がありませんでした（出目: $finalValue）";
     }
   }
