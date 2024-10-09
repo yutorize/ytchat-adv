@@ -255,7 +255,13 @@ sub shuffleRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces}) {
+  if($set::random_table{$faces} // $set::random_table{$faces . $diceOffset}) {
+    if (!$set::random_table{$faces}) {
+      # 補正値っぽい部分まで含めて表の名前だったっぽい:
+      $faces .= $diceOffset;
+      $diceOffset = undef;
+    }
+
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
@@ -305,7 +311,13 @@ sub choiceRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces}) {
+  if($set::random_table{$faces} // $set::random_table{$faces . $diceOffset}) {
+    if (!$set::random_table{$faces}) {
+      # 補正値っぽい部分まで含めて表の名前だったっぽい:
+      $faces .= $diceOffset;
+      $diceOffset = undef;
+    }
+
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces}.'が開けません');
     my @list = <$FH>;
     close($FH);
