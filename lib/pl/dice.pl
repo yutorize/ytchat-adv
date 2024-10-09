@@ -259,7 +259,7 @@ sub shuffleRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
+    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
       return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
     }
     else {
@@ -309,7 +309,7 @@ sub choiceRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
+    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
       return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
     }
     else {
@@ -346,14 +346,20 @@ sub randomDiceTableRoll {
   my $code = shift;
   my @list = @_;
   chomp $code;
-  ($code, my $minValue, my $maxValue) = split(/\s+/, $code);
   foreach (@list){ chomp $_; $_=~ s/\\n/<br>/g; }
+  my $minValue;
+  my $maxValue;
+  foreach (@list) {
+    (my $key,) = split(':', $_);
+    $minValue = $key if !defined($minValue) || $key < $minValue;
+    $maxValue = $key if !defined($maxValue) || $key > $maxValue;
+  }
   my $results;
   foreach(1 .. $repeat){
     ($code, my $value, my $text) = dice(split(/D/i, $code));
     my $finalValue = defined($codeOffset) ? calc("$value$codeOffset") : $value;
-    $finalValue = $minValue if defined($minValue) && $minValue ne '' && $finalValue < $minValue;
-    $finalValue = $maxValue if defined($maxValue) && $maxValue ne '' && $finalValue > $maxValue;
+    $finalValue = $minValue if $finalValue < $minValue;
+    $finalValue = $maxValue if $finalValue > $maxValue;
     $text =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
     my $hit = 0;
