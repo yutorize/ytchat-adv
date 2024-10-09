@@ -150,12 +150,16 @@
   .chat-palette b {
     color: #ee9999;
   }
-  .chat-palette i {
+  .chat-palette i.dice-param {
+    color: #cc99ee;
+    font-style: normal;
+  }
+  .chat-palette i.palette-param {
     color: #99ccee;
     font-style: normal;
   }
-  .chat-palette em {
-    color: #cc99ee;
+  .chat-palette i.unit-status {
+    color: #99eecc;
     font-style: normal;
   }
 }
