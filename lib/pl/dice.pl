@@ -78,8 +78,8 @@ sub diceRoll {
   }
   
   my $base      = $1;
-  my $half_type = $2;
-  my $half_num  = $3;
+  my $halfType  = $2;
+  my $halfNum   = $3;
   my $add       = $4;
   my $rel       = $5;
   my $target    = $6;
@@ -103,8 +103,8 @@ sub diceRoll {
     push(@result,
       diceCalc(
         $base      ,
-        $half_type ,
-        $half_num  ,
+        $halfType ,
+        $halfNum  ,
         $add       ,
         $rel       ,
         $target    ,
@@ -116,8 +116,8 @@ sub diceRoll {
 
 sub diceCalc {
   my $base      = shift;
-  my $half_type = shift;
-  my $half_num  = shift;
+  my $halfType  = shift;
+  my $halfNum   = shift;
   my $add       = shift;
   my $rel       = shift;
   my $targets   = shift;
@@ -153,9 +153,9 @@ sub diceCalc {
   my $total = calc($base);
   
   ## 半減,倍化処理
-  if(!$half_num){ $half_num = 2 }
-  if($half_type =~ /^\/\//){ $result = "{ $result = $total } /$half_num "; $total = ceil($total / $half_num); }
-  elsif($half_type =~ /^\*\*/){ $result = "{ $result = $total } *$half_num "; $total = $total * $half_num; }
+  if(!$halfNum){ $halfNum = 2 }
+  if   ($halfType =~ /^\/\//){ $result = "{ $result = $total } /$halfNum "; $total = ceil($total / $halfNum); }
+  elsif($halfType =~ /^\*\*/){ $result = "{ $result = $total } *$halfNum "; $total = $total * $halfNum; }
   ## 半減後追加
   $result .= $add;
   $total += calc($add);
@@ -183,9 +183,9 @@ sub diceCalc {
         $code .= '|';
       }
       if (
-          ($rel eq '>' && $total > $target) ||
+          ($rel eq '>'  && $total >  $target) ||
           ($rel eq '>=' && $total >= $target) ||
-          ($rel eq '<' && $total < $target) ||
+          ($rel eq '<'  && $total <  $target) ||
           ($rel eq '<=' && $total <= $target) ||
           ($rel eq '==' && $total == $target)
       ) {
@@ -208,8 +208,8 @@ sub dice {
   elsif($faces > 1000){ return ("${rolls}D${faces}", '', 'ダイスの面数は1000が最大です'); }
   elsif($crit ne '' && $crit  <= $rolls){ return ("${rolls}D${faces}\@${crit}", '∞'); }
   
-  my $num_total;
-  my @full_results;
+  my $numTotal;
+  my @fullResults;
   foreach (my $i = 0; $i < 100; $i++) {
     my $num;
     my @results;
@@ -218,21 +218,23 @@ sub dice {
       push(@results, $number);
     } 
     $num += $_ foreach @results;
-    $num_total += $num;
+    $numTotal += $num;
     
     my $result = join(',', @results);
     if($rolls && $::in{'game'} =~ /sw2/i){
       $result .= ($rolls*$faces == $num) ? '!!' : ($rolls == $num) ? '...' : '';
     }
     
-    push( @full_results, $result);
+    push(@fullResults, $result);
     
     last if !$crit;
     last if $num < $crit;
   }
-  my $text = join('][', @full_results);
   
-  return "${rolls}D${faces}".($crit?"\@${crit}":''), $num_total, $text;
+  return
+    "${rolls}D${faces}".($crit?"\@${crit}":''),
+    $numTotal,
+    join('][', @fullResults);
 }
 
 sub shuffleRoll {
@@ -243,9 +245,9 @@ sub shuffleRoll {
   //ix){
     return;
   }
-  my $rolls = $1; my $rolls_raw = $rolls;
+  my $rolls = my $rollsRaw = $1;
   my $faces = $2;
-  my $diceOffset = $3;
+  my $modifier = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
@@ -255,18 +257,17 @@ sub shuffleRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces} // $set::random_table{$faces . $diceOffset}) {
+  if($set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
     if (!$set::random_table{$faces}) {
       # 補正値っぽい部分まで含めて表の名前だったっぽい:
-      $faces .= $diceOffset;
-      $diceOffset = undef;
+      $faces .= $modifier;
+      $modifier = undef;
     }
-
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
     if($list[0] =~ /^[0-9]+D[0-9]+$/i){
-      return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
+      return randomDiceTableRoll($rolls,$faces,$modifier,@list), 'choice:table';
     }
     else {
       @list = shuffle(@list);
@@ -283,7 +284,7 @@ sub shuffleRoll {
     $faces =~ s/>/&gt;/;
     $faces =~ s/</&lt;/;
     my @list = split(/[,、]/, $faces);
-    return "" if (@list <= 1 || (!$rolls_raw)); #誤爆防止
+    return "" if (@list <= 1 || (!$rollsRaw)); #誤爆防止
     @list = shuffle(@list);
     my @choice = splice(@list, 0, $rolls);
     return '<b>【✔:'.join(',', @choice).'】</b> <s>［×:'.join(',', @list).'］</s>', 'choice';
@@ -299,9 +300,9 @@ sub choiceRoll {
   /ix){
     return "";
   }
-  my $rolls = $1; my $rolls_raw = $rolls;
+  my $rolls = my $rollsRaw = $1;
   my $faces = $2;
-  my $diceOffset = $3;
+  my $modifier = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
@@ -311,18 +312,17 @@ sub choiceRoll {
   $rolls = $rolls > $max ? $max
          : !$rolls ? $def
          : $rolls;
-  if($set::random_table{$faces} // $set::random_table{$faces . $diceOffset}) {
+  if($set::random_table{$faces} // $set::random_table{$faces . $modifier}) {
     if (!$set::random_table{$faces}) {
       # 補正値っぽい部分まで含めて表の名前だったっぽい:
-      $faces .= $diceOffset;
-      $diceOffset = undef;
+      $faces .= $modifier;
+      $modifier = undef;
     }
-
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
-      return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
+    if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
+      return randomDiceTableRoll($rolls,$faces,$modifier,@list), 'choice:table';
     }
     else {
       my @choice;
@@ -340,7 +340,7 @@ sub choiceRoll {
     $faces =~ s/>/&gt;/;
     $faces =~ s/</&lt;/;
     my @list = split(/[,、]/, $faces);
-    return "" if (@list <= 1 || (!$rolls_raw)); #誤爆防止
+    return "" if (@list <= 1 || (!$rollsRaw)); #誤爆防止
 
     my @results;
     foreach (1 .. $rolls){
@@ -354,7 +354,7 @@ sub choiceRoll {
 sub randomDiceTableRoll {
   my $repeat = shift;
   my $name = shift;
-  my $codeOffset = shift;
+  my $modifier = shift;
   my $code = shift;
   chomp $code;
   my ($rolls, $faces) = split(/D/i, $code);
@@ -372,14 +372,14 @@ sub randomDiceTableRoll {
   }
   my $results;
   foreach(1 .. $repeat){
-    ($code, my $value, my $text) = dice($rolls, $faces);
-    my $finalValue = defined($codeOffset) ? calc("$value$codeOffset") : $value;
+    ($code, my $rolledTotal, my $rolledNums) = dice($rolls, $faces);
+    my $finalValue = defined($modifier) ? calc("$rolledTotal$modifier") : $rolledTotal;
     $finalValue = $min if $finalValue < $min;
     $finalValue = $max if $finalValue > $max;
-    $text =~ s/[\!\.]//g;
+    $rolledNums =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
     if(exists $data{$finalValue}){
-      $results .= "＠$name → $code" . (defined($codeOffset) ? "($codeOffset)" : '') . " → $value\[$text\]$codeOffset : \[$data{$finalValue}\]";
+      $results .= "＠$name → $code" . (defined($modifier) ? "($modifier)" : '') . " → $rolledTotal\[$rolledNums\]$modifier : \[$data{$finalValue}\]";
     }
     else {
       error "合致する行がありませんでした（出目: $finalValue）";
