@@ -238,13 +238,14 @@ sub dice {
 sub shuffleRoll {
   my $comm = shift;
   if($comm !~ s/^
-    ([0-9]+)? @ (.*?)
+    ([0-9]+)? @ (.*?)(?:\[([+\-()\d]+)\])?
     (?:\s|$)
   //ix){
     return;
   }
   my $rolls = $1; my $rolls_raw = $rolls;
   my $faces = $2;
+  my $diceOffset = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
@@ -258,8 +259,8 @@ sub shuffleRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$2}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
-      return randomDiceTableRoll($rolls,$faces,@list), 'choice:table';
+    if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
+      return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
     }
     else {
       @list = shuffle(@list);
@@ -287,13 +288,14 @@ sub shuffleRoll {
 sub choiceRoll {
   my $comm = shift;
   if($comm !~ /^
-    ([0-9]+)? \$ (.*?)
+    ([0-9]+)? \$ (.*?)(?:\[([+\-()\d]+)\])?
     (?:\s|$)
   /ix){
     return "";
   }
   my $rolls = $1; my $rolls_raw = $rolls;
   my $faces = $2;
+  my $diceOffset = $3;
   my $max = 10;
   my $def = 1;
   if($set::random_table{$faces}){
@@ -307,8 +309,8 @@ sub choiceRoll {
     open(my $FH, '<', "${set::rtable_dir}/$set::random_table{$faces}{'data'}") or error($set::random_table{$faces}.'が開けません');
     my @list = <$FH>;
     close($FH);
-    if($list[0] =~ /^[0-9]+D[0-9]+$/i){
-      return randomDiceTableRoll($rolls,$faces,@list), 'choice:table';
+    if($list[0] =~ /^[0-9]+D[0-9]+(?:\s+\d+){0,2}$/i){
+      return randomDiceTableRoll($rolls,$faces,$diceOffset,@list), 'choice:table';
     }
     else {
       my @choice;
@@ -340,25 +342,30 @@ sub choiceRoll {
 sub randomDiceTableRoll {
   my $repeat = shift;
   my $name = shift;
+  my $codeOffset = shift;
   my $code = shift;
   my @list = @_;
   chomp $code;
+  ($code, my $minValue, my $maxValue) = split(/\s+/, $code);
   foreach (@list){ chomp $_; $_=~ s/\\n/<br>/g; }
   my $results;
   foreach(1 .. $repeat){
     ($code, my $value, my $text) = dice(split(/D/i, $code));
+    my $finalValue = defined($codeOffset) ? calc("$value$codeOffset") : $value;
+    $finalValue = $minValue if defined($minValue) && $minValue ne '' && $finalValue < $minValue;
+    $finalValue = $maxValue if defined($maxValue) && $maxValue ne '' && $finalValue > $maxValue;
     $text =~ s/[\!\.]//g;
     $results .= '<br>' if $results;
     my $hit = 0;
     foreach(@list){
-      if($_ =~ /^$value:.*?$/){
-        $results .= "＠$name → $code → $value\[$text\] : \[$&\]";
+      if($_ =~ /^$finalValue:.*?$/){
+        $results .= "＠$name → $code" . (defined($codeOffset) ? "($codeOffset)" : '') . " → $value\[$text\]$codeOffset : \[$&\]";
         $hit = 1;
         last;
       }
     }
     if (!$hit) {
-      error "合致する行がありませんでした（出目: $value）";
+      error "合致する行がありませんでした（出目: $finalValue）";
     }
   }
   return $results;
