@@ -335,7 +335,7 @@ html,body {
 .memo ul#memo-list li {
   position: relative;
 }
-.memo ul#memo-list li:empty {
+.memo ul#memo-list li.removed {
   display: none !important;
 }
 .memo ul#memo-list li[onclick]:hover {
