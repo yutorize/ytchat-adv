@@ -442,6 +442,7 @@ if($error_flag){
 ###################
 ### CSS
 $ROOM->param(customCSS => $set::custom_css);
+$ROOM->param(customCSSVersion => (stat $set::custom_css)[9]) if $set::custom_css ne '';
 
 ###################
 ### 出力

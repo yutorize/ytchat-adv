@@ -14,7 +14,7 @@
       
     @import url('https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css') layer(lib);
   </style>
-  <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
+  <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>?version=<TMPL_VAR customCSSVersion>"></TMPL_IF>
   <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   <script src="./lib/js/ui.js?<TMPL_VAR ver>" defer></script>
