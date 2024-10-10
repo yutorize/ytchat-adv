@@ -209,7 +209,10 @@
         </ul>
         <div class="sheet-memo-outline"><textarea id="sheet-memo-value" class="autosize"></textarea></div>
         <div id="memo-view" class="logs"></div>
-        <button onclick="memoSubmit();">追加／更新</button>
+        <div class="buttons">
+          <button class="to-write" onclick="memoSubmit();"></button>
+          <button class="to-remove" onclick="memoSubmitToRemove()">削除</button>
+        </div>
       </div>
       <span class="close button" onclick="sheetClose();">×</span>
     </div>
