@@ -937,6 +937,18 @@ body {
   right: auto;
   bottom: 8em;
   max-height: 40vh;
+  min-height: 12rem;
+
+  > .comm-area {
+    height: calc(100% - (0.5rem * 2) - (3rem + ((2rem * 2) + 0.1rem)));
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    textarea {
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
 }
 #rewrite-form textarea {
   width: 40vw;
