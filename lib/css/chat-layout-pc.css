@@ -936,6 +936,7 @@ body {
   left: 5em;
   right: auto;
   bottom: 8em;
+  max-height: 40vh;
 }
 #rewrite-form textarea {
   width: 40vw;
