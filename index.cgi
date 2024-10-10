@@ -171,6 +171,7 @@ sub tagConvert {
   1 while $comm =~ s#&lt;left&gt;(.*?)&lt;/left&gt;\n?#<div class="left">$1</div>#gis;
   1 while $comm =~ s#&lt;center&gt;(.*?)&lt;/center&gt;\n?#<div class="center">$1</div>#gis;
   1 while $comm =~ s#&lt;right&gt;(.*?)&lt;/right&gt;\n?#<div class="right">$1</div>#gis;
+  1 while $comm =~ s#&lt;add-line-spacing&gt;(.*?)&lt;/add-line-spacing&gt;\n?#<div class="add-line-spacing">$1</div>#gis;
   
   1 while $comm =~ s#&lt;h([1-6])&gt;(.*?)&lt;/h\1&gt;\n?#<h$1>$2</h$1>#gis;
   
