@@ -144,7 +144,7 @@ sub tagConvert {
     foreach my $key (keys %{$hash}){
       my $value = ${$hash}{$key};
          $value =~ s/"/\\"/g;
-      $key =~ s/&lt;/</; $key =~ s/&gt;/>/;
+      $key =~ s/&lt;/</g; $key =~ s/&gt;/>/g;
       $comm =~ s/${key}/"\"${value}\""/gee;
     }
   }
