@@ -573,7 +573,6 @@ body.rom .sheet { display: none !important; }
   flex-shrink: 1;
   position: relative;
   padding: .4rem 1rem .4rem .2rem;
-  text-align: right;
 }
 .sheet-body .chat-palette-frame .chat-palette.lines span.param b::after {
   content: '=';
