@@ -86,6 +86,8 @@ html,body {
 #menu-button-user > a::before { content: "\e8b8"; }
 #config-room > h2::before,
 #menu-button-room > a::before { content: "\f1b8"; }
+#unit-state-window > h2::before,
+#menu-button-unit-state > a::before { content: "\e6da"; }
 #help-window > h2::before,
 #menu-button-help > a::before { content: "\e887"; font-variation-settings: 'FILL' 0 !important; }
 #exit-room > h2::before,

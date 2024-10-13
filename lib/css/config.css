@@ -671,6 +671,103 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image: linear-gradient(to right, transparent, #fff3, #fff5, #fff3, transparent);
   border-image-slice: 1;
 }
+
+.logs .system .info .state-differences {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 80%;
+
+  & .unit {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: max-content 1fr;
+
+    & .unit-name {
+      grid-row: 1 / -1;
+      grid-column: 1 / 2;
+    }
+
+    & .unit-name::after {
+      content: "::";
+      margin: 0 0.25em;
+    }
+
+    & .state-list {
+      grid-row: 1 / -1;
+      grid-column: 2 / 3;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      & .state {
+        width: 100%;
+        height: auto;
+        display: block;
+
+        & .state-name {
+        }
+
+        & .property-list {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+          display: inline-flex;
+          flex-flow: row;
+          justify-content: flex-start;
+          align-items: center;
+
+          & .property {
+            padding: 0;
+            margin: 0 0 0 0.25em;
+            display: inline-flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            & .property-name {
+              display: inline;
+            }
+
+            & .property-name::after {
+              content: ":";
+            }
+
+            & .difference {
+              display: inline-flex;
+              flex-flow: row;
+              justify-content: flex-start;
+              align-items: center;
+
+              & [data-unit]:not([data-unit=""]) {
+                font-family: "Ytchat-Monospace", monospace;
+              }
+
+              & [data-unit]:not([data-unit=""])::after {
+                content: attr(data-unit);
+              }
+
+              & .after:is([data-value="0"], [data-value^="-"]) {
+                color: grey;
+              }
+            }
+          }
+
+          & .property::before {
+            content: "[";
+          }
+
+          & .property::after {
+            content: "]";
+          }
+        }
+      }
+    }
+  }
+}
+
 #memo-view h1 { font-size: 130%; }
 #memo-view h2 { font-size: 125%; }
 #memo-view h3 { font-size: 120%; }

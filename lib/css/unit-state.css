@@ -1,0 +1,1289 @@
+#status #status-body > dl[data-name] > .state {
+    width: calc(100%);
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 0;
+    border-bottom: none;
+    background-image: linear-gradient(to bottom, transparent 0%, transparent 85%, rgba(128, 128, 128, 0.15) 85%, rgba(128, 128, 128, 0.25) calc(100% - 1px), transparent calc(100% - 1px), transparent 100%);
+    cursor: pointer;
+}
+
+#status #status-body > dl[data-name] > .state,
+.state-controller,
+#unit-state-window .state-selector-area,
+dialog.state-template-selector {
+    & .state-icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: var(--icon-size);
+        height: var(--icon-size);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-right: calc(var(--row-height) - var(--icon-size));
+    }
+
+    & .state-icon[data-icon-category=""]::before {
+        content: "◇";
+        font-size: 0.7rem;
+        opacity: 0.5;
+    }
+
+    & .state-icon[data-icon-direction="buff"] {
+        filter: invert(100%) sepia(100%) saturate(2000%) hue-rotate(-57deg);
+    }
+
+    & .state-icon[data-icon-direction="debuff"] {
+        filter: invert(100%) sepia(100%) saturate(2000%) hue-rotate(120deg)
+    }
+
+    & .state-icon[data-icon-direction="other"] {
+        filter: invert(100%);
+    }
+
+    & .state-icon[data-icon-category="汎用"][data-icon-direction="buff"] {
+        background-image: url("icons/汎用バフ.png");
+    }
+
+    & .state-icon[data-icon-category="汎用"][data-icon-direction="debuff"] {
+        background-image: url("icons/汎用デバフ.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/真語魔法"] {
+        background-image: url("icons/sw2/真語魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/操霊魔法"] {
+        background-image: url("icons/sw2/操霊魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/深智魔法"] {
+        background-image: url("icons/sw2/深智魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/神聖魔法"] {
+        background-image: url("icons/sw2/神聖魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/魔動機術"] {
+        background-image: url("icons/sw2/魔動機術.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/妖精魔法"] {
+        background-image: url("icons/sw2/妖精魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/森羅魔法"] {
+        background-image: url("icons/sw2/森羅魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/召異魔法"] {
+        background-image: url("icons/sw2/召異魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/奈落魔法"] {
+        background-image: url("icons/sw2/奈落魔法.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/練技"] {
+        background-image: url("icons/sw2/練技.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/呪歌"] {
+        background-image: url("icons/sw2/呪歌.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/騎芸"] {
+        background-image: url("icons/sw2/騎芸.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/賦術"] {
+        background-image: url("icons/sw2/賦術.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/相域"] {
+        background-image: url("icons/sw2/相域.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/鼓咆"] {
+        background-image: url("icons/sw2/鼓咆.png");
+    }
+
+    & .state-icon[data-icon-category="SW2/陣率"] {
+        background-image: url("icons/sw2/陣率.png");
+    }
+}
+
+#status #status-body > dl[data-name] > .state,
+.state-controller,
+#unit-state-window .state-selector-area {
+    --row-height: 2rem;
+    --icon-size: calc(var(--row-height) - (0.15rem * 2));
+    --duration-width: 2.5rem;
+
+    & .state-duration {
+        width: auto;
+        min-width: var(--duration-width);
+        height: var(--row-height);
+
+        & .duration-number,
+        & .duration-unit {
+            display: inline;
+        }
+
+        & .duration-unit:empty {
+            display: none;
+        }
+    }
+
+    & .tooltip-text {
+        min-width: 25rem;
+        max-width: 30rem;
+    }
+}
+
+#status #status-body > dl[data-name] > .state {
+    grid-column: 1 / -1;
+
+    & .state-name {
+        width: calc(100% - var(--icon-size) - var(--duration-width));
+        font-size: 1.1rem;
+    }
+
+    & .state-duration {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+
+        & .occurrence-round {
+            display: none;
+        }
+    }
+}
+
+#status #status-body > dl[data-name] > .state > .state-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#status #status-body > dl[data-name][data-image-url] > .state {
+    width: calc(100% - 35%);
+    padding-left: 0.2rem;
+}
+
+#status #status-body > dl[data-name] > .state .tooltip-text,
+.state-controller,
+#unit-state-window .state-selector-area {
+    & .state-header {
+        width: 100%;
+        margin-bottom: 0.5em;
+    }
+
+    & .state-icon[data-icon-category=""] {
+        display: none;
+    }
+
+    & .state-source-name,
+    & .state-duration {
+        width: 100%;
+        height: fit-content;
+    }
+
+    & .state-source-name:empty {
+        display: none;
+    }
+
+    & .state-source-name::before {
+        content: "発生源:";
+        margin-right: 0.1em;
+    }
+
+    & .state-source-name[data-source-is-self="yes"]::after {
+        content: "[本人]";
+        font-size: 80%;
+        color: rgb(160, 160, 160);
+        margin-left: 0.2em;
+    }
+
+    & .state-duration {
+        & .occurrence-round {
+            margin-left: 0.4em;
+        }
+
+        & .occurrence-round:empty {
+            display: none;
+        }
+
+        & .occurrence-round::before {
+            content: "(発生: 第 ";
+        }
+
+        & .occurrence-round::after {
+            content: " ラウンド)";
+        }
+    }
+
+    & .state-description {
+        display: block;
+        font-size: 1rem;
+        margin-top: 0.55em;
+        line-height: 150%;
+
+        &:has(p:first-child:not(:last-child)) {
+            p {
+                display: list-item;
+                list-style-type: circle;
+                margin-left: 1.5em;
+
+                &:not(:last-child) {
+                    margin-bottom: 0.75em;
+                }
+            }
+        }
+    }
+
+    & .state-description:empty {
+        display: none;
+    }
+
+    & .state-description::before {
+        content: "効果:";
+        display: block;
+        margin-bottom: 0.35em;
+    }
+}
+
+#status #status-body > dl[data-name] > .state .tooltip-text,
+.state-controller {
+    & .state-name {
+        font-size: 1.4rem;
+    }
+
+    & .state-source-name,
+    & .state-duration {
+        font-size: 1.1rem;
+    }
+
+    & .state-duration {
+        & .occurrence-round {
+            display: inline;
+        }
+
+        .duration-number:not(:empty) + .duration-unit[data-value]:not([data-value="R"]) + .occurrence-round,
+        .duration-number:empty + .duration-unit[data-value="永続"] + .occurrence-round {
+            display: none;
+        }
+    }
+
+    & .state-duration::before {
+        content: "持続時間:";
+        margin-right: 0.1em;
+    }
+
+    & .state-source-name {
+        margin-bottom: 0.55em;
+    }
+}
+
+#status #status-body > dl[data-name] > .state:hover,
+#status #status-body > dl[data-name] > .state.state-selected {
+    --background-color: rgba(146, 137, 120, 0.3);
+    background-image: linear-gradient(to bottom, transparent 0%, transparent calc(0% + 1px), var(--background-color) calc(0% + 1px), var(--background-color) calc(100% - 1px), transparent calc(100% - 1px), transparent 100%);
+}
+
+#status #status-body > dl[data-name] > .state.state-selected {
+    pointer-events: none;
+}
+
+#status #status-body > dl[data-name] > .state .tooltip-text {
+    & .state-header {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        & .state-name {
+            display: inline-block;
+            width: calc(100% - var(--icon-size) - var(--duration-width));
+            height: fit-content;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
+
+    & .state-duration {
+        display: block;
+
+        & .occurrence-round {
+            font-size: 65%;
+        }
+    }
+}
+
+.state-controller.status-manipulator {
+    width: min(35rem, 35vw);
+}
+
+.state-controller {
+    display: grid;
+    grid-template-rows: repeat(5, max-content);
+    grid-template-columns: 1fr max-content;
+    height: auto;
+
+    & .state-header {
+        grid-row: 1 / 2;
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-rows: auto var(--icon-size);
+        grid-template-columns: var(--icon-size) 1fr;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+        & .state-target-name {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+            margin-bottom: 0.5em;
+        }
+
+        & .state-target-name::before {
+            content: "対象：";
+            margin-right: 0.1em;
+        }
+
+        & .state-icon {
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+        }
+
+        & .state-name {
+            grid-row: 2 / 3;
+            grid-column: 2 / 3;
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: var(--icon-size);
+        }
+    }
+
+    & .state-header[data-icon-category=""] {
+        & .state-name {
+            grid-column: 1 / 3;
+        }
+    }
+
+    & .state-source-name {
+        grid-row: 2 / 3;
+        grid-column: 1 / -1;
+    }
+
+    & .state-duration {
+        grid-row: 3 / 4;
+        grid-column: 1 / -1;
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        & .occurrence-round {
+            font-size: 1rem;
+        }
+
+        & button.to-increase,
+        & button.to-decrease {
+            font-size: 1rem;
+            font-weight: normal;
+            margin-left: 0.5em;
+        }
+
+        & button.to-increase::before {
+            content: "+1";
+        }
+
+        & button.to-decrease::before {
+            content: "-1";
+        }
+
+        & button.to-increase[data-unit]:not([data-unit=""])::after,
+        & button.to-decrease[data-unit]:not([data-unit=""])::after {
+            content: attr(data-unit);
+        }
+    }
+
+    & .state-description {
+        grid-row: 4 / 5;
+        grid-column: 1 / -1;
+    }
+
+    & button.to-remove-state {
+        grid-row: 5 / 6;
+        grid-column: 2 / 3;
+        margin-top: 0.75rem;
+        display: inline-flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        filter: hue-rotate(120deg) brightness(120%);
+    }
+
+    & button.to-remove-state::before {
+        content: "\e92b";
+        font-family: "Material Symbols Outlined", sans-serif;
+        font-variation-settings: 'FILL' 1;
+        margin-right: 0.15em;
+    }
+}
+
+.state-controller::before {
+    display: none;
+}
+
+#unit-state-window {
+    width: min(50vw, 900px);
+    height: min(50vh, 600px);
+
+    & h2 {
+        margin-bottom: 0.5rem;
+    }
+
+    & .window-content-area {
+        width: 100%;
+        height: calc(100% - 0.5rem - 3rem);
+    }
+
+    & .panes {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: max-content 1fr max-content;
+
+        & .operation-selector-area {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        & .state-settings-area {
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+        }
+
+        & .target-selector-area {
+            grid-row: 2 / 3;
+        }
+
+        & .state-editor-area {
+            grid-row: 2 / 3;
+            grid-column: 2 / 3;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            border-left: 1px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        & .command-area {
+            grid-row: 3 / 4;
+            grid-column: 1 / -1;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.7);
+        }
+    }
+
+    & .window-content-area[data-selected-operation="add"] .panes {
+        grid-template-columns: max-content 1fr;
+
+        & .target-selector-area {
+            grid-column: 2 / 3;
+            padding-left: 1rem;
+            margin-left: 1rem;
+            border-left: 1px dashed rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    & .window-content-area[data-selected-operation="modify"] .panes {
+        grid-template-columns: 1fr max-content;
+
+        & .target-selector-area {
+            grid-column: 1 / 2;
+        }
+    }
+
+    & .operation-selector-area {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        & label {
+            margin-left: 1em;
+        }
+    }
+
+    & .operation-selector-area::before {
+        content: "操作モード";
+        display: flex;
+        font-size: 2rem;
+        font-weight: bold;
+        padding: 0.35em;
+        background-color: rgba(255, 255, 255, 0.25);
+        border-radius: 0.3rem;
+    }
+
+    & h3 {
+        display: flex;
+        height: 3.3rem;
+        min-width: max-content;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 0.5em;
+        font-size: 1.8rem;
+        margin: 0;
+        border-top: none;
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    & h4 {
+        display: flex;
+        flex-flow: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0.3em 1rem;
+        margin: 0;
+        border-top: none;
+        background-image: linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0.15) 100%);
+        min-width: max-content;
+    }
+
+    & .window-content-area[data-selected-operation="add"] .state-settings-area {
+        display: grid;
+    }
+
+    & .window-content-area:not([data-selected-operation="add"]) .state-settings-area {
+        display: none;
+    }
+
+    & .state-settings-area {
+        grid-template-rows: max-content repeat(6, max-content) 1fr;
+        grid-template-columns: max-content 1fr;
+        overflow-y: auto;
+        position: relative;
+
+        & h3 {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+        }
+
+        & button.to-reset {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
+
+        & button.to-select-template {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
+            width: max-content;
+            margin-top: 0.3em;
+        }
+
+        & button.to-select-template.hidden {
+            display: none;
+        }
+
+        & [for],
+        & .label,
+        & [id],
+        & .controls {
+            margin-top: 0.5em;
+        }
+
+        & [for],
+        & .label {
+            grid-column: 1 / 2;
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 0.25em;
+            font-weight: normal;
+            font-family: 'Lato',"BIZ UDGothic","Meiryo","YuKyokasho Yoko", sans-serif;
+        }
+
+        & [id],
+        & .controls {
+            grid-column: 2 / 3;
+        }
+
+        & [for="state-name-settings"],
+        & [id="state-name-settings"] {
+            grid-row: 3 / 4;
+        }
+
+        & [for="state-name-settings"]::before {
+            content: "*";
+            color: orange;
+        }
+
+        & input[id="state-name-settings"][data-value=""] {
+            border-color: orange;
+        }
+
+        & [for="state-icon-settings"],
+        & [id="state-icon-settings"] {
+            grid-row: 4 / 5;
+        }
+
+        & .icon-direction {
+            grid-row: 5 / 6;
+        }
+
+        & .icon-direction.label {
+            align-items: flex-start;
+        }
+
+        & .icon-direction.controls {
+            & label {
+                display: flex;
+                flex-flow: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            & label:not(:first-child) {
+                margin-top: 0.5em;
+            }
+        }
+
+        & [for="state-source-settings"],
+        & [id="state-source-settings"] {
+            grid-row: 6 / 7;
+        }
+
+        & [for="state-duration-settings"],
+        & [id="state-duration-settings"] {
+            grid-row: 7 / 8;
+        }
+
+        & [for="state-duration-settings"]::before {
+            content: "*";
+            color: orange;
+        }
+
+        & input[id="state-duration-settings"][data-value=""] {
+            border-color: orange;
+        }
+
+        & [for="state-description-settings"],
+        & [id="state-description-settings"] {
+            grid-row: 8 / 9;
+        }
+
+        & [for="state-description-settings"] {
+            align-items: flex-start;
+        }
+    }
+
+    & .window-content-area[data-selected-operation=""] .target-selector-area {
+        display: none;
+    }
+
+    & .target-selector-area {
+        display: block;
+        overflow-y: hidden;
+
+        & .unit-selector-area {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    & .unit-selector-area,
+    & .state-selector-area {
+        grid-template-columns: 1fr;
+        overflow-y: hidden;
+
+        & h3 {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+            width: 100%;
+        }
+    }
+
+    & button.to-select-all-unit::before {
+        content: "\e162";
+    }
+
+    & button.to-deselect-all-unit::before {
+        content: "\ebb6";
+    }
+
+    & .window-content-area[data-selected-operation="add"] .unit-selector-area {
+        display: grid;
+    }
+
+    & .window-content-area:not([data-selected-operation="add"]) .unit-selector-area {
+        display: none;
+    }
+
+    & .unit-selector-area {
+        grid-template-rows: repeat(2, max-content) 1fr;
+
+        & .buttons {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: repeat(2, auto) 1fr;
+            margin-top: 0.5rem;
+
+            & button {
+                grid-row: 1 / -1;
+            }
+
+            & button.to-select-all-unit {
+                grid-column: 1 / 2;
+            }
+
+            & button.to-deselect-all-unit {
+                grid-column: 2 / 3;
+            }
+        }
+
+        & button {
+            display: inline-flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        & button.quick-select::before {
+            font-family: "Material Symbols Outlined", sans-serif;
+            font-variation-settings: 'FILL' 1;
+            margin-right: 0.15em;
+        }
+
+        & button.to-select-all-unit {
+            margin-right: 0.5em;
+        }
+
+        & .unit-list {
+            grid-row: 3 / 4;
+            grid-column: 1 / -1;
+            list-style-type: none;
+            height: 100%;
+            margin: 0.5rem 0 0 0;
+            padding: 0;
+            overflow-y: auto;
+
+            & .unit {
+                display: block;
+                width: 100%;
+                height: max-content;
+
+                & label {
+                    width: 100%;
+                    display: grid;
+                    grid-template-rows: repeat(2, max-content);
+                    grid-template-columns: max-content 1fr;
+                    padding-top: 0.5em;
+                    padding-bottom: 0.5em;
+                    padding-left: 0.25em;
+                }
+
+                & label.selected {
+                    background-color: rgba(34, 221, 255, 0.2);
+                }
+
+                & .checkbox-to-select-unit {
+                    grid-row: 1 / -1;
+                    grid-column: 1 / 2;
+                    margin-right: 0.15em;
+                }
+
+                & .unit-name {
+                    grid-row: 1 / 2;
+                    grid-column: 2 / 3;
+                }
+
+                & .unit-properties {
+                    grid-row: 2 / 3;
+                    grid-column: 2 / 3;
+                    font-size: 70%;
+                    padding-left: 1em;
+
+                    & .property {
+                        display: inline-flex;
+                        margin-right: 1em;
+                    }
+                }
+            }
+
+            & .unit:not(:last-child) {
+                border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    & .state-selector-area {
+        display: grid;
+        grid-template-rows: repeat(3, max-content) 1fr;
+        width: 100%;
+        height: 100%;
+
+        & h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        & .filter-area {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-rows: repeat(3, max-content);
+            grid-template-columns: max-content 1fr;
+            margin-bottom: 0.75rem;
+
+            & label {
+                grid-column: 1 / 2;
+                display: flex;
+                flex-flow: row;
+                justify-content: flex-end;
+                align-items: center;
+                padding-right: 0.15em;
+            }
+
+            & select {
+                grid-column: 2 / 3;
+                width: 100%;
+            }
+
+            & label:not(:last-of-type),
+            & select:not(:last-of-type) {
+                margin-bottom: 0.5rem;
+            }
+
+            & [for="state-modification-target-by-state-name"],
+            & [id="state-modification-target-by-state-name"] {
+                grid-row: 1 / 2;
+            }
+
+            & [for="state-modification-target-by-source"],
+            & [id="state-modification-target-by-source"] {
+                grid-row: 2 / 3;
+            }
+
+            & [for="state-modification-target-by-holder"],
+            & [id="state-modification-target-by-holder"] {
+                grid-row: 3 / 4;
+            }
+
+            & [for="state-modification-target-by-duration-unit"],
+            & [id="state-modification-target-by-duration-unit"] {
+                grid-row: 4 / 5;
+            }
+        }
+
+        & h4 {
+            grid-row: 3 / 4;
+            grid-column: 1 / -1;
+            margin-bottom: 0.5rem;
+        }
+
+        & .target-list {
+            grid-row: 4 / 5;
+            grid-column: 1 / -1;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-flow: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            & .holder-unit {
+                border-left: 0.5rem double rgba(255, 255, 255, 0.1);
+                padding: 0.2rem;
+                width: 100%;
+
+                & .state-list {
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0 0 0 0.4rem;
+
+                    & .state {
+                        display: grid;
+                        grid-template-rows: 100%;
+                        grid-template-columns: max-content 1fr max-content max-content;
+                        font-size: 1rem;
+                        --icon-size: 1.4rem;
+                        --row-height: calc(var(--icon-size) + (0.1rem * 2));
+                        height: var(--row-height);
+
+                        & .state-icon,
+                        & .state-name,
+                        & .state-duration,
+                        & .state-source-name {
+                            grid-row: 1 / -1;
+                            height: 100%;
+                        }
+
+                        & .state-icon {
+                            grid-column: 1 / 2;
+                        }
+
+                        & .state-name {
+                            grid-column: 2 / 3;
+                            font-size: inherit;
+                            width: 100%;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                        }
+
+                        & .state-duration {
+                            grid-column: 3 / 4;
+                            font-size: inherit;
+
+                            & .occurrence-round {
+                                display: none;
+                            }
+                        }
+
+                        & .state-duration::before {
+                            content: "∥";
+                            margin: 0;
+                        }
+
+                        & .state-source-name {
+                            grid-column: 4 / 5;
+                            font-size: inherit;
+                        }
+                    }
+
+                    & .state:not(.selected) {
+                        display: none;
+                    }
+
+                    & .state:has(.state-source-name:not([data-source-name=""])) {
+                        & .state-duration::after {
+                            content: "∥";
+                        }
+                    }
+                }
+            }
+
+            & .holder-unit:not(:has(.selected)) {
+                display: none;
+            }
+
+            & .holder-unit {
+                margin-top: 0.25rem;
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        & .target-list:empty::before,
+        & .target-list:not(:has(.selected))::before {
+            content: "該当する状態がありません";
+            color: rgb(160, 160, 160);
+            margin-left: 1em;
+        }
+    }
+
+    & .state-selector-area[data-selected-state-name=""][data-selected-source-name=""][data-selected-holder-name=""][data-selected-duration-unit=""] {
+        & .headline-for-target-list,
+        & .target-list {
+            display: none;
+        }
+    }
+
+    & .window-content-area[data-selected-operation="modify"] .state-editor-area {
+        display: grid;
+    }
+
+    & .window-content-area:not([data-selected-operation="modify"]) .state-editor-area {
+        display: none;
+    }
+
+    & .state-editor-area {
+        grid-template-rows: max-content repeat(1, max-content);
+        grid-template-columns: 100%;
+
+        & h3 {
+            grid-row: 1 / 2;
+            grid-column: 1 / -1;
+            margin-bottom: 0.5rem;
+        }
+
+        & h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        & .duration-editor {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-rows: repeat(3, max-content);
+            grid-template-columns: 1.5rem 21rem;
+
+            & h4 {
+                grid-row: 1 / 2;
+                grid-column: 1 / -1;
+            }
+
+            & .mode-selector {
+                grid-row: 2 / 3;
+                grid-column: 2 / 3;
+                margin-bottom: 0.5rem;
+                padding-right: 0.5em;
+                display: flex;
+                flex-flow: row;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+
+                & label {
+                    display: inline-flex;
+                    flex-flow: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    font-weight: normal;
+                    font-family: 'Lato',"BIZ UDGothic","Meiryo","YuKyokasho Yoko", sans-serif;
+                }
+
+                & label:not(:last-child) {
+                    margin-right: 0.6em;
+                }
+            }
+
+            & .value-settings {
+                grid-row: 3 / 4;
+                grid-column: 2 / 3;
+                width: 100%;
+                display: grid;
+                grid-template-rows: 1fr;
+                grid-template-columns: max-content 1fr;
+
+                & .label {
+                    grid-row: 1 / -1;
+                    grid-column: 1 / 2;
+                    display: flex;
+                    flex-flow: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+
+                & .value {
+                    grid-row: 1 / -1;
+                    grid-column: 2 / 3;
+                    width: 100%;
+                }
+            }
+        }
+
+        & .duration-editor:not([data-selected-mode="decrement"]) .value-settings[data-mode="decrement"],
+        & .duration-editor:not([data-selected-mode="increment"]) .value-settings[data-mode="increment"],
+        & .duration-editor:not([data-selected-mode="assignment"]) .value-settings[data-mode="assignment"] {
+            display: none;
+        }
+    }
+
+    & .window-content-area[data-selected-operation=""] .command-area {
+        visibility: hidden;
+    }
+
+    & .command-area {
+        display: grid;
+        grid-template-columns: max-content 1fr max-content;
+        grid-template-rows: 1fr max-content;
+        position: relative;
+
+        & .label-for-command {
+            display: flex;
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+            font-size: 80%;
+        }
+
+        & .command-display {
+            grid-row: 1 / -1;
+            grid-column: 2 / 3;
+            color: rgb(216, 216, 216);
+            background-color: #011818;
+        }
+
+        & .command-display.has-error {
+            background-color: rgb(50, 35, 35);
+        }
+
+        & .command-display:hover {
+            box-shadow: none;
+        }
+
+        & .buttons {
+            grid-row: 1 / -1;
+            grid-column: 3 / 4;
+            display: flex;
+            flex-flow: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin-left: 0.75rem;
+
+            & button {
+                width: 100%;
+            }
+
+            & button:not(:last-child) {
+                margin-bottom: 0.5em;
+            }
+        }
+
+        & button[disabled] {
+            cursor: not-allowed;
+        }
+
+        & button.to-copy {
+            cursor: copy;
+        }
+
+        & .error-message {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 100%;
+            height: auto;
+            display: flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: rgba(77, 24, 24, 0.5);
+            padding: 0.4em;
+            color: lightyellow;
+            text-shadow: none;
+            border-top-left-radius: 0.5em;
+            border-top-right-radius: 0.5em;
+        }
+
+        & .error-message:empty {
+            display: none;
+        }
+    }
+}
+
+dialog.state-template-selector {
+    width: 50vw;
+    height: 70vh;
+    margin: auto;
+    padding: 1.5em;
+    border: .5em solid var(--border-color-pale);
+    border-radius: 1em;
+    background: var(--float-bg-color);
+    color: white;
+    font-size: 1.2rem;
+
+    & .game {
+        & .categories {
+            border-left: 0.5rem double rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 0 0.5rem 1rem;
+            margin-left: 0.2rem;
+        }
+    }
+
+    & .game:not(:last-child) {
+        margin-bottom: 1.2rem;
+    }
+
+    & .categories {
+        & .category:not(:last-child) {
+            margin-bottom: 0.7rem;
+        }
+    }
+
+    & .category {
+        & .states {
+            border-left: 0.3rem solid rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 0 0.5rem 1rem;
+            margin-left: 0.35rem;
+        }
+    }
+
+    & .states {
+        display: grid;
+        grid-template-columns: max-content max-content max-content 1fr;
+
+        & .state-icon {
+            grid-column: 1 / 2;
+            --icon-size: 1.5rem;
+            margin: auto;
+        }
+
+        & .state-name {
+            grid-column: 2 / 3;
+        }
+
+        & .state-name.header {
+            grid-column: 1 / 3;
+        }
+
+        & .state-duration {
+            grid-column: 3 / 4;
+        }
+
+        & .state-description {
+            grid-column: 4 / 5;
+        }
+
+        & .header {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.3em;
+        }
+
+        & .state-icon,
+        & .state-name,
+        & .state-duration,
+        & .state-description {
+            padding: 0.3em;
+        }
+
+        :is(.state-name, .state-duration, .state-description):not(.header) {
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        & .state-duration:not(.header) {
+            width: 100%;
+            text-align: center;
+        }
+
+        & .state-description:not(.header) {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+
+            & p {
+                display: inline;
+            }
+
+            & p:not(:first-child)::before {
+                content: "；";
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(120, 177, 192, 0.2) 100%);
+        }
+    }
+}

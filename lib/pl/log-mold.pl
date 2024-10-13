@@ -175,6 +175,9 @@ foreach (<$FH>){
       $info = '';
     }
   }
+  elsif ($system =~ /^state-(?:add|modify|remove)$/) {
+    $info = '';
+  }
   elsif($system =~ /^tab:([0-9]+)=(.*?)$/){
     if($2){ $tabs[$1-1] = "$2"; }
   }
