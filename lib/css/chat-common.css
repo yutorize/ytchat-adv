@@ -116,10 +116,16 @@ html,body {
   max-height: 25vh;
   overflow-y: auto;
 }
+body.rom #topic-value {
+  padding-left: .5em;
+}
 #topic .edit.button {
   position: absolute;
   top: .2rem;
   left: .2rem;
+}
+body.rom #topic .edit.button {
+  display: none;
 }
 
 /* // ラウンド
@@ -137,6 +143,9 @@ html,body {
   display: flex;
   justify-content: center;
   margin: 0;
+}
+body.rom #round .round-buttons {
+  display: none;
 }
 #round .button {
   min-width: 1.5em;
@@ -190,7 +199,7 @@ html,body {
     transform: scaleY(1);
   }
 }
-#status #status-body > dl.selected {
+body:not(.rom) #status #status-body > dl.selected {
   background-color: rgba(0,150,255, 0.2);
 }
 #status #status-body > dl.check::before {
@@ -216,9 +225,12 @@ html,body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#status #status-body > dl > dt[onclick]:hover {
+body:not(.rom) #status #status-body > dl > dt[onclick]:hover {
   background: rgba(255,150,0,0.3);
   white-space: normal;
+}
+body.rom #status #status-body > dl > dt {
+  cursor: default;
 }
 #status #status-body > dl > dd {
   padding: 0 0 .2em .2em;
@@ -315,6 +327,9 @@ html,body {
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
   cursor: pointer;
 }
+body.rom #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"] {
+  pointer-events: none;
+}
 #status #status-body > dl[data-name] > dd[data-manipulation-allowed="yes"]:hover {
   background-color: rgba(187, 204, 238, 0.1);
   filter: brightness(115%);
@@ -325,6 +340,9 @@ html,body {
   bottom: .1em;
   right: .1em;
   z-index: 3;
+}
+body.rom #status .add.button {
+  display: none;
 }
 #status .edit.button {
   display: none;
@@ -393,6 +411,9 @@ html,body {
   bottom: .1em;
   right: .1em;
 }
+body.rom .memo .add.button {
+  display: none;
+}
 #sheet-unit-memo > h2::after {
   content: '#' attr(data-num);
   margin-left: .3em;
@@ -422,6 +443,9 @@ html,body {
   border-radius: .8rem;
   overflow: hidden;
 }
+body.rom .sheet .sheet-memo-body ul.sheet-memo-menu {
+  grid-template-columns: 3em 1fr;
+}
 .sheet .sheet-memo-body ul.sheet-memo-menu li {
   padding: .5em;
   border-width: 0;
@@ -433,6 +457,9 @@ html,body {
   font-weight: bold;
   background: #346;
   color: inherit;
+}
+body.rom .sheet .sheet-memo-body ul.sheet-memo-menu li:nth-child(3) {
+  display: none;
 }
 .sheet .sheet-memo-body .sheet-memo-outline {
   grid-row: 2;
