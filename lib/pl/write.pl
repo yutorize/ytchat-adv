@@ -895,13 +895,14 @@ sub paletteUpdate {
   close($FH);
 }
 
+# URL変換 ----------
 sub resolveCloudAssetUrl {
   my $url = shift;
   $url = resolveGoogleDriveAssetUrl($url);
   $url = resolveDropboxAssetUrl($url);
   return $url;
 }
-# GoogleドライブURL変換 ----------
+# Google
 sub resolveGoogleDriveAssetUrl {
   my $url = shift;
 
@@ -911,7 +912,7 @@ sub resolveGoogleDriveAssetUrl {
 
   return $url;
 }
-# Dropbox URL変換 ----------
+# Dropbox
 sub resolveDropboxAssetUrl {
   my $url = shift;
 
