@@ -9,6 +9,7 @@ use strict;
 use utf8;
 use open ":utf8";
 use open ":std";
+use CGI;
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
@@ -302,6 +303,72 @@ sub stylizeSuccessAndFailure {
     elsif($_ =~ /^(自動)?失敗$/){ $_ = "<strong class='fail'>$&</strong>" }
   }
   return join('／', @array);
+}
+
+## ランダム表整形
+sub reformatRandomTable {
+  my %sourceTable = %{ shift; };
+  my %destinationTable = ();
+  my @destinationRows = ();
+
+  if ($sourceTable{'diceCode'}) {
+    my @sourceRows = @{ $sourceTable{'rows'} };
+    my $lastBody = undef;
+    foreach my $sourceRow (@sourceRows) {
+      if ($sourceRow =~ s/^(\d+)://) {
+        my $dice = $1;
+        my $body = $sourceRow;
+        if ($body eq $lastBody) {
+          my $rowCount = @destinationRows;
+          my $lastRowIndex = $rowCount - 1;
+          my %lastRow = %{ @destinationRows[$lastRowIndex] };
+          $lastRow{'range'}{'end'} = $dice;
+        } else {
+          $lastBody = $body;
+          push(@destinationRows, { 'range' => { 'begin' => $dice, 'end' => $dice }, 'body' => $sourceRow });
+        }
+      }
+    }
+
+    $destinationTable{'diceCode'} = $sourceTable{'diceCode'};
+  } else {
+    my @sourceRows = @{ $sourceTable{'rows'} };
+    foreach my $sourceRow (@sourceRows) {
+      push(@destinationRows, {'body' => $sourceRow});
+    }
+  }
+
+  $destinationTable{'rows'} = \@destinationRows;
+  return \%destinationTable;
+}
+sub makeRandomTableHtml {
+  my %table = %{ shift; };
+
+  my $html = '<table class="random-table">';
+
+  if ($table{'diceCode'}) {
+    $html .= '<thead><tr><th>出目</th><th>内容</th></tr></thead>';
+  }
+
+  $html .= '<tbody>';
+
+  my @rows = @{ $table{'rows'} };
+  foreach my $rowReference (@rows) {
+    $html .= '<tr>';
+    my %row = %{ $rowReference };
+    if ($row{'range'}) {
+      my %range = %{ $row{'range'} };
+      my $begin = $range{'begin'};
+      my $end = $range{'end'};
+      $html .= '<th>' . ($begin eq $end ? $begin : "$begin - $end") . '</th>';
+    }
+    $html .= '<td>' . CGI::escapeHTML($row{'body'}) . '</td>';
+    $html .= '</tr>';
+  }
+
+  $html .= '</tbody></table>';
+
+  return $html;
 }
 
 ##
