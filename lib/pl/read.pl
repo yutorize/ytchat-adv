@@ -59,6 +59,13 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
       #
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
+    elsif($system eq 'choice') {
+      if($_ =~ s#(\(.+\) → )(.+?)$#$1#){
+        foreach my $result (split ",", $2) {
+          $_ .= "<b class='result'>$result</b>";
+        }
+      }
+    }
     elsif($system =~ /^unit/){
       $_ =~ s# (\[.*?\])# <i>$1</i>#g;
     }
@@ -66,10 +73,10 @@ foreach($reverseOn ? (reverse <$FH>) : <$FH>) {
   $info = join('<br>', @infos);
   
   if($system =~ /^(choice:list|deck)/){
-    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<i>$1</i>#g;
+    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<b class='result'>$1</b>#g;
   }
   elsif($system =~ /^(choice:table)/){
-    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<i>$1</i>#g;
+    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<b class='result'>$1</b>#g;
   }
   
   if($system eq 'palette'){

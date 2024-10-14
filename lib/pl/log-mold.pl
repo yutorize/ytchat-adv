@@ -216,6 +216,13 @@ foreach (<$FH>){
       #
       $_ =~ s#\{(.*?)\}#{<span class='division'>$1</span>}#g;
     }
+    elsif($system eq 'choice') {
+      if($_ =~ s#(\(.+\) → )(.+?)$#$1#){
+        foreach my $result (split ",", $2) {
+          $_ .= "<i class='result'>$result</i>";
+        }
+      }
+    }
     elsif($system =~ /^unit/){
       if(1){
         my $dices = $_;
@@ -232,10 +239,10 @@ foreach (<$FH>){
   $info = join('<br>', @infos);
 
   if($system =~ /^(choice:list|deck)/){
-    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<i>$1</i>#g;
+    $info =~ s#\[(.*?)\](?=\[|<br>|$)#<b class='result'>$1</b>#g;
   }
   elsif($system =~ /^(choice:table)/){
-    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<i>$1</i>#g;
+    $info =~ s#(?<=:) \[(.*?)\](?=.+? → |$)#<b class='result'>$1</b>#g;
   }
 
   $info = tagConvert($info) if $tagconvert_on && $system =~ /^(topic|memo|choice|deck)/; #文字装飾

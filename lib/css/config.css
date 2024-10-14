@@ -396,12 +396,11 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dd.info.choice {
   color: #db5;
 }
-.logs dl dd.info.choice > i,
 .logs dl dd.info.choice > b,
 .logs dl dd.info.choice > s {
   display: inline-block;
 }
-.logs dl dd.info.choice > i {
+.logs dl dd.info.choice > b.result {
   margin: 1px .25em;
   padding: 0 .25em;
   border-width: 0px 1px;
@@ -409,21 +408,26 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-color: #eda7;
   border-radius: .5em;
   font-size: 94%;
-  font-style: normal;
+  font-weight: normal;
+  font-family: inherit;
   vertical-align: top;
   background-color: #fe01;
-  color: #eda;
+  color: #feb;
 }
 .logs dl dd.info.choice s {
   color: #888;
   text-decoration: none;
+}
+.logs dl dd.info.choice b.result {
+  background-color: #db52;
+  padding: 0 0.25em;
 }
 /* チャットログ：ダイス */
 .logs dl dd.info.dice::before {
   color: #f33;
 }
 .logs dl dd.info.dice {
-  color: #e55;
+  color: #e77;
   letter-spacing: 0.1rem;
 }
 .logs dl dd.info.dice i {
@@ -434,10 +438,10 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 }
 .logs dl dd.info.dice b,
 .logs dl dd.info.dice strong {
-  color: #f33;
+  color: #f55;
 }
 .logs dl dd.info.dice em {
-  color: #e90;
+  color: #eb0;
   font-weight: bold;
   -webkit-text-emphasis: none;
           text-emphasis: none;
