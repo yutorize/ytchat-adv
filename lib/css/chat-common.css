@@ -334,6 +334,40 @@ html,body {
 ---------------------------------------------------------------------------------------------------- */
 .memo ul#memo-list li {
   position: relative;
+  height: 2.2rem;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: max-content 1fr max-content;
+  align-items: center;
+  overflow-y: visible;
+
+  > .headline, .to-open {
+    grid-row: 1 / -1;
+  }
+
+  &::before {
+    grid-column: 1 / 2;
+  }
+
+  > .headline {
+    grid-column: 2 / 3;
+    height: max-content;
+  }
+
+  > .to-open {
+    grid-column: 3 / 4;
+    display: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+  }
+
+  &:hover > .to-open {
+    display: inline-flex;
+  }
 }
 .memo ul#memo-list li.removed {
   display: none !important;
@@ -349,6 +383,10 @@ html,body {
   font-size: 80%;
   line-height: 1;
   opacity: 0.6;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
 }
 .memo .add.button {
   position: absolute;
