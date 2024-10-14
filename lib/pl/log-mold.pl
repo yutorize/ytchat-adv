@@ -276,7 +276,7 @@ foreach (<$FH>){
     next;
   }
 
-  if($system =~ /^memo/ && $info){ $info = '<details><summary>詳細</summary>'.$info.'</details>'; }
+  if($system =~ /^memo/ && $info){ $info = '<details open><summary>詳細</summary>'.$info.'</details>'; }
   
   my $class  = ($name eq '!SYSTEM') ? 'system '    : '';
      $class .= ($system =~ /^(topic|memo|bgm?|ready|round|enter|exit)/) ? "$1 " : '';
