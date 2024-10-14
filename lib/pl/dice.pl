@@ -248,7 +248,7 @@ sub shuffleRoll {
   my $rolls = my $rollsRaw = $1;
   my $faces = $2;
   my $modifier = $3;
-  my $max = 10;
+  my $max = 20;
   my $def = 1;
   if($set::random_table{$faces}){
     $max = $set::random_table{$faces}{'max'} || $max;
@@ -303,7 +303,7 @@ sub choiceRoll {
   my $rolls = my $rollsRaw = $1;
   my $faces = $2;
   my $modifier = $3;
-  my $max = 10;
+  my $max = 20;
   my $def = 1;
   if($set::random_table{$faces}){
     $max = $set::random_table{$faces}{'max'} || $max;

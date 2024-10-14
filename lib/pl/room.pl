@@ -154,7 +154,7 @@ foreach my $key (sort keys %set::random_table){
   push(@random_table, {
     'COMMAND'  => $key,
     'DEF' => $set::random_table{$key}{'def'} || 1,
-    'MAX' => $set::random_table{$key}{'max'} || 10,
+    'MAX' => $set::random_table{$key}{'max'} || 20,
     'HELP' => $set::random_table{$key}{'help'},
   });
 }
