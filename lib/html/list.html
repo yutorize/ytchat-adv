@@ -44,7 +44,7 @@
     }
     const select = document.getElementById('set-bcdice-game');
     Promise.race([
-      fetch(apiUrl+'/v1/names', {
+      fetch(apiUrl+'/v2/game_system', {
         method: "GET",
         cache: 'no-cache'
       }),
@@ -53,7 +53,7 @@
     .then(response => response.text())
     .then( json => {
       const data = JSON.parse(json);
-      data['names'].sort(function(a,b){
+      data['game_system'].sort(function(a,b){
         if(a.name < b.name) return -1;
         if(a.name > b.name) return 1;
         return 0;
@@ -61,10 +61,10 @@
       while (0 < select.childNodes.length) {
         select.removeChild(select.childNodes[0]);
       }
-      for(let key in data['names']){
+      for(let key in data['game_system']){
         let op = document.createElement("option");
-        op.text = data['names'][key]['name'];
-        op.value = data['names'][key]['system'];
+        op.text = data['game_system'][key]['name'];
+        op.value = data['game_system'][key]['id'];
         select.appendChild(op);
       }
     })
