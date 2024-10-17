@@ -148,10 +148,10 @@ foreach (<$FH>){
     next;
   }
   elsif($system =~ /^image$/){
-    $info = '<img loading="lazy" src="' . $info . '">';
+    $info = '<img loading="lazy" src="' . resolveCloudAssetUrl($info) . '">';
   }
   elsif($system =~ /^bgm:([0-9]+):(.+)$/){
-    my ($url, $vol) = ($2, $1);
+    my ($url, $vol) = (resolveCloudAssetUrl($2), $1);
     $comm = '<span class="bgm-border" data-url="'.$url.'" data-title="'.$info.'" data-vol="'.$vol.'"></span>'.$comm;
     if(!$bgms{$url}){ push(@bgms, $url) }
     $bgms{$url} = ' <a class="link-yt" href="'.$url.'" target="_blank">'.$info.'</a>';
@@ -162,7 +162,7 @@ foreach (<$FH>){
     $comm = '<span class="bgm-border"></span>'.$comm;
   }
   elsif($system =~ /^bg:(?:(resize|tiling):)?(.+)$/){
-    $comm = '<span class="bg-border" data-mode="'.$1.'" data-url="'.$2.'" data-title="'.$info.'"></span>'.$comm;
+    $comm = '<span class="bg-border" data-mode="'.$1.'" data-url="'.resolveCloudAssetUrl($2).'" data-title="'.$info.'"></span>'.$comm;
     if(!$bgis{$1}){ push(@bgis, $1) }
     $bgis{$1} = $info;
   }

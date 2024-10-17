@@ -12,7 +12,7 @@ use open ":std";
 use CGI::Carp qw(fatalsToBrowser);
 
 ### バージョン #######################################################################################
-our $ver = "1.02.000";
+our $ver = "1.02.003";
 
 ### 設定読込 #########################################################################################
 require './config.cgi';
@@ -178,7 +178,7 @@ sub tagConvert {
   
   # 自動リンク・後処理
   $comm =~ s{<!a#([0-9]+)>}{'<a href="'.$linkURL[$1-1].'" target="_blank">'.$linkURL[$1-1].'</a>'}ge;
-  
+
   $comm =~ s#(</ul>)\n#$1#;
   
   $comm =~ s#\n#<br>#gi;
@@ -292,6 +292,36 @@ sub tagDelete {
   $text =~ s/<.+?>//g;
   $text =~ s/"/&quot;/g;
   return $text;
+}
+
+# URL変換
+sub resolveCloudAssetUrl {
+  my $url = shift;
+  $url = resolveGoogleDriveAssetUrl($url);
+  $url = resolveDropboxAssetUrl($url);
+  return $url;
+}
+# Google
+sub resolveGoogleDriveAssetUrl {
+  my $url = shift;
+
+  if ($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/) {
+    return 'https://lh3.googleusercontent.com/d/' . $1;
+    #return 'https://drive.google.com/uc?id=' . $1;
+  }
+
+  return $url;
+}
+# Dropbox
+sub resolveDropboxAssetUrl {
+  my $url = shift;
+
+  if ($url =~ /^https?:\/\/www\.dropbox\.com\/.+[?&]dl=0$/) {
+    $url =~ s/dl=0$/dl=1/;
+    return $url;
+  }
+
+  return $url;
 }
 
 ## ダイスロール成否強調

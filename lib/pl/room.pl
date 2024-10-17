@@ -166,6 +166,7 @@ foreach (@set::bg_preset){
   my $mode = @$_[3] || '';
   if($set::bg_thum_on){
     my $src = @$_[2] || @$_[0];
+    $src = resolveCloudAssetUrl($src);
     push(@bg_list, { 'URL' => @$_[0], 'MODE' => $mode, 'TITLE' => @$_[1], 'VIEW' => "<img loading=\"lazy\" src=\"${src}\"><div class=\"title\">@$_[1]</div>" });
   }
   else { push(@bg_list, { 'URL' => @$_[0], 'MODE' => $mode, 'TITLE' => @$_[1], 'VIEW' => @$_[1] }); }

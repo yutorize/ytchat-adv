@@ -103,7 +103,6 @@ else {
   # 挿絵 ----------
   elsif($::in{'comm'} =~ s<^/insert\s+(https?://.+)><>i){
     my $url = $1;
-    $url = resolveCloudAssetUrl($url);
     $::in{'system'} = 'image';
     $::in{'comm'} = '';
     $::in{'info'} = $url;
@@ -143,7 +142,6 @@ else {
       }
       if(!$hit){ error('許可されていないURLです'); }
     }
-    $url = resolveCloudAssetUrl($url);
     bgmEdit($url,$title,$volume);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "BGMを変更 by $::in{'player'}";
@@ -176,7 +174,6 @@ else {
       }
       if(!$hit){ error('許可されていないURLです'); }
     }
-    $url = resolveCloudAssetUrl($url);
     bgEdit($mode,$url,$title);
     $::in{'name'} = "!SYSTEM";
     $::in{'comm'} = "背景を変更 by $::in{'player'}";
@@ -893,35 +890,6 @@ sub paletteUpdate {
   print $FH decode('utf8', encode_json \%data);
   truncate($FH, tell($FH));
   close($FH);
-}
-
-# URL変換 ----------
-sub resolveCloudAssetUrl {
-  my $url = shift;
-  $url = resolveGoogleDriveAssetUrl($url);
-  $url = resolveDropboxAssetUrl($url);
-  return $url;
-}
-# Google
-sub resolveGoogleDriveAssetUrl {
-  my $url = shift;
-
-  if ($url =~ /^https?:\/\/drive\.google\.com\/file\/d\/(.+)\/view\?usp=(?:sharing|(?:share|drive)_link)$/) {
-    return 'https://drive.google.com/uc?id=' . $1;
-  }
-
-  return $url;
-}
-# Dropbox
-sub resolveDropboxAssetUrl {
-  my $url = shift;
-
-  if ($url =~ /^https?:\/\/www\.dropbox\.com\/.+[?&]dl=0$/) {
-    $url =~ s/dl=0$/dl=1/;
-    return $url;
-  }
-
-  return $url;
 }
 
 1;
