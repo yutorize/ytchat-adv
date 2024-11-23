@@ -330,7 +330,7 @@ dialog.state-template-selector {
 
 .state-controller {
     display: grid;
-    grid-template-rows: repeat(5, max-content);
+    grid-template-rows: repeat(6, max-content);
     grid-template-columns: 1fr max-content;
     height: auto;
 
@@ -415,13 +415,18 @@ dialog.state-template-selector {
         }
     }
 
-    & .state-description {
+    & .additional-fields {
         grid-row: 4 / 5;
         grid-column: 1 / -1;
     }
 
-    & button.to-remove-state {
+    & .state-description {
         grid-row: 5 / 6;
+        grid-column: 1 / -1;
+    }
+
+    & button.to-remove-state {
+        grid-row: 6 / 7;
         grid-column: 2 / 3;
         margin-top: 0.75rem;
         display: inline-flex;
@@ -571,7 +576,7 @@ dialog.state-template-selector {
     }
 
     & .state-settings-area {
-        grid-template-rows: max-content repeat(6, max-content) 1fr;
+        grid-template-rows: max-content repeat(6, max-content) max-content 1fr;
         grid-template-columns: max-content 1fr;
         overflow-y: auto;
         position: relative;
@@ -681,9 +686,22 @@ dialog.state-template-selector {
             border-color: orange;
         }
 
+        & .additional-fields {
+            grid-row: 8 / 9;
+            grid-column: 2 / -1;
+
+            > label, > input {
+                margin-top: 0.5em;
+            }
+
+            > label {
+                padding-right: 0.25em;
+            }
+        }
+
         & [for="state-description-settings"],
         & [id="state-description-settings"] {
-            grid-row: 8 / 9;
+            grid-row: 9 / 10;
         }
 
         & [for="state-description-settings"] {

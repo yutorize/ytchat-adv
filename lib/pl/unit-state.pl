@@ -105,6 +105,21 @@ sub parseStateSettings {
         $stateSettings{description} =~ s/&lt;br&gt;/\n/ig;
     }
 
+    my @additionalFieldNames = ();
+    while ($source =~ /\{\s*\+.+?\s*\=\s*.+?\s*\}/) {
+        $source =~ s/\{\s*\+(.+?)\s*\=\s*(.+?)\s*\}//;
+        my $key = $1;
+        my $value = $2;
+        unless (defined($stateSettings{$key})) {
+            $stateSettings{$key} = $value;
+            push(@additionalFieldNames, $key);
+        }
+    }
+
+    if (@additionalFieldNames) {
+        $stateSettings{additionalFieldNames} = \@additionalFieldNames;
+    }
+
     return \%stateSettings;
 }
 
