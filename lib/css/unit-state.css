@@ -1194,6 +1194,12 @@ dialog.state-template-selector {
     color: white;
     font-size: 1.2rem;
 
+    .template-container > .recent {
+        &:not(:has(:is(.state-icon, .state-name, .state-duration, .state-description):not(.header))) {
+            display: none;
+        }
+    }
+
     & .game {
         & .categories {
             border-left: 0.5rem double rgba(255, 255, 255, 0.3);
@@ -1223,6 +1229,10 @@ dialog.state-template-selector {
     & .states {
         display: grid;
         grid-template-columns: max-content max-content max-content 1fr;
+
+        &:not(:has(:is(.state-icon, .state-name, .state-duration, .state-description):not(.header))) {
+            display: none;
+        }
 
         & .state-icon {
             grid-column: 1 / 2;
