@@ -317,6 +317,10 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 }
 /* 一部チャットログの折り畳み */
 .logs dl dd.info:has(details) {
+  &::before {
+    display: none;
+  }
+
   details {
     position: relative;
 
