@@ -315,6 +315,49 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   line-height: 1;
   color: #fff;
 }
+/* 一部チャットログの折り畳み */
+.logs dl dd.info:has(details) {
+  details {
+    position: relative;
+
+    &[open] {
+      padding-left: calc(1.2em + 0.1em);
+      border-left: 0.1em solid rgba(255, 255, 255, 0.35);
+      margin-bottom: 0.35em;
+    }
+
+    > summary::before {
+      content: "\e5d7";
+      font-family: "Material Symbols Outlined", sans-serif;
+      font-variation-settings: 'FILL' 1;
+      display: inline-flex;
+      width: 1.2em;
+      height: 1.2em;
+      justify-content: center;
+      align-content: center;
+    }
+
+    &:not([open]) > summary::before {
+      position: relative;
+      top: 1px;
+    }
+
+    &[open] > summary::before {
+      content: "\e5d6";
+    }
+
+    > summary {
+      position: absolute;
+      top: 0;
+      left: 0.1em;
+      list-style: none;
+
+      &:hover::before {
+        filter: brightness(150%);
+      }
+    }
+  }
+}
 /* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #fff;
@@ -431,44 +474,7 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   letter-spacing: 0.1rem;
 
   details {
-    position: relative;
-
-    &[open] {
-      padding-left: calc(1.2em + 0.1em);
-      border-left: 0.1em solid rgba(255, 255, 255, 0.35);
-      margin-bottom: 0.35em;
-    }
-
-    > summary::before {
-      content: "\e5d7";
-      font-family: "Material Symbols Outlined", sans-serif;
-      font-variation-settings: 'FILL' 1;
-      display: inline-flex;
-      width: 1.2em;
-      height: 1.2em;
-      justify-content: center;
-      align-content: center;
-    }
-
-    &:not([open]) > summary::before {
-      position: relative;
-      top: 1px;
-    }
-
-    &[open] > summary::before {
-      content: "\e5d6";
-    }
-
     > summary {
-      position: absolute;
-      top: 0;
-      left: 0.1em;
-      list-style: none;
-
-      &:hover::before {
-        filter: brightness(150%);
-      }
-
       .code {
         [open] & {
           display: none;
