@@ -101,6 +101,9 @@ sub dataConvert {
       : $pc{'characterName'}                     ? ($pc{'characterName'}, $pc{'characterNameRuby'})
       : $pc{'monsterName'}
     );
+    # 色
+    $pc{'nameColor'} = (split(',',$pc{'nameColor'}))[0];
+    if($pc{'nameColor'} =~ /^\#[0-9a-zA-Z]{6}$/){ $::in{'color'} = $pc{'nameColor'} }
     # プロフィール
     my $profile = textConvert($pc{'sheetDescriptionM'});
     # 画像
