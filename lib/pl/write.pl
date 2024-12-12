@@ -874,12 +874,17 @@ sub unitCalcEdit {
     # 通常
     else {
       if($num eq '' && $text){ $num = $text; }
+      my $rolledText;
       if($op =~ /^[+\-\*\/=]$/){
         $num = parenthesisCalc($num);
+        ($num, $rolledText) = diceInStatusCommand($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
         $data{'unit'}{$set_name}{'status'}{$type} = $result;
         $diff .= "(over${over})" if $over;
-        $result_info .= ($result_info ? '　' : '') . "<b>$type</b>:$result";
+
+        $result_info .= '<br>' if $result_info;
+        $result_info .= $rolledText."　" if $rolledText;
+        $result_info .= "<b>$type</b>:$result";
         $result_info .= " [$diff]" if ($diff ne '');
       }
       elsif($op =~ /^:$/){
@@ -977,6 +982,30 @@ sub parenthesisCalc {
   }
   if($text =~ /\(|\)/){ return "" }
   return $text;
+}
+sub diceInStatusCommand {
+  my $text = shift;
+  my @codes; my @dice; my @total; my $rolleds;
+  if($text =~ /([0-9]+)[DＤ]([0-9]*)/i){
+    require './lib/pl/dice.pl';
+    my $i = 0;
+    while($text =~ s/([0-9]+)[DＤ]([0-9]*)/<dice$i>/i){
+      my ($code,$total,$rolled) = dice($1,$2);
+      $rolled =~ s/!!|\.{3}//;
+      push(@codes, "$code");
+      push(@dice, "$total\[$rolled\]");
+      push(@total, $total);
+      $i++;
+    }
+    $rolleds = $text;
+    foreach(0..$i){
+      $text =~ s/<dice$_>/$total[$_]/;
+      $rolleds =~ s/<dice$_>/$dice[$_]/;
+    }
+    $rolleds =~ s/^([0-9]+)\[[0-9]+\]\s?$/$1/;
+  }
+  if(@codes){ return $text, join(',',@codes).' → '.$rolleds; }
+  else { return $text; }
 }
 
 # チャットパレット ----------
