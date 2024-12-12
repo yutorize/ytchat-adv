@@ -144,6 +144,13 @@ sub tagConvert {
     foreach my $key (keys %{$hash}){
       my $value = ${$hash}{$key};
          $value =~ s/"/\\"/g;
+      if ($key =~ /[<>]/) {
+        $key =~ s/</&lt;/g;
+        $key =~ s/>/&gt;/g;
+      } else {
+        $key =~ s/&lt;/</g;
+        $key =~ s/&gt;/>/g;
+      }
       $key =~ s/&lt;/</g; $key =~ s/&gt;/>/g;
       $comm =~ s/${key}/"\"${value}\""/gee;
     }
