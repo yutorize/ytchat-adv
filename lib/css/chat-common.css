@@ -1137,6 +1137,24 @@ body.rom .input-form { display: none !important; }
   border-color: transparent;
   overflow: hidden;
 }
+.dice-button[data-kind="HP"] {
+  input, textarea {
+    background-color: rgb(18, 46, 43);
+
+    &:focus {
+      background-color: rgb(32, 59, 51);
+    }
+  }
+}
+.dice-button[data-kind="MP"] {
+  input, textarea {
+    background-color: rgb(19, 18, 45);
+
+    &:focus {
+      background-color: rgb(33, 31, 59);
+    }
+  }
+}
 .dice-button button:only-child {
   grid-column: span 2;
   border-radius: .5em;
