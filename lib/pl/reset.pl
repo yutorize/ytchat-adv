@@ -120,15 +120,6 @@ if(-s $dir.'log-all.dat'){
     'replaceHelp' => [ @set::replace_help ],
   );
 
-  #sysopen(my $FH, $dir.'log-all.dat', O_RDWR) or error "log-all.datが開けません";
-  #flock($FH, 2);
-  #my @lines = <$FH>;
-  #unshift(@lines, ">${title}<>".join(',',@tab)."<>${replace_json}\n");
-  #seek($FH, 0, 0);
-  #print $FH @lines;
-  #truncate($FH, tell($FH));
-  #close($FH);
-
   mkdir $filepath;
 
   use File::Copy 'move';

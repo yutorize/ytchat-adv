@@ -493,7 +493,7 @@ html,body {
   margin-top: 0;
 }
 .sheet[data-memo-mode="view"] .sheet-memo-body .sheet-memo-outline,
-.sheet[data-memo-mode="view"] .sheet-memo-body  > .buttons      { display: none; }
+.sheet[data-memo-mode="view"] .sheet-memo-body > .buttons { display: none; }
 .sheet[data-memo-mode="edit"] .sheet-memo-body #memo-view { display: none; }
 body.rom .sheet#sheet-unit-memo { display: grid; }
 body.rom .sheet#sheet-unit-memo textarea { pointer-events : none; }

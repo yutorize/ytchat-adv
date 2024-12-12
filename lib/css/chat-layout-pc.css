@@ -813,8 +813,6 @@ body {
   animation-duration: 0.25s;
   animation-timing-function: ease-out;
 }
-.sheet {
-}
 .sheet:has(.chat-palette-area) {
   display: grid;
   grid-template-rows: max-content 1fr;
