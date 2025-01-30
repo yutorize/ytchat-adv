@@ -758,16 +758,7 @@ body {
   width: auto;
   height: 100%;
   overflow: auto;
-}
-[data-layout="row"] #memo ul#memo-list li {
-  display: inline-block;
-  max-width: 8em;
-  margin-right: .3rem;
-  padding: .3em;
-  background-color: rgba(127,127,127,0.15);
-  border: .1rem solid var(--border-color-pale);
-  border-radius: .8em;
-  font-size: 90%;
+  padding-bottom: 1.9em;
 }
 
 /* // ユニットシート
