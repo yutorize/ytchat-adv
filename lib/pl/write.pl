@@ -294,7 +294,19 @@ else {
     delete $::in{'address'};
   }
   #変更
-  elsif($::in{'comm'} =~ s/^[@＠](((?:$stt_commands|メモ|memo|url)[\+＋\-－\*＊\/／=＝:：](?:"(?:.*?)"|(?:.*?))(?:\s|$))+)//s){
+  elsif($::in{'comm'} =~ s/^
+    [@＠]
+    (
+      (
+        (?:$stt_commands|メモ|memo|url)
+        (?:
+          (?:[\+＋\-－\*＊\/／=＝] [\+＋\-－\*＊\/／=＝0-9０-９dｄDＤ]*?)
+          |
+          (?:[:：] (?:"(?:.*?)"|(?:.*?)))
+        )
+        (?:\s|$)
+      )+
+    )//sx){
     ($::in{'info'}, $::in{'system'}) = unitCalcEdit($::in{'name'}, $1);
     delete $::in{'address'};
   }
@@ -875,7 +887,7 @@ sub unitCalcEdit {
     else {
       if($num eq '' && $text){ $num = $text; }
       my $rolledText;
-      if($op =~ /^[+\-\*\/=]$/){
+      if($op =~ /^[+\-\*\/=]$/ && $num =~ /^[+\-\*\/0-9\.d]+$/i){
         $num = parenthesisCalc($num);
         ($num, $rolledText) = diceInStatusCommand($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
