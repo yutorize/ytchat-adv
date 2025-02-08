@@ -10,7 +10,7 @@
     @import url('./lib/css/logs.css?<TMPL_VAR ver>') layer(logs);
     @import url('./lib/css/config.css?<TMPL_VAR ver>');
   </style>
-  <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>"></TMPL_IF>
+  <TMPL_IF customCSS><link rel="stylesheet" media="all" href="<TMPL_VAR customCSS>?version=<TMPL_VAR customCSSVersion>"></TMPL_IF>
   <TMPL_UNLESS dlMode>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip-utils@0.1.0/dist/jszip-utils.min.js"></script>
