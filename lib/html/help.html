@@ -109,14 +109,14 @@
     <tr><th>@new URL  </th></tr>
     <tr><th>@add ステータス名:文字列  </th><td>ステータスを追加で設定します。<br>既に同名のものがある場合は上書きされます。<br>例: <code>@add 使い魔MP:7/7</code>、</td></tr>
     <tr><th>@delete     </th><td>発言者と同名のユニットを削除する。</td></tr>
-    <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（✔）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
-    <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（✔）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
+    <tr><th>@check          </th><td>ユニット一覧の自分の名前にチェック（<i class="unit-check-mark"></i>）を入れる。<br>例: <code>@check 行動終了</code></td></tr>
+    <tr><th>@uncheck         </th><td>ユニット一覧の自分の名前のチェック（<i class="unit-check-mark"></i>）を外す。<br>例: <code>@uncheck まだやることあった</code></td></tr>
     <tr><th>/ready       </th><td rowspan="2">「レディチェック（準備確認）」をおこなう。<br>メッセージを指定した場合、その文面とともにレディチェックをおこなう。<br>例： <code>/ready 割り込み行動のないひとはチェックしてください</code></td></tr>
     <tr><th>/ready メッセージ</th></tr>
-    <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの✔は全て外れる。</td></tr>
-    <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの✔は全て外れる。</td></tr>
-    <tr><th>/round=数値  </th><td>ラウンド数を「数値」にする。<br>ユニットの✔は全て外れる。</td></tr>
-    <tr><th>/roundreset  </th><td>ラウンド数を「0」にする。<br>ユニットの✔は全て外れる。</td></tr>
+    <tr><th>/round+数値  </th><td>ラウンド数を「数値」進める。<br>ユニットの<i class="unit-check-mark"></i>は全て外れる。</td></tr>
+    <tr><th>/round-数値  </th><td>ラウンド数を「数値」戻す。<br>ユニットの<i class="unit-check-mark"></i>は全て外れる。</td></tr>
+    <tr><th>/round=数値  </th><td>ラウンド数を「数値」にする。<br>ユニットの<i class="unit-check-mark"></i>は全て外れる。</td></tr>
+    <tr><th>/roundreset  </th><td>ラウンド数を「0」にする。<br>ユニットの<i class="unit-check-mark"></i>は全て外れる。</td></tr>
     <tr><th>/topic 文字列</th><td>トピックの内容を「文字列」で更新する。</td></tr>
     <tr><th>/memo 文字列 </th><td>「文字列」の内容のメモを追加する。</td></tr>
     <tr><th>/bg 文字列 URL</th><td rowspan="2">「URL」の画像を背景に設定する。<br>「文字列」がタイトルに設定される。<br>「mode=tiling」を指定すると、タイリングして表示される。<br>「/bg」以降の内容は順番は問わない。<br>（<code>/bg URL タイトル mode=tiling</code>などでもよい）</td></tr>

@@ -436,6 +436,9 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   font-style: normal;
   opacity: 0.85;
 }
+.logs dl dd.info.dice i.unit-check-mark {
+  margin-left: 0;
+}
 .logs dl dd.info.dice b,
 .logs dl dd.info.dice strong {
   color: #f55;

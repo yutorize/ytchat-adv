@@ -648,17 +648,23 @@ body.rom .sheet { display: none; }
 .sheet-body .status-remocon-area ul.status-remocon-others li {
   margin-top: .4rem;
 }
-.sheet-body .status-remocon-area ul li.dice-button.checks button::before {
-  content: '✔';
+.sheet-body .status-remocon-area ul li.checks {
+  grid-column: span 6;
+}
+.sheet-body .status-remocon-area ul li.checks button {
+  display: flex;
+  align-items: center;
+}
+.sheet-body .status-remocon-area ul li.checks button::before {
   opacity: 0.3;
 }
-.sheet-body .status-remocon-area ul li.dice-button.checks button:hover::before {
+.sheet-body .status-remocon-area ul li.checks button:hover::before {
   opacity: 1;
 }
-.sheet-body .status-remocon-area ul li.dice-button.checks.checked button::before {
+.sheet-body .status-remocon-area ul li.checks.checked button::before {
   opacity: 1;
 }
-.sheet-body .status-remocon-area ul li.dice-button.checks.checked button:hover::before {
+.sheet-body .status-remocon-area ul li.checks.checked button:hover::before {
   opacity: 0.3;
 }
 .sheet-body .status-remocon-area ul.status-remocon-others li.dice-button.delete {
