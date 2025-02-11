@@ -196,7 +196,7 @@ sub tagConvertUnit {
   my $comm = shift;
   $comm =~ s/<br>/\n/g;
 
-  $comm =~ s#<chara-image:(https?:\/\/[^\s\<]+)(?:,(.+?))(?:,(.+?))>#<div class="chara-image" style="background-image:url($1>);background-size:$2;background-position:$3;"></div>#g;
+  $comm =~ s#<chara-image:(https?:\/\/[^\s\<]+)(?:,(.+?))(?:,(.+?))>#<div class="chara-image" style="background-image:url($1);background-size:$2;background-position:$3;"></div>#g;
   $comm =~ s#\[\[(.+?)>(https?:\/\/[^\s\<]+)\]\]#<a href="$2" target="_blank">$1</a>#g;
   $comm =~ s#((?:\G|>)[^<]*?)(https?://[^\s\<]+)#$1<a href="$2" target="_blank">$2</a>#g;
 
