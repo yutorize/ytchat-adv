@@ -162,6 +162,10 @@
     color: #99eecc;
     font-style: normal;
   }
+  .chat-palette i.room-status {
+    color: #eecc99;
+    font-style: normal;
+  }
 }
 
 /* // カラー設定：チャット
