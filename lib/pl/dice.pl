@@ -27,7 +27,7 @@ sub diceCheck {
     ( \(? \-? [0-9.]+ [\+\-\/*\^]
       [0-9.\+\-\/*\^()]*
       [0-9.] \)? )
-    [=＝](?:\s|$)
+    \s*[=＝](?:\s|$)
     /ix){
     my $formula = $1;
     if($formula !~ /[\+\-\/\*\^]/) { return ''; }
@@ -37,7 +37,7 @@ sub diceCheck {
     $formula_perl =~ s#\*\*#\^#g;
     my $result = eval($formula);
     if($result eq ''){ return ''; }
-    return "${formula_perl} = ${result}", 'dice';
+    return "${formula_perl} = ${result}", 'dice:calc';
   }
   # SW2
   elsif($::in{'game'} eq 'sw2'){
