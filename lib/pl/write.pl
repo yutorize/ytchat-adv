@@ -300,7 +300,7 @@ else {
       (
         (?:$stt_commands|メモ|memo|url)
         (?:
-          (?:[\+＋\-－\*＊\/／=＝] [\+＋\-－\*＊\/／=＝0-9０-９dｄDＤ]*?)
+          (?:[\+＋\-－\*＊\/／=＝] [\+＋\-－\*＊\/／=＝0-9０-９dｄDＤ（）()]*?)
           |
           (?:[:：] (?:"(?:.*?)"|(?:.*?)))
         )
@@ -859,7 +859,7 @@ sub unitCalcEdit {
   seek($FH, 0, 0);
   
   my $result_info; my $result_system; my $memo_flag; my $url_flag;
-  $set_text =~ tr/０-９＋－÷＊＝：！/0-9\+\-\/\*=:!/;
+  $set_text =~ tr/０-９＋－÷＊＝：！（）/0-9\+\-\/\*=:!()/;
   while($set_text =~ s/^($stt_commands|メモ|memo|url)([+\-\*\/=\:])(?:"(.*?)"|(.*?))(?:\s|$)//s){
     my ($type, $op, $text, $num) = ($1,$2,$3,$4);
     # メモ
@@ -887,7 +887,7 @@ sub unitCalcEdit {
     else {
       if($num eq '' && $text){ $num = $text; }
       my $rolledText;
-      if($op =~ /^[+\-\*\/=]$/ && $num =~ /^[+\-\*\/0-9\.d]+$/i){
+      if($op =~ /^[+\-\*\/=]$/ && $num =~ /^[+\-\*\/0-9\.d()]+$/i){
         $num = parenthesisCalc($num);
         ($num, $rolledText) = diceInStatusCommand($num);
         my ($result, $diff, $over) = sttCalc($type,$num,$op,$data{'unit'}{$set_name}{'status'}{$type});
