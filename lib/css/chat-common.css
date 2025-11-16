@@ -802,11 +802,15 @@ body.rom .sheet { display: none; }
   width: 100%;
   height: 100%;
 }
-.chat-palette span i,
-.chat-palette span em,
-.chat-palette span img {
-  pointer-events: none;
-  font-size: 1.1rem;
+.chat-palette span[data-value]:not(.param) {
+  & > * {
+    &:active {
+      pointer-events: none;
+    }
+  }
+  & i[class$="-param"] {
+    font-size: 1.1rem;
+  }
 }
 
 .sheet-body .chat-palette-frame  .chat-palette.texts {
