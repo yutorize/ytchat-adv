@@ -315,6 +315,53 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   line-height: 1;
   color: #fff;
 }
+/* 一部チャットログの折り畳み */
+.logs dl dd.info:has(details) {
+  &::before {
+    display: none;
+  }
+
+  details {
+    position: relative;
+
+    &[open] {
+      padding-left: calc(1.2em + 0.1em);
+      border-left: 0.1em solid rgba(255, 255, 255, 0.35);
+      margin-bottom: 0.35em;
+    }
+
+    > summary::before {
+      content: "\e5d7";
+      font-family: "Material Symbols Outlined", sans-serif;
+      font-variation-settings: 'FILL' 1;
+      display: inline-flex;
+      width: 1.2em;
+      height: 1.2em;
+      justify-content: center;
+      align-content: center;
+    }
+
+    &:not([open]) > summary::before {
+      position: relative;
+      top: 1px;
+    }
+
+    &[open] > summary::before {
+      content: "\e5d6";
+    }
+
+    > summary {
+      position: absolute;
+      top: 0;
+      left: 0.1em;
+      list-style: none;
+
+      &:hover::before {
+        filter: brightness(150%);
+      }
+    }
+  }
+}
 /* チャットログ：システムメッセージ */
 .logs dl.system {
   color: #fff;
@@ -429,6 +476,52 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
 .logs dl dd.info.dice {
   color: #e77;
   letter-spacing: 0.1rem;
+
+  details {
+    > summary {
+      .code {
+        [open] & {
+          display: none;
+        }
+      }
+
+      .row-count {
+        margin-left: 0.5em;
+        font-size: 80%;
+        background-color: rgba(255, 255, 255, 0.2);
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+
+        [open] & {
+          display: none;
+        }
+      }
+    }
+
+    &:not([open]) > summary {
+      display: grid;
+      height: 1.5em;
+      grid-template-rows: 100%;
+      grid-template-columns: max-content 1fr max-content;
+
+      &::before {
+        grid-column: 1 / 2;
+      }
+
+      .code {
+        grid-column: 2 / 3;
+
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .row-count {
+        grid-column: 3 / 4;
+      }
+    }
+  }
 }
 .logs dl dd.info.dice i {
   margin-left: .2rem;
@@ -671,6 +764,103 @@ dd[data-stt*="侵蝕"] .gauge[data-signal="monster"] i::before { background: non
   border-image: linear-gradient(to right, transparent, #fff3, #fff5, #fff3, transparent);
   border-image-slice: 1;
 }
+
+.logs .system .info .state-differences {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 80%;
+
+  & .unit {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: max-content 1fr;
+
+    & .unit-name {
+      grid-row: 1 / -1;
+      grid-column: 1 / 2;
+    }
+
+    & .unit-name::after {
+      content: "::";
+      margin: 0 0.25em;
+    }
+
+    & .state-list {
+      grid-row: 1 / -1;
+      grid-column: 2 / 3;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      & .state {
+        width: 100%;
+        height: auto;
+        display: block;
+
+        & .state-name {
+        }
+
+        & .property-list {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+          display: inline-flex;
+          flex-flow: row;
+          justify-content: flex-start;
+          align-items: center;
+
+          & .property {
+            padding: 0;
+            margin: 0 0 0 0.25em;
+            display: inline-flex;
+            flex-flow: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            & .property-name {
+              display: inline;
+            }
+
+            & .property-name::after {
+              content: ":";
+            }
+
+            & .difference {
+              display: inline-flex;
+              flex-flow: row;
+              justify-content: flex-start;
+              align-items: center;
+
+              & [data-unit]:not([data-unit=""]) {
+                font-family: "Ytchat-Monospace", monospace;
+              }
+
+              & [data-unit]:not([data-unit=""])::after {
+                content: attr(data-unit);
+              }
+
+              & .after:is([data-value="0"], [data-value^="-"]) {
+                color: grey;
+              }
+            }
+          }
+
+          & .property::before {
+            content: "[";
+          }
+
+          & .property::after {
+            content: "]";
+          }
+        }
+      }
+    }
+  }
+}
+
 #memo-view h1 { font-size: 130%; }
 #memo-view h2 { font-size: 125%; }
 #memo-view h3 { font-size: 120%; }

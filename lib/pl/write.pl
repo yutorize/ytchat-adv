@@ -218,6 +218,45 @@ else {
     $::in{'comm'} = "タブ「$1」を「$2」に変更しました。by $::in{'player'}";
     $::in{'tab'} = $num;
   }
+  # ユニット状態 ----------
+  elsif ($::in{'comm'} =~ s<^/state-add\s+(.+?)\s+if\s+(.+?)\s*$><>i) {
+    my $stateSettingsText = $1;
+    my $conditionText = $2;
+
+    require './lib/pl/unit-state.pl';
+    my %result = addUnitState($stateSettingsText, $conditionText);
+    my %state = %{ $result{state} };
+    my @unitNames = @{ $result{targets}; };
+    my $combinedUnitNames = join('，', @unitNames);
+
+    $::in{'name'} = "!SYSTEM";
+    $::in{'system'} = "state-add";
+    $::in{'info'} = decode('utf8', encode_json \%result);
+    $::in{'comm'} = "状態「$state{name}」を追加しました。（対象：$combinedUnitNames）";
+  }
+  elsif ($::in{'comm'} =~ s<^/state-modify\s+(.+?)\s+if\s+(.+?)\s*$><>i) {
+    my $modificationText = $1;
+    my $conditionText = $2;
+
+    require './lib/pl/unit-state.pl';
+    my %result = modifyUnitState($modificationText, $conditionText);
+
+    $::in{'name'} = "!SYSTEM";
+    $::in{'system'} = "state-modify";
+    $::in{'info'} = decode('utf8', encode_json \%result);
+    $::in{'comm'} = "状態が変更されました";
+  }
+  elsif ($::in{'comm'} =~ s<^/state-remove\s+if\s+(.+?)\s*$><>i) {
+    my $conditionText = $1;
+
+    require './lib/pl/unit-state.pl';
+    my %result = removeUnitState($conditionText);
+
+    $::in{'name'} = "!SYSTEM";
+    $::in{'system'} = "state-remove";
+    $::in{'info'} = decode('utf8', encode_json \%result);
+    $::in{'comm'} = "状態が削除されました";
+  }
   # レディチェック ----------
   elsif($::in{'comm'} =~ s<^/ready(?:\s(.+)$|$)><>i){
     my $message = defined($1) ? $1 : "レディチェックを開始";

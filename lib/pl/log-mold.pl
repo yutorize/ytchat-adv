@@ -175,6 +175,42 @@ foreach (<$FH>){
       $info = '';
     }
   }
+  elsif ($system =~ /^state-(?:add|modify|remove)$/) {
+    if ($system =~ /^state-(?:modify|remove)$/) {
+      my %decoded = %{decode_json(encode('utf8', $info))};
+      my @differences = @{$decoded{differences};};
+
+      my @rows = ();
+
+      foreach (@differences) {
+        my %state = %{$_};
+        my $unit = $state{unit};
+        my $stateName = $state{stateName};
+
+        my @properties = ();
+        if ($system eq 'state-modify') {
+          my %difference = %{$state{difference};};
+
+          for my $key (keys %difference) {
+            my %value = %{$difference{$key};};
+
+            my $before = $value{before};
+            my $after = $value{after};
+            my $valueUnit = $value{unit} // '';
+
+            push(@properties, "${before}${valueUnit}→${after}${valueUnit}");
+          }
+        }
+
+        push(@rows, "${unit}::${stateName}" . ($system eq 'state-modify' ? '（' . join('，', @properties) . '）' : ''));
+      }
+
+      $info = join('<br>', @rows);
+    }
+    else {
+      $info = '';
+    }
+  }
   elsif($system =~ /^tab:([0-9]+)=(.*?)$/){
     if($2){ $tabs[$1-1] = "$2"; }
   }
