@@ -336,6 +336,7 @@ sub diceCodeCheck {
     ($::in{'info'}, $::in{'system'}) = diceCheck($::in{'comm'});
     if($::in{'info'}){
       $::in{'comm'} =~ s/^(.*?(?:\s|$))//;
+      $::in{'comm'} = '' if $::in{'system'} eq 'dice:calc' && $::in{'comm'} =~ /^[=＝]$/;
       $::in{'info'} .= '<<'.$1;
       return $::in{'info'};
     }
