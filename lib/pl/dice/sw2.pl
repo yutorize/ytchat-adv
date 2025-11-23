@@ -55,7 +55,7 @@ sub rateRoll {
   while($form =~ s/(?:\@|C値)([0-9][0-9\+\-]*)//gi)   { $crit     = $1 if !$crit; }         #C値
   while($form =~ s/(?:[rck]|首切)(\-?[0-9]*)//gi)     { $rate_up  = $1 ne ''?$1:5 if !$rate_up; } #首切効果
   while($form =~ s/(?:[#b!]|必殺)([\+\-]?[0-9]*)//gi) { $crit_atk = $1 ne ''?$1:1 if !$crit_atk; }#必殺効果
-  while($form =~ s/(?:[\$]|出目)(n?[0-9]+)//gi)       { $fixed    = $1 if !$fixed; }        #出目固定
+  while($form =~ s/(?:[\$]|出目)([nm]?[0-9]+)//gi)    { $fixed    = $1 if !$fixed; }        #出目固定
   while($form =~ s/(?:[\$]|出目)\+?([\+\-][0-9]+)//gi){ $crit_ray = $1 if !$crit_ray; }     #出目修正【クリティカルレイ】
   while($form =~ s/(?:[\$]|出目)~\+?([\+\-][0-9]+)//gi){ $witch_blaze = $1 if !$witch_blaze; } #出目修正［魔女の火］
   while($form =~ s/(?:[<]|難)([0-9]+)//gi)            { $curse    = $1 if !$curse; }        #Aカース「難しい」
@@ -111,13 +111,14 @@ sub rateCalc {
     # 出目固定
     if($fixed){
       #片方固定
-      if((my $demifixed = $fixed) =~ s/^n//){
+      if((my $demifixed = $fixed) =~ s/^[nm]//){
         $demifixed = ($demifixed > 6) ? 6 : ($demifixed < 1) ? 1 : $demifixed;  
         my $dice = int(rand(6)) + 1;
         $number = $dice + $demifixed;
         $inside_code = "($demifixed)+${dice}";
         #出目最低値がC値以下だと∞
         if($crit && $demifixed > 1 && $demifixed+1 >= $crit){ return $code." C値${crit} → \[${inside_code}:クリティカル!!!\]... = ∞"; }
+        $fixed = 0 if $fixed =~ /^m/;
       }
       #両方固定
       else {
