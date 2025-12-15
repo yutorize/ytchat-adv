@@ -46,6 +46,12 @@ table.list tbody td a {
   display: block;
   margin: -.5em -1em;
   padding: .5em 1em;
+
+  &.log::before {
+    content: "\ef42";
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-variation-settings: 'FILL' 1;
+  }
 }
 table.list tbody a:link {
   background: none;
