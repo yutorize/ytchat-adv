@@ -211,6 +211,8 @@ button, .button {
 .left  { text-align: left; }
 .center{ text-align: center; }
 .right { text-align: right; }
+.add-line-spacing { line-height: 2.1; }
+.add-line-spacing ruby { line-height: 2.4; }
 
 ruby rp {
   display: inline;
