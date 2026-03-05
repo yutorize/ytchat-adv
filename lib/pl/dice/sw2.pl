@@ -101,6 +101,8 @@ sub rateCalc {
   my $repeat   = shift;
   my $unique   = (exists $unique{$rate}) ? $unique{$rate}{'name'} : '';
   
+  return '' if $form =~ /[a-z]/i;
+  
   my $total = 0;
   my $code = (defined($repeat) ? makeRollIndexText($repeat) . ' ' : '') . ($unique || "威力${rate}");
   my @results;
