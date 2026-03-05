@@ -119,6 +119,10 @@ html,body {
 body.rom #topic-value {
   padding-left: .5em;
 }
+#topic-value > .image-container > img {
+  max-height: 6em;
+  cursor: zoom-in;
+}
 #topic .edit.button {
   position: absolute;
   top: .2rem;
