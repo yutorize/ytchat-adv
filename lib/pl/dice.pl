@@ -35,13 +35,15 @@ sub diceCheck {
     return '' if $formula !~ /[\+\-\*\/\^]/;
     return '' if $formula =~ m|//|;
     return '' if $formula =~ /\.\./;
+    return '' if $formula =~ /[\+\-\*\/\^]\(\)/;
+    return '' if $formula =~ /\(\)[\+\-\*\/\^]/;
 
     my $formula_perl = $formula;
     $formula =~ s#\^#\*\*#g;
     $formula_perl =~ s#\*\*#\^#g;
 
     my $num = qr/(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)/;
-    my $check =~ $formula;
+    my $check = $formula;
     $check =~ s#\*\*#\^#g;
     $check =~ s/$num/N/g;
     return '' if $check =~ /[0-9.]/;
