@@ -24,20 +24,54 @@ sub diceCheck {
   elsif($comm =~ /^set\#/   ){ return setDeck($comm), 'deck'; }
   # 四則演算
   elsif($comm =~ /^
-    ( \(? \-? [0-9.]+ [\+\-\/*\^]
-      [0-9.\+\-\/*\^()]*
-      [0-9.] \)? )
-    [=＝](?:\s|$)
+    (
+      [0-9\+\-\*\/\^\.\(\)\s]+
+    )
+    \s*[=＝](?:\s|$)
     /ix){
     my $formula = $1;
-    if($formula !~ /[\+\-\/\*\^]/) { return ''; }
-    if($formula =~ m|//|) { return ''; }
+    return '' if $formula eq '';
+    return '' if $formula !~ /[0-9]/;
+    return '' if $formula !~ /[\+\-\*\/\^]/;
+    return '' if $formula =~ m|//|;
+    return '' if $formula =~ /\.\./;
+    return '' if $formula =~ /[\+\-\*\/\^]\(\)/;
+    return '' if $formula =~ /\(\)[\+\-\*\/\^]/;
+
     my $formula_perl = $formula;
     $formula =~ s#\^#\*\*#g;
     $formula_perl =~ s#\*\*#\^#g;
-    my $result = eval($formula);
+
+    my $num = qr/(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)/;
+    my $check = $formula;
+    $check =~ s#\*\*#\^#g;
+    $check =~ s/$num/N/g;
+    return '' if $check =~ /[0-9.]/;
+    return '' if $check =~ /[^N\+\-\*\/\^\(\)]/;
+
+    return '' if $check =~ /^[\+\*\/\^]/;
+    return '' if $check =~ /[\+\-\*\/\^]$/;
+    return '' if $check =~ /[\+\-\*\/\^]{2,}/;
+    return '' if $check =~ /\([\+\*\/\^]/;
+    return '' if $check =~ /[\+\-\*\/\^]\)/;
+
+    my $depth = 0;
+    for my $c (split //, $formula) {
+      if ($c eq '(') { $depth++; }
+      elsif ($c eq ')') {
+        $depth--;
+        return '' if $depth < 0;
+      }
+    }
+    return '' if $depth != 0;
+
+    my $result = eval $formula;
     if($result eq ''){ return ''; }
-    return "${formula_perl} = ${result}", 'dice';
+    return '' if $@;
+    return '' if !defined $result;
+    return '' if $result eq '';
+
+    return "${formula_perl} = ${result}", 'dice:calc';
   }
   # SW2
   elsif($::in{'game'} eq 'sw2'){
